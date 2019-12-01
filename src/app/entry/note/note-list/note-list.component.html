@@ -1,0 +1,7 @@
+<h2>Notes</h2>
+<ol>
+    <li *ngFor="let note of notes">
+        <p>{{note.id}}: {{note.title}} - {{note.dateUpdated}}</p>
+        <p>{{note.plainText}}</p>
+    </li>
+</ol>

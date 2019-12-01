@@ -1,6 +1,11 @@
-export interface Note {
-    id: string,
-    title: string,
+import {Entry, NewEntry} from "./entry.model";
+
+export interface Note extends Entry {
     plainText: string,
-    dateUpdated: bigint
+    markdownText: string
+}
+
+export interface NewNote extends NewEntry {
+    title: string,
+    plainText: string
 }

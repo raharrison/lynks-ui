@@ -1,0 +1,6 @@
+<h2>Notes</h2>
+
+<div *ngFor="let entry of entries">
+    <app-note-list-item class="row" *ngIf="entry.type=='NOTE'" [note]="entry"></app-note-list-item>
+    <hr>
+</div>

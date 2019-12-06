@@ -1,7 +1,7 @@
 import {Collection, Tag} from "./group.model";
 
 export interface BaseProperties {
-    attributes: { string: any },
+    attributes: any,
     tasks: { id: string, description: string }[]
 }
 

@@ -9,16 +9,17 @@ import {HeaderComponent} from "./header/header.component";
 import {HttpClientModule} from "@angular/common/http";
 import {EntryListComponent} from './entry/entry-list/entry-list.component';
 import {NoteListItemComponent} from './entry/entry-list/note-list-item/note-list-item.component';
+import {NoteDetailComponent} from './entry/entry-detail/note-detail/note-detail.component';
 
 @NgModule({
     declarations: [
-        AppComponent, HeaderComponent, EntryListComponent, NoteListItemComponent
+        AppComponent, HeaderComponent, EntryListComponent, NoteListItemComponent, NoteDetailComponent
     ],
     imports: [
         BrowserModule,
-        AppRoutingModule,
         NgbModule,
-        HttpClientModule
+        HttpClientModule,
+        AppRoutingModule,
     ],
     providers: [],
     bootstrap: [AppComponent]

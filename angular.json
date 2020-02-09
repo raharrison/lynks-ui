@@ -50,6 +50,9 @@
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/easymde/dist/easymde.min.css",
+              "node_modules/github-markdown-css/github-markdown.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.css",
               "src/styles.css"
             ],
             "scripts": []

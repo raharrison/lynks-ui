@@ -1,28 +1,37 @@
-<div *ngIf="loaded; else notLoaded">
-    <h3>{{note.title}}</h3>
-    <hr>
+<div class="row">
+    <div class="col-md-12">
+        <div *ngIf="loaded; else notLoaded">
+            <h3>{{note.title}}</h3>
+            <hr>
 
-    {{note.markdownText}}
+            <div class="markdown-body" [innerHTML]="safeHtml"></div>
 
-    <hr>
-    <p>Last updated {{note.dateUpdated}}</p>
-    <p>Version {{note.version}}</p>
+            <hr>
+            <p>Last updated {{note.dateUpdated}}</p>
+            <p>Version {{note.version}}</p>
 
-    <h4 *ngIf="note.props.tasks.length > 0">Tasks</h4>
-    <ul>
-        <li *ngFor="let task of note.props.tasks">{{task.description}}</li>
-    </ul>
+            <h4 *ngIf="note.props.tasks.length > 0">Tasks</h4>
+            <ul>
+                <li *ngFor="let task of note.props.tasks">{{task.description}}</li>
+            </ul>
 
-    <h4 *ngIf="note.tags.length > 0">Tags</h4>
-    <ul>
-        <li *ngFor="let tag of note.tags">{{tag.name}}</li>
-    </ul>
+            <h4 *ngIf="note.tags.length > 0">Tags</h4>
+            <ul>
+                <li *ngFor="let tag of note.tags">{{tag.name}}</li>
+            </ul>
 
-    <h4 *ngIf="note.collections.length > 0">Collections</h4>
-    <ul>
-        <li *ngFor="let collection of note.collections">{{collection.name}}</li>
-    </ul>
+            <h4 *ngIf="note.collections.length > 0">Collections</h4>
+            <ul>
+                <li *ngFor="let collection of note.collections">{{collection.name}}</li>
+            </ul>
+
+            <div class="btn-toolbar">
+                <button [routerLink]="['/notes', note.id, 'edit']" class="btn btn-info mr-2">Edit</button>
+                <button (click)="onDelete()" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+        <ng-template #notLoaded>
+            <h5>Loading ...</h5>
+        </ng-template>
+    </div>
 </div>
-<ng-template #notLoaded>
-    <h5>Loading ...</h5>
-</ng-template>

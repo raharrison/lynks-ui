@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="#">Lynks Web</a>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <a class="navbar-brand" routerLink="">Lynks Web</a>
     <button
             class="navbar-toggler"
             type="button"
@@ -33,21 +33,19 @@
             </li>
             <li class="nav-item dropdown" ngbDropdown>
                 <a
+                        style="cursor: pointer"
                         class="nav-link dropdown-toggle"
-                        href="#"
-                        id="dropdown01"
+                        id="createDropdown"
                         data-toggle="dropdown"
                         aria-haspopup="true"
                         aria-expanded="false"
                         ngbDropdownToggle
-                >Dropdown</a
-                >
-                <div class="dropdown-menu" aria-labelledby="dropdown01" ngbDropdownMenu>
-                    <a class="dropdown-item" href="#" ngbDropdownItem>Action</a>
-                    <a class="dropdown-item" href="#" ngbDropdownItem>Another action</a>
+                >Create</a>
+                <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="createDropdown">
+                    <a class="dropdown-item" routerLink="/notes/create" ngbDropdownItem>Note</a>
+                    <a class="dropdown-item" href="#" ngbDropdownItem>Link</a>
                     <a class="dropdown-item" href="#" ngbDropdownItem
-                    >Something else here</a
-                    >
+                    >Something else here</a>
                 </div>
             </li>
         </ul>

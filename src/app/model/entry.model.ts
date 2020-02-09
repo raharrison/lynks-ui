@@ -20,6 +20,6 @@ export interface Entry {
 export interface NewEntry {
     id: string,
     tags: string[],
-    collection: string[]
+    collections: string[]
 }
 

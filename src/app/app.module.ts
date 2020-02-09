@@ -19,10 +19,8 @@ import {MarkdownViewComponent} from './utils/markdown-view/markdown-view.compone
 import {HIGHLIGHT_OPTIONS, HighlightModule} from 'ngx-highlightjs';
 
 function getHighlightLanguages() {
-    const res = {};
-    ["bash", "java", "xml"].forEach(lang =>
-        res[lang] = () => import('highlight.js/lib/languages/' + lang));
-    return res;
+    return ["java"].reduce((res, lang) =>
+        res[lang] = () => import('highlight.js/lib/languages/' + lang), {});
 }
 
 @NgModule({

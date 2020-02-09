@@ -4,7 +4,7 @@
             <h3>{{note.title}}</h3>
             <hr>
 
-            <div class="markdown-body" [innerHTML]="safeHtml"></div>
+            <app-markdown-view [markdown]="note.markdownText"></app-markdown-view>
 
             <hr>
             <p>Last updated {{note.dateUpdated}}</p>

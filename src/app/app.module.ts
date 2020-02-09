@@ -15,10 +15,20 @@ import {NoteEditComponent} from './entry/entry-edit/note-edit/note-edit.componen
 import {MarkdownEditorComponent} from './utils/markdown-editor/markdown-editor.component';
 import {TagInputModule} from "ngx-chips";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {MarkdownViewComponent} from './utils/markdown-view/markdown-view.component';
+import {HIGHLIGHT_OPTIONS, HighlightModule} from 'ngx-highlightjs';
+
+function getHighlightLanguages() {
+    const res = {};
+    ["bash", "java", "xml"].forEach(lang =>
+        res[lang] = () => import('highlight.js/lib/languages/' + lang));
+    return res;
+}
 
 @NgModule({
     declarations: [
-        AppComponent, HeaderComponent, EntryListComponent, NoteListItemComponent, NoteDetailComponent, NoteEditComponent, MarkdownEditorComponent
+        AppComponent, HeaderComponent, EntryListComponent, NoteListItemComponent,
+        NoteDetailComponent, NoteEditComponent, MarkdownEditorComponent, MarkdownViewComponent
     ],
     imports: [
         BrowserModule,
@@ -27,9 +37,15 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
         BrowserAnimationsModule,
         HttpClientModule,
         AppRoutingModule,
-        TagInputModule
+        TagInputModule,
+        HighlightModule
     ],
-    providers: [],
+    providers: [{
+        provide: HIGHLIGHT_OPTIONS,
+        useValue: {
+            languages: getHighlightLanguages()
+        }
+    }],
     bootstrap: [AppComponent]
 })
 export class AppModule {

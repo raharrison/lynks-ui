@@ -13,30 +13,12 @@
 
             <div class="form-group">
                 <label for="tagPicker">Tags</label>
-                <tag-input id="tagPicker" name="tagPicker" [(ngModel)]='selectedTags'
-                           [onlyFromAutocomplete]="true"
-                           [identifyBy]="'id'"
-                           [displayBy]="'name'"
-                           theme="dark"
-                           onTextChangeDebounce="100"
-                           secondaryPlaceholder="Enter tags..">
-                    <tag-input-dropdown [autocompleteItems]="allTags" [identifyBy]="'id'" [displayBy]="'name'">
-                    </tag-input-dropdown>
-                </tag-input>
+                <app-group-editor id="tagPicker" type="tag" [selected]="selectedTags" (selectedChange)="selectedTags = $event"></app-group-editor>
             </div>
 
             <div class="form-group">
                 <label for="collectionPicker">Collections</label>
-                <tag-input id="collectionPicker" name="collectionPicker" [(ngModel)]='selectedCollections'
-                           [onlyFromAutocomplete]="true"
-                           [identifyBy]="'id'"
-                           [displayBy]="'name'"
-                           theme="dark"
-                           onTextChangeDebounce="100"
-                           secondaryPlaceholder="Enter collections..">
-                    <tag-input-dropdown [autocompleteItems]="allCollections" [identifyBy]="'id'" [displayBy]="'name'">
-                    </tag-input-dropdown>
-                </tag-input>
+                <app-group-editor id="collectionPicker" type="collection" [selected]="selectedCollections" (selectedChange)="selectedCollections = $event"></app-group-editor>
             </div>
 
             <div class="form-group">

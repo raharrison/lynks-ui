@@ -17,6 +17,7 @@ import {TagInputModule} from "ngx-chips";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MarkdownViewComponent} from './utils/markdown-view/markdown-view.component';
 import {HIGHLIGHT_OPTIONS, HighlightModule} from 'ngx-highlightjs';
+import {GroupEditorComponent} from './group/group-editor/group-editor.component';
 
 function getHighlightLanguages() {
     return ["bash", "cpp", "cs", "css", "gradle", "handlebars", "java",
@@ -30,7 +31,7 @@ function getHighlightLanguages() {
 @NgModule({
     declarations: [
         AppComponent, HeaderComponent, EntryListComponent, NoteListItemComponent,
-        NoteDetailComponent, NoteEditComponent, MarkdownEditorComponent, MarkdownViewComponent
+        NoteDetailComponent, NoteEditComponent, MarkdownEditorComponent, MarkdownViewComponent, GroupEditorComponent
     ],
     imports: [
         BrowserModule,

@@ -2,8 +2,6 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {NoteService} from "../../../service/note.service";
 import {NewNote} from "../../../model/note.model";
 import {ActivatedRoute, Router} from "@angular/router";
-import {TagService} from "../../../service/tag.service";
-import {CollectionService} from "../../../service/collection.service";
 import {Collection, Tag} from "../../../model/group.model";
 
 @Component({
@@ -17,16 +15,12 @@ export class NoteEditComponent implements OnInit {
   updateMode = false;
   note: NewNote;
 
-  allTags: Tag[] = [];
-  allCollections: Collection[] = [];
   selectedTags: Tag[] = [];
-  selectedCollections: Tag[] = [];
+  selectedCollections: Collection[] = [];
 
   constructor(private router: Router,
               private route: ActivatedRoute,
-              private noteService: NoteService,
-              private tagService: TagService,
-              private collectionService: CollectionService) { }
+              private noteService: NoteService) { }
 
   ngOnInit(): void {
     this.note = {
@@ -36,12 +30,6 @@ export class NoteEditComponent implements OnInit {
       title: null,
       plainText: "",
     };
-    this.tagService.getTags().subscribe((data) => {
-      this.allTags = data;
-    });
-    this.collectionService.getCollections().subscribe((data) => {
-      this.allCollections = data;
-    });
     const id = this.route.snapshot.paramMap.get("id");
     if(id) {
       // update mode
@@ -66,7 +54,6 @@ export class NoteEditComponent implements OnInit {
 
   onSubmit() {
     this.note.tags = this.selectedTags.map(t => t.id);
-    this.note.collections = this.selectedCollections.map(c => c.id);
     if(this.updateMode) {
       this.updateNote();
     } else {

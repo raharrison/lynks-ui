@@ -18,6 +18,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MarkdownViewComponent} from './utils/markdown-view/markdown-view.component';
 import {HIGHLIGHT_OPTIONS, HighlightModule} from 'ngx-highlightjs';
 import {GroupEditorComponent} from './group/group-editor/group-editor.component';
+import {ToastrModule} from "ngx-toastr";
 
 function getHighlightLanguages() {
     return ["bash", "cpp", "cs", "css", "gradle", "handlebars", "java",
@@ -41,7 +42,8 @@ function getHighlightLanguages() {
         HttpClientModule,
         AppRoutingModule,
         TagInputModule,
-        HighlightModule
+        HighlightModule,
+        ToastrModule.forRoot()
     ],
     providers: [{
         provide: HIGHLIGHT_OPTIONS,

@@ -54,6 +54,7 @@
               "node_modules/github-markdown-css/github-markdown.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.css",
               "node_modules/highlight.js/styles/github.css",
+              "node_modules/ngx-toastr/toastr.css",
               "src/styles.css"
             ],
             "scripts": []

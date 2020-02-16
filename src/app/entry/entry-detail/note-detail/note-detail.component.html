@@ -1,37 +1,57 @@
-<div class="row">
-    <div class="col-md-12">
-        <div *ngIf="loaded; else notLoaded">
-            <h3>{{note.title}}</h3>
-            <hr>
+<ng-template #notLoaded>
+    <div class="text-center">
+        <div class="spinner-border center-loading" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</ng-template>
 
+<div *ngIf="loaded; else notLoaded">
+    <div class="row">
+        <div class="col-md-12 mb-3">
+            <h3 class="mb-3">{{note.title}}</h3>
             <app-markdown-view [markdown]="note.markdownText"></app-markdown-view>
+        </div>
+    </div>
 
-            <hr>
-            <p>Last updated {{note.dateUpdated}}</p>
-            <p>Version {{note.version}}</p>
+    <div class="row">
+        <div class="col-md-12 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <p>Last updated {{note.dateUpdated}}</p>
+                    <p>Version {{note.version}}</p>
 
-            <h4 *ngIf="note.props.tasks.length > 0">Tasks</h4>
-            <ul>
-                <li *ngFor="let task of note.props.tasks">{{task.description}}</li>
-            </ul>
-
-            <h4 *ngIf="note.tags.length > 0">Tags</h4>
-            <ul>
-                <li *ngFor="let tag of note.tags">{{tag.name}}</li>
-            </ul>
-
-            <h4 *ngIf="note.collections.length > 0">Collections</h4>
-            <ul>
-                <li *ngFor="let collection of note.collections">{{collection.name}}</li>
-            </ul>
-
-            <div class="btn-toolbar">
-                <button [routerLink]="['/notes', note.id, 'edit']" class="btn btn-info mr-2">Edit</button>
-                <button (click)="onDelete()" class="btn btn-danger">Delete</button>
+                    <h4 *ngIf="note.props.tasks.length > 0">Tasks</h4>
+                    <ul>
+                        <li *ngFor="let task of note.props.tasks">{{task.description}}</li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <ng-template #notLoaded>
-            <h5>Loading ...</h5>
-        </ng-template>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h4 *ngIf="note.tags.length > 0">Tags</h4>
+                    <ul>
+                        <li *ngFor="let tag of note.tags">{{tag.name}}</li>
+                    </ul>
+                    <span *ngFor="let tag of note.tags" class="badge badge-primary p-2">{{tag.name}}</span>
+
+                    <h4 *ngIf="note.collections.length > 0">Collections</h4>
+                    <ul>
+                        <li *ngFor="let collection of note.collections">{{collection.name}}</li>
+                    </ul>
+                    <span *ngFor="let collection of note.collections" class="badge badge-primary p-2">{{collection.name}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="btn-toolbar">
+        <button [routerLink]="['/notes', note.id, 'edit']" class="btn btn-info mr-2">Edit</button>
+        <button (click)="onDelete()" class="btn btn-danger">Delete</button>
     </div>
 </div>

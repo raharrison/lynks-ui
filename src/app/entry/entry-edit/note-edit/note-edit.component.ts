@@ -54,6 +54,7 @@ export class NoteEditComponent implements OnInit {
 
   onSubmit() {
     this.note.tags = this.selectedTags.map(t => t.id);
+    this.note.collections = this.selectedCollections.map(c => c.id);
     if(this.updateMode) {
       this.updateNote();
     } else {

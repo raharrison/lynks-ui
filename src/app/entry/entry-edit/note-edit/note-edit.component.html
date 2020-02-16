@@ -1,10 +1,15 @@
 <div class="row">
     <div class="col-md-12">
-        <h2 class="mb-3">{{updateMode ? "Update Note" : "Create Note"}}</h2>
-        <form (ngSubmit)="onSubmit()">
+        <h2 class="mb-3">{{updateMode ? "Update Note" : "New Note"}}</h2>
+
+        <form (ngSubmit)="onSubmit()" #noteForm="ngForm">
             <div class="form-group">
                 <label for="noteTitle">Title</label>
-                <input [(ngModel)]="note.title" name="title" type="text" class="form-control form-control-lg title-input" id="noteTitle" placeholder="Enter title" required>
+                <input [(ngModel)]="note.title" id="noteTitle"name="title" type="text" class="form-control form-control-lg title-input"
+                       placeholder="Enter title (required)" required #title="ngModel">
+                <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
+                    Title is required
+                </div>
             </div>
             <div class="form-group">
                 <label for="plainText">Content</label>
@@ -22,7 +27,7 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary mr-2">{{updateMode ? "Save" : "Create"}}</button>
+                <button type="submit" class="btn btn-success mr-2 px-4" [disabled]="!noteForm.form.valid">{{updateMode ? "Save" : "Create"}}</button>
                 <button type="button" (click)="onCancel()" class="btn btn-outline-secondary">Cancel</button>
             </div>
         </form>

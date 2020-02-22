@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Entry} from "../../model/entry.model";
-import {Note} from "../../model/note.model";
+import {Entry} from "../../../model/entry.model";
+import {Note} from "../../../model/note.model";
 import {HttpClient} from "@angular/common/http";
 
 @Component({

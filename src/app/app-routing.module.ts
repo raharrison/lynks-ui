@@ -1,8 +1,8 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {EntryListComponent} from "./entry/entry-list/entry-list.component";
-import {NoteDetailComponent} from "./entry/entry-detail/note-detail/note-detail.component";
-import {NoteEditComponent} from "./entry/entry-edit/note-edit/note-edit.component";
+import {EntryListComponent} from "./components/entry/entry-list/entry-list.component";
+import {NoteDetailComponent} from "./components/entry/entry-detail/note-detail/note-detail.component";
+import {NoteEditComponent} from "./components/entry/entry-edit/note-edit/note-edit.component";
 
 const routes: Routes = [
   { path: "notes/create", component: NoteEditComponent },

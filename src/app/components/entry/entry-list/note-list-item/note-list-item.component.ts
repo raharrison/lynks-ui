@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Note} from "../../../model/note.model";
+import {Note} from "../../../../model/note.model";
 
 @Component({
   selector: 'app-note-list-item',

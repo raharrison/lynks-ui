@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {NoteService} from "../../../service/note.service";
-import {NewNote} from "../../../model/note.model";
+import {NoteService} from "../../../../services/note.service";
+import {NewNote} from "../../../../model/note.model";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Collection, Tag} from "../../../model/group.model";
+import {Collection, Tag} from "../../../../model/group.model";
 
 @Component({
   selector: 'app-note-edit',

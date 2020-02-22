@@ -1,14 +1,14 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {TagService} from "../../service/tag.service";
-import {CollectionService} from "../../service/collection.service";
-import {Grouping} from "../../model/group.model";
+import {TagService} from "../../../services/tag.service";
+import {CollectionService} from "../../../services/collection.service";
+import {Grouping} from "../../../model/group.model";
 
 @Component({
   selector: 'app-group-editor',
-  templateUrl: './group-editor.component.html',
-  styleUrls: ['./group-editor.component.css']
+  templateUrl: './group-edit.component.html',
+  styleUrls: ['./group-edit.component.css']
 })
-export class GroupEditorComponent implements OnInit {
+export class GroupEditComponent implements OnInit {
 
   @Input()
   type: "tag" | "collection";

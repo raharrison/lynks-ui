@@ -6,6 +6,5 @@ export interface Note extends Entry {
 }
 
 export interface NewNote extends NewEntry {
-    title: string,
     plainText: string
 }

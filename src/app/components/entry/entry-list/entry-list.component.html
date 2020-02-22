@@ -1,6 +1,7 @@
 <h2>Notes</h2>
 <button class="btn btn-success" routerLink="/notes/create">Create</button>
 <div *ngFor="let entry of entries">
-    <app-note-list-item class="row" *ngIf="entry.type=='NOTE'" [note]="entry"></app-note-list-item>
+    <app-note-list-item *ngIf="entry.type=='NOTE'" [note]="entry"></app-note-list-item>
+    <app-link-list-item *ngIf="entry.type=='LINK'" [link]="entry"></app-link-list-item>
     <hr>
 </div>

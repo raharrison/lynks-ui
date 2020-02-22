@@ -8,7 +8,7 @@ export interface BaseProperties {
 export interface Entry {
     id: string,
     title: string
-    dateUpdated: bigint,
+    dateUpdated: number,
     version: number,
     starred: boolean,
     props: BaseProperties
@@ -19,6 +19,7 @@ export interface Entry {
 
 export interface NewEntry {
     id: string,
+    title: string,
     tags: string[],
     collections: string[]
 }

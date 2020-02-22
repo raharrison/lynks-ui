@@ -30,6 +30,7 @@ export class MarkdownEditorComponent implements AfterViewInit, ControlValueAcces
     },
     placeholder: "Type here...",
     spellChecker: false,
+    status: true,
     previewClass: ["editor-preview", "markdown-body"],
     toolbar: ["bold", "italic", "heading-smaller", "heading-bigger", "|", "quote", "code", "unordered-list", "ordered-list", "clean-block",
       "|", "link", "image", "table", "|", "preview", "side-by-side", "fullscreen", "|", "guide"]
@@ -37,6 +38,9 @@ export class MarkdownEditorComponent implements AfterViewInit, ControlValueAcces
 
   @ViewChild('easymde', { static: true }) textarea: ElementRef;
   @Input() options: any = {};
+
+  @Input()
+  slim: boolean = false;
 
   constructor(private _zone: NgZone) {}
 
@@ -84,6 +88,9 @@ export class MarkdownEditorComponent implements AfterViewInit, ControlValueAcces
 
   ngAfterViewInit(): void {
     const opts = Object.assign({}, this.baseOptions);
+    if (this.slim) {
+      opts.status = false;
+    }
     Object.assign(opts, this.options);
     opts.element = this.textarea.nativeElement;
 

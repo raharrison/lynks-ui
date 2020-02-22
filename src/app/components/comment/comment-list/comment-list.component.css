@@ -38,10 +38,17 @@
     margin-bottom: 0.5rem;
 }
 .comments .commenter-name {
+    font-weight: normal;
     display: inline-block;
     position: relative;
     top: -20px;
-    left: 10px;
+}
+.comments .comment-num {
+    display: inline-block;
+    position: relative;
+    top: -20px;
+    font-weight: bold;
+    margin-right: 10px;
 }
 .comments .comment-meta {
     font-size: 14px;
@@ -55,17 +62,5 @@
 @media (max-width: 767px){
     .comments .commenter-name {
         font-size: 13px;
-        top: -5px;
-    }
-    .comments .commenter-pic {
-        width: 40px;
-        height: 40px;
-    }
-    .comments .commenter-name a{
-        display: block;
-    }
-    .comments .commenter-name .comment-time{
-        display: block;
-        margin-left: 0;
     }
 }

@@ -10,7 +10,9 @@
     <div class="row">
         <div class="col-md-12 mb-3">
             <h3 class="mb-3">{{note.title}}</h3>
-            <app-markdown-view [markdown]="note.markdownText"></app-markdown-view>
+            <div class="card card-body ">
+                <app-markdown-view [markdown]="note.markdownText"></app-markdown-view>
+            </div>
         </div>
     </div>
 

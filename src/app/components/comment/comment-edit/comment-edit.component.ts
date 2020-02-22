@@ -60,4 +60,8 @@ export class CommentEditComponent implements OnInit, OnChanges {
     }
   }
 
+  onCancel() {
+    this.commentSaved.emit(null);
+  }
+
 }

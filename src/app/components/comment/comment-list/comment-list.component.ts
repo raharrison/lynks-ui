@@ -49,7 +49,9 @@ export class CommentListComponent implements OnInit {
   onCommentSaved(comment: Comment) {
     this.selectedComment = null;
     this.showEditor = false;
-    this.retrieveComments();
+    if (comment != null) {
+      this.retrieveComments();
+    }
   }
 
   formatDate(epoch: number) {

@@ -13,13 +13,11 @@
     <div *ngFor="let comment of comments; let index = index" class="comment-box">
         <span class="comment-num">#{{index + 1}} </span>
         <span class="commenter-pic fas fa-user-circle"></span>
-        <span class="commenter-name">
-            <span class="comment-time">{{formatDate(comment.dateCreated)}}</span>
-        </span>
+        <span class="comment-time">{{formatDate(comment.dateCreated)}}</span>
         <p class="comment-txt"><app-markdown-view [markdown]="comment.markdownText"></app-markdown-view></p>
         <div class="comment-meta">
-            <button (click)="editCommentClick(comment)" class="comment-reply"><i class="fa fa-edit text-info" aria-hidden="true"></i> Edit</button>
-            <button (click)="deleteCommentClick(comment)" class="comment-reply"><i class="fa fa-trash-alt text-danger" aria-hidden="true"></i> Delete</button>
+            <button (click)="editCommentClick(comment)" class="btn btn-sm"><i class="fa fa-edit text-info" aria-hidden="true"></i> Edit</button>
+            <button (click)="deleteCommentClick(comment)" class="btn btn-sm"><i class="fa fa-trash-alt text-danger" aria-hidden="true"></i> Delete</button>
         </div>
     </div>
 </div>

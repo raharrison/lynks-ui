@@ -4,4 +4,5 @@
     </div>
 
     <button type="submit" class="btn btn-success mr-2 px-4 float-right" [disabled]="!commentForm.form.valid">{{updateMode ? "Update" : "Post"}} Comment</button>
+    <button type="button" (click)="onCancel()" class="btn btn-outline-secondary mr-2 float-right">Cancel</button>
 </form>

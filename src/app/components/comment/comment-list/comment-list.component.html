@@ -1,0 +1,30 @@
+<div class="comments">
+    <div class="comments-details">
+        <span class="total-comments comments-sort">{{comments.length}} Comments</span>
+        <div ngbDropdown class="d-inline-block">
+            <button ngbDropdownToggle id="sortByToggle" type="button" class="btn dropdown-toggle" data-toggle="dropdown">Sort By <span class="caret"></span></button>
+            <div ngbDropdownMenu aria-labelledby="sortByToggle">
+                <button ngbDropdownItem>Newest First</button>
+                <button ngbDropdownItem>Oldest First</button>
+            </div>
+        </div>
+    </div>
+
+    <div *ngFor="let comment of comments" class="comment-box">
+        <span class=" commenter-pic fas fa-user-circle"></span>
+        <span class="commenter-name">
+            <span class="comment-time">{{formatDate(comment.dateCreated)}}</span>
+        </span>
+        <p class="comment-txt">{{comment.plainText}}</p>
+        <div class="comment-meta">
+            <button class="comment-reply reply-popup"><i class="fa fa-edit text-info" aria-hidden="true"></i> Edit</button>
+            <button class="comment-reply reply-popup"><i class="fa fa-trash-alt text-danger" aria-hidden="true"></i> Delete</button>
+        </div>
+    </div>
+</div>
+
+<button type="button" (click)="showAddComment=true" class="btn btn-success">Add Comment</button>
+
+<div *ngIf="showAddComment">
+    <app-comment-edit></app-comment-edit>
+</div>

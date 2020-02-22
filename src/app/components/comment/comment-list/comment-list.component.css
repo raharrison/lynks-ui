@@ -1,0 +1,71 @@
+.comments-details button.btn.dropdown-toggle,
+.comments-details .total-comments {
+    font-size: 18px;
+    font-weight: 500;
+    color: #5e5e5e;
+}
+.comments .comments .dropdown,
+.comments .dropup {
+    position: relative;
+}
+.comments button {
+    background-color: transparent;
+    border: none;
+}
+.comments .comment-box {
+    width: 100%;
+    float: left;
+    height: 100%;
+    background-color: #FAFAFA;
+    padding: 10px 10px 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+}
+.comments .commenter-pic {
+    padding: 2px;
+    overflow: hidden;
+    font-size: 3rem;
+    text-align: center;
+    color: #adadad;
+}
+.comments .commenter-name .comment-time {
+    font-weight: normal;
+    margin-left: 8px;
+}
+.comments p.comment-txt {
+    border-bottom: 1px solid #ddd;
+    padding: 0 0 15px;
+    margin-bottom: 0.5rem;
+}
+.comments .commenter-name {
+    display: inline-block;
+    position: relative;
+    top: -20px;
+    left: 10px;
+}
+.comments .comment-meta {
+    font-size: 14px;
+    color: #333;
+    padding: 0 5px 0;
+    line-height: 20px;
+    float: right;
+}
+
+/*======Responsive CSS=======*/
+@media (max-width: 767px){
+    .comments .commenter-name {
+        font-size: 13px;
+        top: -5px;
+    }
+    .comments .commenter-pic {
+        width: 40px;
+        height: 40px;
+    }
+    .comments .commenter-name a{
+        display: block;
+    }
+    .comments .commenter-name .comment-time{
+        display: block;
+        margin-left: 0;
+    }
+}

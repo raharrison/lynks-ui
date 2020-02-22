@@ -50,8 +50,17 @@
         </div>
     </div>
 
-    <div class="btn-toolbar">
+    <div class="btn-toolbar mb-3">
         <button [routerLink]="['/notes', note.id, 'edit']" class="btn btn-info mr-2">Edit</button>
         <button (click)="onDelete()" class="btn btn-danger">Delete</button>
     </div>
+
+    <div class="row">
+        <div class="col-md-12 mb-3">
+            <app-comment-list [entryId]="note.id"></app-comment-list>
+        </div>
+    </div>
+
+
+
 </div>

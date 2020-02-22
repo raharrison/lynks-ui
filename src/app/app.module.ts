@@ -20,6 +20,8 @@ import {HIGHLIGHT_OPTIONS, HighlightModule} from 'ngx-highlightjs';
 import {GroupEditComponent} from './components/group/group-edit/group-edit.component';
 import {ToastrModule} from "ngx-toastr";
 import {LinkListItemComponent} from './components/entry/entry-list/link-list-item/link-list-item.component';
+import {CommentListComponent} from './components/comment/comment-list/comment-list.component';
+import {CommentEditComponent} from './components/comment/comment-edit/comment-edit.component';
 
 function getHighlightLanguages() {
     return ["bash", "cpp", "cs", "css", "gradle", "handlebars", "java",
@@ -33,7 +35,7 @@ function getHighlightLanguages() {
 @NgModule({
     declarations: [
         AppComponent, HeaderComponent, EntryListComponent, NoteListItemComponent,
-        NoteDetailComponent, NoteEditComponent, MarkdownEditorComponent, MarkdownViewComponent, GroupEditComponent, LinkListItemComponent
+        NoteDetailComponent, NoteEditComponent, MarkdownEditorComponent, MarkdownViewComponent, GroupEditComponent, LinkListItemComponent, CommentListComponent, CommentEditComponent
     ],
     imports: [
         BrowserModule,

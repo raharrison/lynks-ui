@@ -23,6 +23,7 @@ import {LinkListItemComponent} from './components/entry/entry-list/link-list-ite
 import {CommentListComponent} from './components/comment/comment-list/comment-list.component';
 import {CommentEditComponent} from './components/comment/comment-edit/comment-edit.component';
 import {TimeAgoComponent} from './components/utils/time-ago/time-ago.component';
+import {DeleteConfirmModalComponent} from './components/utils/delete-confirm-modal/delete-confirm-modal.component';
 
 function getHighlightLanguages() {
     return ["bash", "cpp", "cs", "css", "gradle", "handlebars", "java",
@@ -36,7 +37,8 @@ function getHighlightLanguages() {
 @NgModule({
     declarations: [
         AppComponent, HeaderComponent, EntryListComponent, NoteListItemComponent,
-        NoteDetailComponent, NoteEditComponent, MarkdownEditorComponent, MarkdownViewComponent, GroupEditComponent, LinkListItemComponent, CommentListComponent, CommentEditComponent, TimeAgoComponent
+        NoteDetailComponent, NoteEditComponent, MarkdownEditorComponent, MarkdownViewComponent, GroupEditComponent,
+        LinkListItemComponent, CommentListComponent, CommentEditComponent, TimeAgoComponent, DeleteConfirmModalComponent
     ],
     imports: [
         BrowserModule,

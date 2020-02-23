@@ -17,7 +17,7 @@
         <p class="comment-txt"><app-markdown-view [markdown]="comment.markdownText"></app-markdown-view></p>
         <div class="comment-meta">
             <button (click)="editCommentClick(comment)" class="btn btn-sm"><i class="fa fa-edit text-info" aria-hidden="true"></i> Edit</button>
-            <button (click)="openDeleteModal(deleteModal, comment)" class="btn btn-sm"><i class="fa fa-trash-alt text-danger" aria-hidden="true"></i> Delete</button>
+            <button (click)="openDeleteModal(comment)" class="btn btn-sm"><i class="fa fa-trash-alt text-danger" aria-hidden="true"></i> Delete</button>
         </div>
     </div>
 </div>
@@ -29,19 +29,3 @@
 <div *ngIf="showEditor">
     <app-comment-edit [entryId]="entryId" [existingComment]="selectedComment" (commentSaved)="onCommentSaved($event)"></app-comment-edit>
 </div>
-
-<ng-template #deleteModal let-modal>
-    <div class="modal-header">
-        <h4 class="modal-title" id="modal-title">Delete Comment</h4>
-        <button type="button" class="close" aria-describedby="modal-title" (click)="modal.dismiss('cancel')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <p>Are you sure you want to delete this comment?</p>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel')">Cancel</button>
-        <button type="button" class="btn btn-danger" (click)="modal.close('delete')">Delete</button>
-    </div>
-</ng-template>

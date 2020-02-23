@@ -3,6 +3,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Comment} from "../../../model/comment.model";
 import {CommentService} from "../../../services/comment.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {DeleteConfirmModalComponent} from "../../utils/delete-confirm-modal/delete-confirm-modal.component";
 
 @Component({
   selector: 'app-comment-list',
@@ -19,8 +20,6 @@ export class CommentListComponent implements OnInit {
   showEditor = false;
 
   selectedComment: Comment = null;
-
-  private stagedDeleteComment: Comment = null;
 
   constructor(private commentService: CommentService,
               private modalService: NgbModal) { }
@@ -43,14 +42,16 @@ export class CommentListComponent implements OnInit {
     this.selectedComment = comment;
   }
 
-  openDeleteModal(content, comment) {
-    this.stagedDeleteComment = comment;
-    this.modalService.open(content).result.then(closeReason => {
-      this.stagedDeleteComment = null;
-      if(closeReason == "delete") {
-        this.deleteComment(comment);
+  openDeleteModal(comment) {
+    const modalRef = this.modalService.open(DeleteConfirmModalComponent);
+    modalRef.componentInstance.data = comment;
+    modalRef.componentInstance.type = "comment";
+
+    modalRef.result.then(closeData => {
+      if(closeData) {
+        this.deleteComment(closeData);
       }
-    }, dismissReason => this.stagedDeleteComment = null);
+    }, () => {});
   }
 
   private deleteComment(comment: Comment) {

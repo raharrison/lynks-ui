@@ -2,6 +2,6 @@
     <div class="col-md-12 d-flex">
         <a href="{{link.url}}" target="_blank"><span class="title">{{link.title}}</span></a>
         <span class="small">{{link.source}}</span>
-        <span class="ml-auto"><span>({{link.id}})</span> created at {{formatDate(link.dateUpdated)}}</span>
+        <span class="ml-auto"><span>({{link.id}})</span> updated <app-time-ago [date]="link.dateUpdated"></app-time-ago></span>
     </div>
 </div>

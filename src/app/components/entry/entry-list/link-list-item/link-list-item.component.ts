@@ -16,7 +16,4 @@ export class LinkListItemComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  formatDate(epoch: number) {
-    return new Date(epoch).toLocaleDateString();
-  }
 }

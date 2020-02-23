@@ -1,14 +1,14 @@
-<div class="row">
-    <div class="col">
+<div class="d-flex justify-content-between mb-3">
+    <div>
         <h2>Notes</h2>
     </div>
-    <div class="col-md-1 float-right">
+    <div>
         <button class="btn btn-success px-4" routerLink="/notes/create">Create</button>
     </div>
 </div>
 <hr>
 <div *ngFor="let entry of entries">
-    <app-note-list-item *ngIf="entry.type=='NOTE'" [note]="entry"></app-note-list-item>
-    <app-link-list-item *ngIf="entry.type=='LINK'" [link]="entry"></app-link-list-item>
+    <app-note-list-item *ngIf="entry.type=='NOTE'" [note]="$any(entry)"></app-note-list-item>
+    <app-link-list-item *ngIf="entry.type=='LINK'" [link]="$any(entry)"></app-link-list-item>
     <hr>
 </div>

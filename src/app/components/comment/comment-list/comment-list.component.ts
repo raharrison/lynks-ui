@@ -18,6 +18,7 @@ export class CommentListComponent implements OnInit {
   comments: Comment[] = [];
 
   showEditor = false;
+  loaded = false;
 
   selectedComment: Comment = null;
 
@@ -29,7 +30,10 @@ export class CommentListComponent implements OnInit {
   }
 
   private retrieveComments() {
-    this.commentService.getCommentsForEntry(this.entryId).subscribe(value => this.comments = value);
+    this.commentService.getCommentsForEntry(this.entryId).subscribe(value => {
+      this.comments = value;
+      this.loaded = true;
+    });
   }
 
   addCommentClick() {

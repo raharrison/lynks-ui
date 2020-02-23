@@ -12,6 +12,7 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 })
 export class NoteDetailComponent implements OnInit {
 
+  id;
   note: Note;
   loaded = false;
 
@@ -21,8 +22,8 @@ export class NoteDetailComponent implements OnInit {
               private noteService: NoteService) { }
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get("id");
-    this.noteService.getNote(id).subscribe((data) => {
+    this.id = this.route.snapshot.paramMap.get("id");
+    this.noteService.getNote(this.id).subscribe((data) => {
       this.note = data;
       this.loaded = true;
     });

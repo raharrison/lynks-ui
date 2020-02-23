@@ -7,9 +7,20 @@
 </ng-template>
 
 <div *ngIf="loaded; else notLoaded">
+    <div class="d-flex mb-3">
+        <div>
+            <h2>{{note.title}}</h2>
+        </div>
+        <div class="ml-auto">
+            <div class="btn-group">
+                <button [routerLink]="['/notes', note.id, 'edit']" class="btn btn-info mr-2">Edit</button>
+                <button (click)="openDeleteModal()" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-md-12 mb-3">
-            <h3 class="mb-3">{{note.title}}</h3>
             <div class="card card-body ">
                 <app-markdown-view [markdown]="note.markdownText"></app-markdown-view>
             </div>
@@ -46,17 +57,10 @@
         </div>
     </div>
 
-    <div class="btn-toolbar mb-3">
-        <button [routerLink]="['/notes', note.id, 'edit']" class="btn btn-info mr-2">Edit</button>
-        <button (click)="openDeleteModal()" class="btn btn-danger">Delete</button>
+</div>
+
+<div class="row">
+    <div class="col-md-12 mb-3">
+        <app-comment-list [entryId]="id"></app-comment-list>
     </div>
-
-    <div class="row">
-        <div class="col-md-12 mb-3">
-            <app-comment-list [entryId]="note.id"></app-comment-list>
-        </div>
-    </div>
-
-
-
 </div>

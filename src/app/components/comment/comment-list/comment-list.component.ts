@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 
 import {Comment} from "../../../model/comment.model";
 import {CommentService} from "../../../services/comment.service";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-comment-list',
@@ -19,13 +20,16 @@ export class CommentListComponent implements OnInit {
 
   selectedComment: Comment = null;
 
-  constructor(private commentService: CommentService) { }
+  private stagedDeleteComment: Comment = null;
+
+  constructor(private commentService: CommentService,
+              private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.retrieveComments();
   }
 
-  retrieveComments() {
+  private retrieveComments() {
     this.commentService.getCommentsForEntry(this.entryId).subscribe(value => this.comments = value);
   }
 
@@ -39,7 +43,17 @@ export class CommentListComponent implements OnInit {
     this.selectedComment = comment;
   }
 
-  deleteCommentClick(comment: Comment) {
+  openDeleteModal(content, comment) {
+    this.stagedDeleteComment = comment;
+    this.modalService.open(content).result.then(closeReason => {
+      this.stagedDeleteComment = null;
+      if(closeReason == "delete") {
+        this.deleteComment(comment);
+      }
+    }, dismissReason => this.stagedDeleteComment = null);
+  }
+
+  private deleteComment(comment: Comment) {
     this.commentService.deleteComment(this.entryId, comment.id).subscribe(value => {
       this.selectedComment = null;
       this.retrieveComments();
@@ -52,10 +66,6 @@ export class CommentListComponent implements OnInit {
     if (comment != null) {
       this.retrieveComments();
     }
-  }
-
-  formatDate(epoch: number) {
-    return new Date(epoch).toLocaleString();
   }
 
 }

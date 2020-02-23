@@ -26,9 +26,12 @@
                 <app-group-editor id="collectionPicker" type="collection" [selected]="selectedCollections" (selectedChange)="selectedCollections = $event"></app-group-editor>
             </div>
 
-            <div class="form-group">
-                <button type="submit" class="btn btn-success mr-2 px-4" [disabled]="!noteForm.form.valid">{{updateMode ? "Save" : "Create"}}</button>
-                <button type="button" (click)="onCancel()" class="btn btn-outline-secondary">Cancel</button>
+            <div class="form-group float-right">
+                <button type="button" (click)="onCancel()" class="btn btn-outline-secondary mr-2">Cancel</button>
+                <button type="submit" class="btn btn-success px-4" [disabled]="!noteForm.form.valid">
+                    <i class="fa fa-save" aria-hidden="true"></i>
+                    &nbsp;{{updateMode ? "Save" : "Create"}}
+                </button>
             </div>
         </form>
     </div>

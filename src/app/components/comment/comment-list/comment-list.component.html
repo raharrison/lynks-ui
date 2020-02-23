@@ -1,6 +1,6 @@
 <div *ngIf="loaded">
     <div class="comments">
-        <div class="comments-details">
+        <div class="comments-details mb-2">
             <span class="total-comments comments-sort">{{comments.length}} Comments</span>
             <div ngbDropdown class="d-inline-block">
                 <button ngbDropdownToggle id="sortByToggle" type="button" class="btn dropdown-toggle" data-toggle="dropdown">Sort By <span class="caret"></span></button>
@@ -24,7 +24,7 @@
     </div>
 
     <div class="mb-3">
-        <button type="button" (click)="addCommentClick()" class="btn btn-primary">Add Comment</button>
+        <button type="button" (click)="addCommentClick()" class="btn btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add Comment</button>
     </div>
 
     <div *ngIf="showEditor">

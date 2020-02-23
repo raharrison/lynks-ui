@@ -20,7 +20,7 @@
         <div class="col-md-12 mb-3">
             <div class="card">
                 <div class="card-body">
-                    <p>Last updated {{note.dateUpdated}}</p>
+                    <p><app-time-ago prefix="Last updated " [date]="note.dateUpdated"></app-time-ago></p>
                     <p>Version {{note.version}}</p>
 
                     <h4 *ngIf="note.props.tasks.length > 0">Tasks</h4>
@@ -36,17 +36,11 @@
         <div class="col-md-12 mb-3">
             <div class="card">
                 <div class="card-body">
-                    <h4 *ngIf="note.tags.length > 0">Tags</h4>
-                    <ul>
-                        <li *ngFor="let tag of note.tags">{{tag.name}}</li>
-                    </ul>
-                    <span *ngFor="let tag of note.tags" class="badge badge-primary p-2">{{tag.name}}</span>
+                    <h5 *ngIf="note.tags.length > 0">Tags</h5>
+                    <span *ngFor="let tag of note.tags" class="badge badge-primary p-2 mr-1">{{tag.name}}</span>
 
-                    <h4 *ngIf="note.collections.length > 0">Collections</h4>
-                    <ul>
-                        <li *ngFor="let collection of note.collections">{{collection.name}}</li>
-                    </ul>
-                    <span *ngFor="let collection of note.collections" class="badge badge-primary p-2">{{collection.name}}</span>
+                    <h5 *ngIf="note.collections.length > 0">Collections</h5>
+                    <span *ngFor="let collection of note.collections" class="badge badge-primary p-2 mr-1">{{collection.name}}</span>
                 </div>
             </div>
         </div>
@@ -54,7 +48,7 @@
 
     <div class="btn-toolbar mb-3">
         <button [routerLink]="['/notes', note.id, 'edit']" class="btn btn-info mr-2">Edit</button>
-        <button (click)="onDelete()" class="btn btn-danger">Delete</button>
+        <button (click)="openDeleteModal()" class="btn btn-danger">Delete</button>
     </div>
 
     <div class="row">

@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Note} from "../../../../model/note.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NoteService} from "../../../../services/note.service";
+import {DeleteConfirmModalComponent} from "../../../utils/delete-confirm-modal/delete-confirm-modal.component";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-note-detail',
@@ -15,6 +17,7 @@ export class NoteDetailComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
+              private modalService: NgbModal,
               private noteService: NoteService) { }
 
   ngOnInit() {
@@ -25,9 +28,21 @@ export class NoteDetailComponent implements OnInit {
     });
   }
 
-    onDelete() {
-      this.noteService.deleteNote(this.note.id).subscribe((data) => {
-        this.router.navigate(["/notes"]);
-      }, error => alert(error));
-    }
+  openDeleteModal() {
+    const modalRef = this.modalService.open(DeleteConfirmModalComponent);
+    modalRef.componentInstance.data = this.note;
+    modalRef.componentInstance.type = "note";
+
+    modalRef.result.then(closeData => {
+      if(closeData) {
+        this.deleteNote(closeData);
+      }
+    }, () => {});
+  }
+
+  private deleteNote(note: Note) {
+    this.noteService.deleteNote(note.id).subscribe((data) => {
+      this.router.navigate(["/notes"]);
+    }, error => alert(error));
+  }
 }

@@ -25,6 +25,8 @@ import {CommentEditComponent} from './components/comment/comment-edit/comment-ed
 import {TimeAgoComponent} from './components/utils/time-ago/time-ago.component';
 import {DeleteConfirmModalComponent} from './components/utils/delete-confirm-modal/delete-confirm-modal.component';
 import {EntryTabsComponent} from './components/entry/entry-tabs/entry-tabs.component';
+import {AttachmentListComponent} from './components/attachment/attachment-list/attachment-list.component';
+import {AttachmentUploadComponent} from './components/attachment/attachment-upload/attachment-upload.component';
 
 function getHighlightLanguages() {
     return ["bash", "cpp", "cs", "css", "gradle", "handlebars", "java",
@@ -39,7 +41,7 @@ function getHighlightLanguages() {
     declarations: [
         AppComponent, HeaderComponent, EntryListComponent, NoteListItemComponent,
         NoteDetailComponent, NoteEditComponent, MarkdownEditorComponent, MarkdownViewComponent, GroupEditComponent,
-        LinkListItemComponent, CommentListComponent, CommentEditComponent, TimeAgoComponent, DeleteConfirmModalComponent, EntryTabsComponent
+        LinkListItemComponent, CommentListComponent, CommentEditComponent, TimeAgoComponent, DeleteConfirmModalComponent, EntryTabsComponent, AttachmentListComponent, AttachmentUploadComponent
     ],
     imports: [
         BrowserModule,

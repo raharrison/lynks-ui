@@ -1,0 +1,35 @@
+<div *ngIf="loaded && attachments.length > 0">
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th scope="col" style="width: 30%">Name</th>
+            <th scope="col" style="width: 15%">Type</th>
+            <th scope="col" style="width: 15%">Size (KB)</th>
+            <th scope="col" style="width: 20%">Created</th>
+            <th scope="col" style="width: 20%">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let attachment of attachments">
+            <th>{{ attachment.name }}</th>
+            <td>{{ attachment.type | titlecase }}</td>
+            <td>{{ attachment.size / 1000 | number:'1.0-1' }}</td>
+            <td><app-time-ago [date]="attachment.dateUpdated"></app-time-ago></td>
+            <td>
+                <span class="btn-group-sm">
+                    <button class="btn btn-dark mr-1" ngbTooltip="View"><i class="fa fa-eye" aria-hidden="true"></i></button>
+                    <button (click)="onDownloadClick(attachment)" class="btn btn-secondary mr-1" ngbTooltip="Download"><i class="fa fa-download" aria-hidden="true"></i></button>
+                    <button class="btn btn-info mr-1" ngbTooltip="Edit"><i class="fa fa-edit" aria-hidden="true"></i></button>
+                    <button (click)="openDeleteModal(attachment)" class="btn btn-danger" ngbTooltip="Delete"><i class="fa fa-trash-alt" aria-hidden="true"></i></button>
+                </span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div *ngIf="loaded && attachments.length == 0">
+    <p>No attachments found</p>
+</div>
+
+<app-attachment-upload [entryId]="entryId" (attachmentUploaded)="onAttachmentUploaded()"></app-attachment-upload>

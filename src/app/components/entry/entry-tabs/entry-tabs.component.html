@@ -1,5 +1,5 @@
-<nav ngbNav #nav="ngbNav" class="nav-tabs" [destroyOnHide]="false">
-    <ng-container ngbNavItem>
+<nav ngbNav #nav="ngbNav" class="nav-tabs" [destroyOnHide]="false" [activeId]="1">
+    <ng-container [ngbNavItem]="0">
         <a ngbNavLink><i class="fas fa-comments"></i> Comments</a>
         <ng-template ngbNavContent>
             <div class="row">
@@ -9,18 +9,17 @@
             </div>
         </ng-template>
     </ng-container>
-    <ng-container ngbNavItem>
+    <ng-container [ngbNavItem]="1">
         <a ngbNavLink><i class="fas fa-link"></i> Attachments</a>
         <ng-template ngbNavContent>
-            <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko
-                farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts
-                ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar
-                helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson
-                8-bit, sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester
-                stumptown, tumblr butcher vero sint qui sapiente accusamus tattooed echo park.</p>
+            <div class="row">
+                <div class="col-md-12">
+                    <app-attachment-list [entryId]="entryId"></app-attachment-list>
+                </div>
+            </div>
         </ng-template>
     </ng-container>
-    <ng-container ngbNavItem>
+    <ng-container [ngbNavItem]="2">
         <a ngbNavLink><i class="fas fa-bell"></i> Reminders</a>
         <ng-template ngbNavContent>
             <p>Sed commodo, leo at suscipit dictum, quam est porttitor sapien, eget sodales nibh elit id diam. Nulla facilisi.

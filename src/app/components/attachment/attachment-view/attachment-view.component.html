@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="mb-3">
+            <h2>{{ attachment?.name }}</h2>
+            <span class="text-gray-light">{{ attachment?.size / 1000 | number:'1.0-1'}}KB</span>
+            <span class="btn-group">
+                <button (click)="window.history.back()" class="btn btn-secondary ml-3 mr-1" ngbTooltip="Back"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
+                <button class="btn btn-primary mr-1" ngbTooltip="Download"><i class="fa fa-download" aria-hidden="true"></i> Download</button>
+            </span>
+        </div>
+        <span [ngSwitch]="type">
+          <span *ngSwitchCase="'text'">
+              <pre><code>{{ rawData }}</code></pre>
+          </span>
+          <span *ngSwitchCase="'image'">
+            <img [src]="url" class="img-fluid">
+          </span>
+          <span *ngSwitchCase="'video'">
+            <video controls width="100%">
+              <source [src]="url" type="video/mp4">
+                Your browser does not support HTML5 video.
+            </video>
+          </span>
+          <span *ngSwitchDefault>
+            <span>File type is not supported</span>
+          </span>
+        </span>
+
+    </div>
+</div>

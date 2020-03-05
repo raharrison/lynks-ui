@@ -31,6 +31,12 @@ export class AttachmentService {
             }));
     }
 
+    downloadAttachment(entryId: string, attachmentId: string): Observable<any> {
+        return this.http.get(this.createDownloadLink(entryId, attachmentId), {
+            responseType: "blob"
+        });
+    }
+
     deleteAttachment(entryId: string, attachmentId: string): Observable<any> {
         return this.http.delete(`/api/entry/${entryId}/resources/${attachmentId}`)
             .pipe(tap(_ => {

@@ -2,29 +2,46 @@
     <div class="col-md-12">
         <div class="mb-3">
             <h2>{{ attachment?.name }}</h2>
-            <span class="text-gray-light">{{ attachment?.size / 1000 | number:'1.0-1'}}KB</span>
-            <span class="btn-group">
-                <button (click)="window.history.back()" class="btn btn-secondary ml-3 mr-1" ngbTooltip="Back"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
-                <button class="btn btn-primary mr-1" ngbTooltip="Download"><i class="fa fa-download" aria-hidden="true"></i> Download</button>
+            <span class="text-gray-light mr-3">{{ attachment?.size / 1000 | number:'1.0-1'}}KB</span>
+            <span class="text-gray-light">Created <app-time-ago [date]="attachment?.dateCreated"></app-time-ago></span>
+            <span class="btn-group float-right">
+                <button (click)="onDownloadClick(attachment)" class="btn btn-primary mr-1" ngbTooltip="Download"><i class="fa fa-download"
+                                                                                                                    aria-hidden="true"></i> Download</button>
             </span>
         </div>
-        <span [ngSwitch]="type">
-          <span *ngSwitchCase="'text'">
-              <pre><code>{{ rawData }}</code></pre>
-          </span>
-          <span *ngSwitchCase="'image'">
-            <img [src]="url" class="img-fluid">
-          </span>
-          <span *ngSwitchCase="'video'">
-            <video controls width="100%">
-              <source [src]="url" type="video/mp4">
+        <hr>
+
+        <div class="text-center" *ngIf="loadingAttachment">
+            <div class="spinner-border center-loading" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
+        <div [ngSwitch]="attachmentCategory" *ngIf="attachment && !loadingAttachment">
+          <div *ngSwitchCase="'text'">
+              <pre>{{ rawText }}</pre>
+          </div>
+          <div *ngSwitchCase="'image'">
+            <img [src]="attachmentUrl" alt="Attachment Image" class="img-fluid">
+          </div>
+          <div *ngSwitchCase="'audio'">
+            <audio style="width: 100%" preload="none" controls>
+              <source [src]="attachmentUrl" [type]="attachmentMimeType">
+                Your browser does not support HTML5 audio.
+            </audio>
+          </div>
+          <div *ngSwitchCase="'video'">
+            <video controls preload="metadata" width="100%">
+              <source [src]="attachmentUrl">
                 Your browser does not support HTML5 video.
             </video>
-          </span>
-          <span *ngSwitchDefault>
+          </div>
+          <div *ngSwitchCase="'pdf'">
+              <iframe [src]="attachmentUrl" width="100%" height="720"></iframe>
+          </div>
+          <div *ngSwitchDefault>
             <span>File type is not supported</span>
-          </span>
-        </span>
-
+          </div>
+        </div>
     </div>
 </div>

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpResponse} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Attachment} from "../model/attachment.model";
 import {ToastrService} from "ngx-toastr";
@@ -16,6 +16,11 @@ export class AttachmentService {
 
     getAttachmentsForEntry(entryId: string): Observable<Attachment[]> {
         return this.http.get<Attachment[]>(`/api/entry/${entryId}/resources`);
+    }
+
+    getAttachment(entryId: string, attachmentId: string): Observable<HttpResponse<Attachment>> {
+        return this.http.get<Attachment>(this.createDownloadLink(entryId, attachmentId) + "/info",
+            { observe: "response" });
     }
 
     createDownloadLink(entryId: string, attachmentId: string): string {

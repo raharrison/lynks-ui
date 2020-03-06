@@ -45,7 +45,7 @@ export class AttachmentListComponent implements OnInit {
   }
 
   private deleteAttachment(attachment: Attachment) {
-    this.attachmentService.deleteAttachment(this.entryId, attachment.id).subscribe(value => {
+    this.attachmentService.deleteAttachment(this.entryId, attachment.id).subscribe(_ => {
       this.retrieveAttachments();
     });
   }

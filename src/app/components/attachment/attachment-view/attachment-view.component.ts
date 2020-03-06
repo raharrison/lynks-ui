@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {AttachmentService} from "../../../services/attachment.service";
-import {Attachment} from "../../../model/attachment.model";
+import {Attachment, AttachmentCategory} from "../../../model/attachment.model";
+import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-attachment-view',
@@ -10,48 +11,62 @@ import {Attachment} from "../../../model/attachment.model";
 })
 export class AttachmentViewComponent implements OnInit {
 
-  window = window;
+  loadingAttachment = false;
+
   entryId: string;
   attachmentId: string;
   attachment: Attachment;
-  type: string;
-  url: string;
+  attachmentUrl: SafeUrl;
 
-  rawData: string;
+  attachmentCategory: AttachmentCategory;
+  attachmentMimeType: string;
+  rawText: string;
 
   constructor(private route: ActivatedRoute,
+              private sanitizer: DomSanitizer,
               private attachmentService: AttachmentService) { }
 
   ngOnInit(): void {
     this.entryId = this.route.snapshot.paramMap.get("id");
     this.attachmentId = this.route.snapshot.paramMap.get("attachmentId");
-    this.url = this.attachmentService.createDownloadLink(this.entryId, this.attachmentId);
+    const unsafeUrl = this.attachmentService.createDownloadLink(this.entryId, this.attachmentId);
+    this.attachmentUrl = this.sanitizer.bypassSecurityTrustResourceUrl(unsafeUrl);
 
-    this.attachmentService.getAttachmentsForEntry(this.entryId).subscribe(values => {
-      values.forEach(value => {
-        if(value.id == this.attachmentId) {
-          this.attachment = value;
-          this.type = this.findType(this.attachment.extension);
-          this.postProcess();
-        }
-      })
+    this.attachmentService.getAttachment(this.entryId, this.attachmentId).subscribe(resp => {
+      this.attachment = resp.body;
+      this.attachmentMimeType = resp.headers.get("X-Resource-Mime-Type");
+      this.attachmentCategory = this.findType(this.attachmentMimeType);
+      this.postProcessAttachment();
     });
   }
 
-  private findType(extension: string): string {
-    if(extension == "jpg") return "image";
-    else if(["txt", "py"].includes(extension)) return "text";
-    return "unknown";
+  private findType(mime: string): AttachmentCategory {
+    if(!mime) {
+      return AttachmentCategory.UNKNOWN;
+    }
+    if(mime.startsWith("text/")) return AttachmentCategory.TEXT;
+    else if(mime.startsWith("image/")) return AttachmentCategory.IMAGE;
+    else if(mime.startsWith("audio/")) return AttachmentCategory.AUDIO;
+    else if(mime.startsWith("video/")) return AttachmentCategory.VIDEO;
+    else if(mime.startsWith("application/pdf")) return AttachmentCategory.PDF;
+    else if(mime.startsWith("application/mp4")) return AttachmentCategory.VIDEO;
+    return AttachmentCategory.UNKNOWN;
   }
 
-  private postProcess() {
-    if(this.type == "text") {
+  private postProcessAttachment() {
+    if(this.attachmentCategory == AttachmentCategory.TEXT) {
+      this.loadingAttachment = true;
       this.attachmentService.downloadAttachment(this.entryId, this.attachmentId).subscribe(data => {
         const blob = data as Blob;
-        console.log(blob.type);
-        new Response(blob).text().then(value => this.rawData = value);
+        new Response(blob).text().then(value => this.rawText = value);
+        this.loadingAttachment = false;
       });
     }
+  }
+
+  onDownloadClick(attachment: Attachment) {
+    const url = this.attachmentService.createDownloadLink(this.entryId, attachment.id);
+    window.open(url);
   }
 
 }

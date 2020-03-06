@@ -10,7 +10,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let attachment of attachments">
+        <tr class="attachment-item" [routerLink]="['/entry', entryId, 'attachment', attachment.id]" *ngFor="let attachment of attachments">
             <th>{{ attachment.name }}</th>
             <td>{{ attachment.type | titlecase }}</td>
             <td>{{ attachment.size / 1000 | number:'1.0-1' }}KB</td>

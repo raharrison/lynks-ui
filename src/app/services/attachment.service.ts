@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpResponse} from "@angular/common/http";
+import {HttpClient, HttpEventType, HttpResponse} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Attachment} from "../model/attachment.model";
 import {ToastrService} from "ngx-toastr";
@@ -27,13 +27,18 @@ export class AttachmentService {
         return `/api/entry/${entryId}/resources/${attachmentId}`;
     }
 
-    uploadAttachment(entryId: string, file: File): Observable<Attachment> {
+    uploadAttachment(entryId: string, file: File): Observable<any> {
         const formData: FormData = new FormData();
         formData.append('fileKey', file, file.name);
-        return this.http.post<Attachment>(`/api/entry/${entryId}/resources/`, formData)
-            .pipe(tap(_ => {
-                this.toastrService.info("Attachment uploaded", "Success");
-            }));
+        return this.http.post<Attachment>(`/api/entry/${entryId}/resources/`, formData, {
+            reportProgress: true,
+            observe: "events"
+        })
+        .pipe(tap(event => {
+            if(event.type == HttpEventType.Response) {
+                this.toastrService.success("Attachment uploaded", "Success");
+            }
+        }));
     }
 
     downloadAttachment(entryId: string, attachmentId: string): Observable<any> {
@@ -45,7 +50,7 @@ export class AttachmentService {
     deleteAttachment(entryId: string, attachmentId: string): Observable<any> {
         return this.http.delete(`/api/entry/${entryId}/resources/${attachmentId}`)
             .pipe(tap(_ => {
-                this.toastrService.info("Attachment deleted", "Success");
+                this.toastrService.success("Attachment deleted", "Success");
             }));
     }
 

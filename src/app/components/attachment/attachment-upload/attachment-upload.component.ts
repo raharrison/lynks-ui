@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NgForm} from "@angular/forms";
 import {AttachmentService} from "../../../services/attachment.service";
 import {Attachment} from "../../../model/attachment.model";
+import {HttpEvent, HttpEventType} from "@angular/common/http";
 
 @Component({
   selector: 'app-attachment-upload',
@@ -19,9 +20,7 @@ export class AttachmentUploadComponent implements OnInit {
   fileToUploadName: string;
   fileToUpload: File;
 
-  saving = false;
-
-  model: any = {};
+  uploadProgress: number = 0;
 
   constructor(private attachmentService: AttachmentService) { }
 
@@ -33,14 +32,21 @@ export class AttachmentUploadComponent implements OnInit {
   }
 
   onSubmit(attachmentForm: NgForm) {
-    this.saving = true;
     this.attachmentService.uploadAttachment(this.entryId, this.fileToUpload)
-        .subscribe((response) => {
-          this.saving = false;
-          this.fileToUploadName = '';
-          this.fileToUpload = null;
-          attachmentForm.form.reset();
-          this.attachmentUploaded.emit(response);
-        })
+        .subscribe((event: HttpEvent<any>) => {
+          switch (event.type) {
+              case HttpEventType.UploadProgress:
+                  this.uploadProgress = Math.round(event.loaded / event.total * 100);
+                  break;
+              case HttpEventType.Response:
+                  setTimeout(() => {
+                      this.uploadProgress = 0;
+                      this.fileToUploadName = '';
+                      this.fileToUpload = null;
+                      attachmentForm.form.reset();
+                      this.attachmentUploaded.emit(event.body);
+                  }, 500);
+          }
+      });
   }
 }

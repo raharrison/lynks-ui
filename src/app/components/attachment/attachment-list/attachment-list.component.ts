@@ -32,7 +32,8 @@ export class AttachmentListComponent implements OnInit {
     });
   }
 
-  openDeleteModal(attachment) {
+  openDeleteModal(event: Event, attachment: Attachment) {
+    event.stopPropagation();
     const modalRef = this.modalService.open(DeleteConfirmModalComponent);
     modalRef.componentInstance.data = attachment;
     modalRef.componentInstance.type = "attachment";
@@ -54,7 +55,8 @@ export class AttachmentListComponent implements OnInit {
     this.retrieveAttachments();
   }
 
-  onDownloadClick(attachment: Attachment) {
+  onDownloadClick(event: Event, attachment: Attachment) {
+    event.stopPropagation();
     const url = this.attachmentService.createDownloadLink(this.entryId, attachment.id);
     window.open(url);
   }

@@ -10,20 +10,9 @@
         </tr>
         </thead>
         <tbody>
-        <tr class="attachment-item" [routerLink]="['/entry', entryId, 'attachment', attachment.id]"  *ngFor="let attachment of attachments">
-            <th>{{ attachment.name }}</th>
-            <td>{{ attachment.type | titlecase }}</td>
-            <td>{{ attachment.size / 1000 | number:'1.0-1' }}KB</td>
-            <td><app-time-ago [date]="attachment.dateUpdated"></app-time-ago></td>
-            <td>
-                <span class="btn-group-sm">
-                    <a [routerLink]="['/entry', entryId, 'attachment', attachment.id]" class="btn btn-dark mr-1" ngbTooltip="View"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                    <button (click)="onDownloadClick($event, attachment)" class="btn btn-secondary mr-1" ngbTooltip="Download"><i class="fa fa-download" aria-hidden="true"></i></button>
-                    <button class="btn btn-info mr-1" ngbTooltip="Edit"><i class="fa fa-edit" aria-hidden="true"></i></button>
-                    <button (click)="openDeleteModal($event, attachment)" class="btn btn-danger" ngbTooltip="Delete"><i class="fa fa-trash-alt" aria-hidden="true"></i></button>
-                </span>
-            </td>
-        </tr>
+            <tr class="attachment-item" [routerLink]="['/entry', entryId, 'attachment', attachment.id]" *ngFor="let attachment of attachments"
+                app-attachment-list-item [entryId]="entryId" [attachment]="attachment" (attachmentModified)="retrieveAttachments()">
+            </tr>
         </tbody>
     </table>
 </div>
@@ -32,4 +21,4 @@
     <p>No attachments found</p>
 </div>
 
-<app-attachment-upload [entryId]="entryId" (attachmentUploaded)="onAttachmentUploaded()"></app-attachment-upload>
+<app-attachment-upload [entryId]="entryId" (attachmentUploaded)="retrieveAttachments()"></app-attachment-upload>

@@ -41,6 +41,13 @@ export class AttachmentService {
         }));
     }
 
+    updateAttachment(entryId: string, attachment: Attachment): Observable<Attachment> {
+        return this.http.put<Attachment>(`/api/entry/${entryId}/resources`, attachment)
+            .pipe(tap(_ => {
+                this.toastrService.success("Attachment updated", "Success");
+            }));
+    }
+
     downloadAttachment(entryId: string, attachmentId: string): Observable<any> {
         return this.http.get(this.createDownloadLink(entryId, attachmentId), {
             responseType: "blob"

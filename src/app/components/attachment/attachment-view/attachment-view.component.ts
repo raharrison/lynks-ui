@@ -29,7 +29,7 @@ export class AttachmentViewComponent implements OnInit {
   ngOnInit(): void {
     this.entryId = this.route.snapshot.paramMap.get("id");
     this.attachmentId = this.route.snapshot.paramMap.get("attachmentId");
-    const unsafeUrl = this.attachmentService.createDownloadLink(this.entryId, this.attachmentId);
+    const unsafeUrl = "http://localhost:8080" + this.attachmentService.createDownloadLink(this.entryId, this.attachmentId);
     this.attachmentUrl = this.sanitizer.bypassSecurityTrustResourceUrl(unsafeUrl);
 
     this.attachmentService.getAttachment(this.entryId, this.attachmentId).subscribe(resp => {

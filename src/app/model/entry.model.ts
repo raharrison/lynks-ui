@@ -14,7 +14,7 @@ export interface Entry {
     props: BaseProperties
     tags: Tag[],
     collections: Collection[],
-    type: string
+    type: EntryType
 }
 
 export interface NewEntry {
@@ -22,5 +22,10 @@ export interface NewEntry {
     title: string,
     tags: string[],
     collections: string[]
+}
+
+export enum EntryType {
+    LINK = "LINK",
+    NOTE = "NOTE"
 }
 

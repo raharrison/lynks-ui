@@ -6,7 +6,9 @@
             <span class="mr-2">|</span>
             <span class="text-gray-light">Created <app-time-ago [date]="attachment?.dateCreated"></app-time-ago></span>
             <span class="btn-group float-right">
-                <button (click)="onDownloadClick(attachment)" class="btn btn-primary mr-1" ngbTooltip="Download">
+                <button class="btn btn-secondary mr-1" backButton>
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
+                <button (click)="onDownloadClick(attachment)" class="btn btn-primary mr-1">
                     <i class="fa fa-download" aria-hidden="true"></i> Download</button>
             </span>
         </div>

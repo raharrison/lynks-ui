@@ -30,6 +30,7 @@ import {AttachmentUploadComponent} from './components/attachment/attachment-uplo
 import {AttachmentViewComponent} from './components/attachment/attachment-view/attachment-view.component';
 import {AttachmentListItemComponent} from './components/attachment/attachment-list/attachment-list-item/attachment-list-item.component';
 import {FileSizeComponent} from './components/utils/file-size/file-size.component';
+import {BackButtonDirective} from './directives/back-button.directive';
 
 function getHighlightLanguages() {
     return ["bash", "cpp", "cs", "css", "gradle", "handlebars", "java",
@@ -44,7 +45,7 @@ function getHighlightLanguages() {
     declarations: [
         AppComponent, HeaderComponent, EntryListComponent, NoteListItemComponent,
         NoteDetailComponent, NoteEditComponent, MarkdownEditorComponent, MarkdownViewComponent, GroupEditComponent,
-        LinkListItemComponent, CommentListComponent, CommentEditComponent, TimeAgoComponent, DeleteConfirmModalComponent, EntryTabsComponent, AttachmentListComponent, AttachmentUploadComponent, AttachmentViewComponent, AttachmentListItemComponent, FileSizeComponent
+        LinkListItemComponent, CommentListComponent, CommentEditComponent, TimeAgoComponent, DeleteConfirmModalComponent, EntryTabsComponent, AttachmentListComponent, AttachmentUploadComponent, AttachmentViewComponent, AttachmentListItemComponent, FileSizeComponent, BackButtonDirective
     ],
     imports: [
         BrowserModule,

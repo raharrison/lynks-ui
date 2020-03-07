@@ -13,7 +13,7 @@
         </div>
         <div class="ml-auto">
             <div class="btn-group">
-                <button [routerLink]="['/notes']" class="btn btn-secondary mr-2"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
+                <button backButton class="btn btn-secondary mr-2"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
                 <button [routerLink]="['/notes', note.id, 'edit']" class="btn btn-info mr-2"><i class="fa fa-edit" aria-hidden="true"></i> Edit</button>
                 <button (click)="openDeleteModal()" class="btn btn-danger"><i class="fa fa-trash-alt" aria-hidden="true"></i> Delete</button>
             </div>

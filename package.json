@@ -24,6 +24,7 @@
     "@ng-bootstrap/ng-bootstrap": "^6.0.0",
     "bootstrap": "^4.4.1",
     "easymde": "^2.9.0",
+    "filesize": "^6.1.0",
     "github-markdown-css": "^4.0.0",
     "ngx-chips": "^2.1.0",
     "ngx-highlightjs": "^4.0.2",

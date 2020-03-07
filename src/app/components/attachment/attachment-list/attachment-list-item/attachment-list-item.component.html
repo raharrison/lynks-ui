@@ -5,7 +5,7 @@
     <span *ngIf="!editMode">{{ attachment.name }}</span>
 </th>
 <td>{{ attachment.type | titlecase }}</td>
-<td>{{ attachment.size / 1000 | number:'1.0-1' }}KB</td>
+<td><app-file-size [bytes]="attachment?.size"></app-file-size></td>
 <td>
     <app-time-ago [date]="attachment.dateCreated"></app-time-ago>
 </td>

@@ -22,7 +22,7 @@ export class AttachmentListComponent implements OnInit {
     this.retrieveAttachments();
   }
 
-  private retrieveAttachments() {
+  retrieveAttachments() {
     this.attachmentService.getAttachmentsForEntry(this.entryId).subscribe(value => {
       this.attachments = value;
       this.loaded = true;

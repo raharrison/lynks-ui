@@ -1,4 +1,6 @@
-<div *ngIf="loaded">
+<app-loading-spinner *ngIf="loading" [small]="true"></app-loading-spinner>
+
+<div *ngIf="!loading">
   <div class="comments">
     <div class="comments-details mb-2">
       <span class="total-comments comments-sort">{{comments.length}} Comments</span>

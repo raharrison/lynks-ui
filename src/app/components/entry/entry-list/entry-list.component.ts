@@ -12,12 +12,14 @@ import {Link} from "../../../model/link.model";
 export class EntryListComponent implements OnInit {
 
   entries: Entry[];
+  loading = true;
 
   constructor(private httpClient: HttpClient) {
   }
 
   ngOnInit() {
     this.httpClient.get<Array<Entry>>("/api/note").subscribe((data) => {
+      this.loading = false;
       this.entries = data.map(value => {
         if (value.type == "NOTE") return value as Note;
         else if (value.type == "LINK") return value as Link;

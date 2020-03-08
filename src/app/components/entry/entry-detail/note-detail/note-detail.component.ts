@@ -14,7 +14,7 @@ export class NoteDetailComponent implements OnInit {
 
   id;
   note: Note;
-  loaded = false;
+  loading = true;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -26,7 +26,7 @@ export class NoteDetailComponent implements OnInit {
     this.id = this.route.snapshot.paramMap.get("id");
     this.noteService.getNote(this.id).subscribe((data) => {
       this.note = data;
-      this.loaded = true;
+      this.loading = false;
     });
   }
 
@@ -44,7 +44,7 @@ export class NoteDetailComponent implements OnInit {
   }
 
   private deleteNote(note: Note) {
-    this.noteService.deleteNote(note.id).subscribe((data) => {
+    this.noteService.deleteNote(note.id).subscribe(() => {
       this.router.navigate(["/notes"]);
     }, error => alert(error));
   }

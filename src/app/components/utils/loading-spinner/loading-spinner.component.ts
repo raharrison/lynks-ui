@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-loading-spinner',
@@ -7,10 +7,18 @@ import {Component, OnInit} from '@angular/core';
 })
 export class LoadingSpinnerComponent implements OnInit {
 
+  @Input()
+  small: boolean = false;
+
+  spinnerClasses = "spinner-border ";
+
   constructor() {
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    if (!this.small) {
+      this.spinnerClasses += "center-loading"
+    }
   }
 
 }

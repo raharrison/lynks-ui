@@ -16,7 +16,7 @@ export class ResponseHandlerService {
     return tap<T>({
       error: (error) => {
         ResponseHandlerService.handleError(error);
-        this.toastrService.success(errorMessage, "Error");
+        this.toastrService.error(errorMessage, "Error");
       }
     });
   }
@@ -26,7 +26,7 @@ export class ResponseHandlerService {
       this.toastrService.success(successMessage, "Success");
     }, error => {
       ResponseHandlerService.handleError(error);
-      this.toastrService.success(errorMessage, "Error");
+      this.toastrService.error(errorMessage, "Error");
     });
   }
 
@@ -37,7 +37,7 @@ export class ResponseHandlerService {
       }
     }, error => {
       ResponseHandlerService.handleError(error);
-      this.toastrService.success(errorMessage, "Error");
+      this.toastrService.error(errorMessage, "Error");
     });
   }
 

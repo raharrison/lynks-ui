@@ -2,7 +2,7 @@
   <app-loading-spinner></app-loading-spinner>
 </ng-template>
 
-<div *ngIf="loaded; else notLoaded">
+<div *ngIf="!loading; else notLoaded">
   <div class="d-flex mb-3">
     <div>
       <h2>{{note.title}}</h2>
@@ -63,4 +63,4 @@
   </div>
 </div>
 
-<app-entry-tabs [entryId]="id"></app-entry-tabs>
+<app-entry-tabs *ngIf="!loading" [entryId]="id"></app-entry-tabs>

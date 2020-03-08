@@ -18,7 +18,7 @@ export class CommentListComponent implements OnInit {
   comments: Comment[] = [];
 
   showEditor = false;
-  loaded = false;
+  loading = true;
 
   selectedComment: Comment = null;
 
@@ -33,7 +33,7 @@ export class CommentListComponent implements OnInit {
   private retrieveComments() {
     this.commentService.getCommentsForEntry(this.entryId).subscribe(value => {
       this.comments = value;
-      this.loaded = true;
+      this.loading = false;
     });
   }
 
@@ -61,7 +61,7 @@ export class CommentListComponent implements OnInit {
   }
 
   private deleteComment(comment: Comment) {
-    this.commentService.deleteComment(this.entryId, comment.id).subscribe(value => {
+    this.commentService.deleteComment(this.entryId, comment.id).subscribe(() => {
       this.selectedComment = null;
       this.retrieveComments();
     });

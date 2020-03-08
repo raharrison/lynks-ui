@@ -1,4 +1,8 @@
-<div class="row">
+<ng-template #notLoadedAttachment>
+  <app-loading-spinner></app-loading-spinner>
+</ng-template>
+
+<div class="row" *ngIf="!loadingAttachment; else notLoadedAttachment">
   <div class="col-md-12">
     <div class="pb-2">
       <h2>{{ attachment?.name }}</h2>
@@ -18,7 +22,7 @@
     </div>
     <hr>
 
-    <app-loading-spinner *ngIf="loadingAttachment"></app-loading-spinner>
+    <app-loading-spinner *ngIf="loadingAttachmentData"></app-loading-spinner>
 
     <div [ngSwitch]="attachmentCategory" *ngIf="attachment && !loadingAttachment">
       <div *ngSwitchCase="'text'">

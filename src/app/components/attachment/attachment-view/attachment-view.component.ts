@@ -32,7 +32,8 @@ export class AttachmentViewComponent implements OnInit, OnDestroy {
     "xml": "xml"
   };
 
-  loadingAttachment = false;
+  loadingAttachment = true;
+  loadingAttachmentData = false;
 
   entryId: string;
   attachmentId: string;
@@ -63,6 +64,7 @@ export class AttachmentViewComponent implements OnInit, OnDestroy {
       this.attachmentMimeType = resp.headers.get("X-Resource-Mime-Type")?.toLowerCase();
       this.attachmentCategory = this.deriveAttachmentCategory(this.attachmentMimeType,
         this.attachment.extension.toLowerCase());
+      this.loadingAttachment = false;
       this.postProcessAttachment();
     });
   }
@@ -86,12 +88,12 @@ export class AttachmentViewComponent implements OnInit, OnDestroy {
 
   private postProcessAttachment() {
     if (this.attachmentCategory == AttachmentCategory.TEXT) {
-      this.loadingAttachment = true;
+      this.loadingAttachmentData = true;
       this.attachmentService.downloadAttachment(this.entryId, this.attachmentId).subscribe(data => {
         const blob = data as Blob;
         new Response(blob).text().then(value => {
           this.rawText = value;
-          this.loadingAttachment = false;
+          this.loadingAttachmentData = false;
           setTimeout(_ =>
             document.querySelectorAll("pre code").forEach(item => {
               const sub = this.hljs.highlightBlock(item as HTMLElement).subscribe();

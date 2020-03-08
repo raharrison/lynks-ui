@@ -14,7 +14,7 @@ export class AttachmentListComponent implements OnInit {
 
   attachments: Attachment[] = [];
 
-  loaded = false;
+  loading = true;
 
   constructor(private attachmentService: AttachmentService) {
   }
@@ -26,7 +26,7 @@ export class AttachmentListComponent implements OnInit {
   retrieveAttachments() {
     this.attachmentService.getAttachmentsForEntry(this.entryId).subscribe(value => {
       this.attachments = value;
-      this.loaded = true;
+      this.loading = false;
     });
   }
 }

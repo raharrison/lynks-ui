@@ -11,6 +11,8 @@ import {Collection, Tag} from "../../../../model/group.model";
 })
 export class NoteEditComponent implements OnInit {
 
+  loading = false;
+  saving = false;
   updateMode = false;
   note: NewNote;
 
@@ -34,12 +36,14 @@ export class NoteEditComponent implements OnInit {
     if (id) {
       // update mode
       this.updateMode = true;
+      this.loading = true;
       this.noteService.getNote(id).subscribe((data) => {
         this.note.id = data.id;
         this.note.title = data.title;
         this.note.plainText = data.plainText;
         this.selectedTags = data.tags;
         this.selectedCollections = data.collections;
+        this.loading = false;
       });
     }
   }
@@ -55,6 +59,7 @@ export class NoteEditComponent implements OnInit {
   onSubmit() {
     this.note.tags = this.selectedTags.map(t => t.id);
     this.note.collections = this.selectedCollections.map(c => c.id);
+    this.saving = true;
     if (this.updateMode) {
       this.updateNote();
     } else {
@@ -66,10 +71,8 @@ export class NoteEditComponent implements OnInit {
     this.noteService.createNote(this.note)
       .subscribe(
         data => {
+          this.saving = false;
           this.router.navigate(["/notes", data.id]);
-        },
-        error => {
-          alert(error);
         });
   }
 
@@ -77,10 +80,8 @@ export class NoteEditComponent implements OnInit {
     this.noteService.updateNote(this.note)
       .subscribe(
         data => {
+          this.saving = false;
           this.router.navigate(["/notes", data.id]);
-        },
-        error => {
-          alert(error);
         });
   }
 

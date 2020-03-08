@@ -1,4 +1,8 @@
-<div class="row">
+<ng-template #notLoaded>
+  <app-loading-spinner></app-loading-spinner>
+</ng-template>
+
+<div class="row" *ngIf="!loading; else notLoaded">
   <div class="col-md-12 card card-body">
     <h2 class="mb-3">{{updateMode ? "Update Note" : "New Note"}}</h2>
 
@@ -28,10 +32,11 @@
       </div>
 
       <div class="form-group float-right">
-        <button type="button" (click)="onCancel()" class="btn btn-outline-secondary mr-2">Cancel</button>
-        <button type="submit" class="btn btn-success px-4" [disabled]="!noteForm.form.valid">
-          <i class="fa fa-save" aria-hidden="true"></i>
-          &nbsp;{{updateMode ? "Save" : "Create"}}
+        <button type="button" (click)="onCancel()" class="btn btn-outline-secondary mr-2" [disabled]="saving">Cancel</button>
+        <button type="submit" class="btn btn-success px-4" [disabled]="saving || !noteForm.form.valid">
+          <span *ngIf="saving" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          <i *ngIf="!saving" class="fa fa-save" aria-hidden="true"></i>
+          &nbsp;{{saving ? "Saving.." : updateMode ? "Save" : "Create"}}
         </button>
       </div>
     </form>

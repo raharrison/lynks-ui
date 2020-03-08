@@ -1,9 +1,5 @@
 <ng-template #notLoaded>
-    <div class="text-center">
-        <div class="spinner-border center-loading" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
-    </div>
+    <app-loading-spinner></app-loading-spinner>
 </ng-template>
 
 <div *ngIf="loaded; else notLoaded">

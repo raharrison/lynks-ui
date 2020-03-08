@@ -22,7 +22,8 @@ export class AttachmentUploadComponent implements OnInit {
 
   uploadProgress: number = 0;
 
-  constructor(private attachmentService: AttachmentService) { }
+  constructor(private attachmentService: AttachmentService) {
+  }
 
   ngOnInit(): void {
   }
@@ -33,20 +34,20 @@ export class AttachmentUploadComponent implements OnInit {
 
   onSubmit(attachmentForm: NgForm) {
     this.attachmentService.uploadAttachment(this.entryId, this.fileToUpload)
-        .subscribe((event: HttpEvent<any>) => {
-          switch (event.type) {
-              case HttpEventType.UploadProgress:
-                  this.uploadProgress = Math.round(event.loaded / event.total * 100);
-                  break;
-              case HttpEventType.Response:
-                  setTimeout(() => {
-                      this.uploadProgress = 0;
-                      this.fileToUploadName = '';
-                      this.fileToUpload = null;
-                      attachmentForm.form.reset();
-                      this.attachmentUploaded.emit(event.body);
-                  }, 500);
-          }
+      .subscribe((event: HttpEvent<any>) => {
+        switch (event.type) {
+          case HttpEventType.UploadProgress:
+            this.uploadProgress = Math.round(event.loaded / event.total * 100);
+            break;
+          case HttpEventType.Response:
+            setTimeout(() => {
+              this.uploadProgress = 0;
+              this.fileToUploadName = '';
+              this.fileToUpload = null;
+              attachmentForm.form.reset();
+              this.attachmentUploaded.emit(event.body);
+            }, 500);
+        }
       });
   }
 }

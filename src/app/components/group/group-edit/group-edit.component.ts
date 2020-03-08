@@ -22,10 +22,11 @@ export class GroupEditComponent implements OnInit {
   selectedChange = new EventEmitter<Grouping<any>[]>();
 
   constructor(private tagService: TagService,
-              private collectionService: CollectionService) { }
+              private collectionService: CollectionService) {
+  }
 
   ngOnInit(): void {
-    if(this.type == "tag") {
+    if (this.type == "tag") {
       this.tagService.getTags().subscribe(tags => this.allGroups = tags);
     } else {
       this.collectionService.getCollections().subscribe(cols => this.allGroups = cols);

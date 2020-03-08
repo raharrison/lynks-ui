@@ -10,10 +10,11 @@ import {ResponseHandlerService} from "./response-handler.service";
 export class TagService {
 
   constructor(private http: HttpClient,
-              private responseHandler: ResponseHandlerService) { }
+              private responseHandler: ResponseHandlerService) {
+  }
 
   getTags(): Observable<[Tag]> {
     return this.http.get<[Tag]>("/api/tag")
-        .pipe(this.responseHandler.handleResponseError("Unable to retrieve tags"));
+      .pipe(this.responseHandler.handleResponseError("Unable to retrieve tags"));
   }
 }

@@ -6,7 +6,8 @@ import {Location} from "@angular/common";
 })
 export class BackButtonDirective {
 
-  constructor(private location: Location) { }
+  constructor(private location: Location) {
+  }
 
   @HostListener("click")
   onClick() {

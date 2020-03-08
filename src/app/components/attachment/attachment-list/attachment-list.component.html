@@ -1,24 +1,24 @@
 <div *ngIf="loaded && attachments.length > 0">
-    <table class="table table-striped table-hover">
-        <thead>
-        <tr>
-            <th scope="col" style="width: 30%">Name</th>
-            <th scope="col" style="width: 15%">Type</th>
-            <th scope="col" style="width: 15%">Size</th>
-            <th scope="col" style="width: 20%">Created</th>
-            <th scope="col" style="width: 20%">Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-            <tr class="attachment-item" [routerLink]="['/entry', entryId, 'attachment', attachment.id]" *ngFor="let attachment of attachments"
-                app-attachment-list-item [entryId]="entryId" [attachment]="attachment" (attachmentModified)="retrieveAttachments()">
-            </tr>
-        </tbody>
-    </table>
+  <table class="table table-striped table-hover">
+    <thead>
+    <tr>
+      <th scope="col" style="width: 30%">Name</th>
+      <th scope="col" style="width: 15%">Type</th>
+      <th scope="col" style="width: 15%">Size</th>
+      <th scope="col" style="width: 20%">Created</th>
+      <th scope="col" style="width: 20%">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="attachment-item" [routerLink]="['/entry', entryId, 'attachment', attachment.id]" *ngFor="let attachment of attachments"
+        app-attachment-list-item [entryId]="entryId" [attachment]="attachment" (attachmentModified)="retrieveAttachments()">
+    </tr>
+    </tbody>
+  </table>
 </div>
 
 <div *ngIf="loaded && attachments.length == 0">
-    <p>No attachments found</p>
+  <p>No attachments found</p>
 </div>
 
 <app-attachment-upload [entryId]="entryId" (attachmentUploaded)="retrieveAttachments()"></app-attachment-upload>

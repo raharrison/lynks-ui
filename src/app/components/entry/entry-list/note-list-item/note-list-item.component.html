@@ -1,4 +1,4 @@
 <div class="col-md-12 d-flex">
-    <a [routerLink]="['/notes', note.id]"><h4>{{note.title}}</h4></a>
-    <span class="ml-auto"><span>({{note.id}})</span><app-time-ago prefix=" created " [date]="note.dateUpdated"></app-time-ago></span>
+  <a [routerLink]="['/notes', note.id]"><h4>{{note.title}}</h4></a>
+  <span class="ml-auto"><span>({{note.id}})</span><app-time-ago prefix=" created " [date]="note.dateUpdated"></app-time-ago></span>
 </div>

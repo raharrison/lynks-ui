@@ -10,7 +10,8 @@ export class EntryTabsComponent implements OnInit {
   @Input()
   entryId: string;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

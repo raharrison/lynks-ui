@@ -19,7 +19,8 @@ export class NoteEditComponent implements OnInit {
 
   constructor(private router: Router,
               private route: ActivatedRoute,
-              private noteService: NoteService) { }
+              private noteService: NoteService) {
+  }
 
   ngOnInit(): void {
     this.note = {
@@ -30,7 +31,7 @@ export class NoteEditComponent implements OnInit {
       plainText: "",
     };
     const id = this.route.snapshot.paramMap.get("id");
-    if(id) {
+    if (id) {
       // update mode
       this.updateMode = true;
       this.noteService.getNote(id).subscribe((data) => {
@@ -44,7 +45,7 @@ export class NoteEditComponent implements OnInit {
   }
 
   onCancel() {
-    if(this.updateMode) {
+    if (this.updateMode) {
       this.router.navigate(["/notes", this.note.id]);
     } else {
       this.router.navigate(["/notes"]);
@@ -54,7 +55,7 @@ export class NoteEditComponent implements OnInit {
   onSubmit() {
     this.note.tags = this.selectedTags.map(t => t.id);
     this.note.collections = this.selectedCollections.map(c => c.id);
-    if(this.updateMode) {
+    if (this.updateMode) {
       this.updateNote();
     } else {
       this.createNote();
@@ -63,24 +64,24 @@ export class NoteEditComponent implements OnInit {
 
   createNote() {
     this.noteService.createNote(this.note)
-        .subscribe(
-            data => {
-              this.router.navigate(["/notes", data.id]);
-            },
-            error => {
-              alert(error);
-            });
+      .subscribe(
+        data => {
+          this.router.navigate(["/notes", data.id]);
+        },
+        error => {
+          alert(error);
+        });
   }
 
   updateNote() {
     this.noteService.updateNote(this.note)
-        .subscribe(
-            data => {
-              this.router.navigate(["/notes", data.id]);
-            },
-            error => {
-              alert(error);
-            });
+      .subscribe(
+        data => {
+          this.router.navigate(["/notes", data.id]);
+        },
+        error => {
+          alert(error);
+        });
   }
 
 }

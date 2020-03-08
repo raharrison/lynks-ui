@@ -6,17 +6,18 @@ import {NoteEditComponent} from "./components/entry/entry-edit/note-edit/note-ed
 import {AttachmentViewComponent} from "./components/attachment/attachment-view/attachment-view.component";
 
 const routes: Routes = [
-  { path: "entry/:id/attachment/:attachmentId", component: AttachmentViewComponent },
-  { path: "notes/create", component: NoteEditComponent },
-  { path: "notes/:id/edit", component: NoteEditComponent },
-  { path: "notes/:id", component: NoteDetailComponent },
-  { path: "notes", component: EntryListComponent },
+  {path: "entry/:id/attachment/:attachmentId", component: AttachmentViewComponent},
+  {path: "notes/create", component: NoteEditComponent},
+  {path: "notes/:id/edit", component: NoteEditComponent},
+  {path: "notes/:id", component: NoteDetailComponent},
+  {path: "notes", component: EntryListComponent},
   // { path: "links", component: LinkListComponent },
-  { path: "", redirectTo: "/notes", pathMatch: "full" }
+  {path: "", redirectTo: "/notes", pathMatch: "full"}
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

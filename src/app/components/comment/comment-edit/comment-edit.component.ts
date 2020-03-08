@@ -22,7 +22,8 @@ export class CommentEditComponent implements OnInit, OnChanges {
 
   updateMode: boolean = false;
 
-  constructor(private commentService: CommentService) { }
+  constructor(private commentService: CommentService) {
+  }
 
   ngOnInit() {
     this.resetComment();
@@ -47,7 +48,7 @@ export class CommentEditComponent implements OnInit, OnChanges {
   }
 
   onSubmit() {
-    if(this.updateMode) {
+    if (this.updateMode) {
       this.commentService.updateComment(this.entryId, this.newComment).subscribe(value => {
         this.commentSaved.emit(value);
         this.resetComment();

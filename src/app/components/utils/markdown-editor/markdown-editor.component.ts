@@ -36,16 +36,18 @@ export class MarkdownEditorComponent implements AfterViewInit, ControlValueAcces
       "|", "link", "image", "table", "|", "preview", "side-by-side", "fullscreen", "|", "guide"]
   };
 
-  @ViewChild('easymde', { static: true }) textarea: ElementRef;
+  @ViewChild('easymde', {static: true}) textarea: ElementRef;
   @Input() options: any = {};
 
   @Input()
   slim: boolean = false;
 
-  constructor(private _zone: NgZone) {}
+  constructor(private _zone: NgZone) {
+  }
 
   /* tslint:disable-next-line */
-  propagateChange = (_: any) => {};
+  propagateChange = (_: any) => {
+  };
   onTouched = () => noop;
 
   /**
@@ -79,9 +81,11 @@ export class MarkdownEditorComponent implements AfterViewInit, ControlValueAcces
   writeValue(value: any): void {
     this.value = !value ? '' : value;
   }
+
   registerOnChange(fn: any): void {
     this.propagateChange = fn;
   }
+
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }

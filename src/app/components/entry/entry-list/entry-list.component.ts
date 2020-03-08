@@ -13,13 +13,14 @@ export class EntryListComponent implements OnInit {
 
   entries: Entry[];
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {
+  }
 
   ngOnInit() {
     this.httpClient.get<Array<Entry>>("/api/note").subscribe((data) => {
       this.entries = data.map(value => {
-        if(value.type == "NOTE") return value as Note;
-        else if(value.type == "LINK") return value as Link;
+        if (value.type == "NOTE") return value as Note;
+        else if (value.type == "LINK") return value as Link;
       });
     });
   }

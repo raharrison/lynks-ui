@@ -24,7 +24,8 @@ export class AttachmentListItemComponent implements OnInit {
   attachmentNameInput: string;
 
   constructor(private attachmentService: AttachmentService,
-              private modalService: NgbModal) { }
+              private modalService: NgbModal) {
+  }
 
   ngOnInit(): void {
   }
@@ -36,17 +37,18 @@ export class AttachmentListItemComponent implements OnInit {
     modalRef.componentInstance.type = "attachment";
 
     modalRef.result.then(closeData => {
-      if(closeData) {
+      if (closeData) {
         this.deleteAttachment(closeData);
       }
-    }, () => {});
+    }, () => {
+    });
   }
 
   private deleteAttachment(attachment: Attachment) {
     this.attachmentService.deleteAttachment(this.entryId, attachment.id)
-        .subscribe(_ => {
-          this.attachmentModified.emit(attachment);
-        });
+      .subscribe(_ => {
+        this.attachmentModified.emit(attachment);
+      });
   }
 
   onDownloadClick(event: Event, attachment: Attachment) {
@@ -68,12 +70,12 @@ export class AttachmentListItemComponent implements OnInit {
       name: this.attachmentNameInput
     };
     this.attachmentService.updateAttachment(this.entryId, updatedAttachment)
-        .subscribe(res => {
-          this.attachment = res;
-          this.editMode = false;
-          this.attachment.name = this.attachmentNameInput;
-          this.attachmentNameInput = null;
-        });
+      .subscribe(res => {
+        this.attachment = res;
+        this.editMode = false;
+        this.attachment.name = this.attachmentNameInput;
+        this.attachmentNameInput = null;
+      });
   }
 
   onEditCancelClick(event: Event) {

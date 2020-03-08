@@ -1,23 +1,29 @@
 <th>
-    <label for="attachmentNameInput"></label>
-    <input style="width: 100%" *ngIf="editMode" (click)="$event.stopPropagation()" type="text" id="attachmentNameInput" name="attachmentNameInput"
-           [(ngModel)]="attachmentNameInput">
-    <span *ngIf="!editMode">{{ attachment.name }}</span>
+  <label for="attachmentNameInput"></label>
+  <input style="width: 100%" *ngIf="editMode" (click)="$event.stopPropagation()" type="text" id="attachmentNameInput" name="attachmentNameInput"
+         [(ngModel)]="attachmentNameInput">
+  <span *ngIf="!editMode">{{ attachment.name }}</span>
 </th>
 <td>{{ attachment.type | titlecase }}</td>
-<td><app-file-size [bytes]="attachment?.size"></app-file-size></td>
 <td>
-    <app-time-ago [date]="attachment.dateCreated"></app-time-ago>
+  <app-file-size [bytes]="attachment?.size"></app-file-size>
+</td>
+<td>
+  <app-time-ago [date]="attachment.dateCreated"></app-time-ago>
 </td>
 <td>
     <span *ngIf="!editMode" class="btn-group-sm">
-        <a [routerLink]="['/entry', entryId, 'attachment', attachment.id]" class="btn btn-dark mr-1" ngbTooltip="View"><i class="fa fa-eye" aria-hidden="true"></i></a>
-        <button (click)="onDownloadClick($event, attachment)" class="btn btn-secondary mr-1" ngbTooltip="Download"><i class="fa fa-download" aria-hidden="true"></i></button>
+        <a [routerLink]="['/entry', entryId, 'attachment', attachment.id]" class="btn btn-dark mr-1" ngbTooltip="View"><i class="fa fa-eye"
+                                                                                                                          aria-hidden="true"></i></a>
+        <button (click)="onDownloadClick($event, attachment)" class="btn btn-secondary mr-1" ngbTooltip="Download"><i class="fa fa-download"
+                                                                                                                      aria-hidden="true"></i></button>
         <button (click)="onEditClick($event)" class="btn btn-info mr-1" ngbTooltip="Edit"><i class="fa fa-edit" aria-hidden="true"></i></button>
-        <button (click)="openDeleteModal($event, attachment)" class="btn btn-danger" ngbTooltip="Delete"><i class="fa fa-trash-alt" aria-hidden="true"></i></button>
+        <button (click)="openDeleteModal($event, attachment)" class="btn btn-danger" ngbTooltip="Delete"><i class="fa fa-trash-alt"
+                                                                                                            aria-hidden="true"></i></button>
     </span>
-    <span *ngIf="editMode" class="btn-group-sm">
-        <button (click)="onSaveClick($event)" [disabled]="attachmentNameInput.length <= 0" class="btn btn-primary mr-1"><i class="fa fa-save" aria-hidden="true"></i> Save</button>
+  <span *ngIf="editMode" class="btn-group-sm">
+        <button (click)="onSaveClick($event)" [disabled]="attachmentNameInput.length <= 0" class="btn btn-primary mr-1"><i class="fa fa-save"
+                                                                                                                           aria-hidden="true"></i> Save</button>
         <button (click)="onEditCancelClick($event)" class="btn btn-secondary">Cancel</button>
     </span>
 </td>

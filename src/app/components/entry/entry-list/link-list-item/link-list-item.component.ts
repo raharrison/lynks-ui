@@ -11,7 +11,8 @@ export class LinkListItemComponent implements OnInit {
   @Input()
   link: Link;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

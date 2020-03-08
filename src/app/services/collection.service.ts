@@ -10,10 +10,11 @@ import {ResponseHandlerService} from "./response-handler.service";
 export class CollectionService {
 
   constructor(private http: HttpClient,
-              private responseHandler: ResponseHandlerService) { }
+              private responseHandler: ResponseHandlerService) {
+  }
 
   getCollections(): Observable<[Collection]> {
     return this.http.get<[Collection]>("/api/collection")
-        .pipe(this.responseHandler.handleResponseError("Unable to retrieve collections"));
+      .pipe(this.responseHandler.handleResponseError("Unable to retrieve collections"));
   }
 }

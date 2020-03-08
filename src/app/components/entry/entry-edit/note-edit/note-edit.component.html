@@ -1,38 +1,39 @@
 <div class="row">
-    <div class="col-md-12 card card-body">
-        <h2 class="mb-3">{{updateMode ? "Update Note" : "New Note"}}</h2>
+  <div class="col-md-12 card card-body">
+    <h2 class="mb-3">{{updateMode ? "Update Note" : "New Note"}}</h2>
 
-        <form (ngSubmit)="onSubmit()" #noteForm="ngForm">
-            <div class="form-group">
-                <label for="noteTitle">Title</label>
-                <input [(ngModel)]="note.title" id="noteTitle"name="title" type="text" class="form-control form-control-lg title-input"
-                       placeholder="Enter title (required)" required #title="ngModel">
-                <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
-                    Title is required
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="plainText">Content</label>
-                <markdown-editor [(ngModel)]="note.plainText" name="plainText" id="plainText"></markdown-editor>
-            </div>
+    <form (ngSubmit)="onSubmit()" #noteForm="ngForm">
+      <div class="form-group">
+        <label for="noteTitle">Title</label>
+        <input [(ngModel)]="note.title" id="noteTitle" name="title" type="text" class="form-control form-control-lg title-input"
+               placeholder="Enter title (required)" required #title="ngModel">
+        <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
+          Title is required
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="plainText">Content</label>
+        <markdown-editor [(ngModel)]="note.plainText" name="plainText" id="plainText"></markdown-editor>
+      </div>
 
-            <div class="form-group">
-                <label for="tagPicker">Tags</label>
-                <app-group-editor id="tagPicker" type="tag" [selected]="selectedTags" (selectedChange)="selectedTags = $event"></app-group-editor>
-            </div>
+      <div class="form-group">
+        <label for="tagPicker">Tags</label>
+        <app-group-editor id="tagPicker" type="tag" [selected]="selectedTags" (selectedChange)="selectedTags = $event"></app-group-editor>
+      </div>
 
-            <div class="form-group">
-                <label for="collectionPicker">Collections</label>
-                <app-group-editor id="collectionPicker" type="collection" [selected]="selectedCollections" (selectedChange)="selectedCollections = $event"></app-group-editor>
-            </div>
+      <div class="form-group">
+        <label for="collectionPicker">Collections</label>
+        <app-group-editor id="collectionPicker" type="collection" [selected]="selectedCollections"
+                          (selectedChange)="selectedCollections = $event"></app-group-editor>
+      </div>
 
-            <div class="form-group float-right">
-                <button type="button" (click)="onCancel()" class="btn btn-outline-secondary mr-2">Cancel</button>
-                <button type="submit" class="btn btn-success px-4" [disabled]="!noteForm.form.valid">
-                    <i class="fa fa-save" aria-hidden="true"></i>
-                    &nbsp;{{updateMode ? "Save" : "Create"}}
-                </button>
-            </div>
-        </form>
-    </div>
+      <div class="form-group float-right">
+        <button type="button" (click)="onCancel()" class="btn btn-outline-secondary mr-2">Cancel</button>
+        <button type="submit" class="btn btn-success px-4" [disabled]="!noteForm.form.valid">
+          <i class="fa fa-save" aria-hidden="true"></i>
+          &nbsp;{{updateMode ? "Save" : "Create"}}
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

@@ -23,7 +23,8 @@ export class CommentListComponent implements OnInit {
   selectedComment: Comment = null;
 
   constructor(private commentService: CommentService,
-              private modalService: NgbModal) { }
+              private modalService: NgbModal) {
+  }
 
   ngOnInit(): void {
     this.retrieveComments();
@@ -52,10 +53,11 @@ export class CommentListComponent implements OnInit {
     modalRef.componentInstance.type = "comment";
 
     modalRef.result.then(closeData => {
-      if(closeData) {
+      if (closeData) {
         this.deleteComment(closeData);
       }
-    }, () => {});
+    }, () => {
+    });
   }
 
   private deleteComment(comment: Comment) {

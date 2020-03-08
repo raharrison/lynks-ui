@@ -14,7 +14,8 @@ export class FileSizeComponent implements OnInit {
     return this.bytes == null ? '' : fileSize(this.bytes);
   }
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

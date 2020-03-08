@@ -9,12 +9,15 @@ import {throwError} from "rxjs";
 })
 export class ResponseHandlerService {
 
-  constructor(private toastrService: ToastrService) { }
+  constructor(private toastrService: ToastrService) {
+  }
 
   handleResponseError<T>(errorMessage: string) {
-    return tap<T>(() => {}, error => {
-      ResponseHandlerService.handleError(error);
-      this.toastrService.success(errorMessage, "Error");
+    return tap<T>({
+      error: (error) => {
+        ResponseHandlerService.handleError(error);
+        this.toastrService.success(errorMessage, "Error");
+      }
     });
   }
 
@@ -27,9 +30,9 @@ export class ResponseHandlerService {
     });
   }
 
-  handleResponseFilter<T>(successFilter : (e: T) => boolean, successMessage: string, errorMessage: string) {
+  handleResponseFilter<T>(successFilter: (e: T) => boolean, successMessage: string, errorMessage: string) {
     return tap<T>((event) => {
-      if(successFilter(event)) {
+      if (successFilter(event)) {
         this.toastrService.success(successMessage, "Success");
       }
     }, error => {
@@ -46,8 +49,8 @@ export class ResponseHandlerService {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
       console.error(
-          `Backend returned code ${error.status}, ` +
-          `body was: ${error.error}`);
+        `Backend returned code ${error.status}, ` +
+        `body was: ${error.error}`);
     }
     // return an observable with a user-facing error message
     return throwError('Something bad happened; please try again later.');

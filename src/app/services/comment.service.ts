@@ -10,26 +10,27 @@ import {ResponseHandlerService} from "./response-handler.service";
 export class CommentService {
 
   constructor(private http: HttpClient,
-              private responseHandler: ResponseHandlerService) { }
+              private responseHandler: ResponseHandlerService) {
+  }
 
   getCommentsForEntry(entryId: string): Observable<Comment[]> {
     return this.http.get<Comment[]>(`/api/entry/${entryId}/comments`)
-        .pipe(this.responseHandler.handleResponseError("Unable to retrieve comments for entry"));
+      .pipe(this.responseHandler.handleResponseError("Unable to retrieve comments for entry"));
   }
 
   createComment(entryId: string, newComment: NewComment) {
-      return this.http.post<Comment>(`/api/entry/${entryId}/comments`, newComment)
-          .pipe(this.responseHandler.handleResponse("Comment created", "Unable to create comment"));
+    return this.http.post<Comment>(`/api/entry/${entryId}/comments`, newComment)
+      .pipe(this.responseHandler.handleResponse("Comment created", "Unable to create comment"));
   }
 
   updateComment(entryId: string, newComment: NewComment) {
     return this.http.put<Comment>(`/api/entry/${entryId}/comments`, newComment)
-        .pipe(this.responseHandler.handleResponse("Comment updated", "Unable to update comment"));
+      .pipe(this.responseHandler.handleResponse("Comment updated", "Unable to update comment"));
   }
 
   deleteComment(entryId: string, commentId: string) {
     return this.http.delete(`/api/entry/${entryId}/comments/${commentId}`)
-        .pipe(this.responseHandler.handleResponse("Comment deleted", "Unable to delete comment"));
+      .pipe(this.responseHandler.handleResponse("Comment deleted", "Unable to delete comment"));
   }
 
 }

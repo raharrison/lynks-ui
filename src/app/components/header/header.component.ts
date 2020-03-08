@@ -1,17 +1,19 @@
 import {Component, OnInit} from "@angular/core";
 
 @Component({
-    selector: "app-header",
-    templateUrl: "./header.component.html"
+  selector: "app-header",
+  templateUrl: "./header.component.html"
 })
 export class HeaderComponent implements OnInit {
-    constructor() {}
+  constructor() {
+  }
 
-    ngOnInit() {}
+  ngOnInit() {
+  }
 
-    navbarOpen = false;
+  navbarOpen = false;
 
-    toggleNavbar() {
-        this.navbarOpen = !this.navbarOpen;
-    }
+  toggleNavbar() {
+    this.navbarOpen = !this.navbarOpen;
+  }
 }

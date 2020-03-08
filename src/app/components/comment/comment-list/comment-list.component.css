@@ -1,57 +1,65 @@
 .comments-details .total-comments {
-    font-size: 18px;
-    font-weight: 500;
-    color: #5e5e5e;
-}
-.comments .comment-meta button {
-    background-color: transparent;
-    border: none;
-}
-.comments .comment-meta button:hover {
-    color: #898989;
-}
-.comments .comment-box {
-    width: 100%;
-    float: left;
-    height: 100%;
-    background-color: #FAFAFA;
-    padding: 10px 10px 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-}
-.comments .commenter-pic {
-    padding: 2px;
-    overflow: hidden;
-    font-size: 3rem;
-    text-align: center;
-    color: #adadad;
-}
-.comments .comment-time {
-    margin-left: 8px;
-    position: relative;
-    top: -20px;
-}
-.comments p.comment-txt {
-    border-bottom: 1px solid #ddd;
-    padding: 0 0 15px;
-    margin-bottom: 0.5rem;
-}
-.comments .comment-num {
-    position: relative;
-    top: -20px;
-    font-weight: bold;
-    margin-right: 8px;
-}
-.comments .comment-meta {
-    font-size: 14px;
-    color: #333;
-    padding: 0 5px 0;
-    line-height: 20px;
-    float: right;
+  font-size: 18px;
+  font-weight: 500;
+  color: #5e5e5e;
 }
 
-@media (max-width: 767px){
-    .comments .comment-time {
-        font-size: 13px;
-    }
+.comments .comment-meta button {
+  background-color: transparent;
+  border: none;
+}
+
+.comments .comment-meta button:hover {
+  color: #898989;
+}
+
+.comments .comment-box {
+  width: 100%;
+  float: left;
+  height: 100%;
+  background-color: #FAFAFA;
+  padding: 10px 10px 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+}
+
+.comments .commenter-pic {
+  padding: 2px;
+  overflow: hidden;
+  font-size: 3rem;
+  text-align: center;
+  color: #adadad;
+}
+
+.comments .comment-time {
+  margin-left: 8px;
+  position: relative;
+  top: -20px;
+}
+
+.comments p.comment-txt {
+  border-bottom: 1px solid #ddd;
+  padding: 0 0 15px;
+  margin-bottom: 0.5rem;
+}
+
+.comments .comment-num {
+  position: relative;
+  top: -20px;
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.comments .comment-meta {
+  font-size: 14px;
+  color: #333;
+  padding: 0 5px 0;
+  line-height: 20px;
+  float: right;
+}
+
+@media (max-width: 767px) {
+  .comments .comment-time {
+    font-size: 13px;
+  }
 }

@@ -49,7 +49,8 @@ export class AttachmentViewComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute,
               private sanitizer: DomSanitizer,
               private hljs: HighlightJS,
-              private attachmentService: AttachmentService) { }
+              private attachmentService: AttachmentService) {
+  }
 
   ngOnInit(): void {
     this.entryId = this.route.snapshot.paramMap.get("id");
@@ -61,26 +62,25 @@ export class AttachmentViewComponent implements OnInit, OnDestroy {
       this.attachment = resp.body;
       this.attachmentMimeType = resp.headers.get("X-Resource-Mime-Type")?.toLowerCase();
       this.attachmentCategory = this.deriveAttachmentCategory(this.attachmentMimeType,
-          this.attachment.extension.toLowerCase());
+        this.attachment.extension.toLowerCase());
       this.postProcessAttachment();
     });
   }
 
   private deriveAttachmentCategory(mime: string, extension: string): AttachmentCategory {
-    if(!mime) {
+    if (!mime) {
       return AttachmentCategory.UNKNOWN;
     }
-    if(extension in AttachmentViewComponent.TEXT_EXT_OVERRIDES) {
+    if (extension in AttachmentViewComponent.TEXT_EXT_OVERRIDES) {
       this.attachmentLanguageClass = `language-${AttachmentViewComponent.TEXT_EXT_OVERRIDES[extension]}`;
       return AttachmentCategory.TEXT;
-    }
-    else if(mime.startsWith("text/")) return AttachmentCategory.TEXT;
-    else if(mime.startsWith("image/")) return AttachmentCategory.IMAGE;
-    else if(mime.startsWith("audio/")) return AttachmentCategory.AUDIO;
-    else if(mime.startsWith("video/")) return AttachmentCategory.VIDEO;
-    else if(mime.startsWith("application/pdf")) return AttachmentCategory.PDF;
+    } else if (mime.startsWith("text/")) return AttachmentCategory.TEXT;
+    else if (mime.startsWith("image/")) return AttachmentCategory.IMAGE;
+    else if (mime.startsWith("audio/")) return AttachmentCategory.AUDIO;
+    else if (mime.startsWith("video/")) return AttachmentCategory.VIDEO;
+    else if (mime.startsWith("application/pdf")) return AttachmentCategory.PDF;
     // overrides
-    else if(mime.startsWith("application/mp4")) return AttachmentCategory.VIDEO;
+    else if (mime.startsWith("application/mp4")) return AttachmentCategory.VIDEO;
     return AttachmentCategory.UNKNOWN;
   }
 
@@ -93,10 +93,10 @@ export class AttachmentViewComponent implements OnInit, OnDestroy {
           this.rawText = value;
           this.loadingAttachment = false;
           setTimeout(_ =>
-              document.querySelectorAll("pre code").forEach(item => {
-                const sub = this.hljs.highlightBlock(item as HTMLElement).subscribe();
-                this.subscriptions.push(sub);
-              }), 1);
+            document.querySelectorAll("pre code").forEach(item => {
+              const sub = this.hljs.highlightBlock(item as HTMLElement).subscribe();
+              this.subscriptions.push(sub);
+            }), 1);
         });
       });
     }

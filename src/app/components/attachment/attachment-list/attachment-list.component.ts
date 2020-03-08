@@ -16,7 +16,8 @@ export class AttachmentListComponent implements OnInit {
 
   loaded = false;
 
-  constructor(private attachmentService: AttachmentService) { }
+  constructor(private attachmentService: AttachmentService) {
+  }
 
   ngOnInit(): void {
     this.retrieveAttachments();

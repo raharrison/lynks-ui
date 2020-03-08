@@ -19,7 +19,8 @@ export class NoteDetailComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private router: Router,
               private modalService: NgbModal,
-              private noteService: NoteService) { }
+              private noteService: NoteService) {
+  }
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get("id");
@@ -35,10 +36,11 @@ export class NoteDetailComponent implements OnInit {
     modalRef.componentInstance.type = "note";
 
     modalRef.result.then(closeData => {
-      if(closeData) {
+      if (closeData) {
         this.deleteNote(closeData);
       }
-    }, () => {});
+    }, () => {
+    });
   }
 
   private deleteNote(note: Note) {

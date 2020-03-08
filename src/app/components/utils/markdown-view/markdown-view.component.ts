@@ -16,7 +16,8 @@ export class MarkdownViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
 
-  constructor(private sanitizer: DomSanitizer, private hljs: HighlightJS) { }
+  constructor(private sanitizer: DomSanitizer, private hljs: HighlightJS) {
+  }
 
   ngOnInit(): void {
     this.safeHtml = this.sanitizer.bypassSecurityTrustHtml(this.markdown);

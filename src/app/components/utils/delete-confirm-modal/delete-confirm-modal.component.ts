@@ -13,7 +13,8 @@ export class DeleteConfirmModalComponent implements OnInit {
   @Input()
   type: string;
 
-  constructor(public activeModal: NgbActiveModal) { }
+  constructor(public activeModal: NgbActiveModal) {
+  }
 
   ngOnInit(): void {
   }

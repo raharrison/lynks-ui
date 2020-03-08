@@ -11,7 +11,8 @@ export class NoteListItemComponent implements OnInit {
   @Input()
   note: Note;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

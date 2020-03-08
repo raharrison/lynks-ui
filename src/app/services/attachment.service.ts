@@ -2,8 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpEventType, HttpResponse} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Attachment} from "../model/attachment.model";
-import {ToastrService} from "ngx-toastr";
-import {tap} from "rxjs/operators";
+import {ResponseHandlerService} from "./response-handler.service";
 
 @Injectable({
     providedIn: 'root'
@@ -11,16 +10,18 @@ import {tap} from "rxjs/operators";
 export class AttachmentService {
 
     constructor(private http: HttpClient,
-                private toastrService: ToastrService) {
+                private responseHandler: ResponseHandlerService) {
     }
 
     getAttachmentsForEntry(entryId: string): Observable<Attachment[]> {
-        return this.http.get<Attachment[]>(`/api/entry/${entryId}/resources`);
+        return this.http.get<Attachment[]>(`/api/entry/${entryId}/resources`)
+            .pipe(this.responseHandler.handleResponseError("Unable to retrieve attachments for entry"));
     }
 
     getAttachment(entryId: string, attachmentId: string): Observable<HttpResponse<Attachment>> {
         return this.http.get<Attachment>(this.createDownloadLink(entryId, attachmentId) + "/info",
-            { observe: "response" });
+            { observe: "response" })
+            .pipe(this.responseHandler.handleResponseError("Unable to retrieve attachment"));
     }
 
     createDownloadLink(entryId: string, attachmentId: string): string {
@@ -34,31 +35,25 @@ export class AttachmentService {
             reportProgress: true,
             observe: "events"
         })
-        .pipe(tap(event => {
-            if(event.type == HttpEventType.Response) {
-                this.toastrService.success("Attachment uploaded", "Success");
-            }
-        }));
+        .pipe(this.responseHandler.handleResponseFilter(e => e.type == HttpEventType.Response,
+            "Attachment uploaded", "Unable to upload attachment"));
     }
 
     updateAttachment(entryId: string, attachment: Attachment): Observable<Attachment> {
         return this.http.put<Attachment>(`/api/entry/${entryId}/resources`, attachment)
-            .pipe(tap(_ => {
-                this.toastrService.success("Attachment updated", "Success");
-            }));
+            .pipe(this.responseHandler.handleResponse("Attachment updated", "Unable to update attachment"));
     }
 
     downloadAttachment(entryId: string, attachmentId: string): Observable<any> {
         return this.http.get(this.createDownloadLink(entryId, attachmentId), {
             responseType: "blob"
-        });
+        })
+        .pipe(this.responseHandler.handleResponseError("Unable to download attachment"));
     }
 
     deleteAttachment(entryId: string, attachmentId: string): Observable<any> {
         return this.http.delete(`/api/entry/${entryId}/resources/${attachmentId}`)
-            .pipe(tap(_ => {
-                this.toastrService.success("Attachment deleted", "Success");
-            }));
+            .pipe(this.responseHandler.handleResponse("Attachment deleted", "Unable to delete attachment"));
     }
 
 }

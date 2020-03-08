@@ -1,10 +1,14 @@
 <div class="row">
     <div class="col-md-12">
-        <div class="mb-3">
+        <div class="pb-2">
             <h2>{{ attachment?.name }}</h2>
             <app-file-size class="text-gray-light mr-2" [bytes]="attachment?.size"></app-file-size>
-            <span class="mr-2">|</span>
-            <span class="text-gray-light">Created <app-time-ago [date]="attachment?.dateCreated"></app-time-ago></span>
+            <span class="mr-2 font-weight-bold">|</span>
+            <span class="text-gray-light mr-2">Created <app-time-ago [date]="attachment?.dateCreated"></app-time-ago></span>
+            <span *ngIf="attachment?.dateUpdated != attachment?.dateCreated" class="mr-2 font-weight-bold">|</span>
+            <span *ngIf="attachment?.dateUpdated != attachment?.dateCreated" class="text-gray-light">
+                Updated <app-time-ago [date]="attachment?.dateUpdated"></app-time-ago>
+            </span>
             <span class="btn-group float-right">
                 <button class="btn btn-secondary mr-1" backButton>
                     <i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
@@ -22,7 +26,7 @@
 
         <div [ngSwitch]="attachmentCategory" *ngIf="attachment && !loadingAttachment">
           <div *ngSwitchCase="'text'">
-              <pre><code>{{ rawText }}</code></pre>
+              <pre><code [class]="attachmentLanguageClass">{{ rawText }}</code></pre>
           </div>
           <div *ngSwitchCase="'image'">
             <img [src]="attachmentUrl" alt="Attachment Image" class="img-fluid">

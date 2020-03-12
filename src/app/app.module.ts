@@ -35,6 +35,7 @@ import {LoadingSpinnerComponent} from './components/utils/loading-spinner/loadin
 import {LinkDetailComponent} from './components/entry/entry-detail/link-detail/link-detail.component';
 import {EntryTaskListComponent} from './components/entry/entry-tabs/entry-task-list/entry-task-list.component';
 import {SafeUrlPipe} from './pipes/safe-url.pipe';
+import {EntryDiscussionListComponent} from './components/entry/entry-tabs/entry-discussion-list/entry-discussion-list.component';
 
 function getHighlightLanguages() {
   return ["bash", "cpp", "cs", "css", "gradle", "handlebars", "java",
@@ -51,7 +52,7 @@ function getHighlightLanguages() {
     NoteDetailComponent, NoteEditComponent, MarkdownEditorComponent, MarkdownViewComponent, GroupEditComponent,
     LinkListItemComponent, CommentListComponent, CommentEditComponent, TimeAgoComponent, DeleteConfirmModalComponent,
     EntryTabsComponent, AttachmentListComponent, AttachmentUploadComponent, AttachmentViewComponent, AttachmentListItemComponent,
-    FileSizeComponent, BackButtonDirective, LoadingSpinnerComponent, LinkDetailComponent, EntryTaskListComponent, SafeUrlPipe
+    FileSizeComponent, BackButtonDirective, LoadingSpinnerComponent, LinkDetailComponent, EntryTaskListComponent, SafeUrlPipe, EntryDiscussionListComponent
   ],
   imports: [
     BrowserModule,

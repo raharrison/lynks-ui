@@ -1,4 +1,4 @@
-<nav ngbNav #nav="ngbNav" class="nav-tabs" [destroyOnHide]="false" [activeId]="2">
+<nav ngbNav #nav="ngbNav" class="nav-tabs" [destroyOnHide]="false" [activeId]="3">
   <ng-container [ngbNavItem]="0">
     <a ngbNavLink><i class="fas fa-comments"></i> Comments</a>
     <ng-template ngbNavContent>
@@ -29,7 +29,17 @@
       </div>
     </ng-template>
   </ng-container>
-  <ng-container [ngbNavItem]="3">
+  <ng-container [ngbNavItem]="3" *ngIf="entry.props.attributes.discussions">
+    <a ngbNavLink><i class="fas fa-comment-dots"></i> Discussions</a>
+    <ng-template ngbNavContent>
+      <div class="row">
+        <div class="col-md-12">
+          <app-entry-discussion-list [discussions]="entry.props.attributes.discussions"></app-entry-discussion-list>
+        </div>
+      </div>
+    </ng-template>
+  </ng-container>
+  <ng-container [ngbNavItem]="4">
     <a ngbNavLink><i class="fas fa-bell"></i> Reminders</a>
     <ng-template ngbNavContent>
       <p>Sed commodo, leo at suscipit dictum, quam est porttitor sapien, eget sodales nibh elit id diam. Nulla facilisi.

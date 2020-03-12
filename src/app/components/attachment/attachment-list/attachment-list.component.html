@@ -20,7 +20,7 @@
 </div>
 
 <div *ngIf="!loading && attachments.length == 0">
-  <p>No attachments found</p>
+  <p class="total-attachments">No attachments found</p>
 </div>
 
 <app-attachment-upload [entryId]="entryId" (attachmentUploaded)="retrieveAttachments()"></app-attachment-upload>

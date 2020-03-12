@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {ToastrService} from "ngx-toastr";
 import {webSocket, WebSocketSubject} from "rxjs/webSocket";
 import {Notification, NotificationType} from "../model/notification.model";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,9 @@ export class NotificationService {
   private notificationWebSocket: WebSocketSubject<Notification>;
 
   constructor(private toastrService: ToastrService) {
-    this.createNotificationSubscription();
+    if (environment.enableNotifications) {
+      this.createNotificationSubscription();
+    }
   }
 
   private createNotificationSubscription() {

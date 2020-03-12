@@ -1,7 +1,8 @@
 <div class="row">
   <div class="col-md-12 d-flex">
-    <a href="{{link.url}}" target="_blank"><span class="title">{{link.title}}</span></a>
-    <span class="small">{{link.source}}</span>
+    <i class="fas fa-link"></i>
+    <a class="title fas-link" [routerLink]="['/links', link.id]">{{link.title}}</a>
+    <span class="">{{link.source}}</span>
     <span class="ml-auto"><span>({{link.id}})</span> updated <app-time-ago [date]="link.dateUpdated"></app-time-ago></span>
   </div>
 </div>

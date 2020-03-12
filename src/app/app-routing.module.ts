@@ -4,6 +4,7 @@ import {EntryListComponent} from "./components/entry/entry-list/entry-list.compo
 import {NoteDetailComponent} from "./components/entry/entry-detail/note-detail/note-detail.component";
 import {NoteEditComponent} from "./components/entry/entry-edit/note-edit/note-edit.component";
 import {AttachmentViewComponent} from "./components/attachment/attachment-view/attachment-view.component";
+import {LinkDetailComponent} from "./components/entry/entry-detail/link-detail/link-detail.component";
 
 const routes: Routes = [
   {path: "entry/:id/attachment/:attachmentId", component: AttachmentViewComponent},
@@ -11,7 +12,7 @@ const routes: Routes = [
   {path: "notes/:id/edit", component: NoteEditComponent},
   {path: "notes/:id", component: NoteDetailComponent},
   {path: "notes", component: EntryListComponent},
-  // { path: "links", component: LinkListComponent },
+  {path: "links/:id", component: LinkDetailComponent},
   {path: "", redirectTo: "/notes", pathMatch: "full"}
 ];
 

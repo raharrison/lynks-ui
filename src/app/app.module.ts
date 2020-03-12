@@ -32,6 +32,7 @@ import {AttachmentViewComponent} from './components/attachment/attachment-view/a
 import {AttachmentListItemComponent} from './components/attachment/attachment-list/attachment-list-item/attachment-list-item.component';
 import {FileSizeComponent} from './components/utils/file-size/file-size.component';
 import {LoadingSpinnerComponent} from './components/utils/loading-spinner/loading-spinner.component';
+import {LinkDetailComponent} from './components/entry/entry-detail/link-detail/link-detail.component';
 
 function getHighlightLanguages() {
   return ["bash", "cpp", "cs", "css", "gradle", "handlebars", "java",
@@ -48,7 +49,7 @@ function getHighlightLanguages() {
     NoteDetailComponent, NoteEditComponent, MarkdownEditorComponent, MarkdownViewComponent, GroupEditComponent,
     LinkListItemComponent, CommentListComponent, CommentEditComponent, TimeAgoComponent, DeleteConfirmModalComponent,
     EntryTabsComponent, AttachmentListComponent, AttachmentUploadComponent, AttachmentViewComponent, AttachmentListItemComponent,
-    FileSizeComponent, BackButtonDirective, LoadingSpinnerComponent
+    FileSizeComponent, BackButtonDirective, LoadingSpinnerComponent, LinkDetailComponent
   ],
   imports: [
     BrowserModule,

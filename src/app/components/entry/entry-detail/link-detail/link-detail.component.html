@@ -1,0 +1,66 @@
+<ng-template #notLoaded>
+  <app-loading-spinner></app-loading-spinner>
+</ng-template>
+
+<div *ngIf="!loading; else notLoaded">
+  <div class="d-flex mb-3">
+    <div>
+      <h2>{{link.title}}</h2>
+    </div>
+    <div class="ml-auto">
+      <div class="btn-group">
+        <button backButton class="btn btn-secondary mr-2"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
+        <button [routerLink]="['/links', link.id, 'edit']" class="btn btn-info mr-2"><i class="fa fa-edit" aria-hidden="true"></i> Edit</button>
+        <button (click)="openDeleteModal()" class="btn btn-danger"><i class="fa fa-trash-alt" aria-hidden="true"></i> Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 mb-3">
+      <div class="card card-body">
+        <p><a href="{{link.url}}" target="_blank">{{link.url}}</a></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 mb-3">
+      <div class="card">
+        <div class="card-header" style="font-weight: 500">Metadata:</div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="card">
+                <div class="card-body">
+                  <h5>Tags:</h5>
+                  <span *ngFor="let tag of link.tags" class="badge badge-dark p-2 mr-1">{{tag.name}}</span>
+
+                  <h5>Collections:</h5>
+                  <span *ngFor="let collection of link.collections" class="badge badge-dark p-2 mr-1">{{collection.name}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="card">
+                <div class="card-body">
+                  <p>
+                    <app-time-ago prefix="Last updated: " [date]="link.dateUpdated"></app-time-ago>
+                  </p>
+                  <p>Version: {{link.version}}</p>
+
+                  <span>Tasks:</span>
+                  <ul>
+                    <li *ngFor="let task of link.props.tasks">{{task.description}}</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-entry-tabs *ngIf="!loading" [entryId]="id"></app-entry-tabs>

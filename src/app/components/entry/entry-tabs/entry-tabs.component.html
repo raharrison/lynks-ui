@@ -1,10 +1,10 @@
-<nav ngbNav #nav="ngbNav" class="nav-tabs" [destroyOnHide]="false" [activeId]="0">
+<nav ngbNav #nav="ngbNav" class="nav-tabs" [destroyOnHide]="false" [activeId]="2">
   <ng-container [ngbNavItem]="0">
     <a ngbNavLink><i class="fas fa-comments"></i> Comments</a>
     <ng-template ngbNavContent>
       <div class="row">
         <div class="col-md-12">
-          <app-comment-list [entryId]="entryId"></app-comment-list>
+          <app-comment-list [entryId]="entry?.id"></app-comment-list>
         </div>
       </div>
     </ng-template>
@@ -14,7 +14,7 @@
     <ng-template ngbNavContent>
       <div class="row">
         <div class="col-md-12">
-          <app-attachment-list [entryId]="entryId"></app-attachment-list>
+          <app-attachment-list [entryId]="entry?.id"></app-attachment-list>
         </div>
       </div>
     </ng-template>
@@ -24,7 +24,7 @@
     <ng-template ngbNavContent>
       <div class="row">
         <div class="col-md-12">
-          <p>Tasks will appear here</p>
+          <app-entry-task-list [entry]="entry"></app-entry-task-list>
         </div>
       </div>
     </ng-template>

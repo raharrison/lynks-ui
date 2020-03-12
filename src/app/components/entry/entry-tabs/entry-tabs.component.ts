@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {Entry} from "../../../model/entry.model";
 
 @Component({
   selector: 'app-entry-tabs',
@@ -8,7 +9,7 @@ import {Component, Input, OnInit} from '@angular/core';
 export class EntryTabsComponent implements OnInit {
 
   @Input()
-  entryId: string;
+  entry: Entry;
 
   constructor() {
   }

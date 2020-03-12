@@ -1,8 +1,9 @@
 import {Collection, Tag} from "./group.model";
+import {Task} from "./task.model";
 
 export interface BaseProperties {
   attributes: any,
-  tasks: { id: string, description: string }[]
+  tasks: Task[]
 }
 
 export interface Entry {

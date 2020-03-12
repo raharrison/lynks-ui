@@ -48,11 +48,6 @@
                     <app-time-ago prefix="Last updated: " [date]="link.dateUpdated"></app-time-ago>
                   </p>
                   <p>Version: {{link.version}}</p>
-
-                  <span>Tasks:</span>
-                  <ul>
-                    <li *ngFor="let task of link.props.tasks">{{task.description}}</li>
-                  </ul>
                 </div>
               </div>
             </div>
@@ -63,4 +58,4 @@
   </div>
 </div>
 
-<app-entry-tabs *ngIf="!loading" [entryId]="id"></app-entry-tabs>
+<app-entry-tabs *ngIf="!loading" [entry]="link"></app-entry-tabs>

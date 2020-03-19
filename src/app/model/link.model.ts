@@ -10,3 +10,10 @@ export interface NewLink extends NewEntry {
   url: string
   process: boolean
 }
+
+export interface Suggestion {
+  url: string,
+  title: string,
+  thumbnail: string,
+  screenshot: string
+}

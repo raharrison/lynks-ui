@@ -15,6 +15,7 @@ export class LinkDetailComponent implements OnInit {
   id;
   link: Link;
   loading = true;
+  isContentCollapsed = true;
 
   constructor(private route: ActivatedRoute,
               private router: Router,

@@ -12,7 +12,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr class="attachment-item" [routerLink]="['/entry', entryId, 'attachment', attachment.id]" *ngFor="let attachment of attachments"
+    <tr class="attachment-item cursor-pointer" [routerLink]="['/entry', entryId, 'attachment', attachment.id]" *ngFor="let attachment of attachments"
         app-attachment-list-item [entryId]="entryId" [attachment]="attachment" (attachmentModified)="retrieveAttachments()">
     </tr>
     </tbody>

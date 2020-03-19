@@ -5,3 +5,8 @@
 .markdown-body strong {
   font-weight: bolder;
 }
+
+/* Helpers */
+.cursor-pointer {
+  cursor: pointer;
+}

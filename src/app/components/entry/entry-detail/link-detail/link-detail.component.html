@@ -31,6 +31,22 @@
     </div>
   </div>
 
+  <div *ngIf="link.content" class="row">
+    <div class="col-md-12 mb-3">
+      <div class="card">
+        <div class="card-header cursor-pointer" style="font-weight: 500" (click)="isContentCollapsed = !isContentCollapsed">
+          <a data-toggle="collapse" aria-expanded="true" aria-controls="linkReaderContent">
+            <i *ngIf="isContentCollapsed" class="fa fa-chevron-down"></i>
+            <i *ngIf="!isContentCollapsed" class="fa fa-chevron-up"></i> Reader View:
+          </a>
+        </div>
+        <div id="linkReaderContent" class="card-body" [ngbCollapse]="isContentCollapsed">
+          <app-markdown-view [markdown]="link.content"></app-markdown-view>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="row">
     <div class="col-md-12 mb-3">
       <div class="card">

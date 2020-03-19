@@ -14,7 +14,7 @@ export class AttachmentService {
   }
 
   getAttachmentsForEntry(entryId: string): Observable<Attachment[]> {
-    return this.http.get<Attachment[]>(`/api/entry/${entryId}/resources`)
+    return this.http.get<Attachment[]>(`/api/entry/${entryId}/resource`)
       .pipe(this.responseHandler.handleResponseError("Unable to retrieve attachments for entry"));
   }
 
@@ -25,13 +25,13 @@ export class AttachmentService {
   }
 
   createDownloadLink(entryId: string, attachmentId: string): string {
-    return `/api/entry/${entryId}/resources/${attachmentId}`;
+    return `/api/entry/${entryId}/resource/${attachmentId}`;
   }
 
   uploadAttachment(entryId: string, file: File): Observable<any> {
     const formData: FormData = new FormData();
     formData.append('fileKey', file, file.name);
-    return this.http.post<Attachment>(`/api/entry/${entryId}/resources/`, formData, {
+    return this.http.post<Attachment>(`/api/entry/${entryId}/resource/`, formData, {
       reportProgress: true,
       observe: "events"
     })
@@ -40,7 +40,7 @@ export class AttachmentService {
   }
 
   updateAttachment(entryId: string, attachment: Attachment): Observable<Attachment> {
-    return this.http.put<Attachment>(`/api/entry/${entryId}/resources`, attachment)
+    return this.http.put<Attachment>(`/api/entry/${entryId}/resource`, attachment)
       .pipe(this.responseHandler.handleResponse("Attachment updated", "Unable to update attachment"));
   }
 
@@ -52,7 +52,7 @@ export class AttachmentService {
   }
 
   deleteAttachment(entryId: string, attachmentId: string): Observable<any> {
-    return this.http.delete(`/api/entry/${entryId}/resources/${attachmentId}`)
+    return this.http.delete(`/api/entry/${entryId}/resource/${attachmentId}`)
       .pipe(this.responseHandler.handleResponse("Attachment deleted", "Unable to delete attachment"));
   }
 

@@ -12,7 +12,7 @@ export class TaskService {
   }
 
   runTask(entryId: string, taskId: string) {
-    return this.http.post(`/api/entry/${entryId}/tasks/${taskId}`, null)
+    return this.http.post(`/api/entry/${entryId}/task/${taskId}`, null)
       .pipe(this.responseHandler.handleResponse("Task Executing", "Unable to execute task"));
   }
 }

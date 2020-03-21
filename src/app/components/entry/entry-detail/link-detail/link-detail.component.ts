@@ -46,7 +46,7 @@ export class LinkDetailComponent implements OnInit {
 
   private deleteLink(link: Link) {
     this.linkService.deleteLink(link.id).subscribe(() => {
-      this.router.navigate(["/notes"]);
+      this.router.navigate(["/links"]);
     }, error => alert(error));
   }
 

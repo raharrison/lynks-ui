@@ -1,5 +1,9 @@
-<div class="col-md-12 d-flex">
-  <i class="fas fa-book-open"></i>
-  <a [routerLink]="['/notes', note.id]"><h4>{{note.title}}</h4></a>
-  <span class="ml-auto"><span>({{note.id}})</span><app-time-ago prefix=" created " [date]="note.dateUpdated"></app-time-ago></span>
+<div class="row py-1">
+  <div class="col-md-12">
+    <div class="d-flex align-content-center">
+      <i class="fas fa-book-open align-self-center mr-1" ngbTooltip="Note"></i>
+      <a class="title mr-2" [routerLink]="['/notes', note.id]">{{note.title}}</a>
+      <span class="align-self-center ml-auto"><span>({{note.id}})</span> updated <app-time-ago [date]="note.dateUpdated"></app-time-ago></span>
+    </div>
+  </div>
 </div>

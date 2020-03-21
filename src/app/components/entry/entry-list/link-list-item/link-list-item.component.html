@@ -1,8 +1,10 @@
-<div class="row">
-  <div class="col-md-12 d-flex">
-    <i class="fas fa-link"></i>
-    <a class="title fas-link" [routerLink]="['/links', link.id]">{{link.title}}</a>
-    <span class="">{{link.source}}</span>
-    <span class="ml-auto"><span>({{link.id}})</span> updated <app-time-ago [date]="link.dateUpdated"></app-time-ago></span>
+<div class="row py-1">
+  <div class="col-md-12">
+    <div class="d-flex align-content-center">
+      <i class="fas fa-link align-self-center mr-1" ngbTooltip="Link"></i>
+      <a class="title mr-2" [routerLink]="['/links', link.id]">{{link.title}}</a>
+      <span class="align-self-center">{{link.source}}</span>
+      <span class="align-self-center ml-auto"><span>({{link.id}})</span> updated <app-time-ago [date]="link.dateUpdated"></app-time-ago></span>
+    </div>
   </div>
 </div>

@@ -6,6 +6,7 @@ import {NoteEditComponent} from "./components/entry/entry-edit/note-edit/note-ed
 import {AttachmentViewComponent} from "./components/attachment/attachment-view/attachment-view.component";
 import {LinkDetailComponent} from "./components/entry/entry-detail/link-detail/link-detail.component";
 import {LinkEditComponent} from "./components/entry/entry-edit/link-edit/link-edit.component";
+import {EntryType} from "./model/entry.model";
 
 const routes: Routes = [
   {path: "entry/:id/attachment/:attachmentId", component: AttachmentViewComponent},
@@ -13,12 +14,14 @@ const routes: Routes = [
   {path: "notes/create", component: NoteEditComponent},
   {path: "notes/:id/edit", component: NoteEditComponent},
   {path: "notes/:id", component: NoteDetailComponent},
-  {path: "notes", component: EntryListComponent},
+  {path: "notes", component: EntryListComponent, data: {entryType: EntryType.NOTE}},
 
   {path: "links/create", component: LinkEditComponent},
   {path: "links/:id/edit", component: LinkEditComponent},
   {path: "links/:id", component: LinkDetailComponent},
-  {path: "", redirectTo: "/notes", pathMatch: "full"}
+  {path: "links", component: EntryListComponent, data: {entryType: EntryType.LINK}},
+
+  {path: "", component: EntryListComponent, pathMatch: "full", data: {entryType: EntryType.ENTRIES}}
 ];
 
 @NgModule({

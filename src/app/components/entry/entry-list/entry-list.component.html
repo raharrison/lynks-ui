@@ -1,12 +1,18 @@
 <div class="d-flex justify-content-between mb-3">
   <div>
-    <h2>Notes</h2>
+    <h2>Entries</h2>
   </div>
   <div>
-    <button class="btn btn-success px-4" routerLink="/notes/create">
-      <i class="fa fa-plus-circle" aria-hidden="true"></i>
-      Create
-    </button>
+    <div ngbDropdown class="d-inline-block">
+      <button class="btn btn-success px-4" id="createButtonDropdown" ngbDropdownToggle>
+        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+        Create
+      </button>
+      <div ngbDropdownMenu aria-labelledby="createButtonDropdown">
+        <button ngbDropdownItem routerLink="/links/create">Link</button>
+        <button ngbDropdownItem routerLink="/notes/create">Note</button>
+      </div>
+    </div>
   </div>
 </div>
 <hr>

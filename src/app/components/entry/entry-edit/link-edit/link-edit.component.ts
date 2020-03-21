@@ -14,7 +14,9 @@ export class LinkEditComponent implements OnInit {
   loading = false;
   saving = false;
   suggesting = false;
+
   updateMode = false;
+  suggestionThumbnail: string;
   link: NewLink;
 
   selectedTags: Tag[] = [];
@@ -55,6 +57,7 @@ export class LinkEditComponent implements OnInit {
     this.linkService.suggest(this.link.url).subscribe(suggestion => {
       this.suggesting = false;
       this.link.title = suggestion.title;
+      this.suggestionThumbnail = this.linkService.constructTempUrl(suggestion.thumbnail);
     });
   }
 

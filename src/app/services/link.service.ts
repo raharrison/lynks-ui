@@ -40,6 +40,10 @@ export class LinkService {
 
   suggest(url: string): Observable<Suggestion> {
     return this.http.post<Suggestion>("/api/suggest/", url)
-      .pipe(this.responseHandler.handleResponseError("Unable to perform link suggestion"));
+      .pipe(this.responseHandler.handleResponse("Suggestion complete", "Unable to perform link suggestion"));
+  }
+
+  constructTempUrl(base: string): string {
+    return `/api/temp/${base}`;
   }
 }

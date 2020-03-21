@@ -33,7 +33,11 @@
 
       <div class="form-group form-check">
         <input [(ngModel)]="link.process" id="linkProcess" name="process" type="checkbox" class="form-check-input">
-        <label class="form-check-label" for="linkProcess">Process</label>
+        <label class="form-check-label" for="linkProcess">Process Link (generate screenshot and summary)</label>
+      </div>
+
+      <div *ngIf="suggestionThumbnail" class="text-center">
+        <img [src]="suggestionThumbnail" alt="Link thumbnail" class="img-thumbnail">
       </div>
 
       <div class="form-group">

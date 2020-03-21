@@ -14,7 +14,7 @@ export class EntryListComponent implements OnInit {
   loading = true;
 
   entryType: EntryType;
-  entryTypePath: string;
+  entryTypeDesc: string;
 
   constructor(private httpClient: HttpClient,
               private route: ActivatedRoute) {
@@ -25,15 +25,23 @@ export class EntryListComponent implements OnInit {
       if (value.entryType) {
         this.entryType = value.entryType;
       } else {
-        this.entryTypePath = EntryType.ENTRIES;
+        this.entryType = EntryType.ENTRIES;
       }
-      this.entryTypePath = this.entryType.toLowerCase();
+
+      if (this.entryType == EntryType.ENTRIES) {
+        this.entryTypeDesc = "Entries";
+      } else if (this.entryType == EntryType.NOTE) {
+        this.entryTypeDesc = "Notes";
+      } else if (this.entryType == EntryType.LINK) {
+        this.entryTypeDesc = "Links";
+      }
       this.retrieveEntries();
     });
   }
 
   private retrieveEntries() {
-    this.httpClient.get<Array<Entry>>(`/api/${this.entryTypePath}`).subscribe((data) => {
+    const entryPath = this.entryType.toLowerCase();
+    this.httpClient.get<Array<Entry>>(`/api/${entryPath}`).subscribe((data) => {
       this.loading = false;
       this.entries = data;
     });

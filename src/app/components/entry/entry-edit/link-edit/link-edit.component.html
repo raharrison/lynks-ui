@@ -9,17 +9,17 @@
     <form (ngSubmit)="onSubmit()" #linkForm="ngForm">
       <div class="form-group">
         <label for="linkTitle">Title</label>
-        <input [(ngModel)]="link.title" id="linkTitle" name="title" type="text" class="form-control form-control-lg title-input"
-               placeholder="Enter title (required)" required #title="ngModel">
-        <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
-          Title is required
-        </div>
+        <input [(ngModel)]="link.title" id="linkTitle" name="title" type="text" class="form-control"
+               placeholder="Enter title" #title="ngModel">
+        <small class="form-text text-muted">
+          (Title will be URL if not specified)
+        </small>
       </div>
 
       <div class="form-group">
         <label for="linkUrl">URL</label>
         <div class="input-group">
-          <input [(ngModel)]="link.url" id="linkUrl" name="url" type="text" class="form-control"
+          <input [(ngModel)]="link.url" id="linkUrl" name="url" type="text" class="form-control form-control-lg title-input"
                  placeholder="Enter url (required)" required #url="ngModel">
           <button type="button" class="btn btn-primary" (click)="onSuggest()" [disabled]="!url.valid || suggesting">
             <span *ngIf="suggesting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>

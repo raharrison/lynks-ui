@@ -26,7 +26,11 @@ export class ResponseHandlerService {
       this.toastrService.success(successMessage, "Success");
     }, error => {
       ResponseHandlerService.handleError(error);
-      this.toastrService.error(errorMessage, "Error");
+      if (error.error) {
+        this.toastrService.error(`${errorMessage}: ${error.error}`, "Error");
+      } else {
+        this.toastrService.error(errorMessage, "Error");
+      }
     });
   }
 

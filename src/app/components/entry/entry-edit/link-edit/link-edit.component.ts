@@ -30,7 +30,7 @@ export class LinkEditComponent implements OnInit {
   ngOnInit(): void {
     this.link = {
       id: null,
-      title: null,
+      title: "",
       tags: [],
       collections: [],
       process: true,
@@ -58,6 +58,8 @@ export class LinkEditComponent implements OnInit {
       this.suggesting = false;
       this.link.title = suggestion.title;
       this.suggestionThumbnail = this.linkService.constructTempUrl(suggestion.thumbnail);
+    }, () => {
+      this.suggesting = false;
     });
   }
 
@@ -70,6 +72,9 @@ export class LinkEditComponent implements OnInit {
   }
 
   onSubmit() {
+    if (this.link.title == "") {
+      this.link.title = this.link.url;
+    }
     this.link.tags = this.selectedTags.map(t => t.id);
     this.link.collections = this.selectedCollections.map(c => c.id);
     this.saving = true;
@@ -86,6 +91,8 @@ export class LinkEditComponent implements OnInit {
         data => {
           this.saving = false;
           this.router.navigate(["/links", data.id]);
+        }, () => {
+          this.saving = false;
         });
   }
 
@@ -95,6 +102,8 @@ export class LinkEditComponent implements OnInit {
         data => {
           this.saving = false;
           this.router.navigate(["/links", data.id]);
+        }, () => {
+          this.saving = false;
         });
   }
 

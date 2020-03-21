@@ -29,7 +29,7 @@ export class NoteEditComponent implements OnInit {
       id: null,
       tags: [],
       collections: [],
-      title: null,
+      title: "",
       plainText: "",
     };
     const id = this.route.snapshot.paramMap.get("id");

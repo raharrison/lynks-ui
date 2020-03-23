@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Entry, EntryVersion} from "../../../../model/entry.model";
 import {EntryService} from "../../../../services/entry.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-entry-history',
@@ -17,7 +18,7 @@ export class EntryHistoryComponent implements OnInit {
 
   history: EntryVersion[];
 
-  constructor(private entryService: EntryService) {
+  constructor(private entryService: EntryService, private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {

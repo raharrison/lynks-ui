@@ -16,29 +16,23 @@
   <div class="row">
     <div class="col-md-12 mb-3">
       <div class="card">
-        <div class="card-header" style="font-weight: 500">Metadata:</div>
-        <div class="card-body">
+        <div class="card-header" style="font-weight: 500">Details</div>
+        <div class="card-body entry-metadata">
           <div class="row">
-            <div class="col-sm-6">
-              <div class="card">
-                <div class="card-body">
-                  <div class="mb-3">
-                    <app-group-view [groups]="note.tags" prefix="Tags"></app-group-view>
-                  </div>
-                  <div class="mb-3">
-                    <app-group-view [groups]="note.collections" prefix="Collections"></app-group-view>
-                  </div>
-                </div>
+            <div class="col-sm-12 col-md-6 mb-4 mb-md-0 group-card">
+              <div>
+                <app-group-view [groups]="note.tags" type="tags"></app-group-view>
+                <hr>
+                <app-group-view [groups]="note.collections" type="collections"></app-group-view>
               </div>
             </div>
-            <div class="col-sm-6">
-              <div class="card">
-                <div class="card-body">
-                  <p>
-                    <app-time-ago prefix="Last updated: " [date]="note.dateUpdated"></app-time-ago>
-                  </p>
-                  <p>Version: {{note.version}}</p>
-                </div>
+            <div class="col-sm-12 col-md-6">
+              <div>
+                <p><b>Last Updated: </b>
+                  <app-time-ago [date]="note.dateUpdated"></app-time-ago>
+                </p>
+                <hr>
+                <p><b>Version: </b>{{note.version}}</p>
               </div>
             </div>
           </div>

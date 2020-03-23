@@ -12,7 +12,10 @@ export class GroupViewComponent implements OnInit {
   groups: Tag[] | Collection[];
 
   @Input()
-  prefix: string;
+  type: string;
+
+  @Input()
+  placeholder: boolean = true;
 
   constructor() {
   }

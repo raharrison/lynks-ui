@@ -1,4 +1,8 @@
-<div *ngIf="groups.length > 0">
-  <span *ngIf="prefix != undefined" class="mr-2 group-prefix">{{ prefix }}</span>
+<div *ngIf="groups.length > 0" class="py-1">
+  <span *ngIf="type != undefined" class="mr-2 group-prefix">{{ type | titlecase }}</span>
   <span *ngFor="let group of groups" class="group mr-1">{{group.name}}</span>
+</div>
+
+<div *ngIf="groups.length == 0" class="">
+  <span class="font-weight-bold">No {{ type | titlecase}}</span>
 </div>

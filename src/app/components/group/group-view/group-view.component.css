@@ -10,4 +10,5 @@
   letter-spacing: 0.05rem;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   padding: 0.25rem 0.35rem;
+  cursor: pointer;
 }

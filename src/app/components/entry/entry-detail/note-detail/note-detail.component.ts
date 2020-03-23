@@ -20,9 +20,17 @@ export class NoteDetailComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.route.snapshot.paramMap.get("id");
-    this.noteService.getNote(this.id).subscribe((data) => {
-      this.note = data;
-      this.loading = false;
-    });
+    const version = this.route.snapshot.paramMap.get("version");
+    if (version) {
+      this.noteService.getNoteVersion(this.id, version).subscribe((data) => {
+        this.note = data;
+        this.loading = false;
+      });
+    } else {
+      this.noteService.getNote(this.id).subscribe((data) => {
+        this.note = data;
+        this.loading = false;
+      });
+    }
   }
 }

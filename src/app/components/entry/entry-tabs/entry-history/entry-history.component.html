@@ -8,8 +8,8 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let entryVersion of history">
-      <th>{{entryVersion.version}}</th>
+    <tr *ngFor="let entryVersion of history" [ngClass]="{'table-primary': entryVersion.version == entry.version}">
+      <th>{{entryVersion.version}}{{ entryVersion.version == entry.version ? " (Current) " : "" }}</th>
       <td>
         <app-time-ago [date]="entryVersion.dateUpdated"></app-time-ago>
       </td>

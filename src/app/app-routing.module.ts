@@ -13,11 +13,13 @@ const routes: Routes = [
 
   {path: "notes/create", component: NoteEditComponent},
   {path: "notes/:id/edit", component: NoteEditComponent},
+  {path: "notes/:id/:version", component: NoteDetailComponent},
   {path: "notes/:id", component: NoteDetailComponent},
   {path: "notes", component: EntryListComponent, data: {entryType: EntryType.NOTE}},
 
   {path: "links/create", component: LinkEditComponent},
   {path: "links/:id/edit", component: LinkEditComponent},
+  {path: "links/:id/:version", component: LinkDetailComponent},
   {path: "links/:id", component: LinkDetailComponent},
   {path: "links", component: EntryListComponent, data: {entryType: EntryType.LINK}},
 

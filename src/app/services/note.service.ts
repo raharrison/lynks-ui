@@ -23,6 +23,11 @@ export class NoteService {
       .pipe(this.responseHandler.handleResponseError("Unable to retrieve note"));
   }
 
+  getNoteVersion(id: string, version: string): Observable<Note> {
+    return this.http.get<Note>(`/api/note/${id}/${version}`)
+      .pipe(this.responseHandler.handleResponseError("Unable to retrieve note version " + version));
+  }
+
   createNote(newNote: NewNote): Observable<Note> {
     return this.http.post<Note>("/api/note", newNote)
       .pipe(this.responseHandler.handleResponse("Note created", "Unable to create note"));

@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Note} from "../../../../model/note.model";
 import {ActivatedRoute} from "@angular/router";
-import {NoteService} from "../../../../services/note.service";
+import {EntryResource, EntryService} from "../../../../services/entry.service";
+import {EntryType} from "../../../../model/entry.model";
 
 @Component({
   selector: 'app-note-detail',
@@ -15,8 +16,11 @@ export class NoteDetailComponent implements OnInit {
   version: string;
   loading = true;
 
+  private entryResource: EntryResource<Note>;
+
   constructor(private route: ActivatedRoute,
-              private noteService: NoteService) {
+              private entryService: EntryService) {
+    this.entryResource = entryService.resolveService(EntryType.NOTE);
   }
 
   ngOnInit() {
@@ -29,12 +33,12 @@ export class NoteDetailComponent implements OnInit {
 
   retrieveNote() {
     if (this.version) {
-      this.noteService.getNoteVersion(this.id, this.version).subscribe((data) => {
+      this.entryResource.getVersion(this.id, this.version).subscribe((data) => {
         this.note = data;
         this.loading = false;
       });
     } else {
-      this.noteService.getNote(this.id).subscribe((data) => {
+      this.entryResource.get(this.id).subscribe((data) => {
         this.note = data;
         this.loading = false;
       });

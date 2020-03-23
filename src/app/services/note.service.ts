@@ -3,37 +3,38 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {NewNote, Note} from "../model/note.model";
 import {ResponseHandlerService} from "./response-handler.service";
+import {EntryResource} from "./entry.service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class NoteService {
+export class NoteService implements EntryResource<Note> {
 
   constructor(private http: HttpClient,
               private responseHandler: ResponseHandlerService) {
   }
 
-  getNotes(): Observable<Note> {
-    return this.http.get<Note>("/api/note")
+  getPage(): Observable<Note[]> {
+    return this.http.get<Note[]>("/api/note")
       .pipe(this.responseHandler.handleResponseError("Unable to retrieve notes"));
   }
 
-  getNote(id: string): Observable<Note> {
+  get(id: string): Observable<Note> {
     return this.http.get<Note>("/api/note/" + id)
       .pipe(this.responseHandler.handleResponseError("Unable to retrieve note"));
   }
 
-  getNoteVersion(id: string, version: string): Observable<Note> {
+  getVersion(id: string, version: string): Observable<Note> {
     return this.http.get<Note>(`/api/note/${id}/${version}`)
       .pipe(this.responseHandler.handleResponseError("Unable to retrieve note version " + version));
   }
 
-  createNote(newNote: NewNote): Observable<Note> {
+  create(newNote: NewNote): Observable<Note> {
     return this.http.post<Note>("/api/note", newNote)
       .pipe(this.responseHandler.handleResponse("Note created", "Unable to create note"));
   }
 
-  updateNote(newNote: NewNote): Observable<Note> {
+  update(newNote: NewNote): Observable<Note> {
     return this.http.put<Note>("/api/note", newNote)
       .pipe(this.responseHandler.handleResponse("Note updated", "Unable to update note"));
   }

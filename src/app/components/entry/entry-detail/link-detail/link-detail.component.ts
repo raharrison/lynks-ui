@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {LinkService} from "../../../../services/link.service";
 import {Link} from "../../../../model/link.model";
+import {EntryResource, EntryService} from "../../../../services/entry.service";
+import {EntryType} from "../../../../model/entry.model";
 
 @Component({
   selector: 'app-link-detail',
@@ -12,19 +13,37 @@ export class LinkDetailComponent implements OnInit {
 
   id;
   link: Link;
+  version: string;
   loading = true;
   isContentCollapsed = true;
 
+  private entryResource: EntryResource<Link>;
+
   constructor(private route: ActivatedRoute,
-              private linkService: LinkService) {
+              private entryService: EntryService) {
+    this.entryResource = entryService.resolveService(EntryType.LINK);
   }
 
   ngOnInit() {
-    this.id = this.route.snapshot.paramMap.get("id");
-    this.linkService.getLink(this.id).subscribe((data) => {
-      this.link = data;
-      this.loading = false;
+    this.route.paramMap.subscribe(params => {
+      this.id = params.get("id");
+      this.version = params.get("version");
+      this.retrieveLink();
     });
+  }
+
+  retrieveLink() {
+    if (this.version) {
+      this.entryResource.getVersion(this.id, this.version).subscribe((data) => {
+        this.link = data;
+        this.loading = false;
+      });
+    } else {
+      this.entryResource.get(this.id).subscribe((data) => {
+        this.link = data;
+        this.loading = false;
+      });
+    }
   }
 
 }

@@ -3,32 +3,38 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {ResponseHandlerService} from "./response-handler.service";
 import {Link, NewLink, Suggestion} from "../model/link.model";
+import {EntryResource} from "./entry.service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class LinkService {
+export class LinkService implements EntryResource<Link> {
 
   constructor(private http: HttpClient,
               private responseHandler: ResponseHandlerService) {
   }
 
-  getLinks(): Observable<Link> {
-    return this.http.get<Link>("/api/link")
+  getPage(): Observable<Link[]> {
+    return this.http.get<Link[]>("/api/link")
       .pipe(this.responseHandler.handleResponseError("Unable to retrieve links"));
   }
 
-  getLink(id: string): Observable<Link> {
+  get(id: string): Observable<Link> {
     return this.http.get<Link>("/api/link/" + id)
       .pipe(this.responseHandler.handleResponseError("Unable to retrieve link"));
   }
 
-  createLink(newLink: NewLink): Observable<Link> {
+  getVersion(id: string, version: string): Observable<Link> {
+    return this.http.get<Link>(`/api/link/${id}/${version}`)
+      .pipe(this.responseHandler.handleResponseError("Unable to retrieve link version " + version));
+  }
+
+  create(newLink: NewLink): Observable<Link> {
     return this.http.post<Link>("/api/link", newLink)
       .pipe(this.responseHandler.handleResponse("Link created", "Unable to create link"));
   }
 
-  updateLink(newLink: NewLink): Observable<Link> {
+  update(newLink: NewLink): Observable<Link> {
     return this.http.put<Link>("/api/link", newLink)
       .pipe(this.responseHandler.handleResponse("Link updated", "Unable to update link"));
   }

@@ -1,0 +1,8 @@
+<div class="d-flex mb-3 justify-content-between align-items-center flex-wrap">
+  <h2 class="title-wrap-word">{{entry.title}}</h2>
+  <div class="btn-group">
+    <button backButton class="btn btn-secondary mr-2"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
+    <button [routerLink]="['/notes', entry.id, 'edit']" class="btn btn-info mr-2"><i class="fa fa-edit" aria-hidden="true"></i> Edit</button>
+    <button (click)="openDeleteModal()" class="btn btn-danger"><i class="fa fa-trash-alt" aria-hidden="true"></i> Delete</button>
+  </div>
+</div>

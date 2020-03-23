@@ -33,7 +33,7 @@ export class NoteService {
       .pipe(this.responseHandler.handleResponse("Note updated", "Unable to update note"));
   }
 
-  deleteNote(id: string): Observable<any> {
+  delete(id: string): Observable<any> {
     return this.http.delete("/api/note/" + id)
       .pipe(this.responseHandler.handleResponse("Note deleted", "Unable to delete note"));
   }

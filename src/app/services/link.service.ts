@@ -33,7 +33,7 @@ export class LinkService {
       .pipe(this.responseHandler.handleResponse("Link updated", "Unable to update link"));
   }
 
-  deleteLink(id: string): Observable<any> {
+  delete(id: string): Observable<any> {
     return this.http.delete("/api/link/" + id)
       .pipe(this.responseHandler.handleResponse("Link deleted", "Unable to delete link"));
   }

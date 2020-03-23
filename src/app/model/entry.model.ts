@@ -26,9 +26,9 @@ export interface NewEntry {
 }
 
 export enum EntryType {
-  LINK = "link",
-  NOTE = "note",
-  ENTRIES = "entry"
+  LINK = "LINK",
+  NOTE = "NOTE",
+  ENTRIES = "ENTRY"
 }
 
 export interface EntryVersion {

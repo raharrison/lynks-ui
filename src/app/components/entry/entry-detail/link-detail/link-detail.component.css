@@ -1,3 +1,5 @@
+@import url("../entry-detail.css");
+
 .embed-iframe {
   max-width: 640px;
 }
@@ -8,21 +10,4 @@
 
 .card-header .collapsed .fa {
   transform: rotate(90deg);
-}
-
-hr {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.entry-metadata p {
-  margin: 0;
-  padding: 0;
-}
-
-
-@media only screen and (min-width: 768px) {
-  .group-card {
-    border-right: 2px solid #dee2e6;
-  }
 }

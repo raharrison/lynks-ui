@@ -43,4 +43,14 @@ export class NoteService implements EntryResource<Note> {
     return this.http.delete("/api/note/" + id)
       .pipe(this.responseHandler.handleResponse("Note deleted", "Unable to delete note"));
   }
+
+  constructPath(id?: string, version?: string): string[] {
+    if (id == undefined) {
+      return ["/notes"];
+    }
+    if (version == undefined) {
+      return ["/notes", id];
+    }
+    return ["/notes", id, version];
+  }
 }

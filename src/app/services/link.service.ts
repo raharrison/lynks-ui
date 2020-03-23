@@ -49,6 +49,16 @@ export class LinkService implements EntryResource<Link> {
       .pipe(this.responseHandler.handleResponse("Suggestion complete", "Unable to perform link suggestion"));
   }
 
+  constructPath(id?: string, version?: string): string[] {
+    if (id == undefined) {
+      return ["/links"];
+    }
+    if (version == undefined) {
+      return ["/links", id];
+    }
+    return ["/links", id, version];
+  }
+
   constructTempUrl(base: string): string {
     return `/api/temp/${base}`;
   }

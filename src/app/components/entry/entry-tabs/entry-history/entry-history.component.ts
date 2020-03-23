@@ -23,6 +23,7 @@ export class EntryHistoryComponent implements OnInit {
   }
 
   goToVersionPath(version) {
-    return this.entryService.constructPath(this.entry.type, this.entry.id, version);
+    return this.entryService.resolveService(this.entry.type)
+      .constructPath(this.entry.id, version);
   }
 }

@@ -42,11 +42,12 @@ export class EntryDetailHeaderComponent implements OnInit {
   private deleteEntry(entry: Entry) {
     const service = this.entryService.resolveService(this.entry.type);
     service.delete(entry.id).subscribe(() => {
-      this.router.navigate([`/${this.entry.type.toLowerCase()}s`]);
+      this.router.navigate(service.constructPath());
     }, error => alert(error));
   }
 
   goToLatestVersion() {
-    return this.entryService.constructPath(this.entry.type, this.entry.id);
+    return this.entryService.resolveService(this.entry.type)
+      .constructPath(this.entry.id);
   }
 }

@@ -18,6 +18,8 @@ export interface EntryResource<T extends Entry> {
   update(model): Observable<T>;
 
   delete(id: string): Observable<any>;
+
+  constructPath(id?: string, version?: string): string[];
 }
 
 @Injectable({
@@ -44,14 +46,6 @@ export class EntryService {
   getHistory(id: string): Observable<EntryVersion[]> {
     return this.http.get<EntryVersion[]>(`/api/entry/${id}/history`)
       .pipe(this.responseHandler.handleResponseError("Unable to retrieve entry history"));
-  }
-
-  constructPath(entryType: EntryType, id: string, version: string = null) {
-    const base = entryType.toLowerCase() + "s";
-    if (version != null) {
-      return ["/", base, id, version];
-    }
-    return ["/", base, id];
   }
 
 }

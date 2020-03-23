@@ -41,7 +41,7 @@ export class LinkEditComponent implements OnInit {
       // update mode
       this.updateMode = true;
       this.loading = true;
-      this.linkService.getLink(id).subscribe((data) => {
+      this.linkService.get(id).subscribe((data) => {
         this.link.id = data.id;
         this.link.title = data.title;
         this.link.url = data.url;
@@ -86,7 +86,7 @@ export class LinkEditComponent implements OnInit {
   }
 
   createLink() {
-    this.linkService.createLink(this.link)
+    this.linkService.create(this.link)
       .subscribe(
         data => {
           this.saving = false;
@@ -97,7 +97,7 @@ export class LinkEditComponent implements OnInit {
   }
 
   updateLink() {
-    this.linkService.updateLink(this.link)
+    this.linkService.update(this.link)
       .subscribe(
         data => {
           this.saving = false;

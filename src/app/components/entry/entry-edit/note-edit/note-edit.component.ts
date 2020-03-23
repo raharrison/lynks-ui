@@ -37,7 +37,7 @@ export class NoteEditComponent implements OnInit {
       // update mode
       this.updateMode = true;
       this.loading = true;
-      this.noteService.getNote(id).subscribe((data) => {
+      this.noteService.get(id).subscribe((data) => {
         this.note.id = data.id;
         this.note.title = data.title;
         this.note.plainText = data.plainText;
@@ -68,7 +68,7 @@ export class NoteEditComponent implements OnInit {
   }
 
   createNote() {
-    this.noteService.createNote(this.note)
+    this.noteService.create(this.note)
       .subscribe(
         data => {
           this.saving = false;
@@ -77,7 +77,7 @@ export class NoteEditComponent implements OnInit {
   }
 
   updateNote() {
-    this.noteService.updateNote(this.note)
+    this.noteService.update(this.note)
       .subscribe(
         data => {
           this.saving = false;

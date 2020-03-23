@@ -8,10 +8,11 @@
   </div>
   <div class="btn-group">
     <button backButton class="btn btn-secondary mr-2"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
-    <button *ngIf="!previousVersion" [routerLink]="['/notes', entry.id, 'edit']" class="btn btn-info mr-2"><i class="fa fa-edit"
-                                                                                                              aria-hidden="true"></i> Edit
-    </button>
-    <button *ngIf="!previousVersion" (click)="openDeleteModal()" class="btn btn-danger"><i class="fa fa-trash-alt" aria-hidden="true"></i> Delete
+    <a *ngIf="!previousVersion" [routerLink]="['/notes', entry.id, 'edit']" class="btn btn-info mr-2">
+      <i class="fa fa-edit" aria-hidden="true"></i> Edit
+    </a>
+    <button *ngIf="!previousVersion" (click)="openDeleteModal()" class="btn btn-danger">
+      <i class="fa fa-trash-alt" aria-hidden="true"></i> Delete
     </button>
   </div>
 </div>

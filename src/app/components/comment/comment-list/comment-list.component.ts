@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 
 import {Comment} from "../../../model/comment.model";
 import {CommentService} from "../../../services/comment.service";
@@ -14,6 +14,9 @@ export class CommentListComponent implements OnInit {
 
   @Input()
   entryId: string;
+
+  @Output()
+  onLoaded: EventEmitter<number> = new EventEmitter<number>();
 
   comments: Comment[] = [];
 
@@ -34,6 +37,7 @@ export class CommentListComponent implements OnInit {
     this.commentService.getCommentsForEntry(this.entryId).subscribe(value => {
       this.comments = value;
       this.loading = false;
+      this.onLoaded.emit(this.comments.length);
     });
   }
 

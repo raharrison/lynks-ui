@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Entry, EntryVersion} from "../../../../model/entry.model";
 import {EntryService} from "../../../../services/entry.service";
 
@@ -11,6 +11,10 @@ export class EntryHistoryComponent implements OnInit {
 
   @Input()
   entry: Entry;
+
+  @Output()
+  onLoaded: EventEmitter<number> = new EventEmitter<number>();
+
   history: EntryVersion[];
 
   constructor(private entryService: EntryService) {
@@ -19,6 +23,7 @@ export class EntryHistoryComponent implements OnInit {
   ngOnInit(): void {
     this.entryService.getHistory(this.entry.id).subscribe(value => {
       this.history = value;
+      this.onLoaded.emit(this.history.length);
     });
   }
 

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AttachmentService} from "../../../services/attachment.service";
 import {Attachment} from "../../../model/attachment.model";
 
@@ -11,6 +11,9 @@ export class AttachmentListComponent implements OnInit {
 
   @Input()
   entryId: string;
+
+  @Output()
+  onLoaded: EventEmitter<number> = new EventEmitter<number>();
 
   attachments: Attachment[] = [];
 
@@ -27,6 +30,7 @@ export class AttachmentListComponent implements OnInit {
     this.attachmentService.getAttachmentsForEntry(this.entryId).subscribe(value => {
       this.attachments = value;
       this.loading = false;
+      this.onLoaded.emit(this.attachments.length);
     });
   }
 }

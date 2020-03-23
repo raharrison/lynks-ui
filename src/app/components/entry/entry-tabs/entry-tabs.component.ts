@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Entry} from "../../../model/entry.model";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-entry-tabs',
@@ -18,7 +19,7 @@ export class EntryTabsComponent implements OnInit {
   reminderCount: number = 0;
   historyCount: number;
 
-  constructor() {
+  constructor(private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {

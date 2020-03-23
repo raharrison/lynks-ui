@@ -22,11 +22,12 @@
             <div class="col-sm-6">
               <div class="card">
                 <div class="card-body">
-                  <h5>Tags:</h5>
-                  <span *ngFor="let tag of note.tags" class="badge badge-dark p-2 mr-1">{{tag.name}}</span>
-
-                  <h5>Collections:</h5>
-                  <span *ngFor="let collection of note.collections" class="badge badge-dark p-2 mr-1">{{collection.name}}</span>
+                  <div class="mb-3">
+                    <app-group-view [groups]="note.tags" prefix="Tags"></app-group-view>
+                  </div>
+                  <div class="mb-3">
+                    <app-group-view [groups]="note.collections" prefix="Collections"></app-group-view>
+                  </div>
                 </div>
               </div>
             </div>

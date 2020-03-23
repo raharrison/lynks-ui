@@ -1,0 +1,4 @@
+<div *ngIf="groups.length > 0">
+  <span *ngIf="prefix != undefined" class="mr-2 group-prefix">{{ prefix }}</span>
+  <span *ngFor="let group of groups" class="group mr-1">{{group.name}}</span>
+</div>

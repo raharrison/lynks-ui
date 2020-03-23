@@ -45,11 +45,12 @@
             <div class="col-sm-6">
               <div class="card">
                 <div class="card-body">
-                  <h5>Tags:</h5>
-                  <span *ngFor="let tag of link.tags" class="badge badge-dark p-2 mr-1">{{tag.name}}</span>
-
-                  <h5>Collections:</h5>
-                  <span *ngFor="let collection of link.collections" class="badge badge-dark p-2 mr-1">{{collection.name}}</span>
+                  <div class="mb-3">
+                    <app-group-view [groups]="link.tags" prefix="Tags"></app-group-view>
+                  </div>
+                  <div class="mb-3">
+                    <app-group-view [groups]="link.collections" prefix="Collections"></app-group-view>
+                  </div>
                 </div>
               </div>
             </div>
@@ -60,6 +61,7 @@
                     <app-time-ago prefix="Last updated: " [date]="link.dateUpdated"></app-time-ago>
                   </p>
                   <p>Version: {{link.version}}</p>
+                  <p>Source: {{link.source}}</p>
                 </div>
               </div>
             </div>

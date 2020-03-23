@@ -51,6 +51,16 @@
         neque. Phasellus nec tortor vel tellus pulvinar feugiat.</p>
     </ng-template>
   </ng-container>
+  <ng-container [ngbNavItem]="5">
+    <a ngbNavLink><i class="fas fa-history"></i> History</a>
+    <ng-template ngbNavContent>
+      <div class="row">
+        <div class="col-md-12">
+          <app-entry-history [entry]="entry"></app-entry-history>
+        </div>
+      </div>
+    </ng-template>
+  </ng-container>
 </nav>
 
 <div [ngbNavOutlet]="nav" class="mt-2 mb-3"></div>

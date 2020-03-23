@@ -31,3 +31,8 @@ export enum EntryType {
   ENTRIES = "entry"
 }
 
+export interface EntryVersion {
+  id: string,
+  version: number,
+  dateUpdated: number
+}

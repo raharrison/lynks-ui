@@ -24,7 +24,7 @@ export class EntryTabsComponent implements OnInit {
 
   ngOnInit(): void {
     this.taskCount = this.entry?.props?.tasks?.length;
-    this.discussionCount = this.entry?.props?.attributes?.discussions;
+    this.discussionCount = this.entry?.props?.attributes?.discussions?.length;
   }
 
 }

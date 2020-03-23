@@ -12,6 +12,7 @@ export class NoteDetailComponent implements OnInit {
 
   id;
   note: Note;
+  version: string;
   loading = true;
 
   constructor(private route: ActivatedRoute,
@@ -19,10 +20,16 @@ export class NoteDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.id = this.route.snapshot.paramMap.get("id");
-    const version = this.route.snapshot.paramMap.get("version");
-    if (version) {
-      this.noteService.getNoteVersion(this.id, version).subscribe((data) => {
+    this.route.paramMap.subscribe(params => {
+      this.id = params.get("id");
+      this.version = params.get("version");
+      this.retrieveNote();
+    });
+  }
+
+  retrieveNote() {
+    if (this.version) {
+      this.noteService.getNoteVersion(this.id, this.version).subscribe((data) => {
         this.note = data;
         this.loading = false;
       });

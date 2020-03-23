@@ -15,6 +15,9 @@ export class EntryDetailHeaderComponent implements OnInit {
   @Input()
   entry: Entry;
 
+  @Input()
+  previousVersion: boolean;
+
   constructor(private router: Router,
               private modalService: NgbModal,
               private entryService: EntryService) {
@@ -43,4 +46,7 @@ export class EntryDetailHeaderComponent implements OnInit {
     }, error => alert(error));
   }
 
+  goToLatestVersion() {
+    return this.entryService.constructPath(this.entry.type, this.entry.id);
+  }
 }

@@ -32,4 +32,12 @@ export class EntryService {
       .pipe(this.responseHandler.handleResponseError("Unable to retrieve entry history"));
   }
 
+  constructPath(entryType: EntryType, id: string, version: string = null) {
+    const base = entryType.toLowerCase() + "s";
+    if (version != null) {
+      return ["/", base, id, version];
+    }
+    return ["/", base, id];
+  }
+
 }

@@ -14,7 +14,7 @@
         <app-time-ago [date]="entryVersion.dateUpdated"></app-time-ago>
       </td>
       <td>
-        <button class="btn btn-sm btn-info"><i class="fa fa-eye" aria-hidden="true"></i> View</button>
+        <a [routerLink]="goToVersionPath(entryVersion.version)" class="btn btn-sm btn-info"><i class="fa fa-eye" aria-hidden="true"></i> View</a>
       </td>
     </tr>
     </tbody>

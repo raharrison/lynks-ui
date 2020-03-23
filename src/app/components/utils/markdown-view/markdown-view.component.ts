@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 import {HighlightJS} from "ngx-highlightjs";
 import {Subscription} from "rxjs";
@@ -7,7 +7,7 @@ import {Subscription} from "rxjs";
   selector: 'app-markdown-view',
   templateUrl: './markdown-view.component.html'
 })
-export class MarkdownViewComponent implements OnInit, AfterViewInit, OnDestroy {
+export class MarkdownViewComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges {
 
   @Input()
   private markdown: string;
@@ -28,6 +28,10 @@ export class MarkdownViewComponent implements OnInit, AfterViewInit, OnDestroy {
       const sub = this.hljs.highlightBlock(item as HTMLElement).subscribe();
       this.subscriptions.push(sub);
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.safeHtml = this.sanitizer.bypassSecurityTrustHtml(this.markdown);
   }
 
   ngOnDestroy(): void {

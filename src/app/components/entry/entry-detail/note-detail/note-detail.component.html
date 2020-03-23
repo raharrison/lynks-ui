@@ -3,7 +3,7 @@
 </ng-template>
 
 <div *ngIf="!loading; else notLoaded">
-  <app-entry-detail-header [entry]="note"></app-entry-detail-header>
+  <app-entry-detail-header [entry]="note" [previousVersion]="!!version"></app-entry-detail-header>
 
   <div class="row">
     <div class="col-md-12 mb-3">

@@ -1,5 +1,5 @@
 <div class="d-flex mb-3 justify-content-between align-items-center flex-wrap">
-  <div class="">
+  <div class="mb-2 mb-md-0">
     <h2 class="title-wrap-word">{{entry.title}}</h2>
     <div>
       <span class="mr-3">Version: {{ entry.version }}</span>
@@ -8,7 +8,13 @@
   </div>
   <div class="btn-group">
     <button backButton class="btn btn-secondary mr-2"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
-    <button [routerLink]="['/notes', entry.id, 'edit']" class="btn btn-info mr-2"><i class="fa fa-edit" aria-hidden="true"></i> Edit</button>
-    <button (click)="openDeleteModal()" class="btn btn-danger"><i class="fa fa-trash-alt" aria-hidden="true"></i> Delete</button>
+    <button *ngIf="!previousVersion" [routerLink]="['/notes', entry.id, 'edit']" class="btn btn-info mr-2"><i class="fa fa-edit"
+                                                                                                              aria-hidden="true"></i> Edit
+    </button>
+    <button *ngIf="!previousVersion" (click)="openDeleteModal()" class="btn btn-danger"><i class="fa fa-trash-alt" aria-hidden="true"></i> Delete
+    </button>
   </div>
+</div>
+<div *ngIf="previousVersion" class="alert alert-warning" role="alert">
+  You are viewing a previous version. <a [routerLink]="goToLatestVersion()">Go to latest.</a>
 </div>

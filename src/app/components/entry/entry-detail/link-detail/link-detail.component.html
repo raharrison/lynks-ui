@@ -12,7 +12,9 @@
   <div class="row">
     <div class="col-md-12 mb-3">
       <div class="card card-body">
-        <p><a href="{{link.url}}" target="_blank">{{link.url}}</a></p>
+        <p class="link-url">
+          <a href="{{link.url}}" target="_blank">{{link.url}} <i class="fas fa-external-link-alt"></i></a>
+        </p>
 
         <div *ngIf="link.props?.attributes?.embedUrl">
           <div class="embed-iframe embed-responsive embed-responsive-16by9">
@@ -48,6 +50,9 @@
           <div class="row">
             <div class="col-sm-12 col-md-6 mb-4 mb-md-0 group-card">
               <div>
+                <p><i [ngClass]="isLinkRead() ? 'fas fa-eye' : 'fas fa-eye-slash'"></i><b> Read: </b>{{ isLinkRead() ? "Yes" : "No" }}
+                </p>
+                <hr>
                 <app-group-view [groups]="link.tags" type="tags"></app-group-view>
                 <hr>
                 <app-group-view [groups]="link.collections" type="collections"></app-group-view>

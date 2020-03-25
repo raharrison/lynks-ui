@@ -11,3 +11,12 @@
 .card-header .collapsed .fa {
   transform: rotate(90deg);
 }
+
+.link-url {
+  margin: 0;
+  font-size: 1.1em;
+}
+
+.link-url i {
+  font-size: 0.8em;
+}

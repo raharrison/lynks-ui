@@ -19,7 +19,7 @@ export class EntryTabsComponent implements OnInit {
   reminderCount: number = 0;
   historyCount: number;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(public route: ActivatedRoute) {
   }
 
   ngOnInit(): void {

@@ -15,6 +15,13 @@
 .link-url {
   margin: 0;
   font-size: 1.1em;
+  color: #007bff;
+  cursor: pointer;
+}
+
+.link-url a:hover {
+  text-decoration: underline;
+  color: #0056b3;
 }
 
 .link-url i {

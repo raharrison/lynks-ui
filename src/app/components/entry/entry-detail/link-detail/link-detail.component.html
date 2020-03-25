@@ -13,7 +13,7 @@
     <div class="col-md-12 mb-3">
       <div class="card card-body">
         <p class="link-url">
-          <a href="{{link.url}}" target="_blank">{{link.url}} <i class="fas fa-external-link-alt"></i></a>
+          <a (click)="launchLink()" target="_blank">{{link.url}} <i class="fas fa-external-link-alt"></i></a>
         </p>
 
         <div *ngIf="link.props?.attributes?.embedUrl">

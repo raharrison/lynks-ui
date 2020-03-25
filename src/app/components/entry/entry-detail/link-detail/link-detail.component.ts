@@ -3,6 +3,7 @@ import {ActivatedRoute} from "@angular/router";
 import {Link} from "../../../../model/link.model";
 import {EntryResource, EntryService} from "../../../../services/entry.service";
 import {EntryType} from "../../../../model/entry.model";
+import {LinkService} from "../../../../services/link.service";
 
 @Component({
   selector: 'app-link-detail',
@@ -20,7 +21,8 @@ export class LinkDetailComponent implements OnInit {
   private entryResource: EntryResource<Link>;
 
   constructor(private route: ActivatedRoute,
-              private entryService: EntryService) {
+              private entryService: EntryService,
+              private linkService: LinkService) {
     this.entryResource = entryService.resolveService(EntryType.LINK);
   }
 
@@ -52,6 +54,10 @@ export class LinkDetailComponent implements OnInit {
 
   isLinkRead() {
     return this.link?.props.attributes?.read == true;
+  }
+
+  launchLink() {
+    this.linkService.launch(this.id);
   }
 
 }

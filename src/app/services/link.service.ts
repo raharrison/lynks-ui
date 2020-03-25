@@ -62,4 +62,8 @@ export class LinkService implements EntryResource<Link> {
   constructTempUrl(base: string): string {
     return `/api/temp/${base}`;
   }
+
+  launch(id: string) {
+    window.open(`/api/link/${id}/launch`, "_blank");
+  }
 }

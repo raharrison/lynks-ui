@@ -18,7 +18,7 @@ export class EntryHistoryComponent implements OnInit {
 
   history: EntryVersion[];
 
-  constructor(private entryService: EntryService, private route: ActivatedRoute) {
+  constructor(private entryService: EntryService, public route: ActivatedRoute) {
   }
 
   ngOnInit(): void {

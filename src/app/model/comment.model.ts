@@ -3,7 +3,8 @@ export interface Comment {
   entryId: string,
   plainText: string,
   markdownText: string,
-  dateCreated: number
+  dateCreated: number,
+  dateUpdated: number
 }
 
 export interface NewComment {

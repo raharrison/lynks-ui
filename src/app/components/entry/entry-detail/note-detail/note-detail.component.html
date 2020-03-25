@@ -28,6 +28,10 @@
             </div>
             <div class="col-sm-12 col-md-6">
               <div>
+                <p><b>Created: </b>
+                  <app-time-ago [date]="note.dateCreated"></app-time-ago>
+                </p>
+                <hr>
                 <p><b>Last Updated: </b>
                   <app-time-ago [date]="note.dateUpdated"></app-time-ago>
                 </p>

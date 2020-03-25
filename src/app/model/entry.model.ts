@@ -8,7 +8,8 @@ export interface BaseProperties {
 
 export interface Entry {
   id: string,
-  title: string
+  title: string,
+  dateCreated: number,
   dateUpdated: number,
   version: number,
   starred: boolean,

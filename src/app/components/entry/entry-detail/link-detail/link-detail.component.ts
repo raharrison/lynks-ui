@@ -46,4 +46,8 @@ export class LinkDetailComponent implements OnInit {
     }
   }
 
+  isLinkDead(): boolean {
+    return this.link?.props.attributes?.dead == true;
+  }
+
 }

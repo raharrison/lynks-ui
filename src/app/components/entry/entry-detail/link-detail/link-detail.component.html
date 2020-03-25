@@ -5,6 +5,10 @@
 <div *ngIf="!loading; else notLoaded">
   <app-entry-detail-header [entry]="link" [previousVersion]="!!version"></app-entry-detail-header>
 
+  <div *ngIf="isLinkDead() && !version" class="alert alert-warning" role="alert"><b>This link is marked as dead</b>. Run the process task to refresh
+    the status.
+  </div>
+
   <div class="row">
     <div class="col-md-12 mb-3">
       <div class="card card-body">

@@ -50,4 +50,10 @@ export class EntryDetailHeaderComponent implements OnInit {
     return this.entryService.resolveService(this.entry.type)
       .constructPath(this.entry.id);
   }
+
+  onStarClick() {
+    this.entryService.star(this.entry.id, !this.entry.starred).subscribe(value => {
+      this.entry = value;
+    })
+  }
 }

@@ -48,4 +48,11 @@ export class EntryService {
       .pipe(this.responseHandler.handleResponseError("Unable to retrieve entry history"));
   }
 
+  star(id: string, star: boolean): Observable<Entry> {
+    const starPath = star ? "star" : "unstar";
+    return this.http.post<Entry>(`/api/entry/${id}/${starPath}`, null)
+      .pipe(this.responseHandler.handleResponseError(`Unable to ${starPath} entry`));
+  }
+
+
 }

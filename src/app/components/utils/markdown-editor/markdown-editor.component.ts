@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, ElementRef, forwardRef, Input, NgZone, ViewChild} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import * as EasyMDE from 'easymde';
+import {HighlightJS} from "ngx-highlightjs";
 
 const noop: any = () => {
   // empty method
@@ -33,7 +34,11 @@ export class MarkdownEditorComponent implements AfterViewInit, ControlValueAcces
     status: true,
     previewClass: ["editor-preview", "markdown-body"],
     toolbar: ["bold", "italic", "heading-smaller", "heading-bigger", "|", "quote", "code", "unordered-list", "ordered-list", "clean-block",
-      "|", "link", "image", "table", "|", "preview", "side-by-side", "fullscreen", "|", "guide"]
+      "|", "link", "image", "table", "|", "preview", "side-by-side", "fullscreen", "|", "guide"],
+    renderingConfig: {
+      codeSyntaxHighlighting: true,
+      hljs: undefined
+    }
   };
 
   @ViewChild('easymde', {static: true}) textarea: ElementRef;
@@ -42,7 +47,7 @@ export class MarkdownEditorComponent implements AfterViewInit, ControlValueAcces
   @Input()
   slim: boolean = false;
 
-  constructor(private _zone: NgZone) {
+  constructor(private _zone: NgZone, private hljs: HighlightJS) {
   }
 
   /* tslint:disable-next-line */
@@ -92,6 +97,7 @@ export class MarkdownEditorComponent implements AfterViewInit, ControlValueAcces
 
   ngAfterViewInit(): void {
     const opts = Object.assign({}, this.baseOptions);
+    opts.renderingConfig.hljs = this.hljs.hljs;
     if (this.slim) {
       opts.status = false;
     }

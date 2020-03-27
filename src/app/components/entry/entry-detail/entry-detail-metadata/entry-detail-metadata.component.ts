@@ -13,6 +13,7 @@ export class EntryDetailMetadataComponent implements OnInit {
   private entry: Entry;
 
   EntryType = EntryType;
+  isContentCollapsed = false;
 
   constructor() {
   }

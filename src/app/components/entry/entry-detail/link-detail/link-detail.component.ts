@@ -52,10 +52,6 @@ export class LinkDetailComponent implements OnInit {
     return this.link?.props.attributes?.dead == true;
   }
 
-  isLinkRead() {
-    return this.link?.props.attributes?.read == true;
-  }
-
   launchLink() {
     this.linkService.launch(this.id);
   }

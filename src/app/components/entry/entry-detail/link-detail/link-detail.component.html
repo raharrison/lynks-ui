@@ -10,7 +10,7 @@
   </div>
 
   <div class="row">
-    <div class="col-md-12 mb-3">
+    <div class="col-md-12 mb-4">
       <div class="card card-body">
         <p class="link-url">
           <a (click)="launchLink()" target="_blank">{{link.url}} <i class="fas fa-external-link-alt"></i></a>
@@ -27,7 +27,7 @@
   </div>
 
   <div *ngIf="link.content" class="row">
-    <div class="col-md-12 mb-3">
+    <div class="col-md-12 mb-4">
       <div class="card">
         <div class="card-header cursor-pointer" style="font-weight: 500" (click)="isContentCollapsed = !isContentCollapsed">
           <a data-toggle="collapse" aria-expanded="true" aria-controls="linkReaderContent">
@@ -43,39 +43,8 @@
   </div>
 
   <div class="row">
-    <div class="col-md-12 mb-3">
-      <div class="card">
-        <div class="card-header" style="font-weight: 500">Details</div>
-        <div class="card-body entry-metadata">
-          <div class="row">
-            <div class="col-sm-12 col-md-6 mb-4 mb-md-0 group-card">
-              <div>
-                <p><i [ngClass]="isLinkRead() ? 'fas fa-eye' : 'fas fa-eye-slash'"></i><b> Read: </b>{{ isLinkRead() ? "Yes" : "No" }}
-                </p>
-                <hr>
-                <app-group-view [groups]="link.tags" type="tags"></app-group-view>
-                <hr>
-                <app-group-view [groups]="link.collections" type="collections"></app-group-view>
-              </div>
-            </div>
-            <div class="col-sm-12 col-md-6">
-              <div>
-                <p><b>Created: </b>
-                  <app-time-ago [date]="link.dateCreated"></app-time-ago>
-                </p>
-                <hr>
-                <p><b>Last Updated: </b>
-                  <app-time-ago [date]="link.dateUpdated"></app-time-ago>
-                </p>
-                <hr>
-                <p><b>Version: </b>{{link.version}}</p>
-                <hr>
-                <p><b>Source: </b>{{link.source}}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="col-md-12 mb-4">
+      <app-entry-detail-metadata [entry]="link"></app-entry-detail-metadata>
     </div>
   </div>
 </div>

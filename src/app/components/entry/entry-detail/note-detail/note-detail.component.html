@@ -6,7 +6,7 @@
   <app-entry-detail-header [entry]="note" [previousVersion]="!!version"></app-entry-detail-header>
 
   <div class="row">
-    <div class="col-md-12 mb-3">
+    <div class="col-md-12 mb-4">
       <div class="card card-body">
         <app-markdown-view [markdown]="note.markdownText"></app-markdown-view>
       </div>
@@ -14,34 +14,8 @@
   </div>
 
   <div class="row">
-    <div class="col-md-12 mb-3">
-      <div class="card">
-        <div class="card-header" style="font-weight: 500">Details</div>
-        <div class="card-body entry-metadata">
-          <div class="row">
-            <div class="col-sm-12 col-md-6 mb-4 mb-md-0 group-card">
-              <div>
-                <app-group-view [groups]="note.tags" type="tags"></app-group-view>
-                <hr>
-                <app-group-view [groups]="note.collections" type="collections"></app-group-view>
-              </div>
-            </div>
-            <div class="col-sm-12 col-md-6">
-              <div>
-                <p><b>Created: </b>
-                  <app-time-ago [date]="note.dateCreated"></app-time-ago>
-                </p>
-                <hr>
-                <p><b>Last Updated: </b>
-                  <app-time-ago [date]="note.dateUpdated"></app-time-ago>
-                </p>
-                <hr>
-                <p><b>Version: </b>{{note.version}}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="col-md-12 mb-4">
+      <app-entry-detail-metadata [entry]="note"></app-entry-detail-metadata>
     </div>
   </div>
 </div>

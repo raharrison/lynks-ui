@@ -73,6 +73,8 @@ export class NoteEditComponent implements OnInit {
         data => {
           this.saving = false;
           this.router.navigate(["/notes", data.id]);
+        }, () => {
+          this.saving = false;
         });
   }
 
@@ -82,6 +84,8 @@ export class NoteEditComponent implements OnInit {
         data => {
           this.saving = false;
           this.router.navigate(["/notes", data.id]);
+        }, () => {
+          this.saving = false;
         });
   }
 

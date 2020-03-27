@@ -23,4 +23,14 @@ export class GroupViewComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  iconClass() {
+    if (this.type == "collections") {
+      return "fas fa-layer-group";
+    } else if (this.type == "tags") {
+      return "fas fa-tag";
+    } else {
+      return "";
+    }
+  }
+
 }

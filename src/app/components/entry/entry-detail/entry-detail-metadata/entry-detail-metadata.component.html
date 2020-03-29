@@ -29,7 +29,7 @@
             <app-time-ago [date]="entry.dateUpdated"></app-time-ago>
           </p>
           <hr>
-          <p><i class="fas fa-history"></i><b> Version: </b>{{entry.version}}</p>
+          <p><i class="far fa-clock"></i><b> Version: </b>{{entry.version}}</p>
           <div *ngIf="entry.type == EntryType.LINK">
             <hr>
             <p><i class="fas fa-link"></i><b> Source: </b>{{getLinkSource()}}</p>

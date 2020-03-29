@@ -12,12 +12,15 @@ export class EntryTabsComponent implements OnInit {
   @Input()
   entry: Entry;
 
+  activeTab: string;
+
   commentCount: number;
   attachmentCount: number;
   taskCount: number;
   discussionCount: number;
   reminderCount: number = 0;
   historyCount: number;
+  auditCount: number;
 
   constructor(public route: ActivatedRoute) {
   }
@@ -25,6 +28,10 @@ export class EntryTabsComponent implements OnInit {
   ngOnInit(): void {
     this.taskCount = this.entry?.props?.tasks?.length;
     this.discussionCount = this.entry?.props?.attributes?.discussions?.length;
+
+    this.route.fragment.subscribe(value => {
+      this.activeTab = value || "comments";
+    })
   }
 
 }

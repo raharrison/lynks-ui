@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from "rxjs";
-import {Entry, EntryType, EntryVersion} from "../model/entry.model";
+import {Entry, EntryAuditItem, EntryType, EntryVersion} from "../model/entry.model";
 import {HttpClient} from "@angular/common/http";
 import {ResponseHandlerService} from "./response-handler.service";
 import {NoteService} from "./note.service";
@@ -46,6 +46,11 @@ export class EntryService {
   getHistory(id: string): Observable<EntryVersion[]> {
     return this.http.get<EntryVersion[]>(`/api/entry/${id}/history`)
       .pipe(this.responseHandler.handleResponseError("Unable to retrieve entry history"));
+  }
+
+  getAudit(id: string): Observable<EntryAuditItem[]> {
+    return this.http.get<EntryAuditItem[]>(`/api/entry/${id}/audit`)
+      .pipe(this.responseHandler.handleResponseError("Unable to retrieve entry audit"));
   }
 
   star(id: string, star: boolean): Observable<Entry> {

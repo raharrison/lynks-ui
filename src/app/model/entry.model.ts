@@ -37,3 +37,11 @@ export interface EntryVersion {
   version: number,
   dateUpdated: number
 }
+
+export interface EntryAuditItem {
+  auditId: string,
+  entryId: string,
+  src: string,
+  details: string,
+  timestamp: number
+}

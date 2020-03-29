@@ -1,4 +1,4 @@
-<nav ngbNav #nav="ngbNav" class="nav-tabs" [destroyOnHide]="false" [activeId]="route.fragment | async">
+<nav ngbNav #nav="ngbNav" class="nav-tabs" [destroyOnHide]="false" [activeId]="activeTab">
   <ng-container ngbNavItem="comments">
     <a ngbNavLink routerLink="." fragment="comments"><i class="fas fa-comments"></i> Comments <span
       class="badge badge-primary">{{ commentCount }}</span></a>
@@ -61,6 +61,16 @@
       <div class="row">
         <div class="col-md-12">
           <app-entry-history [entry]="entry" (onLoaded)="historyCount = $event"></app-entry-history>
+        </div>
+      </div>
+    </ng-template>
+  </ng-container>
+  <ng-container ngbNavItem="audit">
+    <a ngbNavLink routerLink="." fragment="audit"><i class="fas fa-archive"></i> Audit <span class="badge badge-primary">{{ auditCount }}</span></a>
+    <ng-template ngbNavContent>
+      <div class="row">
+        <div class="col-md-12">
+          <app-entry-audit [entry]="entry" (onLoaded)="auditCount = $event"></app-entry-audit>
         </div>
       </div>
     </ng-template>

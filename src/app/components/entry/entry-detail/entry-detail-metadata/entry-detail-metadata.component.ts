@@ -10,7 +10,7 @@ import {Link} from "../../../../model/link.model";
 export class EntryDetailMetadataComponent implements OnInit {
 
   @Input()
-  private entry: Entry;
+  entry: Entry;
 
   EntryType = EntryType;
   isContentCollapsed = false;

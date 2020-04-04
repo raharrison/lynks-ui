@@ -41,6 +41,7 @@ export class LinkEditComponent implements OnInit {
       // update mode
       this.updateMode = true;
       this.loading = true;
+      this.link.process = false;
       this.linkService.get(id).subscribe((data) => {
         this.link.id = data.id;
         this.link.title = data.title;

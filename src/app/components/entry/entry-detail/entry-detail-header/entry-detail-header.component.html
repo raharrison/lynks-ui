@@ -7,7 +7,7 @@
     </div>
   </div>
   <div class="btn-group">
-    <button backButton class="btn btn-secondary mr-2"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
+    <a routerLink=".." class="btn btn-secondary mr-2"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
     <button *ngIf="!previousVersion" (click)="onStarClick()" class="btn btn-info mr-2">
       <i class="fa fa-star" aria-hidden="true"></i> {{ entry.starred ? "Unstar" : "Star"}}
     </button>

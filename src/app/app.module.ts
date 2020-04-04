@@ -42,6 +42,7 @@ import {EntryDetailHeaderComponent} from './components/entry/entry-detail/entry-
 import {GroupViewComponent} from './components/group/group-view/group-view.component';
 import {EntryDetailMetadataComponent} from './components/entry/entry-detail/entry-detail-metadata/entry-detail-metadata.component';
 import {EntryAuditComponent} from './components/entry/entry-tabs/entry-audit/entry-audit.component';
+import {LinkContentViewComponent} from './components/entry/entry-detail/link-detail/link-content-view/link-content-view.component';
 
 function getHighlightLanguages() {
   return ["bash", "cpp", "cs", "css", "gradle", "handlebars", "java",
@@ -60,7 +61,7 @@ function getHighlightLanguages() {
     EntryTabsComponent, AttachmentListComponent, AttachmentUploadComponent, AttachmentViewComponent, AttachmentListItemComponent,
     FileSizeComponent, BackButtonDirective, LoadingSpinnerComponent, LinkDetailComponent, EntryTaskListComponent, SafeUrlPipe,
     EntryDiscussionListComponent, LinkEditComponent, EntryHistoryComponent, EntryDetailHeaderComponent, GroupViewComponent,
-    EntryDetailMetadataComponent, EntryAuditComponent
+    EntryDetailMetadataComponent, EntryAuditComponent, LinkContentViewComponent
   ],
   imports: [
     BrowserModule,

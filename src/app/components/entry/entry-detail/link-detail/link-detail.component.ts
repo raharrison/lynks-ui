@@ -16,7 +16,6 @@ export class LinkDetailComponent implements OnInit {
   link: Link;
   version: string;
   loading = true;
-  isContentCollapsed = true;
 
   private entryResource: EntryResource<Link>;
 

@@ -17,7 +17,13 @@
 </div>
 <hr>
 <app-loading-spinner *ngIf="loading"></app-loading-spinner>
-<div *ngIf="!loading">
+<div *ngIf="!loading && entries.length == 0">
+  <div class="text-center">
+    <i class="fas fa-search fa-2x"></i>
+    <h5 class="text-center">No entries found</h5>
+  </div>
+</div>
+<div *ngIf="!loading && entries.length > 0">
   <div *ngFor="let entry of entries">
     <app-note-list-item *ngIf="entry.type=='NOTE'" [note]="$any(entry)"></app-note-list-item>
     <app-link-list-item *ngIf="entry.type=='LINK'" [link]="$any(entry)"></app-link-list-item>

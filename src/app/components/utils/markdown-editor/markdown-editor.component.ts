@@ -104,6 +104,7 @@ export class MarkdownEditorComponent implements AfterViewInit, ControlValueAcces
     Object.assign(opts, this.options);
     opts.element = this.textarea.nativeElement;
 
+    // @ts-ignore
     this._easyMDE = new EasyMDE(opts);
     this._easyMDE.value(this.value);
     this._easyMDE.codemirror.on('change', () => {

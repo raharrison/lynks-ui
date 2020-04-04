@@ -2,3 +2,8 @@
   color: #fff;
   background-color: #6c757d;
 }
+
+.nav-item {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}

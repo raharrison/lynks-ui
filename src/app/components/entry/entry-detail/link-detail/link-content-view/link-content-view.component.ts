@@ -13,6 +13,7 @@ export class LinkContentViewComponent implements OnInit {
 
   isContentCollapsed = true;
   isEmbedFrameCollapsed = true;
+  isSummaryCollapsed = true;
 
   constructor() {
   }

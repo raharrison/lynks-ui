@@ -28,3 +28,22 @@
     </div>
   </div>
 </div>
+
+<div *ngIf="link.props?.attributes?.summary" class="card mb-4">
+  <div class="card-header cursor-pointer bg-info text-white" style="font-weight: 500" (click)="isSummaryCollapsed = !isSummaryCollapsed">
+    <a data-toggle="collapse" aria-expanded="true" aria-controls="linkSummaryContent">
+      <i *ngIf="isSummaryCollapsed" class="fa fa-chevron-down"></i>
+      <i *ngIf="!isSummaryCollapsed" class="fa fa-chevron-up"></i>
+      <i class="ml-3 fa fa-circle small"></i> Summary
+    </a>
+  </div>
+  <div id="linkSummaryContent" class="card-body" [ngbCollapse]="isSummaryCollapsed">
+    <h4 class="mb-3">{{ link.props.attributes.summary.title }}</h4>
+    <app-markdown-view [markdown]="link.props.attributes.summary.content"></app-markdown-view>
+    <h5>Keywords</h5>
+    <ol>
+      <li *ngFor="let keyword of link.props.attributes.summary.keywords">{{keyword}}</li>
+    </ol>
+    <span>Content reduced by {{ link.props.attributes.summary.reduced }}</span>
+  </div>
+</div>

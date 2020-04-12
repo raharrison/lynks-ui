@@ -1,4 +1,5 @@
 import {Entry, NewEntry, SlimEntry} from "./entry.model";
+import {Collection, Tag} from "./group.model";
 
 export interface Link extends Entry {
   url: string,
@@ -19,5 +20,8 @@ export interface Suggestion {
   url: string,
   title: string,
   thumbnail: string,
-  screenshot: string
+  screenshot: string,
+  keywords: string[],
+  tags: Tag[],
+  collections: Collection[]
 }

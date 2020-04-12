@@ -9,7 +9,7 @@
     <form (ngSubmit)="onSubmit()" #linkForm="ngForm">
       <div class="form-group">
         <label for="linkTitle">Title</label>
-        <input [(ngModel)]="link.title" id="linkTitle" name="title" type="text" class="form-control"
+        <input [(ngModel)]="link.title" id="linkTitle" name="title" type="text" class="form-control title-input"
                placeholder="Enter title" #title="ngModel">
         <small class="form-text text-muted">
           (Title will be URL if not specified)
@@ -36,8 +36,15 @@
         <label class="form-check-label" for="linkProcess">Process Link (generate screenshot and summary)</label>
       </div>
 
-      <div *ngIf="suggestionThumbnail" class="text-center">
+      <div *ngIf="suggestionThumbnail" class="text-center mb-3">
         <img [src]="suggestionThumbnail" alt="Link thumbnail" class="img-thumbnail">
+      </div>
+
+      <div *ngIf="suggestionKeywords.length > 0" class="mb-3">
+        <span class="font-weight-bold">Suggested Keywords:</span>
+        <ol class="d-inline keyword-list">
+          <li *ngFor="let keyword of suggestionKeywords" class="d-inline">{{ keyword }}</li>
+        </ol>
       </div>
 
       <div class="form-group">

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Collection, Tag} from "../../../../model/group.model";
+import {Collection, Grouping, Tag} from "../../../../model/group.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {NewLink} from "../../../../model/link.model";
 import {LinkService} from "../../../../services/link.service";
@@ -17,6 +17,7 @@ export class LinkEditComponent implements OnInit {
 
   updateMode = false;
   suggestionThumbnail: string;
+  suggestionKeywords: string[] = [];
   link: NewLink;
 
   selectedTags: Tag[] = [];
@@ -59,8 +60,20 @@ export class LinkEditComponent implements OnInit {
       this.suggesting = false;
       this.link.title = suggestion.title;
       this.suggestionThumbnail = this.linkService.constructTempUrl(suggestion.thumbnail);
+      this.suggestionKeywords = suggestion.keywords;
+      this.addSuggestedGroupings(suggestion.tags, this.selectedTags);
+      this.addSuggestedGroupings(suggestion.collections, this.selectedCollections);
     }, () => {
       this.suggesting = false;
+    });
+  }
+
+  private addSuggestedGroupings(suggestedGroups: Grouping<any>[], target: Grouping<any>[]) {
+    const selectedIds = new Set(target.map(t => t.id));
+    suggestedGroups.forEach(value => {
+      if (!selectedIds.has(value.id)) {
+        target.push(value);
+      }
     });
   }
 

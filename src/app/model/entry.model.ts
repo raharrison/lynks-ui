@@ -19,6 +19,16 @@ export interface Entry {
   type: EntryType
 }
 
+export interface SlimEntry {
+  id: string,
+  title: string,
+  dateUpdated: number,
+  starred: boolean,
+  tags: Tag[],
+  collections: Collection[],
+  type: EntryType
+}
+
 export interface NewEntry {
   id: string,
   title: string,

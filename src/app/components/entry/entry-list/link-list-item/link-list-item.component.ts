@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Link} from "../../../../model/link.model";
+import {SlimLink} from "../../../../model/link.model";
 
 @Component({
   selector: 'app-link-list-item',
@@ -9,7 +9,7 @@ import {Link} from "../../../../model/link.model";
 export class LinkListItemComponent implements OnInit {
 
   @Input()
-  link: Link;
+  link: SlimLink;
 
   constructor() {
   }

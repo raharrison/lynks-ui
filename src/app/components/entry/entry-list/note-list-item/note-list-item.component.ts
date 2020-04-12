@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Note} from "../../../../model/note.model";
+import {SlimNote} from "../../../../model/note.model";
 
 @Component({
   selector: 'app-note-list-item',
@@ -9,7 +9,7 @@ import {Note} from "../../../../model/note.model";
 export class NoteListItemComponent implements OnInit {
 
   @Input()
-  note: Note;
+  note: SlimNote;
 
   constructor() {
   }

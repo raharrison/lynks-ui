@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Entry, EntryType} from "../../../model/entry.model";
+import {EntryType, SlimEntry} from "../../../model/entry.model";
 import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute} from "@angular/router";
 
@@ -10,7 +10,7 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class EntryListComponent implements OnInit {
 
-  entries: Entry[];
+  entries: SlimEntry[];
   loading = true;
 
   entryType: EntryType;
@@ -41,7 +41,7 @@ export class EntryListComponent implements OnInit {
 
   private retrieveEntries() {
     const entryPath = this.entryType.toLowerCase();
-    this.httpClient.get<Array<Entry>>(`/api/${entryPath}`).subscribe((data) => {
+    this.httpClient.get<Array<SlimEntry>>(`/api/${entryPath}`).subscribe((data) => {
       this.loading = false;
       this.entries = data;
     });

@@ -17,6 +17,9 @@ export class GroupViewComponent implements OnInit {
   @Input()
   placeholder: boolean = true;
 
+  @Input()
+  minimal: boolean = false;
+
   constructor() {
   }
 

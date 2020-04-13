@@ -47,7 +47,7 @@ import {LinkContentViewComponent} from './components/entry/entry-detail/link-det
 function getHighlightLanguages() {
   return ["bash", "cpp", "cs", "css", "gradle", "handlebars", "java",
     "javascript", "json", "kotlin", "nginx", "plaintext", "python",
-    "shell", "sql", "typescript", "xml"].reduce((res, lang) => {
+    "shell", "sql", "typescript", "xml", "yaml"].reduce((res, lang) => {
     res[lang] = () => import('highlight.js/lib/languages/' + lang);
     return res;
   }, {});

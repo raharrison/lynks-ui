@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "finally": {
+    "lynks-ui": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -47,7 +47,7 @@
             "allowedCommonJsDependencies": [
               "easymde"
             ],
-            "outputPath": "dist/finally",
+            "outputPath": "dist/lynks-ui",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -103,23 +103,23 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "finally:build",
+            "browserTarget": "lynks-ui:build",
             "proxyConfig": "proxy.conf.json"
           },
           "configurations": {
             "production": {
-              "browserTarget": "finally:build:production"
+              "browserTarget": "lynks-ui:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "finally:build"
+            "browserTarget": "lynks-ui:build"
           }
         }
       }
     }
   },
-  "defaultProject": "finally"
+  "defaultProject": "lynks-ui"
 }

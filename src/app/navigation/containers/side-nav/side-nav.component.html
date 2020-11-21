@@ -1,0 +1,17 @@
+<nav class="lks-sidenav lks-sidenav-dark accordion" id="sidenavAccordion">
+    <div class="lks-sidenav-menu">
+        <div class="nav">
+            <ng-container *ngFor="let section of sideNavSections">
+                <div class="lks-sidenav-menu-heading" *ngIf="section.text">{{ section.text }}</div>
+                <ng-container *ngFor="let item of section.items">
+                    <lks-side-nav-item [sideNavItem]="sideNavItems[item]"></lks-side-nav-item>
+                </ng-container>
+            </ng-container>
+          <lks-tag-list></lks-tag-list>
+        </div>
+    </div>
+    <div class="lks-sidenav-footer">
+        <div class="small">Logged in as:</div>
+        <span *ngIf="userService.user$ | async as user">{{user.firstName}} {{user.lastName}}</span>
+    </div>
+</nav>

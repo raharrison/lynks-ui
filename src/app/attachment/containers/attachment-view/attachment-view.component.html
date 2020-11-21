@@ -1,0 +1,52 @@
+<lks-loader [loading]="loadingAttachment">
+  <div class="row" *ngIf="!loadingAttachment">
+    <div class="col-md-12">
+      <div class="pb-2">
+        <h2>{{ attachment?.name }}</h2>
+        <lks-file-size class="text-gray-light mr-2" [bytes]="attachment?.size"></lks-file-size>
+        <span class="mr-2 font-weight-bold">|</span>
+        <span class="text-gray-light mr-2">Created <lks-time-ago [date]="attachment?.dateCreated"></lks-time-ago></span>
+        <span *ngIf="attachment?.dateUpdated != attachment?.dateCreated" class="mr-2 font-weight-bold">|</span>
+        <span *ngIf="attachment?.dateUpdated != attachment?.dateCreated" class="text-gray-light">
+                Updated <lks-time-ago [date]="attachment?.dateUpdated"></lks-time-ago>
+            </span>
+        <span class="btn-group float-right">
+                <button class="btn btn-secondary mr-1">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>
+                <button (click)="onDownloadClick(attachment)" class="btn btn-primary mr-1">
+                    <i class="fa fa-download" aria-hidden="true"></i> Download</button>
+            </span>
+      </div>
+      <hr>
+
+      <lks-loading-spinner *ngIf="loadingAttachmentData"></lks-loading-spinner>
+
+      <div [ngSwitch]="attachmentCategory" *ngIf="attachment && !loadingAttachment">
+        <div *ngSwitchCase="'text'">
+          <pre><code [class]="attachmentLanguageClass">{{ rawText }}</code></pre>
+        </div>
+        <div *ngSwitchCase="'image'">
+          <img [src]="attachmentUrl" alt="Attachment Image" class="img-fluid">
+        </div>
+        <div *ngSwitchCase="'audio'">
+          <audio style="width: 100%" preload="none" controls>
+            <source [src]="attachmentUrl" [type]="attachmentMimeType">
+            Your browser does not support HTML5 audio.
+          </audio>
+        </div>
+        <div *ngSwitchCase="'video'">
+          <video controls preload="none" width="100%">
+            <source [src]="attachmentUrl">
+            Your browser does not support HTML5 video.
+          </video>
+        </div>
+        <div *ngSwitchCase="'pdf'">
+          <iframe [src]="attachmentUrl" width="100%" height="720"></iframe>
+        </div>
+        <div *ngSwitchDefault>
+          <span>Preview is not available for this file type</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</lks-loader>

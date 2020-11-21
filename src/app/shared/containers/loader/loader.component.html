@@ -1,0 +1,9 @@
+<ng-template #loadingSpinner>
+  <lks-loading-spinner [loading]="loading" [small]="small"></lks-loading-spinner>
+</ng-template>
+
+<div *ngIf="!loading; else loadingSpinner">
+  <ng-content></ng-content>
+</div>
+
+

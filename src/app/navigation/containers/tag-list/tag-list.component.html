@@ -1,0 +1,15 @@
+<a [routerLink]="undefined" class="nav-link" (click)="expanded = !expanded" [ngClass]="{collapsed: !expanded}">
+  <div class="lks-nav-link-icon">
+    <i class="fas fa-tags"></i>
+  </div>
+  Tags
+  <div class="lks-sidenav-collapse-arrow">
+    <i class="ml-auto fas fa-angle-down"></i>
+  </div>
+</a>
+
+<nav class="lks-sidenav-menu-nested nav" *ngIf="expanded">
+  <a class="nav-link" *ngFor="let tag of tags">
+    {{ tag.name }}
+  </a>
+</nav>

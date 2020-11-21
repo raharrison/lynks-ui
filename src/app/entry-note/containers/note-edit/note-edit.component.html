@@ -1,0 +1,42 @@
+<lks-loader [loading]="loading">
+  <div class="row" *ngIf="!loading">
+    <div class="col-md-12 card card-body">
+      <h2 class="mb-3">{{updateMode ? "Update Note" : "New Note"}}</h2>
+
+      <form (ngSubmit)="onSubmit()" #noteForm="ngForm">
+        <div class="form-group">
+          <label for="noteTitle">Title</label>
+          <input [(ngModel)]="note.title" id="noteTitle" name="title" type="text" class="form-control form-control-lg title-input"
+                 placeholder="Enter title (required)" required #title="ngModel">
+          <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
+            Title is required
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="plainText">Content</label>
+          <lks-markdown-editor [(ngModel)]="note.plainText" name="plainText" id="plainText"></lks-markdown-editor>
+        </div>
+
+        <div class="form-group">
+          <label for="tagPicker">Tags</label>
+          <lks-group-editor id="tagPicker" type="tag" [selected]="selectedTags" (selectedChange)="selectedTags = $event"></lks-group-editor>
+        </div>
+
+        <div class="form-group">
+          <label for="collectionPicker">Collections</label>
+          <lks-group-editor id="collectionPicker" type="collection" [selected]="selectedCollections"
+                            (selectedChange)="selectedCollections = $event"></lks-group-editor>
+        </div>
+
+        <div class="form-group float-right">
+          <button type="button" (click)="onCancel()" class="btn btn-outline-secondary mr-2" [disabled]="saving">Cancel</button>
+          <button type="submit" class="btn btn-success px-4" [disabled]="saving || !noteForm.form.valid">
+            <span *ngIf="saving" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <i *ngIf="!saving" class="fa fa-save" aria-hidden="true"></i>
+            &nbsp;{{saving ? "Saving.." : updateMode ? "Save" : "Create"}}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</lks-loader>

@@ -1,0 +1,34 @@
+<lks-loader [loading]="loading">
+  <ng-container *ngIf="link">
+    <lks-entry-detail-header [entry]="link" [previousVersion]="!!version"></lks-entry-detail-header>
+
+    <div *ngIf="isLinkDead() && !version" class="alert alert-warning" role="alert"><b>This link is marked as dead</b>. Run the process task to refresh
+      the status.
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 mb-4">
+        <div class="card card-body">
+          <p class="link-url">
+            <a (click)="launchLink()" target="_blank">{{link.url}} <i class="fas fa-external-link-alt"></i></a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <lks-link-content-view [link]="link"></lks-link-content-view>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 mb-4">
+        <lks-entry-detail-metadata [entry]="link"></lks-entry-detail-metadata>
+      </div>
+    </div>
+
+    <lks-entry-tabs [entry]="link"></lks-entry-tabs>
+  </ng-container>
+</lks-loader>
+

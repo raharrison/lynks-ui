@@ -1,0 +1,17 @@
+// Z index variables
+$zindex-sidenav: 1045 !default;
+$zindex-topnav: 1050 !default;
+
+// Color variables for the sidenav
+
+// -- Sidenav Dark
+$sidenav-dark-bg: $gray-900;
+$sidenav-dark-color: fade-out($white, 0.5);
+$sidenav-dark-heading-color: fade-out($white, 0.75);
+$sidenav-dark-link-color: fade-out($white, 0.5);
+$sidenav-dark-link-active-color: $white;
+$sidenav-dark-icon-color: fade-out($white, 0.75);
+$sidenav-dark-footer-bg: $gray-800;
+
+// Color variables for the topnav
+$topnav-dark-toggler-color: fade-out($white, 0.5);

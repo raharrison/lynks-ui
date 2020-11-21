@@ -1,0 +1,12 @@
+<tag-input [(ngModel)]='selected'
+           [onlyFromAutocomplete]="true"
+           [identifyBy]="'id'"
+           [displayBy]="'name'"
+           theme="dark"
+           [onTextChangeDebounce]="100"
+           placeholder="+ {{type}}"
+           secondaryPlaceholder="Enter {{type}}s.."
+           (ngModelChange)="onGroupChange()">
+  <tag-input-dropdown [autocompleteItems]="allGroups" [identifyBy]="'id'" [displayBy]="'name'">
+  </tag-input-dropdown>
+</tag-input>

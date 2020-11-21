@@ -1,0 +1,22 @@
+<lks-loader [loading]="loading">
+  <ng-container *ngIf="note">
+    <lks-entry-detail-header [entry]="note" [previousVersion]="!!version"></lks-entry-detail-header>
+
+    <div class="row">
+      <div class="col-md-12 mb-4">
+        <div class="card card-body">
+          <lks-markdown-view [markdown]="note.markdownText"></lks-markdown-view>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 mb-4">
+        <lks-entry-detail-metadata [entry]="note"></lks-entry-detail-metadata>
+      </div>
+    </div>
+
+    <lks-entry-tabs [entry]="note"></lks-entry-tabs>
+  </ng-container>
+</lks-loader>
+

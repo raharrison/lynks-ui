@@ -1,0 +1,17 @@
+<div>
+  <table class="table table-hover table-sm">
+    <thead>
+    <tr>
+      <th scope="col" style="width: 30%">Name</th>
+      <th scope="col" style="width: 20%">Created</th>
+      <th scope="col" style="width: 20%">Updated</th>
+      <th scope="col" style="width: 20%">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let tag of $tags | async " lks-tag-edit-list-item [tag]="tag" (tagModified)="retrieveTags()">
+    </tr>
+    </tbody>
+  </table>
+</div>
+

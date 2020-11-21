@@ -32,7 +32,12 @@ export const ROUTES: Routes = [
         path: 'attachment',
         loadChildren: () =>
           import('../attachment/attachment-routing.module').then(m => m.AttachmentRoutingModule)
-      }
+      },
+      {
+        path: 'groups',
+        loadChildren: () =>
+          import('../group/group.module').then(m => m.GroupModule),
+      },
     ]
   }
 

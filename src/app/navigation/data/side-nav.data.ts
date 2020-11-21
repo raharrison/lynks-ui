@@ -3,7 +3,7 @@ import {SideNavItems, SideNavSection} from '@app/navigation/models';
 export const sideNavSections: SideNavSection[] = [
   {
     text: 'CORE',
-    items: ['entries', 'links', 'notes'],
+    items: ['entries', 'links', 'notes', 'groups'],
   },
   {
     text: 'INTERFACE',
@@ -26,6 +26,11 @@ export const sideNavItems: SideNavItems = {
     icon: 'sticky-note',
     text: 'Notes',
     link: '/entries/notes',
+  },
+  groups: {
+    icon: 'object-group',
+    text: 'Groups',
+    link: '/groups',
   },
   pages: {
     icon: 'book-open',

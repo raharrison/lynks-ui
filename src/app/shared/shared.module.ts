@@ -5,15 +5,15 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ToastrModule} from "ngx-toastr";
-import {TagInputModule} from "ngx-chips";
 
 import * as sharedComponents from './components';
 import * as sharedContainers from './containers';
 import * as sharedPipes from './pipes';
 import {HighlightModule} from "ngx-highlightjs";
+import {NgSelectModule} from "@ng-select/ng-select";
 
 const angularLibs = [RouterModule, FormsModule, ReactiveFormsModule];
-const thirdParty = [NgbModule, TagInputModule, HighlightModule];
+const thirdParty = [NgbModule, HighlightModule, NgSelectModule];
 
 @NgModule({
   imports: [CommonModule, angularLibs, ...thirdParty, ToastrModule.forRoot()],

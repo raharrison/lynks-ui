@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Grouping} from "@shared/models";
 import {TagService} from "@shared/services/tag.service";
 import {CollectionService} from "@shared/services/collection.service";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'lks-group-editor',
@@ -10,10 +11,13 @@ import {CollectionService} from "@shared/services/collection.service";
 })
 export class GroupEditComponent implements OnInit {
 
+  groups$: Observable<Grouping<any>[]>;
+
+  @Input()
+  maxSelected = 25;
+
   @Input()
   type: "tag" | "collection" | undefined;
-
-  allGroups: Grouping<any>[] = [];
 
   @Input()
   selected: Grouping<any>[] = [];
@@ -21,15 +25,14 @@ export class GroupEditComponent implements OnInit {
   @Output()
   selectedChange = new EventEmitter<Grouping<any>[]>();
 
-  constructor(private tagService: TagService,
-              private collectionService: CollectionService) {
+  constructor(private tagService: TagService, private collectionService: CollectionService) {
   }
 
   ngOnInit(): void {
     if (this.type == "tag") {
-      this.tagService.getTags().subscribe(tags => this.allGroups = tags);
+      this.groups$ = this.tagService.getTags();
     } else {
-      this.collectionService.getCollections().subscribe(cols => this.allGroups = cols);
+      this.groups$ = this.collectionService.getCollections();
     }
   }
 

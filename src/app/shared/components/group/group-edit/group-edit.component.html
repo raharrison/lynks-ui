@@ -1,12 +1,11 @@
-<tag-input [(ngModel)]='selected'
-           [onlyFromAutocomplete]="true"
-           [identifyBy]="'id'"
-           [displayBy]="'name'"
-           theme="dark"
-           [onTextChangeDebounce]="100"
-           placeholder="+ {{type}}"
-           secondaryPlaceholder="Enter {{type}}s.."
-           (ngModelChange)="onGroupChange()">
-  <tag-input-dropdown [autocompleteItems]="allGroups" [identifyBy]="'id'" [displayBy]="'name'">
-  </tag-input-dropdown>
-</tag-input>
+<ng-select
+  [items]="groups$ | async"
+  [multiple]="true"
+  [closeOnSelect]="true"
+  [searchable]="true"
+  [maxSelectedItems]="maxSelected"
+  bindLabel="name"
+  placeholder="Select {{type}}s"
+  [(ngModel)]="selected"
+  (change)="onGroupChange()">
+</ng-select>

@@ -1,0 +1,28 @@
+<th>
+  <label for="collectionNameInput"></label>
+  <input style="width: 100%" *ngIf="editMode" (click)="$event.stopPropagation()" type="text" id="collectionNameInput" name="collectionNameInput"
+         [(ngModel)]="collectionNameInput">
+  <span *ngIf="!editMode">{{ collection.name }}</span>
+</th>
+<td>
+  <lks-time-ago [date]="collection.dateCreated"></lks-time-ago>
+</td>
+<td>
+  <lks-time-ago [date]="collection.dateUpdated"></lks-time-ago>
+</td>
+<td>
+    <span *ngIf="!editMode" class="btn-group-sm">
+        <button (click)="onEditClick($event)" class="btn btn-info mr-1" ngbTooltip="Edit"><i class="fa fa-edit" aria-hidden="true">
+
+        </i></button>
+        <button (click)="openDeleteModal($event, collection)" class="btn btn-danger" ngbTooltip="Delete">
+          <i class="fa fa-trash-alt" aria-hidden="true">
+          </i>
+        </button>
+    </span>
+  <span *ngIf="editMode" class="btn-group-sm">
+        <button (click)="onSaveClick($event)" [disabled]="collectionNameInput.length <= 0" class="btn btn-primary mr-1">
+          <i class="fa fa-save" aria-hidden="true"></i> Save</button>
+        <button (click)="onEditCancelClick($event)" class="btn btn-secondary">Cancel</button>
+    </span>
+</td>

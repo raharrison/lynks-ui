@@ -13,6 +13,12 @@ export interface Collection extends Grouping<Collection> {
 }
 
 export interface NewTag {
-  id: string
+  id?: string
   name: string
+}
+
+export interface NewCollection {
+  id?: string
+  name: string
+  parentId: string
 }

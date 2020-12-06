@@ -1,4 +1,21 @@
 <div>
+  <div class="card mb-3">
+    <div class="card-body">
+      <form class="form-inline" (ngSubmit)="onTagSave(tagForm)" #tagForm="ngForm">
+        <div class="form-group mx-sm-3">
+          <label for="inputTagName" class="sr-only">New Tag name</label>
+          <input required type="text" class="form-control" id="inputTagName" name="inputTagName" placeholder="New Tag name.."
+                 [(ngModel)]="newTagName">
+        </div>
+        <button type="submit" class="btn btn-success" [disabled]="newTagSaving || !tagForm.form.valid">
+          <span *ngIf="newTagSaving" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          <i *ngIf="!newTagSaving" class="fa fa-save" aria-hidden="true"></i>
+          Create Tag
+        </button>
+      </form>
+    </div>
+  </div>
+
   <table class="table table-hover table-sm">
     <thead>
     <tr>

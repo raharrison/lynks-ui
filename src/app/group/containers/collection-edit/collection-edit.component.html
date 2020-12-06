@@ -1,0 +1,41 @@
+<div>
+  <div class="card mb-3">
+    <div class="card-body">
+      <form class="form-inline" (ngSubmit)="onCollectionSave(collectionForm)" #collectionForm="ngForm">
+        <div class="form-group mx-sm-3">
+          <label for="inputCollectionName" class="sr-only">New Collection name</label>
+          <input required type="text" class="form-control" id="inputCollectionName" name="inputCollectionName" placeholder="New Collection name.."
+                 [(ngModel)]="newCollectionName">
+        </div>
+        <div class="form-group max-sm-3 mr-3">
+          <lks-group-editor id="collectionPicker" type="collection"
+                            [selected]="newCollectionSelectedParent"
+                            (selectedChange)="newCollectionSelectedParent = $event"
+                            maxSelected="1"></lks-group-editor>
+        </div>
+        <button type="submit" class="btn btn-success" [disabled]="newCollectionSaving || !collectionForm.form.valid">
+          <span *ngIf="newCollectionSaving" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          <i *ngIf="!newCollectionSaving" class="fa fa-save" aria-hidden="true"></i>
+          Create Collection
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <table class="table table-hover table-sm">
+    <thead>
+    <tr>
+      <th scope="col" style="width: 30%">Name</th>
+      <th scope="col" style="width: 20%">Created</th>
+      <th scope="col" style="width: 20%">Updated</th>
+      <th scope="col" style="width: 20%">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let collection of $collections | async " lks-collection-edit-list-item [collection]="collection"
+        (collectionModified)="retrieveCollections()">
+    </tr>
+    </tbody>
+  </table>
+</div>
+

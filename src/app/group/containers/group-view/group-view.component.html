@@ -5,7 +5,7 @@
     </div>
     <hr>
 
-    <nav ngbNav #nav="ngbNav" class="nav-tabs" [destroyOnHide]="false">
+    <nav ngbNav #nav="ngbNav" class="nav-tabs" [destroyOnHide]="false" activeId="collections">
       <ng-container ngbNavItem="tags">
         <a ngbNavLink><i class="fas fa-tags"></i> Tags</a>
         <ng-template ngbNavContent>
@@ -21,7 +21,7 @@
         <ng-template ngbNavContent>
           <div class="row">
             <div class="col-md-12">
-              <p>Collection Editor</p>
+              <lks-collection-edit></lks-collection-edit>
             </div>
           </div>
         </ng-template>

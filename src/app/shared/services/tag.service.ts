@@ -14,8 +14,8 @@ export class TagService {
               private responseHandler: ResponseHandlerService) {
   }
 
-  getTags(): Observable<[Tag]> {
-    return this.http.get<[Tag]>("/api/tag")
+  getTags(): Observable<Tag[]> {
+    return this.http.get<Tag[]>("/api/tag")
       .pipe(
         map(tags => tags.sort((a, b) => a.name.localeCompare(b.name))),
         this.responseHandler.handleResponseError("Unable to retrieve tags")

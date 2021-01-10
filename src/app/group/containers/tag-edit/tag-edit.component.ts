@@ -11,7 +11,7 @@ import {NgForm} from "@angular/forms";
 })
 export class TagEditComponent implements OnInit {
 
-  $tags: Observable<[Tag]>;
+  $tags: Observable<Tag[]>;
 
   newTagSaving = false;
   newTagName = "";

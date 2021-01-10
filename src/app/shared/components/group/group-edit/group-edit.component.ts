@@ -32,7 +32,7 @@ export class GroupEditComponent implements OnInit {
     if (this.type == "tag") {
       this.groups$ = this.tagService.getTags();
     } else {
-      this.groups$ = this.collectionService.getCollections();
+      this.groups$ = this.collectionService.getCollectionsFlattened();
     }
   }
 

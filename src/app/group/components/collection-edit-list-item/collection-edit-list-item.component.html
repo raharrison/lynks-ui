@@ -1,9 +1,17 @@
 <th>
   <label for="collectionNameInput"></label>
-  <input style="width: 100%" *ngIf="editMode" (click)="$event.stopPropagation()" type="text" id="collectionNameInput" name="collectionNameInput"
+  <input *ngIf="editMode" (click)="$event.stopPropagation()" class="d-inline form-control" type="text" id="collectionNameInput"
+         name="collectionNameInput"
          [(ngModel)]="collectionNameInput">
   <span *ngIf="!editMode">{{ collection.name }}</span>
 </th>
+<td>
+  <lks-group-editor *ngIf="editMode" id="collectionPicker" type="collection"
+                    [selected]="collectionSelectedParent"
+                    (selectedChange)="collectionSelectedParent = $event"
+                    [maxSelected]="1"></lks-group-editor>
+  <span *ngIf="!editMode">{{ parentCollection ? parentCollection.name : "" }}</span>
+</td>
 <td>
   <lks-time-ago [date]="collection.dateCreated"></lks-time-ago>
 </td>

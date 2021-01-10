@@ -14,11 +14,15 @@ export class CollectionEditListItemComponent implements OnInit {
   @Input()
   collection: Collection;
 
+  @Input()
+  parentCollection: Collection;
+
   @Output()
   collectionModified = new EventEmitter<Collection>();
 
   editMode = false;
   collectionNameInput: string;
+  collectionSelectedParent: Collection[] = [];
 
   constructor(private collectionService: CollectionService,
               private modalService: NgbModal) {
@@ -52,6 +56,7 @@ export class CollectionEditListItemComponent implements OnInit {
     event.stopPropagation();
     this.editMode = true;
     this.collectionNameInput = this.collection.name;
+    this.collectionSelectedParent = this.parentCollection == null ? [] : [this.parentCollection];
   }
 
   onSaveClick(event: Event) {
@@ -59,21 +64,20 @@ export class CollectionEditListItemComponent implements OnInit {
     const updatedCollection: NewCollection = {
       id: this.collection.id,
       name: this.collectionNameInput,
-      parentId: null
+      parentId: this.collectionSelectedParent.length == 0 ? null : this.collectionSelectedParent[0].id
     };
     this.collectionService.updateCollection(updatedCollection)
       .subscribe(res => {
         this.collection = res;
         this.editMode = false;
         this.collection.name = this.collectionNameInput;
-        this.collectionNameInput = null;
+        this.parentCollection = this.collectionSelectedParent.length == 0 ? null : this.collectionSelectedParent[0];
       });
   }
 
   onEditCancelClick(event: Event) {
     event.stopPropagation();
     this.editMode = false;
-    this.collectionNameInput = null;
   }
 
 }

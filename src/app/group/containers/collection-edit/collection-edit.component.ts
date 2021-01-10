@@ -3,6 +3,7 @@ import {Observable} from "rxjs";
 import {Collection, NewCollection} from "@shared/models";
 import {NgForm} from "@angular/forms";
 import {CollectionService} from "@shared/services/collection.service";
+import {tap} from "rxjs/operators";
 
 @Component({
   selector: 'lks-collection-edit',
@@ -11,7 +12,8 @@ import {CollectionService} from "@shared/services/collection.service";
 })
 export class CollectionEditComponent implements OnInit {
 
-  $collections: Observable<[Collection]>;
+  $collections: Observable<Collection[]>;
+  collectionsToParent: { string, Collection } = <{ string, Collection }>{};
 
   newCollectionSaving = false;
   newCollectionName = "";
@@ -25,7 +27,18 @@ export class CollectionEditComponent implements OnInit {
   }
 
   retrieveCollections() {
-    this.$collections = this.collectionService.getCollections()
+    this.$collections = this.collectionService.getCollectionsFlattened().pipe(tap(collections => {
+      this.populateParents(collections, null);
+    }));
+  }
+
+  private populateParents(collections: Collection[], parent: Collection) {
+    for (let collection of collections) {
+      if (!this.collectionsToParent[collection.id]) {
+        this.collectionsToParent[collection.id] = parent;
+      }
+      this.populateParents(collection.children, collection);
+    }
   }
 
   onCollectionSave(collectionForm: NgForm) {
@@ -34,7 +47,7 @@ export class CollectionEditComponent implements OnInit {
       parentId: this.newCollectionSelectedParent.length == 0 ? null : this.newCollectionSelectedParent[0].id
     }
     this.newCollectionSaving = true;
-    this.collectionService.createCollection(newCollection).subscribe(res => {
+    this.collectionService.createCollection(newCollection).subscribe(_ => {
       collectionForm.form.reset();
       this.newCollectionSaving = false;
       this.newCollectionSelectedParent = [];

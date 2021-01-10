@@ -23,12 +23,12 @@ export class CollectionService {
   }
 
   createCollection(collection: NewCollection): Observable<Collection> {
-    return this.http.post<Collection>(`/api/collection/`, collection)
+    return this.http.post<Collection>(`/api/collection`, collection)
       .pipe(this.responseHandler.handleResponse("Collection created", "Unable to create collection"));
   }
 
   updateCollection(collection: NewCollection): Observable<Collection> {
-    return this.http.put<Collection>(`/api/collection/`, collection)
+    return this.http.put<Collection>(`/api/collection`, collection)
       .pipe(this.responseHandler.handleResponse("Collection updated", "Unable to update collection"));
   }
 

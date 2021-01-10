@@ -23,12 +23,12 @@ export class TagService {
   }
 
   createTag(tag: NewTag): Observable<Tag> {
-    return this.http.post<Tag>(`/api/tag/`, tag)
+    return this.http.post<Tag>(`/api/tag`, tag)
       .pipe(this.responseHandler.handleResponse("Tag created", "Unable to create tag"));
   }
 
   updateTag(tag: NewTag): Observable<Tag> {
-    return this.http.put<Tag>(`/api/tag/`, tag)
+    return this.http.put<Tag>(`/api/tag`, tag)
       .pipe(this.responseHandler.handleResponse("Tag updated", "Unable to update tag"));
   }
 

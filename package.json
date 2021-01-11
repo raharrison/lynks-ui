@@ -36,7 +36,7 @@
     "@angular/compiler-cli": "~11.0.7",
     "@angular/localize": "^11.0.7",
     "@types/codemirror": "0.0.98",
-    "@types/marked": "^1.1.0",
+    "@types/marked": "^1.2.1",
     "@types/node": "^12.11.1",
     "bootstrap": "^4.5.3",
     "ts-node": "~8.3.0",

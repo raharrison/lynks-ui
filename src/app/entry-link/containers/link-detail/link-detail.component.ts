@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {EntryType, Link} from "@shared/models";
+import {EntryType, Link, SlimLink} from "@shared/models";
 import {EntryResource, EntryService} from "@app/entry/services/entry.service";
 import {LinkService} from "@app/entry/services/link.service";
 
@@ -16,7 +16,7 @@ export class LinkDetailComponent implements OnInit {
   version: string;
   loading = true;
 
-  private entryResource: EntryResource<Link>;
+  private entryResource: EntryResource<SlimLink, Link>;
 
   constructor(private route: ActivatedRoute,
               private entryService: EntryService,

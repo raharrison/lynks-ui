@@ -33,8 +33,8 @@ export class CommentListComponent implements OnInit {
   }
 
   private retrieveComments() {
-    this.commentService.getCommentsForEntry(this.entryId).subscribe(value => {
-      this.comments = value;
+    this.commentService.getCommentsForEntry(this.entryId).subscribe(page => {
+      this.comments = page.content;
       this.loading = false;
       this.onLoaded.emit(this.comments.length);
     });

@@ -2,20 +2,21 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {EntryResource} from "./entry.service";
-import {Link, NewLink, Suggestion} from "@shared/models";
+import {Link, NewLink, SlimLink, Suggestion} from "@shared/models";
 import {ResponseHandlerService} from "@shared/services/response-handler.service";
+import {Page} from "@shared/models/page.model";
 
 @Injectable({
   providedIn: 'root'
 })
-export class LinkService implements EntryResource<Link> {
+export class LinkService implements EntryResource<SlimLink, Link> {
 
   constructor(private http: HttpClient,
               private responseHandler: ResponseHandlerService) {
   }
 
-  getPage(): Observable<Link[]> {
-    return this.http.get<Link[]>("/api/link")
+  getPage(): Observable<Page<SlimLink>> {
+    return this.http.get<Page<SlimLink>>("/api/link")
       .pipe(this.responseHandler.handleResponseError("Unable to retrieve links"));
   }
 
@@ -45,7 +46,7 @@ export class LinkService implements EntryResource<Link> {
   }
 
   suggest(url: string): Observable<Suggestion> {
-    return this.http.post<Suggestion>("/api/suggest/", url)
+    return this.http.post<Suggestion>("/api/suggest", url)
       .pipe(this.responseHandler.handleResponse("Suggestion complete", "Unable to perform link suggestion"));
   }
 

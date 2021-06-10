@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {EntryType, Note} from "@shared/models";
+import {EntryType, Note, SlimNote} from "@shared/models";
 import {EntryResource, EntryService} from "@app/entry/services/entry.service";
 
 @Component({
@@ -15,7 +15,7 @@ export class NoteDetailComponent implements OnInit {
   version: string;
   loading = true;
 
-  private entryResource: EntryResource<Note>;
+  private entryResource: EntryResource<SlimNote, Note>;
 
   constructor(private route: ActivatedRoute,
               private entryService: EntryService) {

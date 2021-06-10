@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute} from "@angular/router";
 
 import {EntryType, SlimEntry} from "@shared/models";
+import {Page} from "@shared/models/page.model";
 
 @Component({
   selector: 'lks-entry-list',
@@ -42,9 +43,9 @@ export class EntryListComponent implements OnInit {
 
   private retrieveEntries() {
     const entryPath = this.entryType.toLowerCase();
-    this.httpClient.get<Array<SlimEntry>>(`/api/${entryPath}`).subscribe((data) => {
+    this.httpClient.get<Page<SlimEntry>>(`/api/${entryPath}`).subscribe((data) => {
       this.loading = false;
-      this.entries = data;
+      this.entries = data.content;
     });
   }
 }

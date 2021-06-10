@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {ResponseHandlerService} from "@shared/services/response-handler.service";
 import {Comment, NewComment} from "@app/comment/models";
+import {Page} from "@shared/models/page.model";
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,8 @@ export class CommentService {
               private responseHandler: ResponseHandlerService) {
   }
 
-  getCommentsForEntry(entryId: string): Observable<Comment[]> {
-    return this.http.get<Comment[]>(`/api/entry/${entryId}/comments`)
+  getCommentsForEntry(entryId: string): Observable<Page<Comment>> {
+    return this.http.get<Page<Comment>>(`/api/entry/${entryId}/comments`)
       .pipe(this.responseHandler.handleResponseError("Unable to retrieve comments for entry"));
   }
 

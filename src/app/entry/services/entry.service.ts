@@ -4,10 +4,11 @@ import {HttpClient} from "@angular/common/http";
 import {NoteService} from "./note.service";
 import {LinkService} from "./link.service";
 import {ResponseHandlerService} from "@shared/services/response-handler.service";
-import {Entry, EntryAuditItem, EntryType, EntryVersion} from "@shared/models";
+import {Entry, EntryAuditItem, EntryType, EntryVersion, SlimEntry} from "@shared/models";
+import {Page} from "@shared/models/page.model";
 
-export interface EntryResource<T extends Entry> {
-  getPage(): Observable<T[]>;
+export interface EntryResource<S extends SlimEntry, T extends Entry> {
+  getPage(): Observable<Page<S>>;
 
   get(id: string): Observable<T>;
 
@@ -33,7 +34,7 @@ export class EntryService {
               private linkService: LinkService) {
   }
 
-  resolveService(type: EntryType): EntryResource<any> {
+  resolveService(type: EntryType): EntryResource<any, any> {
     if (type == EntryType.LINK) {
       return this.linkService;
     } else if (type == EntryType.NOTE) {

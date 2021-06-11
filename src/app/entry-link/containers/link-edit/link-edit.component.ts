@@ -58,7 +58,7 @@ export class LinkEditComponent implements OnInit {
     this.linkService.suggest(this.link.url).subscribe(suggestion => {
       this.suggesting = false;
       this.link.title = suggestion.title;
-      this.suggestionThumbnail = this.linkService.constructTempUrl(suggestion.thumbnail);
+      this.suggestionThumbnail = suggestion.thumbnail ? this.linkService.constructTempUrl(suggestion.thumbnail) : null;
       this.suggestionKeywords = suggestion.keywords;
       this.addSuggestedGroupings(suggestion.tags, this.selectedTags);
       this.addSuggestedGroupings(suggestion.collections, this.selectedCollections);

@@ -28,3 +28,21 @@ body {
   overflow-wrap: break-word;
   word-wrap: break-word;
 }
+
+.EasyMDEContainer {
+  .editor-toolbar {
+    &.fullscreen {
+      z-index: 1500;
+    }
+  }
+
+  .CodeMirror {
+    &.CodeMirror-fullscreen {
+      z-index: 1500;
+    }
+  }
+
+  .editor-preview-side {
+    z-index: 1500;
+  }
+}

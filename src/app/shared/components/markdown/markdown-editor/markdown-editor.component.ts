@@ -31,16 +31,18 @@ export class MarkdownEditorComponent implements AfterViewInit, ControlValueAcces
     },
     placeholder: "Type here...",
     spellChecker: false,
-    status: true,
     previewClass: ["editor-preview", "markdown-body"],
     toolbar: ["bold", "italic", "heading-smaller", "heading-bigger", "|", "quote", "code", "unordered-list", "ordered-list", "clean-block",
-      "|", "link", "image", "table", "|", "preview", "side-by-side", "fullscreen", "|", "guide"],
+      "|", "link", "image", "table", "upload-image", "|", "preview", "side-by-side", "fullscreen", "|", "guide"],
     renderingConfig: {
       codeSyntaxHighlighting: true,
       hljs: undefined
     },
     uploadImage: true,
-    imageUploadEndpoint: "http://something.com/upload"
+    imageUploadEndpoint: "/api/imageUpload",
+    previewImagesInEditor: true,
+    imagePathAbsolute: true,
+    imageMaxSize: 1024 * 1024 * 5
   };
 
   @ViewChild('easymde', {static: true}) textarea: ElementRef | undefined;
@@ -98,13 +100,12 @@ export class MarkdownEditorComponent implements AfterViewInit, ControlValueAcces
 
   ngAfterViewInit(): void {
     const opts = Object.assign({}, this.baseOptions);
-    // @ts-ignore
     opts.renderingConfig.hljs = this.hljs.hljs;
     if (this.slim) {
+      // @ts-ignore
       opts.status = false;
     }
     Object.assign(opts, this.options);
-    // @ts-ignore
     opts.element = this.textarea.nativeElement;
 
     // @ts-ignore

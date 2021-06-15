@@ -20,7 +20,7 @@ export interface Suggestion {
   url: string,
   title: string,
   thumbnail: string,
-  screenshot: string,
+  preview: string,
   keywords: string[],
   tags: Tag[],
   collections: Collection[]

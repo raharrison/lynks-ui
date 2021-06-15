@@ -3,6 +3,7 @@ import {ActivatedRoute} from "@angular/router";
 import {EntryType, Link, SlimLink} from "@shared/models";
 import {EntryResource, EntryService} from "@app/entry/services/entry.service";
 import {LinkService} from "@app/entry/services/link.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'lks-link-detail',
@@ -19,6 +20,7 @@ export class LinkDetailComponent implements OnInit {
   private entryResource: EntryResource<SlimLink, Link>;
 
   constructor(private route: ActivatedRoute,
+              private toastrService: ToastrService,
               private entryService: EntryService,
               private linkService: LinkService) {
     this.entryResource = entryService.resolveService(EntryType.LINK);
@@ -52,6 +54,19 @@ export class LinkDetailComponent implements OnInit {
 
   launchLink() {
     this.linkService.launch(this.id);
+  }
+
+  copyToClipboard() {
+    const el = document.createElement('textarea');
+    el.value = this.link.url;
+    el.setAttribute('readonly', '');
+    el.style.position = 'absolute';
+    el.style.left = '-9999px';
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    this.toastrService.success("Copied to clipboard!")
   }
 
 }

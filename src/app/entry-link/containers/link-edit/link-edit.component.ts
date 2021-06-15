@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {Collection, Grouping, NewLink, Tag} from "@shared/models";
+import {Collection, Grouping, GroupType, NewLink, Tag} from "@shared/models";
 import {LinkService} from "@app/entry/services/link.service";
 
 @Component({
@@ -60,20 +60,23 @@ export class LinkEditComponent implements OnInit {
       this.link.title = suggestion.title;
       this.suggestionThumbnail = suggestion.thumbnail ? this.linkService.constructTempUrl(suggestion.thumbnail) : null;
       this.suggestionKeywords = suggestion.keywords;
-      this.addSuggestedGroupings(suggestion.tags, this.selectedTags);
-      this.addSuggestedGroupings(suggestion.collections, this.selectedCollections);
+      this.addSuggestedGroupings(suggestion.tags, GroupType.TAG);
+      this.addSuggestedGroupings(suggestion.collections, GroupType.COLLECTION);
     }, () => {
       this.suggesting = false;
     });
   }
 
-  private addSuggestedGroupings(suggestedGroups: Grouping<any>[], target: Grouping<any>[]) {
+  private addSuggestedGroupings(suggestedGroups: Grouping<any>[], type: GroupType) {
+    const target = type == GroupType.TAG ? this.selectedTags : this.selectedCollections;
     const selectedIds = new Set(target.map(t => t.id));
     suggestedGroups.forEach(value => {
       if (!selectedIds.has(value.id)) {
         target.push(value);
       }
     });
+    if (type == GroupType.TAG) this.selectedTags = [...target];
+    else if (type == GroupType.COLLECTION) this.selectedCollections = [...target];
   }
 
   onCancel() {

@@ -22,3 +22,8 @@ export interface NewCollection {
   name: string
   parentId: string
 }
+
+export enum GroupType {
+  TAG = "tag",
+  COLLECTION = "collection"
+}

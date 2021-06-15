@@ -16,7 +16,7 @@ export interface EntryResource<S extends SlimEntry, T extends Entry> {
 
   create(model): Observable<T>;
 
-  update(model): Observable<T>;
+  update(model, newVersion: boolean): Observable<T>;
 
   delete(id: string): Observable<any>;
 

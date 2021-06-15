@@ -55,12 +55,12 @@ export class NoteEditComponent implements OnInit {
     }
   }
 
-  onSubmit() {
+  onSubmit(saveNewVersion: boolean) {
     this.note.tags = this.selectedTags.map(t => t.id);
     this.note.collections = this.selectedCollections.map(c => c.id);
     this.saving = true;
     if (this.updateMode) {
-      this.updateNote();
+      this.updateNote(saveNewVersion);
     } else {
       this.createNote();
     }
@@ -77,8 +77,8 @@ export class NoteEditComponent implements OnInit {
         });
   }
 
-  updateNote() {
-    this.noteService.update(this.note)
+  updateNote(saveNewVersion: boolean) {
+    this.noteService.update(this.note, saveNewVersion)
       .subscribe(
         data => {
           this.saving = false;

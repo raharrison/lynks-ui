@@ -35,8 +35,8 @@ export class NoteService implements EntryResource<SlimNote, Note> {
       .pipe(this.responseHandler.handleResponse("Note created", "Unable to create note"));
   }
 
-  update(newNote: NewNote): Observable<Note> {
-    return this.http.put<Note>("/api/note", newNote)
+  update(newNote: NewNote, newVersion: boolean): Observable<Note> {
+    return this.http.put<Note>("/api/note", newNote, {params: {newVersion}})
       .pipe(this.responseHandler.handleResponse("Note updated", "Unable to update note"));
   }
 

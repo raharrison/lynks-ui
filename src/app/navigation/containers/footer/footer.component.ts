@@ -8,6 +8,9 @@ import {ChangeDetectionStrategy, Component} from '@angular/core';
 })
 export class FooterComponent {
 
+  year: number;
+
   constructor() {
+    this.year = new Date().getFullYear();
   }
 }

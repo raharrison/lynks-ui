@@ -28,6 +28,7 @@ body {
   word-wrap: break-word;
 }
 
+// fix z-index of editor in fullscreen mode
 .EasyMDEContainer {
   .editor-toolbar {
     &.fullscreen {
@@ -43,5 +44,14 @@ body {
 
   .editor-preview-side {
     z-index: 1500;
+  }
+}
+
+// restrict dynamic html elements
+.attachment-page {
+  img {
+    display: block;
+    max-width: 80%;
+    height: auto;
   }
 }

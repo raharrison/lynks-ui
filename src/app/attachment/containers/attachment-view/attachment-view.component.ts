@@ -3,7 +3,7 @@ import {ActivatedRoute} from "@angular/router";
 import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
 import {HighlightJS} from "ngx-highlightjs";
 import {Subscription} from "rxjs";
-import {Attachment, AttachmentCategory} from "@app/attachment/models";
+import {Attachment, AttachmentCategory, AttachmentType} from "@app/attachment/models";
 import {AttachmentService} from "@app/attachment/services/attachment.service";
 
 @Component({
@@ -62,16 +62,19 @@ export class AttachmentViewComponent implements OnInit, OnDestroy {
     this.attachmentService.getAttachment(this.entryId, this.attachmentId).subscribe(resp => {
       this.attachment = resp.body;
       this.attachmentMimeType = resp.headers.get("X-Resource-Mime-Type")?.toLowerCase();
-      this.attachmentCategory = this.deriveAttachmentCategory(this.attachmentMimeType,
+      this.attachmentCategory = this.deriveAttachmentCategory(this.attachment.type, this.attachmentMimeType,
         this.attachment.extension.toLowerCase());
       this.loadingAttachment = false;
       this.postProcessAttachment();
     });
   }
 
-  private deriveAttachmentCategory(mime: string, extension: string): AttachmentCategory {
+  private deriveAttachmentCategory(type: AttachmentType, mime: string, extension: string): AttachmentCategory {
     if (!mime) {
       return AttachmentCategory.UNKNOWN;
+    }
+    if (type == AttachmentType.READABLE_DOC) {
+      return AttachmentCategory.PAGE;
     }
     if (extension in AttachmentViewComponent.TEXT_EXT_OVERRIDES) {
       this.attachmentLanguageClass = `language-${AttachmentViewComponent.TEXT_EXT_OVERRIDES[extension]}`;
@@ -87,7 +90,7 @@ export class AttachmentViewComponent implements OnInit, OnDestroy {
   }
 
   private postProcessAttachment() {
-    if (this.attachmentCategory == AttachmentCategory.TEXT) {
+    if (this.attachmentCategory == AttachmentCategory.TEXT || this.attachmentCategory == AttachmentCategory.PAGE) {
       this.loadingAttachmentData = true;
       this.attachmentService.downloadAttachment(this.entryId, this.attachmentId).subscribe(data => {
         const blob = data as Blob;

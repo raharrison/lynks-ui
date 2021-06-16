@@ -25,6 +25,9 @@
         <div *ngSwitchCase="'text'">
           <pre><code [class]="attachmentLanguageClass">{{ rawText }}</code></pre>
         </div>
+        <div *ngSwitchCase="'page'">
+          <div [innerHTML]="this.rawText" class="attachment-page"></div>
+        </div>
         <div *ngSwitchCase="'image'">
           <img [src]="attachmentUrl" alt="Attachment Image" class="img-fluid">
         </div>

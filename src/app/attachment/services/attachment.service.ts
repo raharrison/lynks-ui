@@ -31,7 +31,7 @@ export class AttachmentService {
   uploadAttachment(entryId: string, file: File): Observable<any> {
     const formData: FormData = new FormData();
     formData.append('fileKey', file, file.name);
-    return this.http.post<Attachment>(`/api/entry/${entryId}/resource/`, formData, {
+    return this.http.post<Attachment>(`/api/entry/${entryId}/resource`, formData, {
       reportProgress: true,
       observe: "events"
     })

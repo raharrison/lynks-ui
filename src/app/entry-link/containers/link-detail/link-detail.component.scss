@@ -1,6 +1,9 @@
 .link-url {
-  margin: 0;
-  font-size: 1.1em;
+  a {
+    vertical-align: middle;
+  }
+
+  font-size: 1.25em;
   color: #007bff;
   cursor: pointer;
 }

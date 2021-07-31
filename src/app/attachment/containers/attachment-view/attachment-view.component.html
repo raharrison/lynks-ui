@@ -46,6 +46,11 @@
         <div *ngSwitchCase="'pdf'">
           <iframe [src]="attachmentUrl" width="100%" height="720"></iframe>
         </div>
+        <div *ngSwitchCase="'subtitle'">
+          <div *ngFor="let line of parseObj(rawText)">
+            {{ line.begin.slice(0, -4) }} - {{ line.end.slice(0, -4) }}  {{line.text}}
+          </div>
+        </div>
         <div *ngSwitchDefault>
           <span>Preview is not available for this file type</span>
         </div>

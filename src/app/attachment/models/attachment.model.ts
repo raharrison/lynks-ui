@@ -28,5 +28,6 @@ export enum AttachmentCategory {
   AUDIO = "audio",
   VIDEO = "video",
   PDF = "pdf",
+  SUBTITLE = "subtitle",
   UNKNOWN = "unknown"
 }

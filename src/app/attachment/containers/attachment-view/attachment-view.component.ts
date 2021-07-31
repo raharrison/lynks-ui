@@ -76,6 +76,9 @@ export class AttachmentViewComponent implements OnInit, OnDestroy {
     if (type == AttachmentType.READABLE_DOC) {
       return AttachmentCategory.PAGE;
     }
+    if (extension == "ttml") {
+      return AttachmentCategory.SUBTITLE;
+    }
     if (extension in AttachmentViewComponent.TEXT_EXT_OVERRIDES) {
       this.attachmentLanguageClass = `language-${AttachmentViewComponent.TEXT_EXT_OVERRIDES[extension]}`;
       return AttachmentCategory.TEXT;
@@ -90,7 +93,9 @@ export class AttachmentViewComponent implements OnInit, OnDestroy {
   }
 
   private postProcessAttachment() {
-    if (this.attachmentCategory == AttachmentCategory.TEXT || this.attachmentCategory == AttachmentCategory.PAGE) {
+    if (this.attachmentCategory == AttachmentCategory.TEXT ||
+      this.attachmentCategory == AttachmentCategory.PAGE ||
+      this.attachmentCategory == AttachmentCategory.SUBTITLE) {
       this.loadingAttachmentData = true;
       this.attachmentService.downloadAttachment(this.entryId, this.attachmentId).subscribe(data => {
         const blob = data as Blob;
@@ -104,6 +109,12 @@ export class AttachmentViewComponent implements OnInit, OnDestroy {
             }), 1);
         });
       });
+    }
+  }
+
+  parseObj(str: string) {
+    if (str) {
+      return JSON.parse(str);
     }
   }
 

@@ -25,7 +25,7 @@ export class MarkdownViewComponent implements OnInit, AfterViewInit, OnDestroy, 
 
   ngAfterViewInit() {
     this.elRef.nativeElement.querySelectorAll("pre code").forEach((item: HTMLElement) => {
-      const sub = this.hljs.highlightBlock(item as HTMLElement).subscribe();
+      const sub = this.hljs.highlightElement(item as HTMLElement).subscribe();
       this.subscription.add(sub);
     });
   }

@@ -12,7 +12,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 function getHighlightLanguages() {
   return {
     bash: () => import('highlight.js/lib/languages/bash'),
-    "c-like": () => import('highlight.js/lib/languages/c-like'),
+    c: () => import('highlight.js/lib/languages/c'),
     cpp: () => import('highlight.js/lib/languages/cpp'),
     csharp: () => import('highlight.js/lib/languages/csharp'),
     css: () => import('highlight.js/lib/languages/css'),

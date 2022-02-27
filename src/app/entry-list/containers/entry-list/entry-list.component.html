@@ -29,8 +29,8 @@
   </div>
   <div *ngIf="entries.length > 0">
     <div *ngFor="let entry of entries">
-      <lks-note-list-item *ngIf="entry.type=='NOTE'" [note]="$any(entry)"></lks-note-list-item>
-      <lks-link-list-item *ngIf="entry.type=='LINK'" [link]="$any(entry)"></lks-link-list-item>
+      <lks-note-list-item *ngIf="entry.type=='note'" [note]="$any(entry)"></lks-note-list-item>
+      <lks-link-list-item *ngIf="entry.type=='link'" [link]="$any(entry)"></lks-link-list-item>
       <hr>
     </div>
   </div>

@@ -104,7 +104,7 @@ export class AttachmentViewComponent implements OnInit, OnDestroy {
           this.loadingAttachmentData = false;
           setTimeout(_ =>
             document.querySelectorAll("pre code").forEach(item => {
-              const sub = this.hljs.highlightBlock(item as HTMLElement).subscribe();
+              const sub = this.hljs.highlightElement(item as HTMLElement).subscribe();
               this.subscription.add(sub);
             }), 1);
         });

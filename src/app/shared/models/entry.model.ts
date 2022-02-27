@@ -1,14 +1,13 @@
 import {Collection, Tag} from "./group.model";
-import {Task} from "./task.model";
+import {TaskDefinition} from "./task.model";
 
 export interface BaseProperties {
   attributes: any,
-  tasks: Task[]
+  tasks: TaskDefinition[]
 }
 
 export interface Entry {
   id: string,
-  title: string,
   dateCreated: number,
   dateUpdated: number,
   version: number,
@@ -21,7 +20,6 @@ export interface Entry {
 
 export interface SlimEntry {
   id: string,
-  title: string,
   dateUpdated: number,
   starred: boolean,
   tags: Tag[],
@@ -31,7 +29,6 @@ export interface SlimEntry {
 
 export interface NewEntry {
   id: string,
-  title: string,
   tags: string[],
   collections: string[]
 }

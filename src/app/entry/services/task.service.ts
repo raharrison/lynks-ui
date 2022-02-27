@@ -11,8 +11,8 @@ export class TaskService {
               private responseHandler: ResponseHandlerService) {
   }
 
-  runTask(entryId: string, taskId: string) {
-    return this.http.post(`/api/entry/${entryId}/task/${taskId}`, null)
+  runTask(entryId: string, taskId: string, model: object) {
+    return this.http.post(`/api/entry/${entryId}/task/${taskId}`, model)
       .pipe(this.responseHandler.handleResponse("Task Executing", "Unable to execute task"));
   }
 }

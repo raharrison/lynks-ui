@@ -1,0 +1,13 @@
+<form (ngSubmit)="onSubmit()" #taskForm="ngForm">
+  <div class="form-group" *ngFor="let param of taskDefinition.params">
+    <label for="{{param.name}}">{{param.description}}</label>
+
+    <select class="form-control" id="{{param.name}}" name="{{param.name}}" required
+            *ngIf="param.type == 'enum'"
+            [(ngModel)]="model[param.name]">
+      <option *ngFor="let option of param.options" [value]="option">{{option}}</option>
+    </select>
+  </div>
+
+  <button class="btn btn-sm btn-info" [disabled]="!taskForm.form.valid"><i class="fa fa-play-circle" aria-hidden="true"></i> Execute</button>
+</form>

@@ -1,6 +1,6 @@
 export interface Page<T> {
   content: T[];
-  page: Number;
-  size: Number;
-  total: Number;
+  page: number;
+  size: number;
+  total: number;
 }

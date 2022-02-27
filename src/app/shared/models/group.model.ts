@@ -1,5 +1,6 @@
 export interface Grouping<T> {
   id: string,
+  path: string,
   name: string,
   children: T[],
   dateCreated: number,

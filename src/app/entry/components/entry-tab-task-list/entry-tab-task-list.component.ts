@@ -1,6 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {Entry, Task} from "@shared/models";
-import {TaskService} from "@app/entry/services/task.service";
+import {Entry} from "@shared/models";
 
 @Component({
   selector: 'lks-entry-tab-task-list',
@@ -13,10 +12,7 @@ export class EntryTabTaskListComponent {
   @Input()
   entry: Entry;
 
-  constructor(private taskService: TaskService) {
+  constructor() {
   }
 
-  executeTask(task: Task) {
-    this.taskService.runTask(this.entry.id, task.id).subscribe();
-  }
 }

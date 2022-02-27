@@ -4,6 +4,7 @@ import {EntryTabAuditComponent} from "./entry-tab-audit/entry-tab-audit.componen
 import {EntryTabHistoryComponent} from "./entry-tab-history/entry-tab-history.component";
 import {EntryTabDiscussionListComponent} from "./entry-tab-discussion-list/entry-tab-discussion-list.component";
 import {EntryTabTaskListComponent} from "./entry-tab-task-list/entry-tab-task-list.component";
+import {EntryTabTaskExecComponent} from "./entry-tab-task-exec/entry-tab-task-exec.component";
 
 export const components = [
   EntryDetailHeaderComponent,
@@ -11,7 +12,8 @@ export const components = [
   EntryTabAuditComponent,
   EntryTabHistoryComponent,
   EntryTabDiscussionListComponent,
-  EntryTabTaskListComponent
+  EntryTabTaskListComponent,
+  EntryTabTaskExecComponent
 ];
 
 export * from './entry-detail-header/entry-detail-header.component';
@@ -20,3 +22,4 @@ export * from './entry-tab-audit/entry-tab-audit.component';
 export * from './entry-tab-history/entry-tab-history.component';
 export * from './entry-tab-discussion-list/entry-tab-discussion-list.component';
 export * from './entry-tab-task-list/entry-tab-task-list.component';
+export * from './entry-tab-task-exec/entry-tab-task-exec.component';

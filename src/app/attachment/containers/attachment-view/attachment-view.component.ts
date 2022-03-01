@@ -73,7 +73,7 @@ export class AttachmentViewComponent implements OnInit, OnDestroy {
     if (!mime) {
       return AttachmentCategory.UNKNOWN;
     }
-    if (type == AttachmentType.READABLE_DOC) {
+    if (type == AttachmentType.READABLE_DOC || extension == "html") {
       return AttachmentCategory.PAGE;
     }
     if (extension == "ttml") {

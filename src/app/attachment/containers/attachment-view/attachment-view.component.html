@@ -26,7 +26,21 @@
           <pre><code [class]="attachmentLanguageClass">{{ rawText }}</code></pre>
         </div>
         <div *ngSwitchCase="'page'">
-          <div [innerHTML]="this.rawText" class="attachment-page"></div>
+          <nav ngbNav #nav="ngbNav" class="nav-tabs" [destroyOnHide]="false" activeId="preview">
+            <ng-container ngbNavItem="preview">
+              <a ngbNavLink><i class="fas fa-eye"></i> Preview</a>
+              <ng-template ngbNavContent>
+                <div [innerHTML]="this.rawText" class="attachment-page"></div>
+              </ng-template>
+            </ng-container>
+            <ng-container ngbNavItem="source">
+              <a ngbNavLink><i class="fas fa-book-reader"></i> Source</a>
+              <ng-template ngbNavContent>
+                <pre><code [class]="attachmentLanguageClass">{{ rawText }}</code></pre>
+              </ng-template>
+            </ng-container>
+          </nav>
+          <div [ngbNavOutlet]="nav" class="mt-3 mb-4"></div>
         </div>
         <div *ngSwitchCase="'image'">
           <img [src]="attachmentUrl" alt="Attachment Image" class="img-fluid">

@@ -10,15 +10,15 @@ export interface Attachment {
 }
 
 export enum AttachmentType {
-  UPLOAD = "UPLOAD", // user uploaded
-  SCREENSHOT = "SCREENSHOT", // full page image screenshot
-  THUMBNAIL = "THUMBNAIL", // primary image from page or small screenshot
-  PREVIEW = "PREVIEW", // small partial page screenshot
-  PAGE = "PAGE", // full HTML page
-  DOCUMENT = "DOCUMENT", // full page PDF
-  READABLE_DOC = "READABLE_DOC", // extracted formatted readable content
-  READABLE_TEXT = "READABLE_TEXT", // extracted text content only
-  GENERATED = "GENERATED" // task created
+  UPLOAD = "upload", // user uploaded
+  SCREENSHOT = "screenshot", // full page image screenshot
+  THUMBNAIL = "thumbnail", // primary image from page or small screenshot
+  PREVIEW = "preview", // small partial page screenshot
+  PAGE = "page", // full HTML page
+  DOCUMENT = "document", // full page PDF
+  READABLE_DOC = "readable_doc", // extracted formatted readable content
+  READABLE_TEXT = "readable_text", // extracted text content only
+  GENERATED = "generated" // task created
 }
 
 export enum AttachmentCategory {

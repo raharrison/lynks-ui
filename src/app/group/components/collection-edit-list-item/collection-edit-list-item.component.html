@@ -20,7 +20,7 @@
 </td>
 <td>
     <span *ngIf="!editMode" class="btn-group-sm">
-        <button (click)="onEditClick($event)" class="btn btn-info mr-1" ngbTooltip="Edit"><i class="fa fa-edit" aria-hidden="true">
+        <button (click)="onEditClick($event)" class="btn btn-info me-1" ngbTooltip="Edit"><i class="fa fa-edit" aria-hidden="true">
 
         </i></button>
         <button (click)="openDeleteModal($event, collection)" class="btn btn-danger" ngbTooltip="Delete">
@@ -29,7 +29,7 @@
         </button>
     </span>
   <span *ngIf="editMode" class="btn-group-sm">
-        <button (click)="onSaveClick($event)" [disabled]="collectionNameInput.length <= 0" class="btn btn-primary mr-1">
+        <button (click)="onSaveClick($event)" [disabled]="collectionNameInput.length <= 0" class="btn btn-primary me-1">
           <i class="fa fa-save" aria-hidden="true"></i> Save</button>
         <button (click)="onEditCancelClick($event)" class="btn btn-secondary">Cancel</button>
     </span>

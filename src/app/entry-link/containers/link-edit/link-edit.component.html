@@ -5,7 +5,7 @@
       <h2 class="mb-3">{{updateMode ? "Update Link" : "New Link"}}</h2>
 
       <form (ngSubmit)="onSubmit()" #linkForm="ngForm">
-        <div class="form-group">
+        <div class="mb-3">
           <label for="linkTitle">Title</label>
           <input [(ngModel)]="link.title" id="linkTitle" name="title" type="text" class="form-control title-input"
                  placeholder="Enter title" #title="ngModel">
@@ -14,7 +14,7 @@
           </small>
         </div>
 
-        <div class="form-group">
+        <div class="mb-3">
           <label for="linkUrl">URL</label>
           <div class="input-group">
             <input [(ngModel)]="link.url" id="linkUrl" name="url" type="text" class="form-control form-control-lg title-input"
@@ -29,7 +29,7 @@
           </div>
         </div>
 
-        <div class="form-group form-check">
+        <div class="mb-3 form-check">
           <input [(ngModel)]="link.process" id="linkProcess" name="process" type="checkbox" class="form-check-input">
           <label class="form-check-label" for="linkProcess">Process Link (generate screenshot and summary)</label>
         </div>
@@ -39,25 +39,25 @@
         </div>
 
         <div *ngIf="suggestionKeywords.length > 0" class="mb-3">
-          <span class="font-weight-bold">Suggested Keywords:</span>
+          <span class="fw-bold">Suggested Keywords:</span>
           <ol class="d-inline keyword-list">
             <li *ngFor="let keyword of suggestionKeywords" class="d-inline">{{ keyword }}</li>
           </ol>
         </div>
 
-        <div class="form-group">
+        <div class="mb-3">
           <label for="tagPicker">Tags</label>
           <lks-group-editor id="tagPicker" type="tag" [selected]="selectedTags" (selectedChange)="selectedTags = $event"></lks-group-editor>
         </div>
 
-        <div class="form-group">
+        <div class="mb-3">
           <label for="collectionPicker">Collections</label>
           <lks-group-editor id="collectionPicker" type="collection" [selected]="selectedCollections"
                             (selectedChange)="selectedCollections = $event"></lks-group-editor>
         </div>
 
-        <div class="form-group float-right">
-          <button type="button" (click)="onCancel()" class="btn btn-outline-secondary mr-2" [disabled]="saving">Cancel</button>
+        <div class="mb-3 float-end">
+          <button type="button" (click)="onCancel()" class="btn btn-outline-secondary me-2" [disabled]="saving">Cancel</button>
           <button type="submit" class="btn btn-success px-4" [disabled]="saving || !linkForm.form.valid">
             <span *ngIf="saving" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             <i *ngIf="!saving" class="fa fa-save" aria-hidden="true"></i>

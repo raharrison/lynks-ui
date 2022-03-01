@@ -4,7 +4,7 @@
       <h2 class="mb-3">{{updateMode ? "Update Note" : "New Note"}}</h2>
 
       <form #noteForm="ngForm">
-        <div class="form-group">
+        <div class="mb-3">
           <label for="noteTitle">Title</label>
           <input [(ngModel)]="note.title" id="noteTitle" name="title" type="text" class="form-control form-control-lg title-input"
                  placeholder="Enter title (required)" required #title="ngModel">
@@ -12,27 +12,27 @@
             Title is required
           </div>
         </div>
-        <div class="form-group">
+        <div class="mb-3">
           <label for="plainText">Content</label>
           <lks-markdown-editor [(ngModel)]="note.plainText" name="plainText" id="plainText"></lks-markdown-editor>
         </div>
 
-        <div class="form-group">
+        <div class="mb-3">
           <label for="tagPicker">Tags</label>
           <lks-group-editor id="tagPicker" type="tag" [selected]="selectedTags" (selectedChange)="selectedTags = $event"></lks-group-editor>
         </div>
 
-        <div class="form-group">
+        <div class="mb-3">
           <label for="collectionPicker">Collections</label>
           <lks-group-editor id="collectionPicker" type="collection" [selected]="selectedCollections"
                             (selectedChange)="selectedCollections = $event"></lks-group-editor>
         </div>
 
-        <div class="form-group float-right">
-          <button type="button" (click)="onCancel()" class="btn btn-outline-secondary mr-2" [disabled]="saving">Cancel</button>
+        <div class="mb-3 float-end">
+          <button type="button" (click)="onCancel()" class="btn btn-outline-secondary me-2" [disabled]="saving">Cancel</button>
 
-          <div class="btn-group mr-3">
-            <button (click)="onSubmit(true)" type="submit" class="btn btn-success pl-4" [ngClass]="updateMode ? 'pr-3' : 'pr-4'"
+          <div class="btn-group me-3">
+            <button (click)="onSubmit(true)" type="submit" class="btn btn-success ps-4" [ngClass]="updateMode ? 'pe-3' : 'pe-4'"
                     [disabled]="saving || !noteForm.form.valid">
               <span *ngIf="saving" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
               <i *ngIf="!saving" class="fa fa-save" aria-hidden="true"></i>

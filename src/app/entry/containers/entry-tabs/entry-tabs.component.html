@@ -1,7 +1,7 @@
 <nav ngbNav #nav="ngbNav" class="nav-tabs" [destroyOnHide]="false" [activeId]="activeTab">
   <ng-container ngbNavItem="comments">
     <a ngbNavLink routerLink="." fragment="comments"><i class="fas fa-comments"></i> Comments <span
-      class="badge badge-primary">{{ commentCount }}</span></a>
+      class="badge bg-primary">{{ commentCount }}</span></a>
     <ng-template ngbNavContent>
       <div class="row">
         <div class="col-md-12">
@@ -12,7 +12,7 @@
   </ng-container>
   <ng-container ngbNavItem="attachments">
     <a ngbNavLink routerLink="." fragment="attachments"><i class="fas fa-paperclip"></i> Attachments <span
-      class="badge badge-primary">{{ attachmentCount }}</span></a>
+      class="badge bg-primary">{{ attachmentCount }}</span></a>
     <ng-template ngbNavContent>
       <div class="row">
         <div class="col-md-12">
@@ -22,7 +22,7 @@
     </ng-template>
   </ng-container>
   <ng-container ngbNavItem="tasks">
-    <a ngbNavLink routerLink="." fragment="tasks"><i class="fas fa-rocket"></i> Tasks <span class="badge badge-primary">{{ taskCount }}</span></a>
+    <a ngbNavLink routerLink="." fragment="tasks"><i class="fas fa-rocket"></i> Tasks <span class="badge bg-primary">{{ taskCount }}</span></a>
     <ng-template ngbNavContent>
       <div class="row">
         <div class="col-md-12">
@@ -33,7 +33,7 @@
   </ng-container>
   <ng-container ngbNavItem="discussions" *ngIf="entry.props.attributes.discussions">
     <a ngbNavLink routerLink="." fragment="discussions"><i class="fas fa-comment-dots"></i> Discussions <span
-      class="badge badge-primary">{{ discussionCount }}</span></a>
+      class="badge bg-primary">{{ discussionCount }}</span></a>
     <ng-template ngbNavContent>
       <div class="row">
         <div class="col-md-12">
@@ -44,7 +44,7 @@
   </ng-container>
   <ng-container ngbNavItem="reminders">
     <a ngbNavLink routerLink="." fragment="reminders"><i class="fas fa-bell"></i> Reminders <span
-      class="badge badge-primary">{{ reminderCount }}</span></a>
+      class="badge bg-primary">{{ reminderCount }}</span></a>
     <ng-template ngbNavContent>
       <p>Sed commodo, leo at suscipit dictum, quam est porttitor sapien, eget sodales nibh elit id diam. Nulla facilisi.
         Donec egestas ligula vitae odio interdum aliquet. Duis lectus turpis, luctus eget tincidunt eu, congue et odio.
@@ -56,7 +56,8 @@
     </ng-template>
   </ng-container>
   <ng-container ngbNavItem="history">
-    <a ngbNavLink routerLink="." fragment="history"><i class="fas fa-history"></i> History <span class="badge badge-primary">{{ historyCount }}</span></a>
+    <a ngbNavLink routerLink="." fragment="history"><i class="fas fa-history"></i> History <span
+      class="badge bg-primary">{{ historyCount }}</span></a>
     <ng-template ngbNavContent>
       <div class="row">
         <div class="col-md-12">
@@ -66,7 +67,7 @@
     </ng-template>
   </ng-container>
   <ng-container ngbNavItem="audit">
-    <a ngbNavLink routerLink="." fragment="audit"><i class="fas fa-archive"></i> Audit <span class="badge badge-primary">{{ auditCount }}</span></a>
+    <a ngbNavLink routerLink="." fragment="audit"><i class="fas fa-archive"></i> Audit <span class="badge bg-primary">{{ auditCount }}</span></a>
     <ng-template ngbNavContent>
       <div class="row">
         <div class="col-md-12">

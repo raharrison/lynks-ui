@@ -1,5 +1,5 @@
 <form (ngSubmit)="onSubmit()" #taskForm="ngForm">
-  <div class="form-group" *ngFor="let param of taskDefinition.params">
+  <div class="mb-3" *ngFor="let param of taskDefinition.params">
     <label for="{{param.name}}">{{param.description}}</label>
 
     <select class="form-control" id="{{param.name}}" name="{{param.name}}" required
@@ -7,6 +7,29 @@
             [(ngModel)]="model[param.name]">
       <option *ngFor="let option of param.options" [value]="option">{{option}}</option>
     </select>
+
+    <input class="form-control" id="{{param.name}}" name="{{param.name}}" required disabled
+           value="{{param.value}}"
+           *ngIf="param.type == 'static'"
+    />
+
+    <input class="form-control" id="{{param.name}}" name="{{param.name}}" required
+           *ngIf="param.type == 'text'"
+           [(ngModel)]="model[param.name]"
+    />
+
+    <ng-select
+      id="{{param.name}}"
+      name="{{param.name}}"
+      [(ngModel)]="model[param.name]"
+      [multiple]="true"
+      [closeOnSelect]="false"
+      [searchable]="true"
+      placeholder="Select {{param.name}}s"
+    >
+      <ng-option *ngFor="let option of param.options" [value]="option">{{option}}</ng-option>
+    </ng-select>
+
   </div>
 
   <button class="btn btn-sm btn-info" [disabled]="!taskForm.form.valid"><i class="fa fa-play-circle" aria-hidden="true"></i> Execute</button>

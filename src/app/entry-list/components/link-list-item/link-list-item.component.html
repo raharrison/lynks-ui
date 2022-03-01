@@ -1,13 +1,13 @@
 <div class="row py-1">
   <div class="col-md-12">
     <div class="d-flex align-content-center">
-      <i class="fas fa-link align-self-center mr-1" ngbTooltip="Link"></i>
-      <a class="title mr-2" [routerLink]="['/links', link.id]">{{link.title}}</a>
+      <i class="fas fa-link align-self-center me-1" ngbTooltip="Link"></i>
+      <a class="title me-2" [routerLink]="['/links', link.id]">{{link.title}}</a>
       <span class="align-self-center">{{link.source}}</span>
-      <span class="align-self-center ml-auto"><span>({{link.id}})</span> updated <lks-time-ago [date]="link.dateUpdated"></lks-time-ago></span>
+      <span class="align-self-center ms-auto"><span>({{link.id}})</span> updated <lks-time-ago [date]="link.dateUpdated"></lks-time-ago></span>
     </div>
     <div class="d-flex mt-1" *ngIf="link.tags.length > 0 || link.collections.length > 0">
-      <lks-group-view [groups]="link.tags" type="tags" [minimal]="true" class="mr-3"></lks-group-view>
+      <lks-group-view [groups]="link.tags" type="tags" [minimal]="true" class="me-3"></lks-group-view>
       <lks-group-view [groups]="link.collections" type="collections" [minimal]="true"></lks-group-view>
     </div>
   </div>

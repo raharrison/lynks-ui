@@ -1,12 +1,12 @@
 <div class="row py-1">
   <div class="col-md-12">
     <div class="d-flex align-content-center">
-      <i class="fas fa-book-open align-self-center mr-1" ngbTooltip="Note"></i>
-      <a class="title mr-2" [routerLink]="['/notes', note.id]">{{note.title}}</a>
-      <span class="align-self-center ml-auto"><span>({{note.id}})</span> updated <lks-time-ago [date]="note.dateUpdated"></lks-time-ago></span>
+      <i class="fas fa-book-open align-self-center me-1" ngbTooltip="Note"></i>
+      <a class="title me-2" [routerLink]="['/notes', note.id]">{{note.title}}</a>
+      <span class="align-self-center ms-auto"><span>({{note.id}})</span> updated <lks-time-ago [date]="note.dateUpdated"></lks-time-ago></span>
     </div>
     <div class="d-flex mt-1" *ngIf="note.tags.length > 0 || note.collections.length > 0">
-      <lks-group-view [groups]="note.tags" type="tags" [minimal]="true" class="mr-3"></lks-group-view>
+      <lks-group-view [groups]="note.tags" type="tags" [minimal]="true" class="me-3"></lks-group-view>
       <lks-group-view [groups]="note.collections" type="collections" [minimal]="true"></lks-group-view>
     </div>
   </div>

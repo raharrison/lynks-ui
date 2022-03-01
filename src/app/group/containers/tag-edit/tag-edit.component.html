@@ -2,7 +2,7 @@
   <div class="card mb-3">
     <div class="card-body">
       <form class="form-inline" (ngSubmit)="onTagSave(tagForm)" #tagForm="ngForm">
-        <div class="form-group mx-sm-3">
+        <div class="mb-3">
           <label for="inputTagName" class="sr-only">New Tag name</label>
           <input required type="text" class="form-control" id="inputTagName" name="inputTagName" placeholder="New Tag name.."
                  [(ngModel)]="newTagName">

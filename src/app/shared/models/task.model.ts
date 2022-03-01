@@ -16,5 +16,6 @@ export enum TaskParameterType {
   TEXT = "text",
   NUMBER = "number",
   ENUM = "enum",
-  STATIC = "static"
+  STATIC = "static",
+  MULTI = "multi"
 }

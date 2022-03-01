@@ -13,15 +13,15 @@
 </td>
 <td>
     <span *ngIf="!editMode" class="btn-group-sm">
-        <a [routerLink]="['/entry', entryId, 'attachment', attachment.id]" class="btn btn-dark mr-1" ngbTooltip="View">
+        <a [routerLink]="['/entry', entryId, 'attachment', attachment.id]" class="btn btn-dark me-1" ngbTooltip="View">
           <i class="fa fa-eye" aria-hidden="true">
           </i>
         </a>
-        <button (click)="onDownloadClick($event, attachment)" class="btn btn-secondary mr-1" ngbTooltip="Download">
+        <button (click)="onDownloadClick($event, attachment)" class="btn btn-secondary me-1" ngbTooltip="Download">
           <i class="fa fa-download" aria-hidden="true">
           </i>
         </button>
-        <button (click)="onEditClick($event)" class="btn btn-info mr-1" ngbTooltip="Edit"><i class="fa fa-edit" aria-hidden="true">
+        <button (click)="onEditClick($event)" class="btn btn-info me-1" ngbTooltip="Edit"><i class="fa fa-edit" aria-hidden="true">
 
         </i></button>
         <button (click)="openDeleteModal($event, attachment)" class="btn btn-danger" ngbTooltip="Delete">
@@ -30,7 +30,7 @@
         </button>
     </span>
   <span *ngIf="editMode" class="btn-group-sm">
-        <button (click)="onSaveClick($event)" [disabled]="attachmentNameInput.length <= 0" class="btn btn-primary mr-1">
+        <button (click)="onSaveClick($event)" [disabled]="attachmentNameInput.length <= 0" class="btn btn-primary me-1">
           <i class="fa fa-save" aria-hidden="true"></i> Save</button>
         <button (click)="onEditCancelClick($event)" class="btn btn-secondary">Cancel</button>
     </span>

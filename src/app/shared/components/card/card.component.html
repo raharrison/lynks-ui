@@ -1,5 +1,12 @@
-<div class="card mb-4">
-    <ng-content select=".card-header"></ng-content>
-    <ng-content select=".card-body"></ng-content>
-    <ng-content select=".card-footer"></ng-content>
+<div class="card">
+  <div class="card-header cursor-pointer {{headerStyles}}" style="font-weight: 500" (click)="isCollapsed = !isCollapsed">
+    <a data-toggle="collapse" aria-expanded="true" aria-controls="linkReaderContent">
+      <i *ngIf="isCollapsed" class="fa fa-chevron-down"></i>
+      <i *ngIf="!isCollapsed" class="fa fa-chevron-up"></i>
+      <ng-content select="[header]"></ng-content>
+    </a>
+  </div>
+  <div class="card-body" [ngbCollapse]="isCollapsed">
+    <ng-content select="content"></ng-content>
+  </div>
 </div>

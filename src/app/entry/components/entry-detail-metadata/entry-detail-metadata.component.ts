@@ -13,7 +13,6 @@ export class EntryDetailMetadataComponent {
   entry: Entry;
 
   EntryType = EntryType;
-  isContentCollapsed = false;
 
   constructor() {
   }

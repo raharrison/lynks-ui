@@ -16,7 +16,6 @@ export class EntryTabsComponent implements OnInit {
   activeTab: string;
 
   commentCount: number;
-  attachmentCount: number;
   taskCount: number;
   discussionCount: number;
   reminderCount: number = 0;

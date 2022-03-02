@@ -1,49 +1,43 @@
-<div *ngIf="link.content" class="card mb-4">
-  <div class="card-header cursor-pointer bg-primary text-white" style="font-weight: 500" (click)="isContentCollapsed = !isContentCollapsed">
-    <a data-toggle="collapse" aria-expanded="true" aria-controls="linkReaderContent">
-      <i *ngIf="isContentCollapsed" class="fa fa-chevron-down"></i>
-      <i *ngIf="!isContentCollapsed" class="fa fa-chevron-up"></i>
-      <i class="ms-3 fas fa-circle fa-sm"></i> Read
-    </a>
-  </div>
-  <div id="linkReaderContent" class="card-body" [ngbCollapse]="isContentCollapsed">
-    <lks-markdown-view [markdown]="link.content"></lks-markdown-view>
-  </div>
+<div *ngIf="link.content" class="mb-4">
+  <lks-card [isCollapsed]="true" headerStyles="bg-primary text-white">
+  <span header>
+    <i class="ms-3 fas fa-circle fa-sm"></i> Read
+  </span>
+    <content>
+      <lks-markdown-view [markdown]="link.content"></lks-markdown-view>
+    </content>
+  </lks-card>
 </div>
 
-<div *ngIf="link.props?.attributes?.embedUrl" class="card mb-4">
-  <div class="card-header cursor-pointer bg-secondary text-white" style="font-weight: 500" (click)="isEmbedFrameCollapsed = !isEmbedFrameCollapsed">
-    <a data-toggle="collapse" aria-expanded="true" aria-controls="linkEmbedFrame">
-      <i *ngIf="isEmbedFrameCollapsed" class="fa fa-chevron-down"></i>
-      <i *ngIf="!isEmbedFrameCollapsed" class="fa fa-chevron-up"></i>
-      <i class="ms-3 fas fa-circle fa-sm"></i> Watch
-    </a>
-  </div>
-  <div id="linkEmbedFrame" class="card-body" [ngbCollapse]="isEmbedFrameCollapsed">
-    <div class="mt-3">
-      <div class="embed-iframe embed-responsive embed-responsive-16by9">
-        <iframe class="embed-responsive-item" [src]="link.props.attributes.embedUrl | safeUrl"
-                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<div *ngIf="link.props?.attributes?.embedUrl" class="mb-4">
+  <lks-card [isCollapsed]="true" headerStyles="bg-secondary text-white">
+  <span header>
+    <i class="ms-3 fas fa-circle fa-sm"></i> Watch
+  </span>
+    <content>
+      <div class="mt-3">
+        <div class="embed-iframe ratio ratio-16x9">
+          <iframe class="embed-responsive-item" [src]="link.props.attributes.embedUrl | safeUrl"
+                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
       </div>
-    </div>
-  </div>
+    </content>
+  </lks-card>
 </div>
 
-<div *ngIf="link.props?.attributes?.summary" class="card mb-4">
-  <div class="card-header cursor-pointer bg-info text-white" style="font-weight: 500" (click)="isSummaryCollapsed = !isSummaryCollapsed">
-    <a data-toggle="collapse" aria-expanded="true" aria-controls="linkSummaryContent">
-      <i *ngIf="isSummaryCollapsed" class="fa fa-chevron-down"></i>
-      <i *ngIf="!isSummaryCollapsed" class="fa fa-chevron-up"></i>
-      <i class="ms-3 fas fa-circle fa-sm"></i> Summary
-    </a>
-  </div>
-  <div id="linkSummaryContent" class="card-body" [ngbCollapse]="isSummaryCollapsed">
-    <h4 class="mb-3">{{ link.props.attributes.summary.title }}</h4>
-    <lks-markdown-view [markdown]="link.props.attributes.summary.content"></lks-markdown-view>
-    <h5>Keywords</h5>
-    <ol>
-      <li *ngFor="let keyword of link.props.attributes.summary.keywords">{{keyword}}</li>
-    </ol>
-    <span>Content reduced by {{ link.props.attributes.summary.reduced }}</span>
-  </div>
+<div *ngIf="link.props?.attributes?.summary" class="mb-4">
+  <lks-card [isCollapsed]="true" headerStyles="bg-info text-white">
+  <span header>
+    <i class="ms-3 fas fa-circle fa-sm"></i> Summary
+  </span>
+    <content>
+      <h4 class="mb-3">{{ link.props.attributes.summary.title }}</h4>
+      <lks-markdown-view [markdown]="link.props.attributes.summary.content"></lks-markdown-view>
+      <h5>Keywords</h5>
+      <ol>
+        <li *ngFor="let keyword of link.props.attributes.summary.keywords">{{keyword}}</li>
+      </ol>
+      <span>Content reduced by {{ link.props.attributes.summary.reduced }}</span>
+    </content>
+  </lks-card>
 </div>

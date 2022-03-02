@@ -12,10 +12,6 @@ export class LinkContentViewComponent {
   @Input()
   link: Link;
 
-  isContentCollapsed = true;
-  isEmbedFrameCollapsed = true;
-  isSummaryCollapsed = true;
-
   constructor() {
   }
 

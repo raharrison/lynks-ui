@@ -16,6 +16,17 @@
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-md-12 mb-4">
+        <lks-card [isCollapsed]="false" title="Attachments">
+          <span header> Attachments:</span>
+          <content>
+            <lks-attachment-list [entryId]="note?.id"></lks-attachment-list>
+          </content>
+        </lks-card>
+      </div>
+    </div>
+
     <lks-entry-tabs [entry]="note"></lks-entry-tabs>
   </ng-container>
 </lks-loader>

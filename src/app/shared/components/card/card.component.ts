@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 
 @Component({
     selector: 'lks-card',
@@ -7,6 +7,16 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
     styleUrls: ['card.component.scss'],
 })
 export class CardComponent implements OnInit {
+
+    @Input()
+    isCollapsed = true;
+
+    @Input()
+    title: string;
+
+    @Input()
+    headerStyles: string = "";
+
     constructor() {
     }
 

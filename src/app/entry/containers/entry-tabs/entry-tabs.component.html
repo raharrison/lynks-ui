@@ -10,17 +10,6 @@
       </div>
     </ng-template>
   </ng-container>
-  <ng-container ngbNavItem="attachments">
-    <a ngbNavLink routerLink="." fragment="attachments"><i class="fas fa-paperclip"></i> Attachments <span
-      class="badge bg-primary">{{ attachmentCount }}</span></a>
-    <ng-template ngbNavContent>
-      <div class="row">
-        <div class="col-md-12">
-          <lks-attachment-list [entryId]="entry?.id" (onLoaded)="attachmentCount = $event"></lks-attachment-list>
-        </div>
-      </div>
-    </ng-template>
-  </ng-container>
   <ng-container ngbNavItem="tasks">
     <a ngbNavLink routerLink="." fragment="tasks"><i class="fas fa-rocket"></i> Tasks <span class="badge bg-primary">{{ taskCount }}</span></a>
     <ng-template ngbNavContent>

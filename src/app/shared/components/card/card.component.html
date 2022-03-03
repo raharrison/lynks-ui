@@ -7,6 +7,8 @@
     </a>
   </div>
   <div class="card-body" [ngbCollapse]="isCollapsed">
-    <ng-content select="content"></ng-content>
+    <div *ngIf="!isCollapsed">
+      <ng-content select="content"></ng-content>
+    </div>
   </div>
 </div>

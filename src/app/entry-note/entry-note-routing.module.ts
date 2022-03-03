@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {NoteDetailComponent, NoteEditComponent} from "@app/entry-note/containers";
+import {AttachmentViewComponent} from "@app/attachment/containers";
 
 export const ROUTES: Routes = [
   {
@@ -10,6 +11,10 @@ export const ROUTES: Routes = [
   {
     path: ':id/edit',
     component: NoteEditComponent
+  },
+  {
+    path: ':id/attachment/:attachmentId',
+    component: AttachmentViewComponent
   },
   {
     path: ':id/:version',

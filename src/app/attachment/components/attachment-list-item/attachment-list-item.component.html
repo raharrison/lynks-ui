@@ -13,7 +13,7 @@
 </td>
 <td>
     <span *ngIf="!editMode" class="btn-group-sm">
-        <a [routerLink]="['/entry', entryId, 'attachment', attachment.id]" class="btn btn-dark me-1" ngbTooltip="View">
+        <a [routerLink]="['attachment', attachment.id]" class="btn btn-dark me-1" ngbTooltip="View">
           <i class="fa fa-eye" aria-hidden="true">
           </i>
         </a>

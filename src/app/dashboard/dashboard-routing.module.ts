@@ -29,11 +29,6 @@ export const ROUTES: Routes = [
           import('../entry-link/entry-link.module').then(m => m.EntryLinkModule)
       },
       {
-        path: 'attachment',
-        loadChildren: () =>
-          import('../attachment/attachment-routing.module').then(m => m.AttachmentRoutingModule)
-      },
-      {
         path: 'groups',
         loadChildren: () =>
           import('../group/group.module').then(m => m.GroupModule),

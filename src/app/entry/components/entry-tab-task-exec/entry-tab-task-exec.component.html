@@ -21,6 +21,7 @@
     <ng-select
       id="{{param.name}}"
       name="{{param.name}}"
+      *ngIf="param.type == 'multi'"
       [(ngModel)]="model[param.name]"
       [multiple]="true"
       [closeOnSelect]="false"

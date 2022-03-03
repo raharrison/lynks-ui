@@ -11,7 +11,8 @@ export interface Link extends Entry {
 
 export interface SlimLink extends SlimEntry {
   title: string,
-  source: string
+  source: string,
+  thumbnailId: string
 }
 
 export interface NewLink extends NewEntry {

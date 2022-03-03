@@ -3,3 +3,11 @@
   font-weight: 500;
   text-decoration: none;
 }
+
+.title:hover {
+  filter: brightness(40%);
+}
+
+.thumbnail-img {
+  max-width: 8rem;
+}

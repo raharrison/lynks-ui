@@ -9,11 +9,14 @@
     <div class="row">
       <div class="col-md-12 mb-4">
         <div class="card card-body">
-          <div>
-            <span class="link-url">
+          <div class="d-flex align-items-stretch">
+            <div class="flex-shrink-0 me-3" *ngIf="link.thumbnailId">
+              <img class="thumbnail-img" src="/api/entry/{{link.id}}/resource/{{link.thumbnailId}}" alt="Thumbnail">
+            </div>
+            <span class="link-url flex-grow-1 align-self-center">
               <a (click)="launchLink()" target="_blank">{{link.url}} <i class="fas fa-external-link-alt"></i></a>
             </span>
-            <button (click)="copyToClipboard()" class="btn btn-secondary ms-3 float-end" ngbTooltip="Copy to Clipboard">
+            <button (click)="copyToClipboard()" class="btn btn-secondary ms-3" ngbTooltip="Copy to Clipboard">
               <i class="fa fa-copy" aria-hidden="true">
               </i>
             </button>

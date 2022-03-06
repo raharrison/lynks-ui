@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {EntryType, Note, SlimNote} from "@shared/models";
-import {EntryResource, EntryService} from "@app/entry/services/entry.service";
+import {Note} from "@shared/models";
+import {NoteService} from "@app/entry/services/note.service";
 
 @Component({
   selector: 'lks-note-detail',
@@ -15,11 +15,8 @@ export class NoteDetailComponent implements OnInit {
   version: string;
   loading = true;
 
-  private entryResource: EntryResource<SlimNote, Note>;
-
   constructor(private route: ActivatedRoute,
-              private entryService: EntryService) {
-    this.entryResource = entryService.resolveService(EntryType.NOTE);
+              private noteService: NoteService) {
   }
 
   ngOnInit() {
@@ -32,12 +29,12 @@ export class NoteDetailComponent implements OnInit {
 
   retrieveNote() {
     if (this.version) {
-      this.entryResource.getVersion(this.id, this.version).subscribe((data) => {
+      this.noteService.getVersion(this.id, this.version).subscribe((data) => {
         this.note = data;
         this.loading = false;
       });
     } else {
-      this.entryResource.get(this.id).subscribe((data) => {
+      this.noteService.get(this.id).subscribe((data) => {
         this.note = data;
         this.loading = false;
       });

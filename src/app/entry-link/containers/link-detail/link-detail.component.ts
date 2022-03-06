@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {EntryType, Link, SlimLink} from "@shared/models";
-import {EntryResource, EntryService} from "@app/entry/services/entry.service";
+import {Link} from "@shared/models";
 import {LinkService} from "@app/entry/services/link.service";
 import {ToastrService} from "ngx-toastr";
 
@@ -17,13 +16,9 @@ export class LinkDetailComponent implements OnInit {
   version: string;
   loading = true;
 
-  private entryResource: EntryResource<SlimLink, Link>;
-
   constructor(private route: ActivatedRoute,
               private toastrService: ToastrService,
-              private entryService: EntryService,
               private linkService: LinkService) {
-    this.entryResource = entryService.resolveService(EntryType.LINK);
   }
 
   ngOnInit() {
@@ -36,12 +31,12 @@ export class LinkDetailComponent implements OnInit {
 
   retrieveLink() {
     if (this.version) {
-      this.entryResource.getVersion(this.id, this.version).subscribe((data) => {
+      this.linkService.getVersion(this.id, this.version).subscribe((data) => {
         this.link = data;
         this.loading = false;
       });
     } else {
-      this.entryResource.get(this.id).subscribe((data) => {
+      this.linkService.get(this.id).subscribe((data) => {
         this.link = data;
         this.loading = false;
       });

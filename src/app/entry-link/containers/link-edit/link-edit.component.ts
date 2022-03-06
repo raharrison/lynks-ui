@@ -81,9 +81,9 @@ export class LinkEditComponent implements OnInit {
 
   onCancel() {
     if (this.updateMode) {
-      this.router.navigate(["/links", this.link.id]);
+      this.router.navigate(["/entries/links", this.link.id]);
     } else {
-      this.router.navigate(["/links"]);
+      this.router.navigate(["/entries/links"]);
     }
   }
 

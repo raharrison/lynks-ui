@@ -49,9 +49,9 @@ export class NoteEditComponent implements OnInit {
 
   onCancel() {
     if (this.updateMode) {
-      this.router.navigate(["/notes", this.note.id]);
+      this.router.navigate(["/entries/notes", this.note.id]);
     } else {
-      this.router.navigate(["/notes"]);
+      this.router.navigate(["/entries/notes"]);
     }
   }
 

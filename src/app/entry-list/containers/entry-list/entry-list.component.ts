@@ -1,25 +1,32 @@
-import {Component, OnInit} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 
 import {EntryType, SlimEntry} from "@shared/models";
 import {Page} from "@shared/models/page.model";
+import {EntryService} from "@app/entry/services/entry.service";
+import {Subscription} from "rxjs";
+import {EntryFilterService} from "@app/entry/services/entry-filter.service";
 
 @Component({
   selector: 'lks-entry-list',
   templateUrl: './entry-list.component.html',
   styleUrls: ['./entry-list.component.scss']
 })
-export class EntryListComponent implements OnInit {
+export class EntryListComponent implements OnInit, OnDestroy {
 
-  entries: SlimEntry[] = [];
+  entryPage: Page<SlimEntry>;
   loading = true;
+  entryFilterCollapsed = false;
 
   entryType: EntryType;
   entryTypeDesc: string;
 
-  constructor(private httpClient: HttpClient,
-              private route: ActivatedRoute) {
+  entrySubscription: Subscription;
+  entriesLoadingSubscription: Subscription;
+
+  constructor(private route: ActivatedRoute,
+              private entryFilterService: EntryFilterService,
+              private entryService: EntryService) {
   }
 
   ngOnInit() {
@@ -29,6 +36,7 @@ export class EntryListComponent implements OnInit {
       } else {
         this.entryType = EntryType.ENTRIES;
       }
+      this.entryFilterService.reset(this.entryType);
 
       if (this.entryType == EntryType.ENTRIES) {
         this.entryTypeDesc = "Entries";
@@ -41,11 +49,25 @@ export class EntryListComponent implements OnInit {
     });
   }
 
+  onPageChange(newPage: number) {
+    this.entryFilterService.setPage(newPage);
+  }
+
   private retrieveEntries() {
-    const entryPath = this.entryType.toLowerCase();
-    this.httpClient.get<Page<SlimEntry>>(`/api/${entryPath}`).subscribe((data) => {
-      this.loading = false;
-      this.entries = data.content;
-    });
+    this.entriesLoadingSubscription = this.entryService.$entriesLoading.subscribe(
+      loading => this.loading = loading
+    );
+    this.entrySubscription = this.entryService.$entryPage.subscribe(page => {
+      this.entryPage = page;
+    })
+  }
+
+  ngOnDestroy(): void {
+    if (this.entriesLoadingSubscription != null) {
+      this.entriesLoadingSubscription.unsubscribe();
+    }
+    if (this.entrySubscription != null) {
+      this.entrySubscription.unsubscribe();
+    }
   }
 }

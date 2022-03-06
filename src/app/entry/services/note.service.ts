@@ -4,7 +4,6 @@ import {Observable} from "rxjs";
 import {EntryResource} from "./entry.service";
 import {NewNote, Note, SlimNote} from "@shared/models";
 import {ResponseHandlerService} from "@shared/services/response-handler.service";
-import {Page} from "@shared/models/page.model";
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +12,6 @@ export class NoteService implements EntryResource<SlimNote, Note> {
 
   constructor(private http: HttpClient,
               private responseHandler: ResponseHandlerService) {
-  }
-
-  getPage(): Observable<Page<SlimNote>> {
-    return this.http.get<Page<SlimNote>>("/api/note")
-      .pipe(this.responseHandler.handleResponseError("Unable to retrieve notes"));
   }
 
   get(id: string): Observable<Note> {

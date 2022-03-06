@@ -12,9 +12,6 @@ export class CardComponent implements OnInit {
     isCollapsed = true;
 
     @Input()
-    title: string;
-
-    @Input()
     headerStyles: string = "";
 
     constructor() {

@@ -1,0 +1,59 @@
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Filter options: </h5>
+    <div>
+      <form (ngSubmit)="onSubmit()" #filterForm="ngForm">
+        <div class="row g-3">
+          <div class="col-md-4">
+            <label for="sortBy">Sort By</label>
+            <select class="form-select" id="sortBy" name="sortBy" required
+                    [(ngModel)]="entryFilter.sort">
+              <option value="dateCreated">Date Created</option>
+              <option value="dateUpdated">Date Updated</option>
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label for="direction">Sort Direction</label>
+            <select class="form-select" id="direction" name="direction" required
+                    [(ngModel)]="entryFilter.direction">
+              <option value="asc">Ascending</option>
+              <option value="desc">Descending</option>
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label for="pageSize">Page Size</label>
+            <select class="form-select" id="pageSize" name="pageSize" required
+                    [(ngModel)]="entryFilter.size">
+              <option value="10">10</option>
+              <option value="25">25</option>
+              <option value="50">50</option>
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <label for="tagPicker">Tags</label>
+            <lks-group-editor id="tagPicker" type="tag" [selected]="entryFilter.tags" [maxSelected]="1"
+                              (selectedChange)="entryFilter.tags = $event"></lks-group-editor>
+          </div>
+
+          <div class="col-md-6">
+            <label for="collectionPicker">Collections</label>
+            <lks-group-editor id="collectionPicker" type="collection" [selected]="entryFilter.collections" [maxSelected]="1"
+                              (selectedChange)="entryFilter.collections = $event"></lks-group-editor>
+          </div>
+        </div>
+        <div class="mt-3 float-end">
+          <button type="button" class="btn btn-sm btn-outline-secondary me-2" (click)="resetFilter()">
+            <i class="fa fa-filter-circle-xmark" aria-hidden="true"></i> Reset
+          </button>
+          <button type="submit" class="btn btn-sm btn-secondary" [disabled]="!filterForm.form.valid">
+            <i class="fa fa-check"></i> Apply
+          </button>
+        </div>
+      </form>
+    </div>
+    <div>{{entryFilter | json}}</div>
+  </div>
+</div>

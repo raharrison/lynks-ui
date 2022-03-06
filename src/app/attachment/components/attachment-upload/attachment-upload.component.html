@@ -5,7 +5,7 @@
     <form (ngSubmit)="onSubmit(attachmentForm)" #attachmentForm="ngForm">
       <div class="mb-3">
         <input type="file" (change)="handleFileInput($event)"
-               class="form-control-file"
+               class="form-control"
                id="attachmentFileUploadInput"
                name="attachmentFileUploadInput"
                [(ngModel)]="fileToUploadName"

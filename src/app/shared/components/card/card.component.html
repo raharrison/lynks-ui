@@ -7,6 +7,7 @@
     </a>
   </div>
   <div class="card-body" [ngbCollapse]="isCollapsed">
+<!--    TODO: Provide ngIf this as config option as causes lag-->
     <div *ngIf="!isCollapsed">
       <ng-content select="content"></ng-content>
     </div>

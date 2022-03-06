@@ -2,7 +2,7 @@
   <div class="mb-3" *ngFor="let param of taskDefinition.params">
     <label for="{{param.name}}">{{param.description}}</label>
 
-    <select class="form-control" id="{{param.name}}" name="{{param.name}}" required
+    <select class="form-select" id="{{param.name}}" name="{{param.name}}" required
             *ngIf="param.type == 'enum'"
             [(ngModel)]="model[param.name]">
       <option *ngFor="let option of param.options" [value]="option">{{option}}</option>

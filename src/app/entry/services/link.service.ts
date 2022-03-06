@@ -4,7 +4,6 @@ import {Observable} from "rxjs";
 import {EntryResource} from "./entry.service";
 import {Link, NewLink, SlimLink, Suggestion} from "@shared/models";
 import {ResponseHandlerService} from "@shared/services/response-handler.service";
-import {Page} from "@shared/models/page.model";
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +12,6 @@ export class LinkService implements EntryResource<SlimLink, Link> {
 
   constructor(private http: HttpClient,
               private responseHandler: ResponseHandlerService) {
-  }
-
-  getPage(): Observable<Page<SlimLink>> {
-    return this.http.get<Page<SlimLink>>("/api/link")
-      .pipe(this.responseHandler.handleResponseError("Unable to retrieve links"));
   }
 
   get(id: string): Observable<Link> {

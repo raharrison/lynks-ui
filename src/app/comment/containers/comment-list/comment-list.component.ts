@@ -3,6 +3,7 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {DeleteConfirmModalComponent} from "@shared/components";
 import {Comment} from '@app/comment/models';
 import {CommentService} from "@app/comment/services/comment.service";
+import {SortConfig, SortDirection} from "@shared/models/sort-config.model";
 
 @Component({
   selector: 'lks-comment-list',
@@ -10,6 +11,13 @@ import {CommentService} from "@app/comment/services/comment.service";
   styleUrls: ['./comment-list.component.scss']
 })
 export class CommentListComponent implements OnInit {
+
+  readonly SORT_CONFIGS: SortConfig[] = [
+    {name: "Oldest First", sort: "dateCreated", direction: SortDirection.ASC},
+    {name: "Newest First", sort: "dateCreated", direction: SortDirection.DESC}
+  ];
+
+  private sortConfig = this.SORT_CONFIGS[0];
 
   @Input()
   entryId: string;
@@ -33,11 +41,16 @@ export class CommentListComponent implements OnInit {
   }
 
   private retrieveComments() {
-    this.commentService.getCommentsForEntry(this.entryId).subscribe(page => {
+    this.commentService.getCommentsForEntry(this.entryId, this.sortConfig).subscribe(page => {
       this.comments = page.content;
       this.loading = false;
       this.onLoaded.emit(this.comments.length);
     });
+  }
+
+  applySort(config: SortConfig) {
+    this.sortConfig = config;
+    this.retrieveComments();
   }
 
   addCommentClick() {

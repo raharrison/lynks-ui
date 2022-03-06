@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {ResponseHandlerService} from "@shared/services/response-handler.service";
 import {Comment, NewComment} from "@app/comment/models";
 import {Page} from "@shared/models/page.model";
+import {SortConfig} from "@shared/models/sort-config.model";
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,14 @@ export class CommentService {
               private responseHandler: ResponseHandlerService) {
   }
 
-  getCommentsForEntry(entryId: string): Observable<Page<Comment>> {
-    return this.http.get<Page<Comment>>(`/api/entry/${entryId}/comments`)
+  getCommentsForEntry(entryId: string, sortConfig: SortConfig): Observable<Page<Comment>> {
+    const opts = {
+      params: {
+        sort: sortConfig.sort,
+        direction: sortConfig.direction
+      }
+    };
+    return this.http.get<Page<Comment>>(`/api/entry/${entryId}/comments`, opts)
       .pipe(this.responseHandler.handleResponseError("Unable to retrieve comments for entry"));
   }
 

@@ -1,7 +1,8 @@
 import {Injectable} from "@angular/core";
 import {BehaviorSubject} from "rxjs";
-import {EntryFilter, SortDirection} from "@shared/models/entry-filter.model";
+import {EntryFilter} from "@shared/models/entry-filter.model";
 import {EntryType} from "@shared/models";
+import {SortConfig, SortDirection} from "@shared/models/sort-config.model";
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,12 @@ export class EntryFilterService {
     entryType: EntryType.ENTRIES
   }
 
+  readonly SORT_CONFIGS: SortConfig[] = [
+    {name: "Recently Updated", sort: "dateUpdated", direction: SortDirection.DESC},
+    {name: "Recently Created", sort: "dateCreated", direction: SortDirection.DESC},
+    {name: "Oldest First", sort: "dateUpdated", direction: SortDirection.ASC}
+  ];
+
   private entryFilter = {...this.DEFAULT_FILTER};
 
   private entryFilterSubject = new BehaviorSubject<EntryFilter>(this.DEFAULT_FILTER);
@@ -27,16 +34,27 @@ export class EntryFilterService {
     this.entryFilterSubject.next(this.entryFilter);
   }
 
+  // only set page property of current filter
   setPage(newPage: number) {
     this.entryFilter.page = newPage;
     this.filterUpdated();
   }
 
+  applySort(config: SortConfig) {
+    this.entryFilter = {
+      ...this.entryFilter,
+      ...config
+    };
+    this.filterUpdated();
+  }
+
+  // completely overwrite filter with new definition
   setFilter(entryFilter: EntryFilter) {
     this.entryFilter = entryFilter;
     this.filterUpdated();
   }
 
+  // reset to defaults but add provided entry type
   reset(entryType: EntryType = EntryType.ENTRIES) {
     this.entryFilter = {
       ...this.DEFAULT_FILTER,
@@ -45,6 +63,7 @@ export class EntryFilterService {
     this.filterUpdated();
   }
 
+  // completely reset to defaults but keep old entry type
   resetAll() {
     const entryType = this.entryFilter.entryType;
     this.entryFilter = {

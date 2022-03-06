@@ -1,8 +1,8 @@
 import {EntryType} from "@shared/models/entry.model";
 import {Collection, Tag} from "@shared/models/group.model";
+import {SortDirection} from "@shared/models/sort-config.model";
 
 export interface EntryFilter {
-
   entryType: EntryType
   page: number;
   size: number;
@@ -10,9 +10,5 @@ export interface EntryFilter {
   collections: Collection[];
   sort: string;
   direction: SortDirection;
-
 }
 
-export enum SortDirection {
-  ASC = "asc", DESC = "desc"
-}

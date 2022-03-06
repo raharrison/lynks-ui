@@ -7,6 +7,16 @@
     <h2>{{ entryTypeDesc }}</h2>
   </div>
   <div>
+    <div ngbDropdown class="d-inline-block me-2">
+      <button ngbDropdownToggle id="sortByToggle" type="button" class="btn dropdown-toggle" data-toggle="dropdown">Sort By
+        <span class="caret"></span>
+      </button>
+      <div ngbDropdownMenu aria-labelledby="sortByToggle">
+        <button *ngFor="let config of entryFilterService.SORT_CONFIGS" ngbDropdownItem (click)="applySort(config)">
+          {{config.name}}
+        </button>
+      </div>
+    </div>
     <button class="btn btn-dark px-4 me-2" (click)="entryFilterCollapsed = !entryFilterCollapsed">
       <i class="fa fa-filter" aria-hidden="true"></i>
       Filter

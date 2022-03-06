@@ -6,6 +6,7 @@ import {Page} from "@shared/models/page.model";
 import {EntryService} from "@app/entry/services/entry.service";
 import {Subscription} from "rxjs";
 import {EntryFilterService} from "@app/entry/services/entry-filter.service";
+import {SortConfig} from "@shared/models/sort-config.model";
 
 @Component({
   selector: 'lks-entry-list',
@@ -25,7 +26,7 @@ export class EntryListComponent implements OnInit, OnDestroy {
   entriesLoadingSubscription: Subscription;
 
   constructor(private route: ActivatedRoute,
-              private entryFilterService: EntryFilterService,
+              public entryFilterService: EntryFilterService,
               private entryService: EntryService) {
   }
 
@@ -51,6 +52,10 @@ export class EntryListComponent implements OnInit, OnDestroy {
 
   onPageChange(newPage: number) {
     this.entryFilterService.setPage(newPage);
+  }
+
+  applySort(config: SortConfig) {
+    this.entryFilterService.applySort(config);
   }
 
   private retrieveEntries() {

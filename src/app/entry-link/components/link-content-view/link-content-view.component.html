@@ -1,5 +1,5 @@
 <div *ngIf="link.content" class="mb-4">
-  <lks-card [isCollapsed]="true" headerStyles="bg-primary text-white">
+  <lks-card [isCollapsed]="true" [preserveElements]="false" headerStyles="bg-primary text-white">
   <span header>
     <i class="ms-3 fa-solid fa-circle fa-sm"></i> Read
   </span>
@@ -10,7 +10,7 @@
 </div>
 
 <div *ngIf="link.props?.attributes?.embedUrl" class="mb-4">
-  <lks-card [isCollapsed]="true" headerStyles="bg-secondary text-white">
+  <lks-card [isCollapsed]="true" [preserveElements]="false" headerStyles="bg-secondary text-white">
   <span header>
     <i class="ms-3 fa-solid fa-circle fa-sm"></i> Watch
   </span>
@@ -26,7 +26,7 @@
 </div>
 
 <div *ngIf="link.props?.attributes?.summary" class="mb-4">
-  <lks-card [isCollapsed]="true" headerStyles="bg-info text-white">
+  <lks-card [isCollapsed]="true" [preserveElements]="false" headerStyles="bg-info text-white">
   <span header>
     <i class="ms-3 fa-solid fa-circle fa-sm"></i> Summary
   </span>

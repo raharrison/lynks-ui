@@ -26,9 +26,9 @@ export class GroupViewComponent {
 
   iconClass() {
     if (this.type == "collections") {
-      return "fas fa-layer-group";
+      return "fa-solid fa-layer-group";
     } else if (this.type == "tags") {
-      return "fas fa-tag";
+      return "fa-solid fa-tag";
     } else {
       return "";
     }

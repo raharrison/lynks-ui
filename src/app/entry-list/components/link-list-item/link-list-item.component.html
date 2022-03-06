@@ -10,7 +10,7 @@
       <div class="flex-grow-1 ms-3">
         <div class="d-flex">
           <div class="flex-grow-1">
-            <i class="fas fa-link align-self-center me-1" ngbTooltip="Link"></i>
+            <i class="fa-solid fa-link align-self-center me-1" ngbTooltip="Link"></i>
             <a class="title me-2" [routerLink]="['/links', link.id]"> {{link.title}}</a>
             <span class="align-self-center">{{link.source}}</span>
             <div class="d-flex mt-1" *ngIf="link.tags.length > 0 || link.collections.length > 0">

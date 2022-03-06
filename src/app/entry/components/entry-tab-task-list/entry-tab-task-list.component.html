@@ -8,7 +8,7 @@
   <ngb-accordion #acc="ngbAccordion">
     <ngb-panel *ngFor="let task of entry.props.tasks">
       <ng-template ngbPanelTitle>
-        <span><i class="fas fa-chevron-down fa-sm"></i><b>  {{task.description}}</b></span>
+        <span><i class="fa-solid fa-chevron-down fa-sm"></i><b>  {{task.description}}</b></span>
       </ng-template>
       <ng-template ngbPanelContent>
         <lks-entry-tab-task-exec [entryId]="entry.id" [taskDefinition]="task"></lks-entry-tab-task-exec>

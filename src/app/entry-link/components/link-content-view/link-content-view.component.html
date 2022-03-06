@@ -1,7 +1,7 @@
 <div *ngIf="link.content" class="mb-4">
   <lks-card [isCollapsed]="true" headerStyles="bg-primary text-white">
   <span header>
-    <i class="ms-3 fas fa-circle fa-sm"></i> Read
+    <i class="ms-3 fa-solid fa-circle fa-sm"></i> Read
   </span>
     <content>
       <lks-markdown-view [markdown]="link.content"></lks-markdown-view>
@@ -12,7 +12,7 @@
 <div *ngIf="link.props?.attributes?.embedUrl" class="mb-4">
   <lks-card [isCollapsed]="true" headerStyles="bg-secondary text-white">
   <span header>
-    <i class="ms-3 fas fa-circle fa-sm"></i> Watch
+    <i class="ms-3 fa-solid fa-circle fa-sm"></i> Watch
   </span>
     <content>
       <div class="mt-3">
@@ -28,7 +28,7 @@
 <div *ngIf="link.props?.attributes?.summary" class="mb-4">
   <lks-card [isCollapsed]="true" headerStyles="bg-info text-white">
   <span header>
-    <i class="ms-3 fas fa-circle fa-sm"></i> Summary
+    <i class="ms-3 fa-solid fa-circle fa-sm"></i> Summary
   </span>
     <content>
       <h4 class="mb-3">{{ link.props.attributes.summary.title }}</h4>

@@ -17,9 +17,9 @@
     </thead>
     <tbody>
     <tr *ngFor="let discussion of discussions">
-      <td>
-        <i *ngIf="discussion.source=='REDDIT'" ngbTooltip="Reddit" class="fab fa-reddit fa-2x"></i>
-        <i *ngIf="discussion.source=='HACKER_NEWS'" ngbTooltip="Hacker News" class="fab fa-hacker-news fa-2x"></i>
+      <td class="text-center">
+        <i *ngIf="discussion.source=='reddit'" ngbTooltip="Reddit" class="fa-brands fa-reddit fa-2x"></i>
+        <i *ngIf="discussion.source=='hacker_news'" ngbTooltip="Hacker News" class="fa-brands fa-hacker-news fa-2x"></i>
       </td>
       <th><a target="_blank" [href]="createLinkUrl(discussion)">{{discussion.title}}</a></th>
       <td>{{discussion.score}}</td>

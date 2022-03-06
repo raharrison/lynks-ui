@@ -66,7 +66,9 @@
               "node_modules/@ng-select/ng-select/themes/default.theme.css",
               "node_modules/easymde/dist/easymde.min.css",
               "node_modules/github-markdown-css/github-markdown-light.css",
-              "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/fontawesome.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/solid.min.css",
+              "node_modules/@fortawesome/fontawesome-free/css/brands.min.css",
               "node_modules/highlight.js/styles/github.css",
               "node_modules/ngx-toastr/toastr.css",
               "src/styles/styles.scss"

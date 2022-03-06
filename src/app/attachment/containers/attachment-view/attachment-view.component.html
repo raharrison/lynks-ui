@@ -28,13 +28,13 @@
         <div *ngSwitchCase="'page'">
           <nav ngbNav #nav="ngbNav" class="nav-tabs" [destroyOnHide]="false" activeId="preview">
             <ng-container ngbNavItem="preview">
-              <a ngbNavLink><i class="fas fa-eye"></i> Preview</a>
+              <a ngbNavLink><i class="fa-solid fa-eye"></i> Preview</a>
               <ng-template ngbNavContent>
                 <div [innerHTML]="this.rawText" class="attachment-page"></div>
               </ng-template>
             </ng-container>
             <ng-container ngbNavItem="source">
-              <a ngbNavLink><i class="fas fa-code"></i> Source</a>
+              <a ngbNavLink><i class="fa-solid fa-code"></i> Source</a>
               <ng-template ngbNavContent>
                 <pre><code [class]="attachmentLanguageClass">{{ rawText }}</code></pre>
               </ng-template>

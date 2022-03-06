@@ -15,7 +15,7 @@
 
       <div *ngFor="let comment of comments; let index = index" class="comment-box">
         <span class="comment-num">#{{index + 1}} </span>
-        <span class="commenter-pic fas fa-user-circle"></span>
+        <span class="commenter-pic fa-solid fa-user-circle"></span>
         <span class="comment-time"><lks-time-ago [date]="comment.dateCreated"></lks-time-ago></span>
         <p class="comment-txt">
           <lks-markdown-view [markdown]="comment.markdownText"></lks-markdown-view>

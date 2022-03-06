@@ -5,7 +5,7 @@
       <div class="col-sm-12 col-md-6 mb-4 mb-md-0 group-card">
         <div>
           <div *ngIf="entry.type == EntryType.LINK">
-            <p><i [ngClass]="isLinkRead() ? 'fas fa-eye' : 'fas fa-eye-slash'"></i><b> Read: </b>{{ isLinkRead() ? "Yes" : "No" }}
+            <p><i [ngClass]="isLinkRead() ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'"></i><b> Read: </b>{{ isLinkRead() ? "Yes" : "No" }}
             </p>
             <hr>
           </div>
@@ -16,18 +16,18 @@
       </div>
       <div class="col-sm-12 col-md-6">
         <div>
-          <p><i class="fas fa-calendar-plus"></i><b> Created: </b>
+          <p><i class="fa-solid fa-calendar-plus"></i><b> Created: </b>
             <lks-time-ago [date]="entry.dateCreated"></lks-time-ago>
           </p>
           <hr>
-          <p><i class="fas fa-calendar-alt"></i><b> Last Updated: </b>
+          <p><i class="fa-solid fa-calendar-alt"></i><b> Last Updated: </b>
             <lks-time-ago [date]="entry.dateUpdated"></lks-time-ago>
           </p>
           <hr>
-          <p><i class="far fa-clock"></i><b> Version: </b>{{entry.version}}</p>
+          <p><i class="fa-solid fa-clock"></i><b> Version: </b>{{entry.version}}</p>
           <div *ngIf="entry.type == EntryType.LINK">
             <hr>
-            <p><i class="fas fa-map-marker-alt"></i><b> Source: </b>{{getLinkSource()}}</p>
+            <p><i class="fa-solid fa-map-marker-alt"></i><b> Source: </b>{{getLinkSource()}}</p>
           </div>
         </div>
       </div>

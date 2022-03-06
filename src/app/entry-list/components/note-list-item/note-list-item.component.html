@@ -7,7 +7,7 @@
       <div class="flex-grow-1 ms-3">
         <div class="d-flex">
           <div class="flex-grow-1">
-            <i class="fas fa-book-open align-self-center me-1" ngbTooltip="Note"></i>
+            <i class="fa-solid fa-book-open align-self-center me-1" ngbTooltip="Note"></i>
             <a class="title me-2" [routerLink]="['/notes', note.id]"> {{note.title}}</a>
             <div class="d-flex mt-1" *ngIf="note.tags.length > 0 || note.collections.length > 0">
               <lks-group-view [groups]="note.tags" type="tags" [minimal]="true" class="me-3"></lks-group-view>

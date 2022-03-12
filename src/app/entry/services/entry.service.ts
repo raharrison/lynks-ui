@@ -70,6 +70,9 @@ export class EntryService {
     if (this.entryFilterService.DEFAULT_FILTER.direction != filter.direction) {
       params.direction = filter.direction;
     }
+    if (this.entryFilterService.DEFAULT_FILTER.source != filter.source) {
+      params.source = filter.source;
+    }
     if (filter.tags.length > 0) {
       params.tag = filter.tags.map(t => t.id);
     }

@@ -14,6 +14,7 @@ export class EntryFilterService {
     size: 25,
     tags: [],
     collections: [],
+    source: "",
     sort: "dateUpdated",
     direction: SortDirection.DESC,
     entryType: EntryType.ENTRIES

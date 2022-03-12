@@ -8,6 +8,7 @@ export interface EntryFilter {
   size: number;
   tags: Tag[];
   collections: Collection[];
+  source: string;
   sort: string;
   direction: SortDirection;
 }

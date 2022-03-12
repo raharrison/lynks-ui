@@ -4,8 +4,8 @@
     <div>
       <form (ngSubmit)="onSubmit()" #filterForm="ngForm">
         <div class="row g-3">
-          <div class="col-md-4">
-            <label for="sortBy">Sort By</label>
+          <div class="col-md-3">
+            <label class="form-label" for="sortBy">Sort By</label>
             <select class="form-select" id="sortBy" name="sortBy" required
                     [(ngModel)]="entryFilter.sort">
               <option value="dateCreated">Date Created</option>
@@ -13,8 +13,8 @@
             </select>
           </div>
 
-          <div class="col-md-4">
-            <label for="direction">Sort Direction</label>
+          <div class="col-md-3">
+            <label class="form-label" for="direction">Sort Direction</label>
             <select class="form-select" id="direction" name="direction" required
                     [(ngModel)]="entryFilter.direction">
               <option value="asc">Ascending</option>
@@ -22,8 +22,8 @@
             </select>
           </div>
 
-          <div class="col-md-4">
-            <label for="pageSize">Page Size</label>
+          <div class="col-md-3">
+            <label class="form-label" for="pageSize">Page Size</label>
             <select class="form-select" id="pageSize" name="pageSize" required
                     [(ngModel)]="entryFilter.size">
               <option value="10">10</option>
@@ -32,14 +32,19 @@
             </select>
           </div>
 
+          <div class="col-md-3">
+            <label class="form-label" for="source">Source</label>
+            <input type="search" class="form-control" id="source" name="source" [(ngModel)]="entryFilter.source"/>
+          </div>
+
           <div class="col-md-6">
-            <label for="tagPicker">Tags</label>
+            <label class="form-label" for="tagPicker">Tags</label>
             <lks-group-editor id="tagPicker" type="tag" [selected]="entryFilter.tags" [maxSelected]="1"
                               (selectedChange)="entryFilter.tags = $event"></lks-group-editor>
           </div>
 
           <div class="col-md-6">
-            <label for="collectionPicker">Collections</label>
+            <label class="form-label" for="collectionPicker">Collections</label>
             <lks-group-editor id="collectionPicker" type="collection" [selected]="entryFilter.collections" [maxSelected]="1"
                               (selectedChange)="entryFilter.collections = $event"></lks-group-editor>
           </div>

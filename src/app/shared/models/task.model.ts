@@ -9,7 +9,8 @@ export interface TaskParameter {
   type: TaskParameterType,
   description: string,
   value: string,
-  options: string[]
+  options: string[],
+  required: boolean
 }
 
 export enum TaskParameterType {

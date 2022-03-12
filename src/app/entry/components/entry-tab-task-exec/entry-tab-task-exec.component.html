@@ -1,19 +1,19 @@
 <form (ngSubmit)="onSubmit()" #taskForm="ngForm">
   <div class="mb-3" *ngFor="let param of taskDefinition.params">
-    <label for="{{param.name}}">{{param.description}}</label>
+    <label class="form-label" for="{{param.name}}">{{param.description}} <span class="text-muted" *ngIf="!param.required">(optional)</span></label>
 
-    <select class="form-select" id="{{param.name}}" name="{{param.name}}" required
+    <select class="form-select" id="{{param.name}}" name="{{param.name}}" required="{{param.required}}"
             *ngIf="param.type == 'enum'"
             [(ngModel)]="model[param.name]">
       <option *ngFor="let option of param.options" [value]="option">{{option}}</option>
     </select>
 
-    <input class="form-control" id="{{param.name}}" name="{{param.name}}" required disabled
+    <input class="form-control" id="{{param.name}}" name="{{param.name}}" required="{{param.required}}" disabled
            value="{{param.value}}"
            *ngIf="param.type == 'static'"
     />
 
-    <input class="form-control" id="{{param.name}}" name="{{param.name}}" required
+    <input class="form-control" id="{{param.name}}" name="{{param.name}}" required="{{param.required}}"
            *ngIf="param.type == 'text'"
            [(ngModel)]="model[param.name]"
     />

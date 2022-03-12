@@ -35,7 +35,7 @@
             <button (click)="onSubmit(true)" type="submit" class="btn btn-success ps-4" [ngClass]="updateMode ? 'pe-3' : 'pe-4'"
                     [disabled]="saving || !noteForm.form.valid">
               <span *ngIf="saving" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-              <i *ngIf="!saving" class="fa fa-save" aria-hidden="true"></i>
+              <i *ngIf="!saving" class="fa-solid fa-save" aria-hidden="true"></i>
               &nbsp;{{saving ? "Saving.." : updateMode ? "Save" : "Create"}}
             </button>
             <div *ngIf="updateMode" class="btn-group" ngbDropdown role="group" aria-label="Save without new version dropdown">

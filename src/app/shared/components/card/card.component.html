@@ -1,8 +1,8 @@
 <div class="card">
   <div class="card-header cursor-pointer {{headerStyles}}" style="font-weight: 500" (click)="isCollapsed = !isCollapsed">
     <a data-toggle="collapse" aria-expanded="true" aria-controls="linkReaderContent">
-      <i *ngIf="isCollapsed" class="fa fa-chevron-down"></i>
-      <i *ngIf="!isCollapsed" class="fa fa-chevron-up"></i>
+      <i *ngIf="isCollapsed" class="fa-solid fa-chevron-down"></i>
+      <i *ngIf="!isCollapsed" class="fa-solid fa-chevron-up"></i>
       <ng-content select="[header]"></ng-content>
     </a>
   </div>

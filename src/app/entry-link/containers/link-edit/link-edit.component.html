@@ -21,7 +21,7 @@
                    placeholder="Enter url (required)" required #url="ngModel">
             <button type="button" class="btn btn-primary" (click)="onSuggest()" [disabled]="!url.valid || suggesting">
               <span *ngIf="suggesting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-              <i *ngIf="!suggesting" class="fa fa-search" aria-hidden="true"></i> Suggest
+              <i *ngIf="!suggesting" class="fa-solid fa-search" aria-hidden="true"></i> Suggest
             </button>
           </div>
           <div [hidden]="url.valid || url.pristine" class="alert alert-danger">
@@ -60,7 +60,7 @@
           <button type="button" (click)="onCancel()" class="btn btn-outline-secondary me-2" [disabled]="saving">Cancel</button>
           <button type="submit" class="btn btn-success px-4" [disabled]="saving || !linkForm.form.valid">
             <span *ngIf="saving" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            <i *ngIf="!saving" class="fa fa-save" aria-hidden="true"></i>
+            <i *ngIf="!saving" class="fa-solid fa-save" aria-hidden="true"></i>
             &nbsp;{{saving ? "Saving.." : updateMode ? "Save" : "Create"}}
           </button>
         </div>

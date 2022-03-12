@@ -15,7 +15,7 @@ export const ROUTES: Routes = [
         canActivate: [],
         component: authContainers.LoginComponent,
         data: {
-            title: 'Login - Lynks',
+          title: 'Login',
         } as RouteData,
     },
     {
@@ -23,7 +23,7 @@ export const ROUTES: Routes = [
         canActivate: [],
         component: authContainers.RegisterComponent,
         data: {
-            title: 'Register - Lynks',
+          title: 'Register',
         } as RouteData,
     },
     {
@@ -31,7 +31,7 @@ export const ROUTES: Routes = [
         canActivate: [],
         component: authContainers.ForgotPasswordComponent,
         data: {
-            title: 'Forgot Password - Lynks',
+          title: 'Forgot Password',
         } as RouteData,
     },
 ];

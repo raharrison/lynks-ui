@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Note} from "@shared/models";
 import {NoteService} from "@app/entry/services/note.service";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'lks-note-detail',
@@ -16,6 +17,7 @@ export class NoteDetailComponent implements OnInit {
   loading = true;
 
   constructor(private route: ActivatedRoute,
+              private titleService: Title,
               private noteService: NoteService) {
   }
 
@@ -32,11 +34,13 @@ export class NoteDetailComponent implements OnInit {
       this.noteService.getVersion(this.id, this.version).subscribe((data) => {
         this.note = data;
         this.loading = false;
+        this.titleService.setTitle("Lynks - " + data.title);
       });
     } else {
       this.noteService.get(this.id).subscribe((data) => {
         this.note = data;
         this.loading = false;
+        this.titleService.setTitle("Lynks - " + data.title);
       });
     }
   }

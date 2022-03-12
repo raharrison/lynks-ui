@@ -15,7 +15,7 @@ export const ROUTES: Routes = [
         canActivate: [],
         component: errorContainers.Error401Component,
         data: {
-            title: 'Error 401 - Lynks',
+          title: 'Unauthorized',
         } as RouteData,
     },
     {
@@ -23,7 +23,7 @@ export const ROUTES: Routes = [
         canActivate: [],
         component: errorContainers.Error404Component,
         data: {
-            title: 'Error 404 - Lynks',
+          title: 'Not Found',
         } as RouteData,
     },
     {
@@ -31,7 +31,7 @@ export const ROUTES: Routes = [
         canActivate: [],
         component: errorContainers.Error500Component,
         data: {
-            title: 'Error 500 - Lynks',
+          title: 'Server Error',
         } as RouteData,
     },
     {

@@ -9,7 +9,7 @@ import {filter} from 'rxjs/operators';
   styles: []
 })
 export class AppComponent {
-  title = 'Lynks UI';
+  title = 'Lynks';
 
   constructor(public router: Router, private titleService: Title) {
     this.router.events
@@ -19,7 +19,12 @@ export class AppComponent {
         while (snapshot.firstChild !== null) {
           snapshot = snapshot.firstChild;
         }
-        this.titleService.setTitle(snapshot.data.title || this.title);
+        // take new title from route data if available, otherwise use default
+        let newTitle = this.title;
+        if (snapshot && snapshot.data.title) {
+          newTitle = `${this.title} - ${snapshot.data.title}`;
+        }
+        this.titleService.setTitle(newTitle);
       });
   }
 }

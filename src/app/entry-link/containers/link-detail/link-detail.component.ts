@@ -3,6 +3,7 @@ import {ActivatedRoute} from "@angular/router";
 import {Link} from "@shared/models";
 import {LinkService} from "@app/entry/services/link.service";
 import {ToastrService} from "ngx-toastr";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'lks-link-detail',
@@ -17,6 +18,7 @@ export class LinkDetailComponent implements OnInit {
   loading = true;
 
   constructor(private route: ActivatedRoute,
+              private titleService: Title,
               private toastrService: ToastrService,
               private linkService: LinkService) {
   }
@@ -34,11 +36,13 @@ export class LinkDetailComponent implements OnInit {
       this.linkService.getVersion(this.id, this.version).subscribe((data) => {
         this.link = data;
         this.loading = false;
+        this.titleService.setTitle("Lynks - " + data.title);
       });
     } else {
       this.linkService.get(this.id).subscribe((data) => {
         this.link = data;
         this.loading = false;
+        this.titleService.setTitle("Lynks - " + data.title);
       });
     }
   }

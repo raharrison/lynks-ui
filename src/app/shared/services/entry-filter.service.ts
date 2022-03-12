@@ -17,7 +17,8 @@ export class EntryFilterService {
     source: "",
     sort: "dateUpdated",
     direction: SortDirection.DESC,
-    entryType: EntryType.ENTRIES
+    entryType: EntryType.ENTRIES,
+    searchTerms: ""
   }
 
   readonly SORT_CONFIGS: SortConfig[] = [
@@ -52,6 +53,13 @@ export class EntryFilterService {
   // completely overwrite filter with new definition
   setFilter(entryFilter: EntryFilter) {
     this.entryFilter = entryFilter;
+    this.filterUpdated();
+  }
+
+  // set search term property of current filter
+  setSearch(searchTerms: string) {
+    this.entryFilter.searchTerms = searchTerms;
+    this.entryFilter.entryType = EntryType.ENTRIES;
     this.filterUpdated();
   }
 

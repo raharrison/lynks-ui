@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {EntryFilterService} from "@app/entry/services/entry-filter.service";
+import {EntryFilterService} from "@shared/services/entry-filter.service";
 import {EntryFilter} from "@shared/models/entry-filter.model";
 import {Subscription} from "rxjs";
 

@@ -6,7 +6,7 @@ import {LinkService} from "./link.service";
 import {ResponseHandlerService} from "@shared/services/response-handler.service";
 import {Entry, EntryAuditItem, EntryType, EntryVersion, SlimEntry} from "@shared/models";
 import {Page} from "@shared/models/page.model";
-import {EntryFilterService} from "@app/entry/services/entry-filter.service";
+import {EntryFilterService} from "@shared/services/entry-filter.service";
 import {tap} from "rxjs/operators";
 import {EntryFilter} from "@shared/models/entry-filter.model";
 
@@ -45,19 +45,42 @@ export class EntryService {
     return this.entryFilterService.$entryFilter
       .pipe(switchMap(filter => {
         this.entriesLoadingSubject.next(true);
-        const entryType = filter.entryType.toLowerCase();
-        const opts = {
-          params: this.constructFilterParams(filter)
+        if (filter.searchTerms !== "") {
+          return this.runSearchQuery(filter);
+        } else {
+          return this.runEntryQuery(filter);
         }
-        return this.http.get<Page<SlimEntry>>(`/api/${entryType}`, opts)
-          .pipe(tap({
-            next: _ => this.entriesLoadingSubject.next(false),
-            error: _ => this.entriesLoadingSubject.next(false)
-          }));
       }));
   }
 
-  constructFilterParams(filter: EntryFilter) {
+  // api query with search terms for all entry types with page params
+  private runSearchQuery(filter: EntryFilter) {
+    const opts = {
+      params: {
+        ...this.constructFilterParams(filter),
+        q: filter.searchTerms
+      }
+    }
+    return this.http.get<Page<SlimEntry>>(`/api/entry/search`, opts)
+      .pipe(tap({
+        next: _ => this.entriesLoadingSubject.next(false),
+        error: _ => this.entriesLoadingSubject.next(false)
+      }));
+  }
+
+  // api query against specific type with page params
+  private runEntryQuery(filter: EntryFilter) {
+    const opts = {
+      params: this.constructFilterParams(filter)
+    }
+    return this.http.get<Page<SlimEntry>>(`/api/${filter.entryType}`, opts)
+      .pipe(tap({
+        next: _ => this.entriesLoadingSubject.next(false),
+        error: _ => this.entriesLoadingSubject.next(false)
+      }));
+  }
+
+  private constructFilterParams(filter: EntryFilter) {
     const params: any = {
       page: filter.page
     };

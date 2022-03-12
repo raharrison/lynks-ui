@@ -5,7 +5,7 @@ import {EntryType, SlimEntry} from "@shared/models";
 import {Page} from "@shared/models/page.model";
 import {EntryService} from "@app/entry/services/entry.service";
 import {Subscription} from "rxjs";
-import {EntryFilterService} from "@app/entry/services/entry-filter.service";
+import {EntryFilterService} from "@shared/services/entry-filter.service";
 import {SortConfig} from "@shared/models/sort-config.model";
 
 @Component({

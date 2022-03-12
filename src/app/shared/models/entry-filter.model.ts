@@ -11,5 +11,6 @@ export interface EntryFilter {
   source: string;
   sort: string;
   direction: SortDirection;
+  searchTerms: string;
 }
 

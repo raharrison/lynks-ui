@@ -19,15 +19,11 @@ export class CollectionEditComponent implements OnInit {
   newCollectionName = "";
   newCollectionSelectedParent: Collection[] = [];
 
-  constructor(private collectionService: CollectionService) {
+  constructor(public collectionService: CollectionService) {
   }
 
   ngOnInit(): void {
-    this.retrieveCollections();
-  }
-
-  retrieveCollections() {
-    this.$collections = this.collectionService.getCollectionsFlattened().pipe(tap(collections => {
+    this.$collections = this.collectionService.$collectionsFlattened.pipe(tap(collections => {
       this.populateParents(collections, null);
     }));
   }
@@ -51,7 +47,7 @@ export class CollectionEditComponent implements OnInit {
       collectionForm.form.reset();
       this.newCollectionSaving = false;
       this.newCollectionSelectedParent = [];
-      this.retrieveCollections();
+      this.collectionService.refreshCollections();
     });
   }
 

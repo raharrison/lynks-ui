@@ -66,6 +66,7 @@ export class TagEditListItemComponent implements OnInit {
         this.editMode = false;
         this.tag.name = this.tagNameInput;
         this.tagNameInput = null;
+        this.tagModified.emit(res);
       });
   }
 

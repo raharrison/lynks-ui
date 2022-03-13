@@ -38,9 +38,7 @@ export class EntryDetailHeaderComponent {
 
   private deleteEntry(entry: Entry) {
     const service = this.entryService.resolveService(this.entry.type);
-    service.delete(entry.id).subscribe(() => {
-      this.router.navigate(service.constructPath());
-    }, error => alert(error));
+    service.delete(entry.id).subscribe(() => this.router.navigate(service.constructPath()));
   }
 
   goToLatestVersion() {

@@ -30,9 +30,9 @@ export class GroupEditComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.type == "tag") {
-      this.groups$ = this.tagService.getTags();
+      this.groups$ = this.tagService.$tags;
     } else {
-      this.groups$ = this.collectionService.getCollectionsFlattened();
+      this.groups$ = this.collectionService.$collectionsFlattened;
     }
   }
 

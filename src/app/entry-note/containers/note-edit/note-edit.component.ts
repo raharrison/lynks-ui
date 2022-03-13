@@ -68,24 +68,28 @@ export class NoteEditComponent implements OnInit {
 
   createNote() {
     this.noteService.create(this.note)
-      .subscribe(
-        data => {
+      .subscribe({
+        next: data => {
           this.saving = false;
           this.router.navigate(["/notes", data.id]);
-        }, () => {
+        },
+        error: () => {
           this.saving = false;
-        });
+        }
+      });
   }
 
   updateNote(saveNewVersion: boolean) {
     this.noteService.update(this.note, saveNewVersion)
-      .subscribe(
-        data => {
+      .subscribe({
+        next: data => {
           this.saving = false;
           this.router.navigate(["/notes", data.id]);
-        }, () => {
+        },
+        error: () => {
           this.saving = false;
-        });
+        }
+      });
   }
 
 }

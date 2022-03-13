@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {Observable, ReplaySubject} from "rxjs";
 import {ResponseHandlerService} from "./response-handler.service";
 import {NewTag, Tag} from "@shared/models";
 import {map} from "rxjs/operators";
@@ -10,16 +10,21 @@ import {map} from "rxjs/operators";
 })
 export class TagService {
 
+  private tagSubject = new ReplaySubject<Tag[]>(1);
+  $tags: Observable<Tag[]> = this.tagSubject.asObservable();
+
   constructor(private http: HttpClient,
               private responseHandler: ResponseHandlerService) {
+    this.tagSubject.next([]);
+    this.refreshTags();
   }
 
-  getTags(): Observable<Tag[]> {
-    return this.http.get<Tag[]>("/api/tag")
+  refreshTags() {
+    this.http.get<Tag[]>("/api/tag")
       .pipe(
         map(tags => tags.sort((a, b) => a.name.localeCompare(b.name))),
         this.responseHandler.handleResponseError("Unable to retrieve tags")
-      );
+      ).subscribe(tags => this.tagSubject.next(tags));
   }
 
   createTag(tag: NewTag): Observable<Tag> {

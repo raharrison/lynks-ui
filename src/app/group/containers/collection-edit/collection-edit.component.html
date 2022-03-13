@@ -34,7 +34,7 @@
     </thead>
     <tbody>
     <tr *ngFor="let collection of $collections | async " lks-collection-edit-list-item [collection]="collection"
-        [parentCollection]="collectionsToParent[collection.id]" (collectionModified)="retrieveCollections()">
+        [parentCollection]="collectionsToParent[collection.id]" (collectionModified)="collectionService.refreshCollections()">
     </tr>
     </tbody>
   </table>

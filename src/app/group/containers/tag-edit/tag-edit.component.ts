@@ -16,15 +16,11 @@ export class TagEditComponent implements OnInit {
   newTagSaving = false;
   newTagName = "";
 
-  constructor(private tagService: TagService) {
+  constructor(public tagService: TagService) {
   }
 
   ngOnInit(): void {
-    this.retrieveTags();
-  }
-
-  retrieveTags() {
-    this.$tags = this.tagService.getTags()
+    this.$tags = this.tagService.$tags;
   }
 
   onTagSave(tagForm: NgForm) {
@@ -32,10 +28,10 @@ export class TagEditComponent implements OnInit {
       name: this.newTagName
     }
     this.newTagSaving = true;
-    this.tagService.createTag(newTag).subscribe(res => {
+    this.tagService.createTag(newTag).subscribe(() => {
       tagForm.form.reset();
       this.newTagSaving = false;
-      this.retrieveTags();
+      this.tagService.refreshTags();
     });
   }
 

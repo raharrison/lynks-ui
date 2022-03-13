@@ -72,6 +72,7 @@ export class CollectionEditListItemComponent implements OnInit {
         this.editMode = false;
         this.collection.name = this.collectionNameInput;
         this.parentCollection = this.collectionSelectedParent.length == 0 ? null : this.collectionSelectedParent[0];
+        this.collectionModified.emit(res);
       });
   }
 

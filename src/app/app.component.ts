@@ -22,7 +22,7 @@ export class AppComponent {
         // take new title from route data if available, otherwise use default
         let newTitle = this.title;
         if (snapshot && snapshot.data.title) {
-          newTitle = `${this.title} - ${snapshot.data.title}`;
+          newTitle = `${snapshot.data.title} - ${this.title}`;
         }
         this.titleService.setTitle(newTitle);
       });

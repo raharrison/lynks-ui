@@ -34,13 +34,13 @@ export class NoteDetailComponent implements OnInit {
       this.noteService.getVersion(this.id, this.version).subscribe((data) => {
         this.note = data;
         this.loading = false;
-        this.titleService.setTitle("Lynks - " + data.title);
+        this.titleService.setTitle(data.title + " - Lynks");
       });
     } else {
       this.noteService.get(this.id).subscribe((data) => {
         this.note = data;
         this.loading = false;
-        this.titleService.setTitle("Lynks - " + data.title);
+        this.titleService.setTitle(data.title + " - Lynks");
       });
     }
   }

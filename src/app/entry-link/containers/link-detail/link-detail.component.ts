@@ -36,13 +36,13 @@ export class LinkDetailComponent implements OnInit {
       this.linkService.getVersion(this.id, this.version).subscribe((data) => {
         this.link = data;
         this.loading = false;
-        this.titleService.setTitle("Lynks - " + data.title);
+        this.titleService.setTitle(data.title + " - Lynks");
       });
     } else {
       this.linkService.get(this.id).subscribe((data) => {
         this.link = data;
         this.loading = false;
-        this.titleService.setTitle("Lynks - " + data.title);
+        this.titleService.setTitle(data.title + " - Lynks");
       });
     }
   }

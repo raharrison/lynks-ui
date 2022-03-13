@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {DomSanitizer, SafeUrl} from "@angular/platform-browser";
+import {DomSanitizer, SafeUrl, Title} from "@angular/platform-browser";
 import {HighlightJS} from "ngx-highlightjs";
 import {Subscription} from "rxjs";
 import {Attachment, AttachmentCategory, AttachmentType} from "@app/attachment/models";
@@ -45,9 +45,10 @@ export class AttachmentViewComponent implements OnInit, OnDestroy {
   attachmentLanguageClass: string;
   rawText: string;
 
-  private subscription: Subscription = new Subscription();
+  private highlightSubscription: Subscription = new Subscription();
 
   constructor(private route: ActivatedRoute,
+              private titleService: Title,
               private sanitizer: DomSanitizer,
               private hljs: HighlightJS,
               private attachmentService: AttachmentService) {
@@ -65,6 +66,7 @@ export class AttachmentViewComponent implements OnInit, OnDestroy {
       this.attachmentCategory = this.deriveAttachmentCategory(this.attachment.type, this.attachmentMimeType,
         this.attachment.extension.toLowerCase());
       this.loadingAttachment = false;
+      this.titleService.setTitle(this.attachment.name + " - Lynks");
       this.postProcessAttachment();
     });
   }
@@ -105,7 +107,7 @@ export class AttachmentViewComponent implements OnInit, OnDestroy {
           setTimeout(_ =>
             document.querySelectorAll("pre code").forEach(item => {
               const sub = this.hljs.highlightElement(item as HTMLElement).subscribe();
-              this.subscription.add(sub);
+              this.highlightSubscription.add(sub);
             }), 1);
         });
       });
@@ -124,7 +126,7 @@ export class AttachmentViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.highlightSubscription.unsubscribe();
   }
 
 }

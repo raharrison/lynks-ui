@@ -29,8 +29,8 @@ export class LinkService implements EntryResource<SlimLink, Link> {
       .pipe(this.responseHandler.handleResponse("Link created", "Unable to create link"));
   }
 
-  update(newLink: NewLink): Observable<Link> {
-    return this.http.put<Link>("/api/link", newLink)
+  update(newLink: NewLink, newVersion: boolean): Observable<Link> {
+    return this.http.put<Link>("/api/link", newLink, {params: {newVersion}})
       .pipe(this.responseHandler.handleResponse("Link updated", "Unable to update link"));
   }
 

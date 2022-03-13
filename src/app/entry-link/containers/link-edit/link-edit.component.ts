@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {Collection, Grouping, GroupType, NewLink, SlimLink, Tag} from "@shared/models";
+import {Collection, Grouping, GroupType, Link, NewLink, SlimLink, Tag} from "@shared/models";
 import {LinkService} from "@app/entry/services/link.service";
 import {debounceTime, distinctUntilChanged, Subject, Subscription} from "rxjs";
 
@@ -24,6 +24,7 @@ export class LinkEditComponent implements OnInit, OnDestroy {
   existingLinks: SlimLink[] = [];
 
   link: NewLink;
+  private oldLink: Link;
 
   selectedTags: Tag[] = [];
   selectedCollections: Collection[] = [];
@@ -49,6 +50,7 @@ export class LinkEditComponent implements OnInit, OnDestroy {
       this.loading = true;
       this.link.process = false;
       this.linkService.get(id).subscribe((data) => {
+        this.oldLink = data;
         this.link.id = data.id;
         this.link.title = data.title;
         this.link.url = data.url;
@@ -136,7 +138,9 @@ export class LinkEditComponent implements OnInit, OnDestroy {
   }
 
   updateLink() {
-    this.linkService.update(this.link)
+    // only save new version if main fields have changed
+    const forceNewVersion = LinkEditComponent.checkFieldChanges(this.oldLink, this.link);
+    this.linkService.update(this.link, forceNewVersion)
       .subscribe({
         next: data => {
           this.saving = false;
@@ -146,6 +150,12 @@ export class LinkEditComponent implements OnInit, OnDestroy {
           this.saving = false;
         }
       });
+  }
+
+  private static checkFieldChanges(oldLink: Link, newLink: NewLink): boolean {
+    if (oldLink.title !== newLink.title) return true;
+    else if (oldLink.url !== newLink.url) return true;
+    return false;
   }
 
   ngOnDestroy(): void {

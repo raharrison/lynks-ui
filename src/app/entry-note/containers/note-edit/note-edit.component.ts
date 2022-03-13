@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {Collection, NewNote, Tag} from "@shared/models";
+import {Collection, NewNote, Note, Tag} from "@shared/models";
 import {NoteService} from "@app/entry/services/note.service";
 
 @Component({
@@ -13,7 +13,9 @@ export class NoteEditComponent implements OnInit {
   loading = false;
   saving = false;
   updateMode = false;
+
   note: NewNote;
+  private oldNote: Note;
 
   selectedTags: Tag[] = [];
   selectedCollections: Collection[] = [];
@@ -37,6 +39,7 @@ export class NoteEditComponent implements OnInit {
       this.updateMode = true;
       this.loading = true;
       this.noteService.get(id).subscribe((data) => {
+        this.oldNote = data;
         this.note.id = data.id;
         this.note.title = data.title;
         this.note.plainText = data.plainText;
@@ -80,7 +83,9 @@ export class NoteEditComponent implements OnInit {
   }
 
   updateNote(saveNewVersion: boolean) {
-    this.noteService.update(this.note, saveNewVersion)
+    // only save new version if main fields have changed
+    const forceNewVersion = NoteEditComponent.checkFieldChanges(this.oldNote, this.note) ? saveNewVersion : false;
+    this.noteService.update(this.note, forceNewVersion)
       .subscribe({
         next: data => {
           this.saving = false;
@@ -90,6 +95,12 @@ export class NoteEditComponent implements OnInit {
           this.saving = false;
         }
       });
+  }
+
+  private static checkFieldChanges(oldNote: Note, newNote: NewNote): boolean {
+    if (oldNote.title !== newNote.title) return true;
+    else if (oldNote.plainText !== newNote.plainText) return true;
+    return false;
   }
 
 }

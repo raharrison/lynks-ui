@@ -64,12 +64,14 @@ export class EntryFilterService {
   }
 
   // reset to defaults but add provided entry type
-  reset(entryType: EntryType = EntryType.ENTRIES) {
+  resetToType(entryType: EntryType = EntryType.ENTRIES, pushUpdate: boolean) {
     this.entryFilter = {
       ...this.DEFAULT_FILTER,
       entryType: entryType
     };
-    this.filterUpdated();
+    if (pushUpdate) {
+      this.filterUpdated();
+    }
   }
 
   // completely reset to defaults but keep old entry type

@@ -37,7 +37,7 @@ export class EntryListComponent implements OnInit, OnDestroy {
       } else {
         this.entryType = EntryType.ENTRIES;
       }
-      this.entryFilterService.reset(this.entryType);
+      this.entryFilterService.resetToType(this.entryType, true);
 
       if (this.entryType == EntryType.ENTRIES) {
         this.entryTypeDesc = "Entries";
@@ -46,7 +46,13 @@ export class EntryListComponent implements OnInit, OnDestroy {
       } else if (this.entryType == EntryType.LINK) {
         this.entryTypeDesc = "Links";
       }
-      this.retrieveEntries();
+
+      this.entriesLoadingSubscription = this.entryService.$entriesLoading.subscribe(
+        loading => this.loading = loading
+      );
+      this.entrySubscription = this.entryService.$entryPage.subscribe(page => {
+        this.entryPage = page;
+      })
     });
   }
 
@@ -56,15 +62,6 @@ export class EntryListComponent implements OnInit, OnDestroy {
 
   applySort(config: SortConfig) {
     this.entryFilterService.applySort(config);
-  }
-
-  private retrieveEntries() {
-    this.entriesLoadingSubscription = this.entryService.$entriesLoading.subscribe(
-      loading => this.loading = loading
-    );
-    this.entrySubscription = this.entryService.$entryPage.subscribe(page => {
-      this.entryPage = page;
-    })
   }
 
   ngOnDestroy(): void {

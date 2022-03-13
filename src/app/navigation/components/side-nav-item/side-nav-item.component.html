@@ -1,11 +1,12 @@
-<a class="nav-link" [routerLink]="sideNavItem.link" (click)="expanded = !expanded" [ngClass]="{active: isActive, collapsed: !expanded}">
-    <div class="lks-nav-link-icon" *ngIf="sideNavItem.icon">
-        <i class="fa-solid fa-{{sideNavItem.icon}}"></i>
-    </div>
-    {{sideNavItem.text}}
-    <div class="lks-sidenav-collapse-arrow">
-      <i *ngIf="sideNavItem.submenu" class="ms-auto fa-solid fa-angle-down"></i>
-    </div>
+<a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+   [routerLink]="sideNavItem.link" (click)="expanded = !expanded" [ngClass]="{collapsed: !expanded}">
+  <div class="lks-nav-link-icon" *ngIf="sideNavItem.icon">
+    <i class="fa-solid fa-{{sideNavItem.icon}}"></i>
+  </div>
+  {{sideNavItem.text}}
+  <div class="lks-sidenav-collapse-arrow">
+    <i *ngIf="sideNavItem.submenu" class="ms-auto fa-solid fa-angle-down"></i>
+  </div>
 </a>
 
 <nav class="lks-sidenav-menu-nested nav" *ngIf="sideNavItem.submenu && expanded">

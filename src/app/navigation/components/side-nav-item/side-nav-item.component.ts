@@ -9,7 +9,6 @@ import {SideNavItem} from '@app/navigation/models';
 })
 export class SideNavItemComponent implements OnInit {
     @Input() sideNavItem!: SideNavItem;
-    @Input() isActive!: boolean;
 
     expanded = false;
 

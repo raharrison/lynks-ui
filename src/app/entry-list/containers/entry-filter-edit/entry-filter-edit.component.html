@@ -39,13 +39,13 @@
 
           <div class="col-md-6">
             <label class="form-label" for="tagPicker">Tags</label>
-            <lks-group-editor id="tagPicker" type="tag" [selected]="entryFilter.tags" [maxSelected]="1"
+            <lks-group-editor id="tagPicker" type="tag" [selected]="entryFilter.tags" [maxSelected]="5"
                               (selectedChange)="entryFilter.tags = $event"></lks-group-editor>
           </div>
 
           <div class="col-md-6">
             <label class="form-label" for="collectionPicker">Collections</label>
-            <lks-group-editor id="collectionPicker" type="collection" [selected]="entryFilter.collections" [maxSelected]="1"
+            <lks-group-editor id="collectionPicker" type="collection" [selected]="entryFilter.collections" [maxSelected]="5"
                               (selectedChange)="entryFilter.collections = $event"></lks-group-editor>
           </div>
         </div>

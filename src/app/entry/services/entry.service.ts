@@ -97,10 +97,10 @@ export class EntryService {
       params.source = filter.source;
     }
     if (filter.tags.length > 0) {
-      params.tag = filter.tags.map(t => t.id);
+      params.tags = filter.tags.map(t => t.id).join(",");
     }
     if (filter.collections.length > 0) {
-      params.collection = filter.collections.map(t => t.id);
+      params.collections = filter.collections.map(t => t.id).join(",");
     }
     return params;
   }

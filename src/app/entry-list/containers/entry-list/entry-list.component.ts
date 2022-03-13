@@ -37,7 +37,7 @@ export class EntryListComponent implements OnInit, OnDestroy {
       } else {
         this.entryType = EntryType.ENTRIES;
       }
-      this.entryFilterService.resetToType(this.entryType, true);
+      this.entryFilterService.updateToType(this.entryType);
 
       if (this.entryType == EntryType.ENTRIES) {
         this.entryTypeDesc = "Entries";

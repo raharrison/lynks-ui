@@ -39,7 +39,7 @@ export class TopNavComponent implements OnInit, OnDestroy {
 
   navToEntryList(page: string, type: EntryType) {
     if (this.router.url === page) {
-      this.entryFilterService.resetToType(type, true);
+      this.entryFilterService.resetToType(type);
     } else {
       this.router.navigate([page]);
     }

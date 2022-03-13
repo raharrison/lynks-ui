@@ -17,7 +17,8 @@
         <div class="mb-3">
           <label for="linkUrl">URL</label>
           <div class="input-group">
-            <input [(ngModel)]="link.url" id="linkUrl" name="url" type="text" class="form-control form-control-lg title-input"
+            <input [(ngModel)]="link.url" (ngModelChange)="urlFieldChanged.next($event)" id="linkUrl" name="url" type="text"
+                   class="form-control form-control-lg title-input"
                    placeholder="Enter url (required)" required #url="ngModel">
             <button type="button" class="btn btn-primary" (click)="onSuggest()" [disabled]="!url.valid || suggesting">
               <span *ngIf="suggesting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -27,6 +28,16 @@
           <div [hidden]="url.valid || url.pristine" class="alert alert-danger">
             URL is required
           </div>
+        </div>
+
+        <div class="mb-3 alert alert-warning py-1" role="alert" *ngIf="existingLinks.length > 0">
+          <strong>Existing Links Found:</strong>
+          <ul>
+            <li *ngFor="let existing of existingLinks">
+              <a routerLink="/links/{{existing.id}}">{{existing.title}}</a>&nbsp;
+              <span class="text-muted"><lks-time-ago [date]="existing.dateUpdated"></lks-time-ago></span>
+            </li>
+          </ul>
         </div>
 
         <div class="mb-3 form-check">

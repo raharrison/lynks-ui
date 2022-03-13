@@ -61,4 +61,9 @@ export class LinkService implements EntryResource<SlimLink, Link> {
   launch(id: string) {
     window.open(`/api/link/${id}/launch`, "_blank");
   }
+
+  checkExistingWithUrl(url: string): Observable<SlimLink[]> {
+    return this.http.post<SlimLink[]>("/api/link/checkExisting", url);
+  }
+
 }

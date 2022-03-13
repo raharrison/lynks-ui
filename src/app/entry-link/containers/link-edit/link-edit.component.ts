@@ -1,14 +1,15 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {Collection, Grouping, GroupType, NewLink, Tag} from "@shared/models";
+import {Collection, Grouping, GroupType, NewLink, SlimLink, Tag} from "@shared/models";
 import {LinkService} from "@app/entry/services/link.service";
+import {debounceTime, distinctUntilChanged, Subject, Subscription} from "rxjs";
 
 @Component({
   selector: 'lks-link-edit',
   templateUrl: './link-edit.component.html',
   styleUrls: ['./link-edit.component.scss']
 })
-export class LinkEditComponent implements OnInit {
+export class LinkEditComponent implements OnInit, OnDestroy {
 
   loading = false;
   saving = false;
@@ -17,6 +18,11 @@ export class LinkEditComponent implements OnInit {
   updateMode = false;
   suggestionThumbnail: string;
   suggestionKeywords: string[] = [];
+
+  urlFieldChanged = new Subject<string>();
+  private urlFieldChangedSubscription: Subscription;
+  existingLinks: SlimLink[] = [];
+
   link: NewLink;
 
   selectedTags: Tag[] = [];
@@ -51,19 +57,26 @@ export class LinkEditComponent implements OnInit {
         this.loading = false;
       });
     }
+    this.urlFieldChangedSubscription = this.urlFieldChanged.pipe(
+      debounceTime(500),
+      distinctUntilChanged())
+      .subscribe(url => this.onCheckExisting(url));
   }
 
   onSuggest() {
     this.suggesting = true;
-    this.linkService.suggest(this.link.url).subscribe(suggestion => {
-      this.suggesting = false;
-      this.link.title = suggestion.title;
-      this.suggestionThumbnail = suggestion.thumbnail ? this.linkService.constructTempUrl(suggestion.thumbnail) : null;
-      this.suggestionKeywords = suggestion.keywords;
-      this.addSuggestedGroupings(suggestion.tags, GroupType.TAG);
-      this.addSuggestedGroupings(suggestion.collections, GroupType.COLLECTION);
-    }, () => {
-      this.suggesting = false;
+    this.linkService.suggest(this.link.url).subscribe({
+      next: suggestion => {
+        this.suggesting = false;
+        this.link.title = suggestion.title;
+        this.suggestionThumbnail = suggestion.thumbnail ? this.linkService.constructTempUrl(suggestion.thumbnail) : null;
+        this.suggestionKeywords = suggestion.keywords;
+        this.addSuggestedGroupings(suggestion.tags, GroupType.TAG);
+        this.addSuggestedGroupings(suggestion.collections, GroupType.COLLECTION);
+      },
+      error: () => {
+        this.suggesting = false;
+      }
     });
   }
 
@@ -77,6 +90,14 @@ export class LinkEditComponent implements OnInit {
     });
     if (type == GroupType.TAG) this.selectedTags = [...target];
     else if (type == GroupType.COLLECTION) this.selectedCollections = [...target];
+  }
+
+  private onCheckExisting(url: string) {
+    if (url) {
+      this.linkService.checkExistingWithUrl(url).subscribe(existing => this.existingLinks = existing);
+    } else {
+      this.existingLinks = [];
+    }
   }
 
   onCancel() {
@@ -103,24 +124,34 @@ export class LinkEditComponent implements OnInit {
 
   createLink() {
     this.linkService.create(this.link)
-      .subscribe(
-        data => {
+      .subscribe({
+        next: data => {
           this.saving = false;
           this.router.navigate(["/links", data.id]);
-        }, () => {
+        },
+        error: () => {
           this.saving = false;
-        });
+        }
+      });
   }
 
   updateLink() {
     this.linkService.update(this.link)
-      .subscribe(
-        data => {
+      .subscribe({
+        next: data => {
           this.saving = false;
           this.router.navigate(["/links", data.id]);
-        }, () => {
+        },
+        error: () => {
           this.saving = false;
-        });
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    if (this.urlFieldChangedSubscription != null) {
+      this.urlFieldChangedSubscription.unsubscribe();
+    }
   }
 
 }

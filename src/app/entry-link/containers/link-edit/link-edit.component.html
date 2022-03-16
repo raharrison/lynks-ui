@@ -50,10 +50,10 @@
         </div>
 
         <div *ngIf="suggestionKeywords.length > 0" class="mb-3">
-          <span class="fw-bold">Suggested Keywords:</span>
-          <ol class="d-inline keyword-list">
-            <li *ngFor="let keyword of suggestionKeywords" class="d-inline">{{ keyword }}</li>
-          </ol>
+          <span class="fw-bold">Suggested Keywords: </span>
+          <span *ngFor="let word of suggestionKeywords; let isLast=last">
+            {{word}}{{isLast ? '' : ' ●'}}
+          </span>
         </div>
 
         <div class="mb-3">

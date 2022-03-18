@@ -1,4 +1,4 @@
-FROM node:16-buster-slim AS build
+FROM node:17-bullseye-slim AS build
 
 WORKDIR /app
 

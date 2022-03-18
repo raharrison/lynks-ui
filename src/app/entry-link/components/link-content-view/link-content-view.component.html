@@ -1,10 +1,15 @@
-<div *ngIf="link.content" class="mb-4">
-  <lks-card [isCollapsed]="true" [preserveElements]="false" headerStyles="bg-primary text-white">
-  <span header>
-    <i class="ms-3 fa-solid fa-circle fa-sm"></i> Read
-  </span>
+<div *ngIf="readableContentAvailable" class="mb-4">
+  <lks-card [isCollapsed]="true" [preserveElements]="false" (onCollapseChange)="loadReadableAttachment($event)" headerStyles="bg-primary text-white">
+    <span header>
+      <i class="ms-3 fa-solid fa-circle fa-sm"></i> Read
+    </span>
     <content>
-      <lks-markdown-view [markdown]="link.content"></lks-markdown-view>
+      <div [innerHTML]="readableContent" class="attachment-page" *ngIf="!readableContentLoading"></div>
+      <div class="text-center" *ngIf="readableContentLoading">
+        <div class="spinner-border center-loading" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
     </content>
   </lks-card>
 </div>

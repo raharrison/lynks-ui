@@ -13,7 +13,7 @@ export class AttachmentListComponent implements OnInit {
   entryId: string;
 
   @Output()
-  onLoaded: EventEmitter<number> = new EventEmitter<number>();
+  onLoaded: EventEmitter<Attachment[]> = new EventEmitter<Attachment[]>();
 
   attachments: Attachment[] = [];
 
@@ -30,7 +30,7 @@ export class AttachmentListComponent implements OnInit {
     this.attachmentService.getAttachmentsForEntry(this.entryId).subscribe(value => {
       this.attachments = value;
       this.loading = false;
-      this.onLoaded.emit(this.attachments.length);
+      this.onLoaded.emit(this.attachments);
     });
   }
 }

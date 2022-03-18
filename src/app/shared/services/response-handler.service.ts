@@ -22,26 +22,32 @@ export class ResponseHandlerService {
   }
 
   handleResponse<T>(successMessage: string, errorMessage: string) {
-    return tap<T>(() => {
-      this.toastrService.success(successMessage, "Success");
-    }, error => {
-      ResponseHandlerService.handleError(error);
-      if (error.error) {
-        this.toastrService.error(`${errorMessage}: ${error.error}`, "Error");
-      } else {
-        this.toastrService.error(errorMessage, "Error");
+    return tap<T>({
+      next: () => {
+        this.toastrService.success(successMessage, "Success");
+      },
+      error: error => {
+        ResponseHandlerService.handleError(error);
+        if (error.error) {
+          this.toastrService.error(`${errorMessage}: ${error.error}`, "Error");
+        } else {
+          this.toastrService.error(errorMessage, "Error");
+        }
       }
     });
   }
 
   handleResponseFilter<T>(successFilter: (e: T) => boolean, successMessage: string, errorMessage: string) {
-    return tap<T>((event) => {
-      if (successFilter(event)) {
-        this.toastrService.success(successMessage, "Success");
+    return tap<T>({
+      next: event => {
+        if (successFilter(event)) {
+          this.toastrService.success(successMessage, "Success");
+        }
+      },
+      error: error => {
+        ResponseHandlerService.handleError(error);
+        this.toastrService.error(errorMessage, "Error");
       }
-    }, error => {
-      ResponseHandlerService.handleError(error);
-      this.toastrService.error(errorMessage, "Error");
     });
   }
 
@@ -57,6 +63,6 @@ export class ResponseHandlerService {
         `body was: ${error.error}`);
     }
     // return an observable with a user-facing error message
-    return throwError('Something bad happened; please try again later.');
+    return throwError(() => "Something bad happened; please try again later.");
   };
 }

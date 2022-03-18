@@ -1,18 +1,51 @@
-import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {Link} from "@shared/models";
+import {Attachment, AttachmentType} from "@app/attachment/models";
+import {AttachmentService} from "@app/attachment/services/attachment.service";
 
 @Component({
   selector: 'lks-link-content-view',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './link-content-view.component.html',
   styleUrls: ['./link-content-view.component.scss']
 })
-export class LinkContentViewComponent {
+export class LinkContentViewComponent implements OnChanges {
 
   @Input()
   link: Link;
 
-  constructor() {
+  @Input()
+  attachments: Attachment[] = [];
+
+  readableContentAvailable: boolean = false;
+  readableContent: string = null;
+  readableContentLoading: boolean = false;
+
+  constructor(private attachmentService: AttachmentService) {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.readableContentLoading = false;
+    this.readableContentAvailable = this.attachments.find(a => a.type == AttachmentType.READABLE_DOC) !== null;
+  }
+
+  loadReadableAttachment(collapsed) {
+    if (collapsed) {
+      this.readableContentLoading = false;
+      this.readableContent = null;
+    } else {
+      const readableAttachment = this.attachments.find(a => a.type == AttachmentType.READABLE_DOC);
+      if (readableAttachment) {
+        this.readableContentAvailable = true;
+        this.readableContentLoading = true;
+        this.attachmentService.downloadAttachment(this.link.id, readableAttachment.id).subscribe(data => {
+          const blob = data as Blob;
+          new Response(blob).text().then(value => {
+            this.readableContentLoading = false;
+            this.readableContent = value;
+          });
+        });
+      }
+    }
   }
 
 }

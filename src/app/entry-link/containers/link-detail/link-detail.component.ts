@@ -4,6 +4,7 @@ import {Link} from "@shared/models";
 import {LinkService} from "@app/entry/services/link.service";
 import {ToastrService} from "ngx-toastr";
 import {Title} from "@angular/platform-browser";
+import {Attachment} from "@app/attachment/models";
 
 @Component({
   selector: 'lks-link-detail',
@@ -16,6 +17,7 @@ export class LinkDetailComponent implements OnInit {
   link: Link;
   version: string;
   loading = true;
+  attachments: Attachment[] = [];
 
   constructor(private route: ActivatedRoute,
               private titleService: Title,

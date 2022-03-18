@@ -1,5 +1,5 @@
 <div class="card">
-  <div class="card-header cursor-pointer {{headerStyles}}" style="font-weight: 500" (click)="isCollapsed = !isCollapsed">
+  <div class="card-header cursor-pointer {{headerStyles}}" style="font-weight: 500" (click)="isCollapsed = !isCollapsed; emitCollapseChange();">
     <a data-toggle="collapse" aria-expanded="true" aria-controls="linkReaderContent">
       <i *ngIf="isCollapsed" class="fa-solid fa-chevron-down"></i>
       <i *ngIf="!isCollapsed" class="fa-solid fa-chevron-up"></i>

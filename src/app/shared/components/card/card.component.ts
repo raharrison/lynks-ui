@@ -1,12 +1,12 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
 
 @Component({
-    selector: 'lks-card',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    templateUrl: './card.component.html',
+  selector: 'lks-card',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './card.component.html',
   styleUrls: ['card.component.scss'],
 })
-export class CardComponent implements OnInit {
+export class CardComponent {
 
   @Input()
   isCollapsed = true;
@@ -17,9 +17,13 @@ export class CardComponent implements OnInit {
   @Input()
   preserveElements: boolean = true;
 
+  @Output()
+  onCollapseChange = new EventEmitter<boolean>();
+
   constructor() {
   }
 
-  ngOnInit() {
+  emitCollapseChange() {
+    this.onCollapseChange.emit(this.isCollapsed);
   }
 }

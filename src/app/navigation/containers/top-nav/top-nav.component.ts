@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {NavigationService} from '@app/navigation/services';
 import {EntryFilterService} from "@shared/services";
 import {Subscription} from "rxjs";
@@ -20,13 +20,17 @@ export class TopNavComponent implements OnInit, OnDestroy {
   entryLinkItems = entryLinkItems;
 
   constructor(private router: Router,
+              private changeDetectorRef: ChangeDetectorRef,
               private navigationService: NavigationService,
               private entryFilterService: EntryFilterService) {
   }
 
   ngOnInit(): void {
     this.entryFilterSubscription = this.entryFilterService.$entryFilter
-      .subscribe(filter => this.searchTerms = filter.searchTerms);
+      .subscribe(filter => {
+        this.searchTerms = filter.searchTerms;
+        this.changeDetectorRef.markForCheck();
+      });
   }
 
   toggleSideNav() {
@@ -34,7 +38,11 @@ export class TopNavComponent implements OnInit, OnDestroy {
   }
 
   onSearchSubmit() {
-    this.entryFilterService.setSearch(this.searchTerms);
+    const page = "/entries";
+    this.entryFilterService.setSearch(this.searchTerms, this.router.url === page);
+    if (this.router.url !== page) {
+      this.router.navigate(["/entries"]);
+    }
   }
 
   navToEntryList(page: string, type: EntryType) {

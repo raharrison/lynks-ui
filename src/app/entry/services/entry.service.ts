@@ -87,8 +87,14 @@ export class EntryService {
     if (this.entryFilterService.DEFAULT_FILTER.size != filter.size) {
       params.size = filter.size;
     }
-    if (this.entryFilterService.DEFAULT_FILTER.sort != filter.sort) {
-      params.sort = filter.sort;
+    if (filter.searchTerms == '') {
+      if (this.entryFilterService.DEFAULT_FILTER.sort != filter.sort) {
+        params.sort = filter.sort;
+      }
+    } else {
+      if (this.entryFilterService.MOST_RELEVANT_SORT != filter.sort) {
+        params.sort = filter.sort;
+      }
     }
     if (this.entryFilterService.DEFAULT_FILTER.direction != filter.direction) {
       params.direction = filter.direction;

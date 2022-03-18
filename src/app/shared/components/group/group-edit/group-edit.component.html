@@ -7,5 +7,6 @@
   bindLabel="name"
   placeholder="Select {{type}}s"
   [(ngModel)]="selected"
+  [disabled]="disabled"
   (change)="onGroupChange()">
 </ng-select>

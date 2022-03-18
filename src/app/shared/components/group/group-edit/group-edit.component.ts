@@ -22,6 +22,9 @@ export class GroupEditComponent implements OnInit {
   @Input()
   selected: Grouping<any>[] = [];
 
+  @Input()
+  disabled: boolean = false;
+
   @Output()
   selectedChange = new EventEmitter<Grouping<any>[]>();
 

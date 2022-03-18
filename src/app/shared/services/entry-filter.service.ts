@@ -9,6 +9,8 @@ import {SortConfig, SortDirection} from "@shared/models/sort-config.model";
 })
 export class EntryFilterService {
 
+  readonly MOST_RELEVANT_SORT = "mostRelevant";
+
   readonly DEFAULT_FILTER: EntryFilter = {
     page: 1,
     size: 25,
@@ -33,6 +35,10 @@ export class EntryFilterService {
   $entryFilter = this.entryFilterSubject.asObservable();
 
   private filterUpdated() {
+    // if no search term set reset back sort order
+    if (this.entryFilter.searchTerms == '' && this.entryFilter.sort == this.MOST_RELEVANT_SORT) {
+      this.entryFilter.sort = this.DEFAULT_FILTER.sort;
+    }
     this.entryFilterSubject.next(this.entryFilter);
   }
 
@@ -57,10 +63,15 @@ export class EntryFilterService {
   }
 
   // set search term property of current filter
-  setSearch(searchTerms: string) {
+  setSearch(searchTerms: string, propagate: boolean = true) {
     this.entryFilter.searchTerms = searchTerms;
+    this.entryFilter.sort = this.MOST_RELEVANT_SORT;
+    this.entryFilter.tags = this.DEFAULT_FILTER.tags;
+    this.entryFilter.collections = this.DEFAULT_FILTER.collections;
     this.entryFilter.entryType = EntryType.ENTRIES;
-    this.filterUpdated();
+    if (propagate) {
+      this.filterUpdated();
+    }
   }
 
   // set new entry type of current filter

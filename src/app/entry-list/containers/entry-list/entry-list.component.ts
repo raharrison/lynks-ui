@@ -52,7 +52,7 @@ export class EntryListComponent implements OnInit, OnDestroy {
       );
       this.entrySubscription = this.entryService.$entryPage.subscribe(page => {
         this.entryPage = page;
-      })
+      }, (error) => console.log("there was an error here!!"), () => console.log("it completed!!"))
     });
   }
 

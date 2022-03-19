@@ -43,14 +43,18 @@ export class EntryService {
 
   private getPage(): Observable<Page<SlimEntry>> {
     return this.entryFilterService.$entryFilter
-      .pipe(switchMap(filter => {
-        this.entriesLoadingSubject.next(true);
-        if (filter.searchTerms !== "") {
-          return this.runSearchQuery(filter);
-        } else {
-          return this.runEntryQuery(filter);
-        }
-      }));
+      .pipe(
+        switchMap(filter => {
+          this.entriesLoadingSubject.next(true);
+          if (filter.searchTerms !== "") {
+            return this.runSearchQuery(filter)
+              .pipe(this.responseHandler.catchAndLogError("Unable to search entries"));
+          } else {
+            return this.runEntryQuery(filter)
+              .pipe(this.responseHandler.catchAndLogError("Unable to load entries"));
+          }
+        })
+      );
   }
 
   // api query with search terms for all entry types with page params

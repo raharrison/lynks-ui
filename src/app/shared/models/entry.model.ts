@@ -12,6 +12,7 @@ export interface Entry {
   dateUpdated: number,
   version: number,
   starred: boolean,
+  read: boolean,
   props: BaseProperties
   tags: Tag[],
   collections: Collection[],

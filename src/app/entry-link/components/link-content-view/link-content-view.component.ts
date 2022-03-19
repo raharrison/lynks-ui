@@ -25,7 +25,7 @@ export class LinkContentViewComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.readableContentLoading = false;
-    this.readableContentAvailable = this.attachments.find(a => a.type == AttachmentType.READABLE_DOC) !== null;
+    this.readableContentAvailable = !!this.attachments.find(a => a.type == AttachmentType.READABLE_DOC);
   }
 
   loadReadableAttachment(collapsed) {

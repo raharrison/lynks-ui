@@ -18,7 +18,7 @@ export class EntryDetailMetadataComponent {
   }
 
   isLinkRead(): boolean {
-    return this.entry?.props.attributes?.read == true;
+    return this.entry?.read == true;
   }
 
   getLinkSource(): string {

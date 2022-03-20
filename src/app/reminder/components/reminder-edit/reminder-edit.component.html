@@ -1,0 +1,65 @@
+<div>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-reminder-edit">{{existingReminder ? "Update" : "Create"}} Reminder</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <form #reminderForm="ngForm">
+      <div class="mb-3">
+        <label class="form-label" for="reminderType">Type</label>
+        <select class="form-select" id="reminderType" name="reminderSize" required
+                [(ngModel)]="editingReminder.type">
+          <option value="adhoc">Adhoc</option>
+          <option value="recurring">Recurring</option>
+        </select>
+      </div>
+
+      <div class="mb-3" *ngIf="editingReminder.type == 'adhoc'">
+        <label class="form-label" for="reminderDateTime">Date / Time</label>
+        <input type="datetime-local" class="form-control" id="reminderDateTime" name="reminderDateTime"
+               [(ngModel)]="editingReminder.adhocSpec" required/>
+      </div>
+
+      <div class="mb-3" *ngIf="editingReminder.type == 'recurring'">
+        <label class="form-label" for="reminderSpec">Schedule <span class="text-muted">(required)</span></label>
+        <input type="text" class="form-control form-text" id="reminderSpec" name="reminderSpec" placeholder="(e.g. 'every day 09:00')"
+               [(ngModel)]="editingReminder.recurringSpec" (ngModelChange)="recurringScheduleFieldChanged.next($event)" required/>
+        <div *ngIf="validatingSchedule" class="spinner-border spinner-border-sm mt-2 ms-2" role="status" aria-hidden="true"></div>
+        <div class="fw-bold mt-2 text-danger" *ngIf="recurringScheduleInvalidMessage">{{recurringScheduleInvalidMessage}}</div>
+        <div *ngIf="fireTimes.length > 0">
+          <div class="fw-bold mt-2">Next fire times:</div>
+          <ul>
+            <li *ngFor="let fireTime of fireTimes">{{fireTime}}</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="notifyMethod">Notify By</label>
+        <select class="form-select" id="notifyMethod" name="notifyMethod" required
+                [(ngModel)]="editingReminder.notifyMethod">
+          <option value="email">Email</option>
+          <option value="push">Push</option>
+          <option value="both">Both</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="reminderDateTime">Message <span class="text-muted">(required)</span></label>
+        <input class="form-control form-text" type="text" name="reminderMessage" id="reminderMessage" placeholder="Enter notification message"
+               [(ngModel)]="editingReminder.message" required/>
+      </div>
+
+      <p>{{editingReminder | json}}</p>
+
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="activeModal.dismiss()">Cancel</button>
+    <button type="button" class="btn btn-success" [disabled]="saving || !reminderForm.form.valid" (click)="onSaveReminder()">
+      <span *ngIf="saving" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      <i *ngIf="!saving" class="fa-solid fa-save" aria-hidden="true"></i>
+      &nbsp;{{saving ? "Saving.." : existingReminder ? "Save" : "Create"}}
+    </button>
+  </div>
+</div>

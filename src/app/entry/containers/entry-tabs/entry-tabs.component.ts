@@ -18,7 +18,7 @@ export class EntryTabsComponent implements OnInit {
   commentCount: number;
   taskCount: number;
   discussionCount: number;
-  reminderCount: number = 0;
+  reminderCount: number;
   historyCount: number;
   auditCount: number;
 

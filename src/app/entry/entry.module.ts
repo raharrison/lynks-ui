@@ -5,12 +5,14 @@ import {SharedModule} from "@app/shared/shared.module";
 import {CommentModule} from "@app/comment/comment.module";
 import * as entryComponents from './components';
 import * as entryContainers from './containers';
+import {ReminderModule} from "@app/reminder/reminder.module";
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
-    CommentModule
+    CommentModule,
+    ReminderModule
   ],
   declarations: [...entryComponents.components, ...entryContainers.containers],
   exports: [...entryComponents.components, ...entryContainers.containers]

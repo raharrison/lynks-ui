@@ -20,7 +20,7 @@
     <tbody>
     <tr *ngFor="let reminder of reminders">
       <td>{{reminder.type | titlecase}}</td>
-      <td>{{reminder.notifyMethod | titlecase}}</td>
+      <td>{{formatNotifyMethods(reminder.notifyMethods)}}</td>
       <td>{{reminder.message}}</td>
       <td>{{reminder.type == "adhoc" ? formatAdhocReminderSpec(reminder.spec) : reminder.spec}}</td>
       <td>{{reminder.tz}}</td>

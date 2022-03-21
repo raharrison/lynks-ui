@@ -20,7 +20,7 @@ export class ReminderEditComponent implements OnInit, OnDestroy {
   editingReminder: any = {};
   saving: boolean = false;
 
-  validatingSchedule: boolean = false;
+  isValidatingSchedule: boolean = false;
   fireTimes: string[] = [];
   recurringScheduleInvalidMessage: string = null;
   recurringScheduleFieldChanged = new Subject<string>();
@@ -34,7 +34,7 @@ export class ReminderEditComponent implements OnInit, OnDestroy {
     if (this.existingReminder) {
       this.editingReminder = {
         type: this.existingReminder.type,
-        notifyMethod: this.existingReminder.notifyMethod,
+        notifyMethods: this.existingReminder.notifyMethods,
         adhocSpec: new Date(parseInt(this.existingReminder.spec)).toISOString().slice(0, 16),
         recurringSpec: this.existingReminder.spec,
         message: this.existingReminder.message
@@ -42,7 +42,7 @@ export class ReminderEditComponent implements OnInit, OnDestroy {
     } else {
       this.editingReminder = {
         type: ReminderType.ADHOC,
-        notifyMethod: NotificationMethod.PUSH,
+        notifyMethods: [NotificationMethod.WEB],
         adhocSpec: new Date().toISOString().slice(0, 16),
         recurringSpec: "",
         message: ""
@@ -100,7 +100,7 @@ export class ReminderEditComponent implements OnInit, OnDestroy {
       entryId: this.entryId,
       reminderId: this.existingReminder ? this.existingReminder.reminderId : undefined,
       type: editingReminder.type,
-      notifyMethod: editingReminder.notifyMethod,
+      notifyMethods: editingReminder.notifyMethods,
       message: editingReminder.message,
       spec: spec,
       tz: tz
@@ -110,17 +110,17 @@ export class ReminderEditComponent implements OnInit, OnDestroy {
   private validateRecurringSchedule(schedule: string) {
     this.fireTimes = [];
     this.recurringScheduleInvalidMessage = null;
-    this.validatingSchedule = false;
+    this.isValidatingSchedule = false;
     if (schedule) {
-      this.validatingSchedule = true;
+      this.isValidatingSchedule = true;
       this.reminderService.validateSchedule(schedule).subscribe({
         next: fireTimes => {
           this.fireTimes = fireTimes;
-          this.validatingSchedule = false;
+          this.isValidatingSchedule = false;
         },
         error: err => {
           this.recurringScheduleInvalidMessage = err.error;
-          this.validatingSchedule = false;
+          this.isValidatingSchedule = false;
         }
       });
     }

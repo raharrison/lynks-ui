@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, TitleCasePipe} from '@angular/common';
 import {SharedModule} from "@shared/shared.module";
 
 import * as reminderComponents from './components';
@@ -11,6 +11,7 @@ import * as reminderContainers from './containers';
     CommonModule,
     SharedModule
   ],
+  providers: [TitleCasePipe],
   exports: [...reminderComponents.components, ...reminderContainers.containers],
 })
 export class ReminderModule {

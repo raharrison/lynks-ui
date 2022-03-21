@@ -1,10 +1,11 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ReminderService} from "@app/reminder/services/reminder.service";
-import {Reminder} from "@app/reminder/models";
+import {NotificationMethod, Reminder} from "@app/reminder/models";
 import {Entry} from "@shared/models";
 import {ReminderEditComponent} from "@app/reminder/components";
 import {DeleteConfirmModalComponent} from "@shared/components";
+import {TitleCasePipe} from "@angular/common";
 
 @Component({
   selector: 'lks-reminder-list',
@@ -23,6 +24,7 @@ export class ReminderListComponent implements OnInit {
   onLoaded: EventEmitter<number> = new EventEmitter<number>();
 
   constructor(private modalService: NgbModal,
+              private titleCasePipe: TitleCasePipe,
               private reminderService: ReminderService) {
   }
 
@@ -82,6 +84,10 @@ export class ReminderListComponent implements OnInit {
 
   formatAdhocReminderSpec(spec: string): string {
     return new Date(parseInt(spec)).toLocaleString();
+  }
+
+  formatNotifyMethods(methods: NotificationMethod[]): string {
+    return methods.map(m => this.titleCasePipe.transform(m)).join(",");
   }
 
 }

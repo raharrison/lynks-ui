@@ -2,7 +2,7 @@ export interface NewReminder {
   reminderId?: string
   entryId: string
   type: ReminderType
-  notifyMethod: NotificationMethod
+  notifyMethods: NotificationMethod[]
   message?: string
   spec: string
   tz: string
@@ -12,7 +12,7 @@ export interface Reminder {
   reminderId: string
   entryId: string
   type: ReminderType
-  notifyMethod: NotificationMethod
+  notifyMethods: NotificationMethod[]
   message?: string
   spec: string
   tz: string
@@ -27,7 +27,7 @@ export enum ReminderType {
 
 export enum NotificationMethod {
   EMAIL = "email",
-  PUSH = "push",
-  BOTH = "both"
+  WEB = "web",
+  PUSHOVER = "pushover"
 }
 

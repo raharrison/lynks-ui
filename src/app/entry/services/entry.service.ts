@@ -9,20 +9,8 @@ import {Page} from "@shared/models/page.model";
 import {EntryFilterService} from "@shared/services/entry-filter.service";
 import {tap} from "rxjs/operators";
 import {EntryFilter} from "@shared/models/entry-filter.model";
-
-export interface EntryResource<S extends SlimEntry, T extends Entry> {
-  get(id: string): Observable<T>;
-
-  getVersion(id: string, version: string): Observable<T>;
-
-  create(model): Observable<T>;
-
-  update(model, newVersion: boolean): Observable<T>;
-
-  delete(id: string): Observable<any>;
-
-  constructPath(id?: string, version?: string): string[];
-}
+import {LoadingStatus} from "@shared/models/loading-status.model";
+import {EntryResource} from "@app/entry/services/entry-resource";
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +24,7 @@ export class EntryService {
               private linkService: LinkService) {
   }
 
-  private entriesLoadingSubject = new BehaviorSubject<boolean>(true);
+  private entriesLoadingSubject = new BehaviorSubject<LoadingStatus>(LoadingStatus.LOADING);
   $entriesLoading = this.entriesLoadingSubject.asObservable();
 
   $entryPage = this.getPage();
@@ -45,7 +33,7 @@ export class EntryService {
     return this.entryFilterService.$entryFilter
       .pipe(
         switchMap(filter => {
-          this.entriesLoadingSubject.next(true);
+          this.entriesLoadingSubject.next(LoadingStatus.LOADING);
           if (filter.searchTerms !== "") {
             return this.runSearchQuery(filter)
               .pipe(this.responseHandler.catchAndLogError("Unable to search entries"));
@@ -67,8 +55,8 @@ export class EntryService {
     }
     return this.http.get<Page<SlimEntry>>(`/api/entry/search`, opts)
       .pipe(tap({
-        next: _ => this.entriesLoadingSubject.next(false),
-        error: _ => this.entriesLoadingSubject.next(false)
+        next: _ => this.entriesLoadingSubject.next(LoadingStatus.LOADED),
+        error: _ => this.entriesLoadingSubject.next(LoadingStatus.ERROR)
       }));
   }
 
@@ -79,8 +67,8 @@ export class EntryService {
     }
     return this.http.get<Page<SlimEntry>>(`/api/${filter.entryType}`, opts)
       .pipe(tap({
-        next: _ => this.entriesLoadingSubject.next(false),
-        error: _ => this.entriesLoadingSubject.next(false)
+        next: _ => this.entriesLoadingSubject.next(LoadingStatus.LOADED),
+        error: _ => this.entriesLoadingSubject.next(LoadingStatus.ERROR)
       }));
   }
 

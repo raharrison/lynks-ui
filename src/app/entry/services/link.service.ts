@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {EntryResource} from "./entry.service";
 import {Link, NewLink, SlimLink, Suggestion} from "@shared/models";
 import {ResponseHandlerService} from "@shared/services/response-handler.service";
+import {EntryResource} from "@app/entry/services/entry-resource";
 
 @Injectable({
   providedIn: 'root'

@@ -34,14 +34,20 @@
   </div>
 </div>
 <hr>
-<lks-loader [loading]="loading">
-  <div *ngIf="entryPage && entryPage.content.length == 0">
+<lks-loader [loading]="loadingStatus == 'loading'">
+  <div *ngIf="loadingStatus == 'error'">
+    <div class="text-center">
+      <i class="fa-solid fa-circle-exclamation fa-2x"></i>
+      <h5 class="text-center">Unable to retrieve entries</h5>
+    </div>
+  </div>
+  <div *ngIf="loadingStatus == 'loaded' && entryPage?.content?.length == 0">
     <div class="text-center">
       <i class="fa-solid fa-search fa-2x"></i>
       <h5 class="text-center">No entries found</h5>
     </div>
   </div>
-  <div *ngIf="entryPage && entryPage.content.length > 0">
+  <div *ngIf="loadingStatus == 'loaded' && entryPage?.content?.length > 0">
     <div *ngFor="let entry of entryPage.content">
       <lks-note-list-item *ngIf="entry.type=='note'" [note]="$any(entry)"></lks-note-list-item>
       <lks-link-list-item *ngIf="entry.type=='link'" [link]="$any(entry)"></lks-link-list-item>

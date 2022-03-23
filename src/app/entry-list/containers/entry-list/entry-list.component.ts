@@ -7,6 +7,7 @@ import {EntryService} from "@app/entry/services/entry.service";
 import {Subscription} from "rxjs";
 import {EntryFilterService} from "@shared/services/entry-filter.service";
 import {SortConfig} from "@shared/models/sort-config.model";
+import {LoadingStatus} from "@shared/models/loading-status.model";
 
 @Component({
   selector: 'lks-entry-list',
@@ -16,7 +17,7 @@ import {SortConfig} from "@shared/models/sort-config.model";
 export class EntryListComponent implements OnInit, OnDestroy {
 
   entryPage: Page<SlimEntry>;
-  loading = true;
+  loadingStatus: LoadingStatus = LoadingStatus.LOADING;
   entryFilterCollapsed = false;
 
   entryType: EntryType;
@@ -48,7 +49,7 @@ export class EntryListComponent implements OnInit, OnDestroy {
       }
 
       this.entriesLoadingSubscription = this.entryService.$entriesLoading.subscribe(
-        loading => this.loading = loading
+        loadingStatus => this.loadingStatus = loadingStatus
       );
       this.entrySubscription = this.entryService.$entryPage.subscribe(page => {
         this.entryPage = page;

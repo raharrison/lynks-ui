@@ -1,3 +1,17 @@
+<ng-template #scheduleHelp>
+  <ul>
+    <li>"every 12 hours"</li>
+    <li>"every 5 minutes from 10:00 to 14:00"</li>
+    <li>"every 12 hours"</li>
+    <li>"every 5 minutes from 10:00 to 14:00"</li>
+    <li>"every day 00:00"</li>
+    <li>"every monday 09:00"</li>
+    <li>"2nd,third mon,wed,thu of march 17:00"</li>
+    <li>"1st monday of sep,oct,nov 17:00"</li>
+    <li>"1 of jan,april,july,oct 00:00"</li>
+  </ul>
+</ng-template>
+
 <div>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-reminder-edit">{{existingReminder ? "Update" : "Create"}} Reminder</h4>
@@ -21,7 +35,10 @@
       </div>
 
       <div class="mb-3" *ngIf="editingReminder.type == 'recurring'">
-        <label class="form-label" for="reminderSpec">Schedule <span class="text-muted">(required)</span></label>
+        <label class="form-label" for="reminderSpec">Schedule
+          <span class="text-muted">(required)</span>&nbsp;
+          <span class="fa-solid fa-info-circle" aria-hidden="true" [ngbTooltip]="scheduleHelp" tooltipClass="schedule-help-tooltip"></span>
+        </label>
         <input type="text" class="form-control form-text" id="reminderSpec" name="reminderSpec" placeholder="(e.g. 'every day 09:00')"
                [(ngModel)]="editingReminder.recurringSpec" (ngModelChange)="recurringScheduleFieldChanged.next($event)" required/>
         <div *ngIf="isValidatingSchedule" class="spinner-border spinner-border-sm mt-2 ms-2" role="status" aria-hidden="true"></div>

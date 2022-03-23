@@ -8,6 +8,7 @@ import {AppComponent} from './app.component';
 import {SharedModule} from "@shared/shared.module";
 import {HIGHLIGHT_OPTIONS} from "ngx-highlightjs";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {LoadingBarHttpClientModule} from "@ngx-loading-bar/http-client";
 
 function getHighlightLanguages() {
   return {
@@ -42,6 +43,7 @@ function getHighlightLanguages() {
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    LoadingBarHttpClientModule,
     SharedModule,
   ],
   providers: [{

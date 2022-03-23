@@ -5,7 +5,8 @@ export interface NewReminder {
   notifyMethods: NotificationMethod[]
   message?: string
   spec: string
-  tz: string
+  tz: string,
+  status: ReminderStatus
 }
 
 export interface Reminder {
@@ -16,6 +17,7 @@ export interface Reminder {
   message?: string
   spec: string
   tz: string
+  status: ReminderStatus
   dateCreated: number
   dateUpdated: number
 }
@@ -23,6 +25,12 @@ export interface Reminder {
 export enum ReminderType {
   ADHOC = "adhoc",
   RECURRING = "recurring"
+}
+
+export enum ReminderStatus {
+  ACTIVE = "active",
+  COMPLETED = "completed",
+  DISABLED = "disabled"
 }
 
 export enum NotificationMethod {

@@ -1,7 +1,7 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {debounceTime, distinctUntilChanged, Subject, Subscription} from "rxjs";
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {NewReminder, NotificationMethod, Reminder, ReminderType} from "@app/reminder/models";
+import {NewReminder, NotificationMethod, Reminder, ReminderStatus, ReminderType} from "@app/reminder/models";
 import {ReminderService} from "@app/reminder/services/reminder.service";
 
 @Component({
@@ -31,21 +31,25 @@ export class ReminderEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    const defaultDate = new Date().toISOString().slice(0, 16);
     if (this.existingReminder) {
       this.editingReminder = {
         type: this.existingReminder.type,
         notifyMethods: this.existingReminder.notifyMethods,
-        adhocSpec: new Date(parseInt(this.existingReminder.spec)).toISOString().slice(0, 16),
+        adhocSpec: this.existingReminder.type === ReminderType.ADHOC ?
+          new Date(parseInt(this.existingReminder.spec)).toISOString().slice(0, 16) : defaultDate,
         recurringSpec: this.existingReminder.spec,
-        message: this.existingReminder.message
+        message: this.existingReminder.message,
+        enabled: this.existingReminder.status === ReminderStatus.ACTIVE
       };
     } else {
       this.editingReminder = {
         type: ReminderType.ADHOC,
         notifyMethods: [NotificationMethod.WEB],
-        adhocSpec: new Date().toISOString().slice(0, 16),
+        adhocSpec: defaultDate,
         recurringSpec: "",
-        message: ""
+        message: "",
+        enabled: true
       };
     }
 
@@ -103,7 +107,8 @@ export class ReminderEditComponent implements OnInit, OnDestroy {
       notifyMethods: editingReminder.notifyMethods,
       message: editingReminder.message,
       spec: spec,
-      tz: tz
+      tz: tz,
+      status: editingReminder.enabled ? ReminderStatus.ACTIVE : ReminderStatus.DISABLED
     }
   }
 

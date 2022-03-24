@@ -1,0 +1,15 @@
+<a [routerLink]="undefined" class="nav-link cursor-pointer" (click)="expanded = !expanded" [ngClass]="{collapsed: !expanded}">
+  <div class="lks-nav-link-icon">
+    <i class="fa-solid fa-layer-group"></i>
+  </div>
+  Collections
+  <div class="lks-sidenav-collapse-arrow">
+    <i class="ms-auto fa-solid fa-angle-down"></i>
+  </div>
+</a>
+
+<nav class="lks-sidenav-menu-nested nav" *ngIf="expanded">
+  <a class="nav-link cursor-pointer" *ngFor="let collection of collections" (click)="entryFilterService.setCollection(collection)">
+    {{ collection.name }}
+  </a>
+</nav>

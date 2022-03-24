@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {TagService} from "@shared/services/tag.service";
 import {Tag} from "@shared/models";
 import {Subscription} from "rxjs";
@@ -6,6 +6,7 @@ import {EntryFilterService} from "@shared/services";
 
 @Component({
   selector: 'lks-tag-list',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './tag-list.component.html',
   styleUrls: ['./tag-list.component.scss']
 })

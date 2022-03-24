@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {BehaviorSubject} from "rxjs";
 import {EntryFilter} from "@shared/models/entry-filter.model";
-import {EntryType, Tag} from "@shared/models";
+import {Collection, EntryType, Tag} from "@shared/models";
 import {SortConfig, SortDirection} from "@shared/models/sort-config.model";
 
 @Injectable({
@@ -81,6 +81,11 @@ export class EntryFilterService {
 
   setTag(tag: Tag) {
     this.entryFilter.tags = [tag];
+    this.filterUpdated();
+  }
+
+  setCollection(collection: Collection) {
+    this.entryFilter.collections = [collection];
     this.filterUpdated();
   }
 

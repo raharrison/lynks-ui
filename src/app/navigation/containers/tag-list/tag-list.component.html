@@ -1,4 +1,4 @@
-<a [routerLink]="undefined" class="nav-link" (click)="expanded = !expanded" [ngClass]="{collapsed: !expanded}">
+<a [routerLink]="undefined" class="nav-link cursor-pointer" (click)="expanded = !expanded" [ngClass]="{collapsed: !expanded}">
   <div class="lks-nav-link-icon">
     <i class="fa-solid fa-tags"></i>
   </div>
@@ -9,7 +9,7 @@
 </a>
 
 <nav class="lks-sidenav-menu-nested nav" *ngIf="expanded">
-  <a class="nav-link" *ngFor="let tag of tags">
+  <a class="nav-link cursor-pointer" *ngFor="let tag of tags" (click)="entryFilterService.setTag(tag)">
     {{ tag.name }}
   </a>
 </nav>

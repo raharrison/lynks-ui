@@ -31,6 +31,27 @@
         Groups
       </a>
 
+      <div class="lks-sidenav-menu-heading">SITES</div>
+
+      <a class="nav-link cursor-pointer" (click)="navToLinksWithSource('youtube.com')">
+        <div class="lks-nav-link-icon">
+          <i class="fa-brands fa-youtube fa-lg"></i>
+        </div>
+        youtube.com
+      </a>
+      <a class="nav-link cursor-pointer" (click)="navToLinksWithSource('reddit.com')">
+        <div class="lks-nav-link-icon">
+          <i class="fa-brands fa-reddit fa-lg"></i>
+        </div>
+        reddit.com
+      </a>
+      <a class="nav-link cursor-pointer" (click)="navToLinksWithSource('news.ycombinator.com')">
+        <div class="lks-nav-link-icon">
+          <i class="fa-brands fa-hacker-news fa-lg"></i>
+        </div>
+        ycombinator.com
+      </a>
+
       <ng-container *ngFor="let section of sideNavSections">
         <div class="lks-sidenav-menu-heading" *ngIf="section.text">{{ section.text }}</div>
         <ng-container *ngFor="let item of section.items">

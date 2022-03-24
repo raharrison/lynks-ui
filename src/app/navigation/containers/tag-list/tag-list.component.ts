@@ -2,6 +2,7 @@ import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {TagService} from "@shared/services/tag.service";
 import {Tag} from "@shared/models";
 import {Subscription} from "rxjs";
+import {EntryFilterService} from "@shared/services";
 
 @Component({
   selector: 'lks-tag-list',
@@ -15,7 +16,9 @@ export class TagListComponent implements OnInit, OnDestroy {
 
   private tagSubscription: Subscription;
 
-  constructor(private tagService: TagService, private changeDetectorRef: ChangeDetectorRef) {
+  constructor(private tagService: TagService,
+              private changeDetectorRef: ChangeDetectorRef,
+              public entryFilterService: EntryFilterService) {
   }
 
   ngOnInit(): void {

@@ -24,7 +24,7 @@ export class SideNavComponent implements OnInit, OnDestroy {
   constructor(public userService: UserService,
               private router: Router,
               private changeDetectorRef: ChangeDetectorRef,
-              private entryFilterService: EntryFilterService) {
+              public entryFilterService: EntryFilterService) {
   }
 
   ngOnInit(): void {
@@ -44,6 +44,13 @@ export class SideNavComponent implements OnInit, OnDestroy {
       this.entryFilterService.resetToType(type);
     } else {
       this.router.navigate([page]);
+    }
+  }
+
+  navToLinksWithSource(source: string) {
+    this.entryFilterService.setSource(source);
+    if (this.router.url !== "/entries/links") {
+      this.router.navigate(["/entries/links"]);
     }
   }
 

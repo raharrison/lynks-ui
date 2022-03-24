@@ -1,1 +1,6 @@
 @import 'src/styles/variables';
+
+.sidenav-scrollbar {
+  --scrollbar-thumb-color: rgba(155, 155, 155, 0.5);
+  --scrollbar-thumb-hover-color: rgba(200, 200, 200, 0.70);
+}

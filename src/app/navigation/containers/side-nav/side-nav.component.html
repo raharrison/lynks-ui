@@ -1,69 +1,71 @@
 <nav class="lks-sidenav lks-sidenav-dark accordion" id="sidenavAccordion">
-  <div class="lks-sidenav-menu">
-    <div class="nav">
+  <ng-scrollbar class="sidenav-scrollbar">
+    <div class="lks-sidenav-menu">
+      <div class="nav">
 
-      <div ngbDropdown class="text-center mt-3">
-        <button class="btn btn-success px-4" id="navCreateButtonDropdown" ngbDropdownToggle>
-          <i class="fa-solid fa-plus-circle" aria-hidden="true"></i>
-          Create
-        </button>
-        <div ngbDropdownMenu aria-labelledby="navCreateButtonDropdown">
-          <button ngbDropdownItem routerLink="/links/create">New Link</button>
-          <button ngbDropdownItem routerLink="/notes/create">New Note</button>
+        <div ngbDropdown class="text-center mt-3">
+          <button class="btn btn-success px-4" id="navCreateButtonDropdown" ngbDropdownToggle>
+            <i class="fa-solid fa-plus-circle" aria-hidden="true"></i>
+            Create
+          </button>
+          <div ngbDropdownMenu aria-labelledby="navCreateButtonDropdown">
+            <button ngbDropdownItem routerLink="/links/create">New Link</button>
+            <button ngbDropdownItem routerLink="/notes/create">New Note</button>
+          </div>
         </div>
-      </div>
 
-      <div class="lks-sidenav-menu-heading">CORE</div>
+        <div class="lks-sidenav-menu-heading">CORE</div>
 
-      <a class="nav-link cursor-pointer" [class.active]="isRouteActive(entryLinkItem.path)"
-         (click)="navToEntryList(entryLinkItem.path, entryLinkItem.type)" *ngFor="let entryLinkItem of entryLinkItems">
-        <div class="lks-nav-link-icon">
-          <i class="fa-solid fa-{{entryLinkItem.icon}}"></i>
-        </div>
-        {{entryLinkItem.name}}
-      </a>
+        <a class="nav-link cursor-pointer" [class.active]="isRouteActive(entryLinkItem.path)"
+           (click)="navToEntryList(entryLinkItem.path, entryLinkItem.type)" *ngFor="let entryLinkItem of entryLinkItems">
+          <div class="lks-nav-link-icon">
+            <i class="fa-solid fa-{{entryLinkItem.icon}}"></i>
+          </div>
+          {{entryLinkItem.name}}
+        </a>
 
-      <a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-         routerLink="/groups">
-        <div class="lks-nav-link-icon">
-          <i class="fa-solid fa-object-group"></i>
-        </div>
-        Groups
-      </a>
+        <a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+           routerLink="/groups">
+          <div class="lks-nav-link-icon">
+            <i class="fa-solid fa-object-group"></i>
+          </div>
+          Groups
+        </a>
 
-      <div class="lks-sidenav-menu-heading">SITES</div>
+        <div class="lks-sidenav-menu-heading">SITES</div>
 
-      <a class="nav-link cursor-pointer" (click)="navToLinksWithSource('youtube.com')">
-        <div class="lks-nav-link-icon">
-          <i class="fa-brands fa-youtube fa-lg"></i>
-        </div>
-        youtube.com
-      </a>
-      <a class="nav-link cursor-pointer" (click)="navToLinksWithSource('reddit.com')">
-        <div class="lks-nav-link-icon">
-          <i class="fa-brands fa-reddit fa-lg"></i>
-        </div>
-        reddit.com
-      </a>
-      <a class="nav-link cursor-pointer" (click)="navToLinksWithSource('news.ycombinator.com')">
-        <div class="lks-nav-link-icon">
-          <i class="fa-brands fa-hacker-news fa-lg"></i>
-        </div>
-        ycombinator.com
-      </a>
+        <a class="nav-link cursor-pointer" (click)="navToLinksWithSource('youtube.com')">
+          <div class="lks-nav-link-icon">
+            <i class="fa-brands fa-youtube fa-lg"></i>
+          </div>
+          youtube.com
+        </a>
+        <a class="nav-link cursor-pointer" (click)="navToLinksWithSource('reddit.com')">
+          <div class="lks-nav-link-icon">
+            <i class="fa-brands fa-reddit fa-lg"></i>
+          </div>
+          reddit.com
+        </a>
+        <a class="nav-link cursor-pointer" (click)="navToLinksWithSource('news.ycombinator.com')">
+          <div class="lks-nav-link-icon">
+            <i class="fa-brands fa-hacker-news fa-lg"></i>
+          </div>
+          ycombinator.com
+        </a>
 
-      <ng-container *ngFor="let section of sideNavSections">
-        <div class="lks-sidenav-menu-heading" *ngIf="section.text">{{ section.text }}</div>
-        <ng-container *ngFor="let item of section.items">
-          <lks-side-nav-item [sideNavItem]="sideNavItems[item]"></lks-side-nav-item>
+        <ng-container *ngFor="let section of sideNavSections">
+          <div class="lks-sidenav-menu-heading" *ngIf="section.text">{{ section.text }}</div>
+          <ng-container *ngFor="let item of section.items">
+            <lks-side-nav-item [sideNavItem]="sideNavItems[item]"></lks-side-nav-item>
+          </ng-container>
         </ng-container>
-      </ng-container>
 
-      <lks-tag-list></lks-tag-list>
-      <lks-collection-list></lks-collection-list>
+        <lks-tag-list></lks-tag-list>
+        <lks-collection-list></lks-collection-list>
 
+      </div>
     </div>
-  </div>
+  </ng-scrollbar>
   <div class="lks-sidenav-footer">
     <div class="small">Logged in as:</div>
     <span *ngIf="userService.user$ | async as user">{{user.firstName}} {{user.lastName}}</span>

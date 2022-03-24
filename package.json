@@ -29,6 +29,7 @@
     "filesize": "^8.0.7",
     "github-markdown-css": "^5.1.0",
     "ngx-highlightjs": "^6.1.2",
+    "ngx-scrollbar": "^9.0.2",
     "ngx-toastr": "^14.2.2",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",

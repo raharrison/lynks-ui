@@ -5,7 +5,7 @@
     </div>
     <hr>
 
-    <nav ngbNav #nav="ngbNav" class="nav-tabs" [destroyOnHide]="false" activeId="collections">
+    <nav ngbNav #nav="ngbNav" class="nav-tabs" [destroyOnHide]="false" activeId="tags">
       <ng-container ngbNavItem="tags">
         <a ngbNavLink><i class="fa-solid fa-tags"></i> Tags</a>
         <ng-template ngbNavContent>
@@ -17,7 +17,7 @@
         </ng-template>
       </ng-container>
       <ng-container ngbNavItem="collections">
-        <a ngbNavLink><i class="fa-solid fa-layer-group"></i> Collections</a>
+        <a ngbNavLink><i class="fa-solid fa-folder"></i> Collections</a>
         <ng-template ngbNavContent>
           <div class="row">
             <div class="col-md-12">

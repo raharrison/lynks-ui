@@ -1,1 +1,6 @@
 @import 'src/styles/variables';
+
+.notification-button {
+  color: $navbar-dark-color;
+  cursor: pointer;
+}

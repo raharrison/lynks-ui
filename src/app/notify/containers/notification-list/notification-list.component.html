@@ -1,0 +1,63 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="pb-2">
+      <h2>Notifications</h2>
+    </div>
+    <hr>
+
+    <lks-loader [loading]="loadingStatus == 'loading'">
+      <div *ngIf="loadingStatus == 'error'">
+        <div class="text-center">
+          <i class="fa-solid fa-circle-exclamation fa-2x"></i>
+          <h5 class="text-center">Unable to retrieve notifications</h5>
+        </div>
+      </div>
+      <div *ngIf="loadingStatus == 'loaded' && notificationPage?.content?.length == 0">
+        <div class="text-center">
+          <i class="fa-solid fa-search fa-2x"></i>
+          <h5 class="text-center">No notifications found</h5>
+        </div>
+      </div>
+      <div class="mb-3" *ngIf="loadingStatus == 'loaded' && notificationPage?.content?.length > 0">
+        <div *ngFor="let notification of notificationPage.content">
+          <div class="card mb-2">
+            <div class="card-body" [ngClass]="notification.read ? 'card-read' : 'card-unread'" (click)="markRead(notification)">
+              <div class="d-flex align-content-center">
+                <div class="flex-shrink-0 align-self-center">
+                  <i class="fa-solid fa-gears fa-lg" *ngIf="notification.type == 'processed'"></i>
+                  <i class="fa-solid fa-circle-exclamation fa-lg" *ngIf="notification.type == 'error'"></i>
+                  <i class="fa-solid fa-stopwatch fa-lg" *ngIf="notification.type == 'reminder'"></i>
+                  <i class="fa-solid fa-comment-dots fa-lg" *ngIf="notification.type == 'discussions'"></i>
+                </div>
+                <div class="flex-grow-1 ms-3">
+                  <div class="d-flex">
+                    <div class="flex-grow-1">
+                      <span class="card-text fw-bold" *ngIf="notification.type == 'processed'">Processing Complete - </span>
+                      <span class="card-text fw-bold" *ngIf="notification.type == 'error'">Error Occurred - </span>
+                      <span class="card-text fw-bold" *ngIf="notification.type == 'reminder'">Reminder Elapsed - </span>
+                      <span class="card-text fw-bold" *ngIf="notification.type == 'discussions'">Discussion Found - </span>
+                      <span class="card-text">{{notification.message}}</span>
+                      <div class="d-flex mt-1">
+                        <a class="align-self-center card-subtitle text-muted title me-2"
+                           [routerLink]="[resolveEntryHref(notification.entryType), notification.entryId]">
+                          {{notification.entryTitle}}
+                        </a>
+                      </div>
+                    </div>
+                    <div class="align-self-center ms-auto">
+                      <span>({{notification.id}}) </span>
+                      <lks-time-ago [date]="notification.dateCreated"></lks-time-ago>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </lks-loader>
+
+  </div>
+</div>
+
+

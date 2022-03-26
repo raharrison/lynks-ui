@@ -33,6 +33,11 @@ export const ROUTES: Routes = [
         loadChildren: () =>
           import('../group/group.module').then(m => m.GroupModule),
       },
+      {
+        path: 'notifications',
+        loadChildren: () =>
+          import('../notify/notify.module').then(m => m.NotifyModule),
+      }
     ]
   }
 

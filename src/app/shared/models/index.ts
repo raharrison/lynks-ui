@@ -5,5 +5,4 @@ export * from './entry.model';
 export * from './group.model';
 export * from './link.model';
 export * from './note.model';
-export * from './notification.model';
 export * from './task.model';

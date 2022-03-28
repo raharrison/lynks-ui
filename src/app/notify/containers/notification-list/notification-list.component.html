@@ -1,7 +1,21 @@
 <div class="row">
   <div class="col-md-12">
-    <div class="pb-2">
+    <div class="d-flex align-items-center pb-2">
       <h2>Notifications</h2>
+      <div class="ms-auto">
+        <div ngbDropdown class="d-inline-block me-2">
+          <button ngbDropdownToggle id="sortByToggle" type="button" class="btn dropdown-toggle" data-toggle="dropdown">Sort By <span
+            class="caret"></span></button>
+          <div ngbDropdownMenu aria-labelledby="sortByToggle">
+            <button *ngFor="let config of SORT_CONFIGS" ngbDropdownItem (click)="applySort(config)">
+              {{config.name}}
+            </button>
+          </div>
+        </div>
+        <button type="button" class="btn btn-secondary" (click)="loadNotifications()">
+          <i class="fa-solid fa-refresh"></i> Refresh
+        </button>
+      </div>
     </div>
     <hr>
 
@@ -18,8 +32,8 @@
           <h5 class="text-center">No notifications found</h5>
         </div>
       </div>
-      <div class="mb-3" *ngIf="loadingStatus == 'loaded' && notificationPage?.content?.length > 0">
-        <div *ngFor="let notification of notificationPage.content">
+      <div class="mb-2" *ngIf="loadingStatus == 'loaded' && notificationPage?.content?.length > 0">
+        <div class="mb-3" *ngFor="let notification of notificationPage.content">
           <div class="card mb-2">
             <div class="card-body" [ngClass]="notification.read ? 'card-read' : 'card-unread'" (click)="markRead(notification)">
               <div class="d-flex align-content-center">
@@ -54,6 +68,15 @@
             </div>
           </div>
         </div>
+        <ngb-pagination class="d-flex justify-content-center"
+                        (pageChange)="onPageChange($event)"
+                        [collectionSize]="notificationPage.total"
+                        [pageSize]="notificationPage.size"
+                        [page]="notificationPage.page"
+                        [boundaryLinks]="true"
+                        [maxSize]="8"
+                        [rotate]="true">
+        </ngb-pagination>
       </div>
     </lks-loader>
 

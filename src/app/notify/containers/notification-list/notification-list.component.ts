@@ -14,11 +14,12 @@ import {SortConfig, SortDirection} from "@shared/models/sort-config.model";
 export class NotificationListComponent implements OnInit {
 
   readonly SORT_CONFIGS: SortConfig[] = [
+    {name: "Unread First", sort: "read", direction: SortDirection.ASC},
     {name: "Newest First", sort: "dateCreated", direction: SortDirection.DESC},
     {name: "Oldest First", sort: "dateCreated", direction: SortDirection.ASC}
   ];
 
-  private sortConfig = this.SORT_CONFIGS[0];
+  private sortConfig = this.SORT_CONFIGS[1];
   loadingStatus: LoadingStatus = LoadingStatus.LOADING;
   notificationPage: Page<Notification>;
   currentPage: number = 1;

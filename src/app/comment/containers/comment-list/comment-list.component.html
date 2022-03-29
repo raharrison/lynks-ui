@@ -1,5 +1,5 @@
-<lks-loader [loading]="loading" [small]="true">
-  <ng-container *ngIf="!loading">
+<lks-loader [loadingStatus]="loadingStatus" [small]="true">
+  <ng-container *ngIf="loadingStatus == 'loaded'">
     <div class="comments">
       <div class="comments-details mb-2">
         <span class="total-comments comments-sort">{{comments.length}} Comments</span>

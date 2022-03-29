@@ -11,9 +11,6 @@ export class LoadingSpinnerComponent implements OnInit {
   @Input()
   small: boolean = false;
 
-  @Input()
-  loading: boolean = false;
-
   spinnerClasses = "spinner-border ";
 
   constructor() {

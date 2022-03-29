@@ -6,6 +6,7 @@ import {Entry} from "@shared/models";
 import {ReminderEditComponent} from "@app/reminder/components";
 import {DeleteConfirmModalComponent} from "@shared/components";
 import {TitleCasePipe} from "@angular/common";
+import {LoadingStatus} from "@shared/models/loading-status.model";
 
 @Component({
   selector: 'lks-reminder-list',
@@ -15,6 +16,7 @@ import {TitleCasePipe} from "@angular/common";
 })
 export class ReminderListComponent implements OnInit {
 
+  loadingStatus: LoadingStatus = LoadingStatus.LOADING;
   reminders: Reminder[] = [];
 
   @Input()
@@ -33,9 +35,14 @@ export class ReminderListComponent implements OnInit {
   }
 
   private loadReminders() {
-    this.reminderService.getReminders(this.entry.id).subscribe(value => {
-      this.reminders = value;
-      this.onLoaded.emit(value.length);
+    this.loadingStatus = LoadingStatus.LOADING;
+    this.reminderService.getReminders(this.entry.id).subscribe({
+      next: data => {
+        this.loadingStatus = LoadingStatus.LOADED;
+        this.reminders = data;
+        this.onLoaded.emit(data.length);
+      },
+      error: () => this.loadingStatus = LoadingStatus.ERROR
     });
   }
 

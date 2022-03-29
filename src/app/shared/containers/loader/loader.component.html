@@ -1,9 +1,14 @@
-<ng-template #loadingSpinner>
-  <lks-loading-spinner [loading]="loading" [small]="small"></lks-loading-spinner>
-</ng-template>
+<div class="mb-3" [ngSwitch]="loadingStatus">
+  <lks-loading-spinner *ngSwitchCase="LoadingStatus.LOADING" [small]="small"></lks-loading-spinner>
 
-<div *ngIf="!loading; else loadingSpinner">
-  <ng-content></ng-content>
+  <ng-container *ngSwitchCase="LoadingStatus.LOADED">
+    <ng-content></ng-content>
+  </ng-container>
+
+  <div class="text-center" *ngSwitchCase="LoadingStatus.ERROR">
+    <i class="fa-solid fa-circle-exclamation fa-2x"></i>
+    <h5 class="text-center">Unable to load {{entity}}</h5>
+  </div>
 </div>
 
 

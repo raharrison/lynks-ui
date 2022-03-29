@@ -1,5 +1,5 @@
-<lks-loader [loading]="loading">
-  <div class="row" *ngIf="!loading">
+<lks-loader [loadingStatus]="loadingStatus" entity="note">
+  <div class="row" *ngIf="loadingStatus != 'loading'">
     <div class="col-md-12 card card-body">
       <h2 class="mb-3">{{updateMode ? "Update Note" : "New Note"}}</h2>
 

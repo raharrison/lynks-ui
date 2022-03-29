@@ -34,13 +34,7 @@
   </div>
 </div>
 <hr>
-<lks-loader [loading]="loadingStatus == 'loading'">
-  <div *ngIf="loadingStatus == 'error'">
-    <div class="text-center">
-      <i class="fa-solid fa-circle-exclamation fa-2x"></i>
-      <h5 class="text-center">Unable to retrieve entries</h5>
-    </div>
-  </div>
+<lks-loader [loadingStatus]="loadingStatus" entity="entries">
   <div *ngIf="loadingStatus == 'loaded' && entryPage?.content?.length == 0">
     <div class="text-center">
       <i class="fa-solid fa-search fa-2x"></i>

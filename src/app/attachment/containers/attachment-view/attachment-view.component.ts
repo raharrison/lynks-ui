@@ -5,6 +5,7 @@ import {HighlightJS} from "ngx-highlightjs";
 import {Subscription} from "rxjs";
 import {Attachment, AttachmentCategory, AttachmentType} from "@app/attachment/models";
 import {AttachmentService} from "@app/attachment/services/attachment.service";
+import {LoadingStatus} from "@shared/models/loading-status.model";
 
 @Component({
   selector: 'lks-attachment-view',
@@ -32,8 +33,8 @@ export class AttachmentViewComponent implements OnInit, OnDestroy {
     "xml": "xml"
   };
 
-  loadingAttachment = true;
-  loadingAttachmentData = false;
+  loadingAttachmentStatus: LoadingStatus = LoadingStatus.LOADING;
+  loadingAttachmentDataStatus: LoadingStatus = LoadingStatus.LOADED;
 
   entryId: string;
   attachmentId: string;
@@ -60,14 +61,17 @@ export class AttachmentViewComponent implements OnInit, OnDestroy {
     const unsafeUrl = this.attachmentService.createDownloadLink(this.entryId, this.attachmentId);
     this.attachmentUrl = this.sanitizer.bypassSecurityTrustResourceUrl(unsafeUrl);
 
-    this.attachmentService.getAttachment(this.entryId, this.attachmentId).subscribe(resp => {
-      this.attachment = resp.body;
-      this.attachmentMimeType = resp.headers.get("X-Resource-Mime-Type")?.toLowerCase();
-      this.attachmentCategory = this.deriveAttachmentCategory(this.attachment.type, this.attachmentMimeType,
-        this.attachment.extension.toLowerCase());
-      this.loadingAttachment = false;
-      this.titleService.setTitle(this.attachment.name + " - Lynks");
-      this.postProcessAttachment();
+    this.attachmentService.getAttachment(this.entryId, this.attachmentId).subscribe({
+      next: resp => {
+        this.attachment = resp.body;
+        this.attachmentMimeType = resp.headers.get("X-Resource-Mime-Type")?.toLowerCase();
+        this.attachmentCategory = this.deriveAttachmentCategory(this.attachment.type, this.attachmentMimeType,
+          this.attachment.extension.toLowerCase());
+        this.loadingAttachmentStatus = LoadingStatus.LOADED;
+        this.titleService.setTitle(this.attachment.name + " - Lynks");
+        this.postProcessAttachment();
+      },
+      error: () => this.loadingAttachmentStatus = LoadingStatus.ERROR
     });
   }
 
@@ -98,18 +102,21 @@ export class AttachmentViewComponent implements OnInit, OnDestroy {
     if (this.attachmentCategory == AttachmentCategory.TEXT ||
       this.attachmentCategory == AttachmentCategory.PAGE ||
       this.attachmentCategory == AttachmentCategory.SUBTITLE) {
-      this.loadingAttachmentData = true;
-      this.attachmentService.downloadAttachment(this.entryId, this.attachmentId).subscribe(data => {
-        const blob = data as Blob;
-        new Response(blob).text().then(value => {
-          this.rawText = value;
-          this.loadingAttachmentData = false;
-          setTimeout(_ =>
-            document.querySelectorAll("pre code").forEach(item => {
-              const sub = this.hljs.highlightElement(item as HTMLElement).subscribe();
-              this.highlightSubscription.add(sub);
-            }), 1);
-        });
+      this.loadingAttachmentDataStatus = LoadingStatus.LOADING;
+      this.attachmentService.downloadAttachment(this.entryId, this.attachmentId).subscribe({
+        next: data => {
+          const blob = data as Blob;
+          new Response(blob).text().then(value => {
+            this.rawText = value;
+            this.loadingAttachmentDataStatus = LoadingStatus.LOADED;
+            setTimeout(_ =>
+              document.querySelectorAll("pre code").forEach(item => {
+                const sub = this.hljs.highlightElement(item as HTMLElement).subscribe();
+                this.highlightSubscription.add(sub);
+              }), 1);
+          });
+        },
+        error: () => this.loadingAttachmentDataStatus = LoadingStatus.ERROR
       });
     }
   }

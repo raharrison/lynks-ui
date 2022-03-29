@@ -31,7 +31,7 @@
       </div>
     </ng-template>
   </ng-container>
-  <ng-container ngbNavItem="reminders">
+  <ng-container ngbNavItem="reminders" [destroyOnHide]="true">
     <a ngbNavLink routerLink="." fragment="reminders"><i class="fa-solid fa-stopwatch"></i> Reminders <span
       class="badge bg-primary">{{ reminderCount }}</span></a>
     <ng-template ngbNavContent>
@@ -42,7 +42,7 @@
       </div>
     </ng-template>
   </ng-container>
-  <ng-container ngbNavItem="history">
+  <ng-container ngbNavItem="history" [destroyOnHide]="true">
     <a ngbNavLink routerLink="." fragment="history"><i class="fa-solid fa-history"></i> History <span
       class="badge bg-primary">{{ historyCount }}</span></a>
     <ng-template ngbNavContent>
@@ -53,7 +53,7 @@
       </div>
     </ng-template>
   </ng-container>
-  <ng-container ngbNavItem="audit">
+  <ng-container ngbNavItem="audit" [destroyOnHide]="true">
     <a ngbNavLink routerLink="." fragment="audit"><i class="fa-solid fa-archive"></i> Audit <span class="badge bg-primary">{{ auditCount }}</span></a>
     <ng-template ngbNavContent>
       <div class="row">

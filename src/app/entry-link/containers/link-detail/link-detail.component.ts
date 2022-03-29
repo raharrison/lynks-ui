@@ -5,6 +5,7 @@ import {LinkService} from "@app/entry/services/link.service";
 import {ToastrService} from "ngx-toastr";
 import {Title} from "@angular/platform-browser";
 import {Attachment} from "@app/attachment/models";
+import {LoadingStatus} from "@shared/models/loading-status.model";
 
 @Component({
   selector: 'lks-link-detail',
@@ -13,10 +14,10 @@ import {Attachment} from "@app/attachment/models";
 })
 export class LinkDetailComponent implements OnInit {
 
-  id;
+  id: string;
   link: Link;
   version: string;
-  loading = true;
+  loadingStatus: LoadingStatus = LoadingStatus.LOADING;
   attachments: Attachment[] = [];
 
   constructor(private route: ActivatedRoute,
@@ -33,19 +34,21 @@ export class LinkDetailComponent implements OnInit {
     });
   }
 
-  retrieveLink() {
+  private retrieveLink() {
+    const observer = {
+      next: data => {
+        this.link = data;
+        this.loadingStatus = LoadingStatus.LOADED;
+        this.titleService.setTitle(data.title + " - Lynks");
+      },
+      error: _ => {
+        this.loadingStatus = LoadingStatus.ERROR;
+      }
+    };
     if (this.version) {
-      this.linkService.getVersion(this.id, this.version).subscribe((data) => {
-        this.link = data;
-        this.loading = false;
-        this.titleService.setTitle(data.title + " - Lynks");
-      });
+      this.linkService.getVersion(this.id, this.version).subscribe(observer);
     } else {
-      this.linkService.get(this.id).subscribe((data) => {
-        this.link = data;
-        this.loading = false;
-        this.titleService.setTitle(data.title + " - Lynks");
-      });
+      this.linkService.get(this.id).subscribe(observer);
     }
   }
 

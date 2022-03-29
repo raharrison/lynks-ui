@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Attachment} from "@app/attachment/models";
 import {AttachmentService} from "@app/attachment/services/attachment.service";
+import {LoadingStatus} from "@shared/models/loading-status.model";
 
 @Component({
   selector: 'lks-attachment-list',
@@ -16,8 +17,7 @@ export class AttachmentListComponent implements OnInit {
   onLoaded: EventEmitter<Attachment[]> = new EventEmitter<Attachment[]>();
 
   attachments: Attachment[] = [];
-
-  loading = true;
+  loadingStatus: LoadingStatus = LoadingStatus.LOADING;
 
   constructor(private attachmentService: AttachmentService) {
   }
@@ -27,10 +27,14 @@ export class AttachmentListComponent implements OnInit {
   }
 
   retrieveAttachments() {
-    this.attachmentService.getAttachmentsForEntry(this.entryId).subscribe(value => {
-      this.attachments = value;
-      this.loading = false;
-      this.onLoaded.emit(this.attachments);
+    this.loadingStatus = LoadingStatus.LOADING;
+    this.attachmentService.getAttachmentsForEntry(this.entryId).subscribe({
+      next: data => {
+        this.attachments = data;
+        this.loadingStatus = LoadingStatus.LOADED;
+        this.onLoaded.emit(this.attachments);
+      },
+      error: () => this.loadingStatus = LoadingStatus.ERROR
     });
   }
 }

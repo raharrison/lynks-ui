@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {Collection, Grouping, GroupType, Link, NewLink, SlimLink, Tag} from "@shared/models";
 import {LinkService} from "@app/entry/services/link.service";
 import {debounceTime, distinctUntilChanged, Subject, Subscription} from "rxjs";
+import {LoadingStatus} from "@shared/models/loading-status.model";
 
 @Component({
   selector: 'lks-link-edit',
@@ -11,7 +12,7 @@ import {debounceTime, distinctUntilChanged, Subject, Subscription} from "rxjs";
 })
 export class LinkEditComponent implements OnInit, OnDestroy {
 
-  loading = false;
+  loadingStatus: LoadingStatus = LoadingStatus.LOADED;
   saving = false;
   suggesting = false;
 
@@ -45,18 +46,19 @@ export class LinkEditComponent implements OnInit, OnDestroy {
     };
     const id = this.route.snapshot.paramMap.get("id");
     if (id) {
-      // update mode
       this.updateMode = true;
-      this.loading = true;
+      this.loadingStatus = LoadingStatus.LOADING;
       this.link.process = false;
-      this.linkService.get(id).subscribe((data) => {
-        this.oldLink = data;
-        this.link.id = data.id;
-        this.link.title = data.title;
-        this.link.url = data.url;
-        this.selectedTags = data.tags;
-        this.selectedCollections = data.collections;
-        this.loading = false;
+      this.linkService.get(id).subscribe({
+        next: data => {
+          this.oldLink = data;
+          this.link.id = data.id;
+          this.link.title = data.title;
+          this.link.url = data.url;
+          this.selectedTags = data.tags;
+          this.selectedCollections = data.collections;
+          this.loadingStatus = LoadingStatus.LOADED;
+        }, error: () => this.loadingStatus = LoadingStatus.ERROR
       });
     }
     this.urlFieldChangedSubscription = this.urlFieldChanged.pipe(
@@ -124,7 +126,7 @@ export class LinkEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  createLink() {
+  private createLink() {
     this.linkService.create(this.link)
       .subscribe({
         next: data => {
@@ -137,7 +139,7 @@ export class LinkEditComponent implements OnInit, OnDestroy {
       });
   }
 
-  updateLink() {
+  private updateLink() {
     // only save new version if main fields have changed
     const forceNewVersion = LinkEditComponent.checkFieldChanges(this.oldLink, this.link);
     this.linkService.update(this.link, forceNewVersion)

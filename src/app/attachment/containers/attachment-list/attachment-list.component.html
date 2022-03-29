@@ -1,5 +1,8 @@
-<lks-loader [loading]="loading" [small]="true">
-  <div *ngIf="!loading && attachments.length > 0">
+<lks-loader [loadingStatus]="loadingStatus" [small]="true" entity="attachments">
+  <div *ngIf="loadingStatus == 'loaded' && attachments?.length == 0">
+    <p class="total-attachments">No attachments found</p>
+  </div>
+  <div *ngIf="loadingStatus == 'loaded' && attachments?.length > 0">
     <table class="table table-striped table-hover">
       <thead>
       <tr>
@@ -19,9 +22,5 @@
     </table>
   </div>
 </lks-loader>
-
-<div *ngIf="!loading && attachments.length == 0">
-  <p class="total-attachments">No attachments found</p>
-</div>
 
 <lks-attachment-upload [entryId]="entryId" (attachmentUploaded)="retrieveAttachments()"></lks-attachment-upload>

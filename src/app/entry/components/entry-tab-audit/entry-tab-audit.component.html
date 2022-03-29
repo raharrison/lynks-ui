@@ -1,22 +1,31 @@
-<div>
-  <table class="table table-striped table-hover">
-    <thead>
-    <tr>
-      <th scope="col" style="width: 5%"></th>
-      <th scope="col" style="width: 25%">Timestamp</th>
-      <th scope="col" style="width: 70%">Details</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let auditItem of auditItems; let index = index">
-      <th>{{ index + 1 }}</th>
-      <td>
-        <span>{{ auditItem.timestamp | date:"medium" }}</span>
-      </td>
-      <td>
-        <span>{{ auditItem.details }}</span>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-</div>
+<lks-loader [loadingStatus]="loadingStatus" [small]="true" entity="audit info">
+  <div *ngIf="loadingStatus == 'loaded' && auditItems?.length == 0">
+    <div class="text-center">
+      <i class="fa-solid fa-search fa-2x"></i>
+      <h5 class="text-center">No audit info found</h5>
+    </div>
+  </div>
+  <div *ngIf="loadingStatus == 'loaded' && auditItems?.length > 0">
+    <table class="table table-striped table-hover">
+      <thead>
+      <tr>
+        <th scope="col" style="width: 5%"></th>
+        <th scope="col" style="width: 25%">Timestamp</th>
+        <th scope="col" style="width: 70%">Details</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let auditItem of auditItems; let index = index">
+        <th>{{ index + 1 }}</th>
+        <td>
+          <span>{{ auditItem.timestamp | date:"medium" }}</span>
+        </td>
+        <td>
+          <span>{{ auditItem.details }}</span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</lks-loader>
+

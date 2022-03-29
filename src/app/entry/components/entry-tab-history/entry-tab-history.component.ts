@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output}
 import {ActivatedRoute} from "@angular/router";
 import {Entry, EntryVersion} from "@shared/models";
 import {EntryService} from "@app/entry/services/entry.service";
+import {LoadingStatus} from "@shared/models/loading-status.model";
 
 @Component({
   selector: 'lks-entry-tab-history',
@@ -17,15 +18,21 @@ export class EntryTabHistoryComponent implements OnInit {
   @Output()
   onLoaded: EventEmitter<number> = new EventEmitter<number>();
 
+  loadingStatus: LoadingStatus = LoadingStatus.LOADING;
   history: EntryVersion[];
 
   constructor(private entryService: EntryService, public route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
-    this.entryService.getHistory(this.entry.id).subscribe(value => {
-      this.history = value;
-      this.onLoaded.emit(this.history.length);
+    this.loadingStatus = LoadingStatus.LOADING;
+    this.entryService.getHistory(this.entry.id).subscribe({
+      next: data => {
+        this.loadingStatus = LoadingStatus.LOADED;
+        this.history = data;
+        this.onLoaded.emit(this.history.length);
+      },
+      error: () => this.loadingStatus = LoadingStatus.ERROR
     });
   }
 

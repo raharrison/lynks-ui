@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {LoadingStatus} from "@shared/models/loading-status.model";
 
 @Component({
   selector: 'lks-loader',
@@ -7,11 +8,16 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 })
 export class LoaderComponent {
 
+  LoadingStatus = LoadingStatus;
+
   @Input()
   small: boolean = false;
 
   @Input()
-  loading: boolean = false;
+  loadingStatus: LoadingStatus;
+
+  @Input()
+  entity: string = "items"
 
   constructor() {
   }

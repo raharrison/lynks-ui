@@ -1,4 +1,4 @@
-<lks-loader [loading]="loading">
+<lks-loader [loadingStatus]="loadingStatus" entity="link">
   <ng-container *ngIf="link">
     <lks-entry-detail-header [entry]="link" [previousVersion]="!!version"></lks-entry-detail-header>
 

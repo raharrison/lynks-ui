@@ -4,6 +4,7 @@ import {DeleteConfirmModalComponent} from "@shared/components";
 import {Comment} from '@app/comment/models';
 import {CommentService} from "@app/comment/services/comment.service";
 import {SortConfig, SortDirection} from "@shared/models/sort-config.model";
+import {LoadingStatus} from "@shared/models/loading-status.model";
 
 @Component({
   selector: 'lks-comment-list',
@@ -28,7 +29,7 @@ export class CommentListComponent implements OnInit {
   comments: Comment[] = [];
 
   showEditor = false;
-  loading = true;
+  loadingStatus: LoadingStatus = LoadingStatus.LOADING;
 
   selectedComment: Comment = null;
 
@@ -41,10 +42,14 @@ export class CommentListComponent implements OnInit {
   }
 
   private retrieveComments() {
-    this.commentService.getCommentsForEntry(this.entryId, this.sortConfig).subscribe(page => {
-      this.comments = page.content;
-      this.loading = false;
-      this.onLoaded.emit(this.comments.length);
+    this.loadingStatus = LoadingStatus.LOADING;
+    this.commentService.getCommentsForEntry(this.entryId, this.sortConfig).subscribe({
+      next: page => {
+        this.comments = page.content;
+        this.loadingStatus = LoadingStatus.LOADED;
+        this.onLoaded.emit(this.comments.length);
+      },
+      error: () => this.loadingStatus = LoadingStatus.ERROR
     });
   }
 

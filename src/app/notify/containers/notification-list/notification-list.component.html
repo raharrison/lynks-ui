@@ -19,13 +19,7 @@
     </div>
     <hr>
 
-    <lks-loader [loading]="loadingStatus == 'loading'">
-      <div *ngIf="loadingStatus == 'error'">
-        <div class="text-center">
-          <i class="fa-solid fa-circle-exclamation fa-2x"></i>
-          <h5 class="text-center">Unable to retrieve notifications</h5>
-        </div>
-      </div>
+    <lks-loader [loadingStatus]="loadingStatus" entity="notifications">
       <div *ngIf="loadingStatus == 'loaded' && notificationPage?.content?.length == 0">
         <div class="text-center">
           <i class="fa-solid fa-search fa-2x"></i>

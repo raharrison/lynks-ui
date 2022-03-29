@@ -1,23 +1,31 @@
-<div>
-  <table class="table table-striped table-hover">
-    <thead>
-    <tr>
-      <th scope="col">Version</th>
-      <th scope="col">Last Updated</th>
-      <th scope="col">Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let entryVersion of history" [ngClass]="{'table-primary': entryVersion.version == entry.version}">
-      <th>{{entryVersion.version}}{{ entryVersion.version == entry.version ? " (Current) " : "" }}</th>
-      <td>
-        <lks-time-ago [date]="entryVersion.dateUpdated"></lks-time-ago>
-      </td>
-      <td>
-        <a *ngIf="entryVersion.version != entry.version" [routerLink]="goToVersionPath(entryVersion.version)" [fragment]="route.fragment | async"
-           class="btn btn-sm btn-info"><i class="fa-solid fa-eye" aria-hidden="true"></i> View</a>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-</div>
+<lks-loader [loadingStatus]="loadingStatus" [small]="true" entity="history">
+  <div *ngIf="loadingStatus == 'loaded' && history?.length == 0">
+    <div class="text-center">
+      <i class="fa-solid fa-search fa-2x"></i>
+      <h5 class="text-center">No history found</h5>
+    </div>
+  </div>
+  <div *ngIf="loadingStatus == 'loaded' && history?.length > 0">
+    <table class="table table-striped table-hover">
+      <thead>
+      <tr>
+        <th scope="col">Version</th>
+        <th scope="col">Last Updated</th>
+        <th scope="col">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let entryVersion of history" [ngClass]="{'table-primary': entryVersion.version == entry.version}">
+        <th>{{entryVersion.version}}{{ entryVersion.version == entry.version ? " (Current) " : "" }}</th>
+        <td>
+          <lks-time-ago [date]="entryVersion.dateUpdated"></lks-time-ago>
+        </td>
+        <td>
+          <a *ngIf="entryVersion.version != entry.version" [routerLink]="goToVersionPath(entryVersion.version)" [fragment]="route.fragment | async"
+             class="btn btn-sm btn-info"><i class="fa-solid fa-eye" aria-hidden="true"></i> View</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</lks-loader>

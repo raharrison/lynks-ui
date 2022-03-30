@@ -17,6 +17,8 @@ export class AttachmentUploadComponent {
   @Output()
   attachmentUploaded = new EventEmitter<Attachment>();
 
+  // handle to the upload component filename
+  fileToUploadName: string;
   fileToUpload: File;
 
   uploadProgress: number = 0;
@@ -40,6 +42,8 @@ export class AttachmentUploadComponent {
               setTimeout(() => {
                 this.uploadProgress = 0;
                 this.fileToUpload = null;
+                // blank out the file component after upload
+                this.fileToUploadName = '';
                 attachmentForm.form.reset();
                 this.attachmentUploaded.emit(event.body);
               }, 500);

@@ -57,6 +57,6 @@ export class CollectionService {
 
   deleteCollection(id: string): Observable<any> {
     return this.http.delete(`/api/collection/${id}`)
-      .pipe(this.responseHandler.handleResponse("Collection deleted", "Unable to delete collectionv"));
+      .pipe(this.responseHandler.handleResponse("Collection deleted", "Unable to delete collection"));
   }
 }

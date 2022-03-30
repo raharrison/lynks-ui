@@ -17,7 +17,6 @@ export class AttachmentUploadComponent {
   @Output()
   attachmentUploaded = new EventEmitter<Attachment>();
 
-  fileToUploadName: string;
   fileToUpload: File;
 
   uploadProgress: number = 0;
@@ -31,19 +30,22 @@ export class AttachmentUploadComponent {
 
   onSubmit(attachmentForm: NgForm) {
     this.attachmentService.uploadAttachment(this.entryId, this.fileToUpload)
-      .subscribe((event: HttpEvent<any>) => {
-        switch (event.type) {
-          case HttpEventType.UploadProgress:
-            this.uploadProgress = Math.round(event.loaded / event.total * 100);
-            break;
-          case HttpEventType.Response:
-            setTimeout(() => {
-              this.uploadProgress = 0;
-              this.fileToUploadName = '';
-              this.fileToUpload = null;
-              attachmentForm.form.reset();
-              this.attachmentUploaded.emit(event.body);
-            }, 500);
+      .subscribe({
+        next: (event: HttpEvent<any>) => {
+          switch (event.type) {
+            case HttpEventType.UploadProgress:
+              this.uploadProgress = Math.round(event.loaded / event.total * 100);
+              break;
+            case HttpEventType.Response:
+              setTimeout(() => {
+                this.uploadProgress = 0;
+                this.fileToUpload = null;
+                attachmentForm.form.reset();
+                this.attachmentUploaded.emit(event.body);
+              }, 500);
+          }
+        }, error: () => {
+          this.uploadProgress = 0;
         }
       });
   }

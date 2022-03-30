@@ -37,12 +37,17 @@ export class LinkContentViewComponent implements OnChanges {
       if (readableAttachment) {
         this.readableContentAvailable = true;
         this.readableContentLoading = true;
-        this.attachmentService.downloadAttachment(this.link.id, readableAttachment.id).subscribe(data => {
-          const blob = data as Blob;
-          new Response(blob).text().then(value => {
+        this.attachmentService.downloadAttachment(this.link.id, readableAttachment.id).subscribe({
+          next: data => {
+            const blob = data as Blob;
+            new Response(blob).text().then(value => {
+              this.readableContentLoading = false;
+              this.readableContent = value;
+            });
+          },
+          error: () => {
             this.readableContentLoading = false;
-            this.readableContent = value;
-          });
+          }
         });
       }
     }

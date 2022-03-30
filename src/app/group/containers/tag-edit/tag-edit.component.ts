@@ -28,10 +28,15 @@ export class TagEditComponent implements OnInit {
       name: this.newTagName
     }
     this.newTagSaving = true;
-    this.tagService.createTag(newTag).subscribe(() => {
-      tagForm.form.reset();
-      this.newTagSaving = false;
-      this.tagService.refreshTags();
+    this.tagService.createTag(newTag).subscribe({
+      next: () => {
+        tagForm.form.reset();
+        this.newTagSaving = false;
+        this.tagService.refreshTags();
+      },
+      error: () => {
+        this.newTagSaving = false;
+      }
     });
   }
 

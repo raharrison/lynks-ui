@@ -43,11 +43,16 @@ export class CollectionEditComponent implements OnInit {
       parentId: this.newCollectionSelectedParent.length == 0 ? null : this.newCollectionSelectedParent[0].id
     }
     this.newCollectionSaving = true;
-    this.collectionService.createCollection(newCollection).subscribe(_ => {
-      collectionForm.form.reset();
-      this.newCollectionSaving = false;
-      this.newCollectionSelectedParent = [];
-      this.collectionService.refreshCollections();
+    this.collectionService.createCollection(newCollection).subscribe({
+      next: () => {
+        collectionForm.form.reset();
+        this.newCollectionSaving = false;
+        this.newCollectionSelectedParent = [];
+        this.collectionService.refreshCollections();
+      },
+      error: () => {
+        this.newCollectionSaving = false;
+      }
     });
   }
 

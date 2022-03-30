@@ -5,7 +5,6 @@ export interface Link extends Entry {
   title: string,
   url: string,
   source: string,
-  content: string
   thumbnailId: string
 }
 

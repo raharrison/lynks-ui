@@ -1,7 +1,8 @@
 <div *ngIf="groups.length > 0" class="py-1">
   <i [classList]="iconClass()" ngbTooltip="{{ type | titlecase }}"></i>&nbsp;
   <span *ngIf="type != undefined" [class]="minimal ? 'group-prefix' : 'me-2 group-prefix'">{{ minimal ? '' : type | titlecase }}</span>
-  <span *ngFor="let group of groups" [class]="minimal ? 'group group-min me-1' : 'group me-1'">{{group.name}}</span>
+  <span *ngFor="let group of groups" [class]="minimal ? 'group group-min me-1' : 'group me-1'" routerLink="/entries"
+        [queryParams]="createQueryParams(group)">{{group.name}}</span>
 </div>
 
 <div *ngIf="groups.length == 0 && !minimal" class="">

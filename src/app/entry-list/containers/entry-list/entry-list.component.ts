@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 import {EntryType, SlimEntry} from "@shared/models";
 import {Page} from "@shared/models/page.model";
@@ -27,18 +27,19 @@ export class EntryListComponent implements OnInit, OnDestroy {
   entriesLoadingSubscription: Subscription;
 
   constructor(private route: ActivatedRoute,
+              private router: Router,
               public entryFilterService: EntryFilterService,
               private entryService: EntryService) {
   }
 
   ngOnInit() {
-    this.route.data.subscribe(value => {
-      if (value.entryType) {
-        this.entryType = value.entryType;
+    this.route.queryParamMap.subscribe(params => {
+      const routeData = this.route.snapshot.data;
+      if (routeData.entryType) {
+        this.entryType = routeData.entryType;
       } else {
         this.entryType = EntryType.ENTRIES;
       }
-      this.entryFilterService.updateToType(this.entryType);
 
       if (this.entryType == EntryType.ENTRIES) {
         this.entryTypeDesc = "Entries";
@@ -47,22 +48,39 @@ export class EntryListComponent implements OnInit, OnDestroy {
       } else if (this.entryType == EntryType.LINK) {
         this.entryTypeDesc = "Links";
       }
+      this.entryFilterService.updateToType(this.entryType);
+      this.entryFilterService.applyParams(params);
 
-      this.entriesLoadingSubscription = this.entryService.$entriesLoading.subscribe(
-        loadingStatus => this.loadingStatus = loadingStatus
-      );
-      this.entrySubscription = this.entryService.$entryPage.subscribe(page => {
-        this.entryPage = page;
-      })
-    });
+      if (!this.entriesLoadingSubscription) {
+        this.entriesLoadingSubscription = this.entryService.$entriesLoading.subscribe(
+          loadingStatus => this.loadingStatus = loadingStatus
+        );
+      }
+      if (!this.entrySubscription) {
+        this.entrySubscription = this.entryService.$entryPage.subscribe(page => {
+          this.entryPage = page;
+        });
+      }
+    })
   }
 
   onPageChange(newPage: number) {
-    this.entryFilterService.setPage(newPage);
+    const params = this.entryFilterService.setPage(newPage);
+    this.applyFilterParams(params);
   }
 
   applySort(config: SortConfig) {
-    this.entryFilterService.applySort(config);
+    const params = this.entryFilterService.applySortConfig(config);
+    this.applyFilterParams(params);
+  }
+
+  private applyFilterParams(params) {
+    this.router.navigate(
+      ['.'],
+      {
+        relativeTo: this.route,
+        queryParams: params
+      });
   }
 
   ngOnDestroy(): void {

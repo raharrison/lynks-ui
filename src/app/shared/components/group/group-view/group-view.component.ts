@@ -34,4 +34,10 @@ export class GroupViewComponent {
     }
   }
 
+  createQueryParams(group: Tag | Collection) {
+    return {
+      [this.type]: group.id
+    }
+  }
+
 }

@@ -3,7 +3,6 @@ import {NavigationService} from '@app/navigation/services';
 import {EntryFilterService} from "@shared/services";
 import {Subscription} from "rxjs";
 import {Router} from "@angular/router";
-import {EntryType} from "@shared/models";
 import {entryLinkItems} from "@app/navigation/data/entry-list-links.data";
 
 @Component({
@@ -38,19 +37,7 @@ export class TopNavComponent implements OnInit, OnDestroy {
   }
 
   onSearchSubmit() {
-    const page = "/entries";
-    this.entryFilterService.setSearch(this.searchTerms, this.router.url === page);
-    if (this.router.url !== page) {
-      this.router.navigate(["/entries"]);
-    }
-  }
-
-  navToEntryList(page: string, type: EntryType) {
-    if (this.router.url === page) {
-      this.entryFilterService.resetToType(type);
-    } else {
-      this.router.navigate([page]);
-    }
+    this.router.navigate(["/entries"], {queryParams: {"q": this.searchTerms}});
   }
 
   ngOnDestroy(): void {
@@ -58,6 +45,5 @@ export class TopNavComponent implements OnInit, OnDestroy {
       this.entryFilterSubscription.unsubscribe();
     }
   }
-
 
 }

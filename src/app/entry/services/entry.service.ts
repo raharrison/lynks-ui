@@ -95,10 +95,10 @@ export class EntryService {
       params.source = filter.source;
     }
     if (filter.tags.length > 0) {
-      params.tags = filter.tags.map(t => t.id).join(",");
+      params.tags = filter.tags.join(",");
     }
     if (filter.collections.length > 0) {
-      params.collections = filter.collections.map(t => t.id).join(",");
+      params.collections = filter.collections.join(",");
     }
     return params;
   }

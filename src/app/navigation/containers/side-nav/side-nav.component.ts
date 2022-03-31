@@ -1,9 +1,8 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {EntryFilterService, UserService} from '@app/shared/services';
+import {UserService} from '@app/shared/services';
 import {SideNavItems, SideNavSection} from '@app/navigation/models';
 import {entryLinkItems} from "@app/navigation/data/entry-list-links.data";
 import {NavigationEnd, Router} from "@angular/router";
-import {EntryType} from "@shared/models";
 import {Subscription} from "rxjs";
 
 @Component({
@@ -23,8 +22,7 @@ export class SideNavComponent implements OnInit, OnDestroy {
 
   constructor(public userService: UserService,
               private router: Router,
-              private changeDetectorRef: ChangeDetectorRef,
-              public entryFilterService: EntryFilterService) {
+              private changeDetectorRef: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
@@ -37,21 +35,6 @@ export class SideNavComponent implements OnInit, OnDestroy {
 
   isRouteActive(path: string): boolean {
     return this.router.url == path;
-  }
-
-  navToEntryList(page: string, type: EntryType) {
-    if (this.router.url === page) {
-      this.entryFilterService.resetToType(type);
-    } else {
-      this.router.navigate([page]);
-    }
-  }
-
-  navToLinksWithSource(source: string) {
-    this.entryFilterService.setSource(source);
-    if (this.router.url !== "/entries/links") {
-      this.router.navigate(["/entries/links"]);
-    }
   }
 
   ngOnDestroy(): void {

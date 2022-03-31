@@ -9,7 +9,7 @@
 </a>
 
 <nav class="lks-sidenav-menu-nested nav" *ngIf="expanded">
-  <a class="nav-link cursor-pointer" *ngFor="let collection of collections" (click)="entryFilterService.setCollection(collection)">
+  <a class="nav-link cursor-pointer" *ngFor="let collection of collections" routerLink="/entries" [queryParams]="{'collections': collection.id}">
     {{ collection.name }}
   </a>
 </nav>

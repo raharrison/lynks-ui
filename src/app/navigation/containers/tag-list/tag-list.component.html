@@ -9,7 +9,7 @@
 </a>
 
 <nav class="lks-sidenav-menu-nested nav" *ngIf="expanded">
-  <a class="nav-link cursor-pointer" *ngFor="let tag of tags" (click)="entryFilterService.setTag(tag)">
+  <a class="nav-link cursor-pointer" *ngFor="let tag of tags" routerLink="/entries" [queryParams]="{tags: tag.id}">
     {{ tag.name }}
   </a>
 </nav>

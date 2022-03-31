@@ -17,7 +17,7 @@
         <div class="lks-sidenav-menu-heading">CORE</div>
 
         <a class="nav-link cursor-pointer" [class.active]="isRouteActive(entryLinkItem.path)"
-           (click)="navToEntryList(entryLinkItem.path, entryLinkItem.type)" *ngFor="let entryLinkItem of entryLinkItems">
+           [routerLink]="entryLinkItem.path" *ngFor="let entryLinkItem of entryLinkItems">
           <div class="lks-nav-link-icon">
             <i class="fa-solid fa-{{entryLinkItem.icon}}"></i>
           </div>
@@ -34,19 +34,19 @@
 
         <div class="lks-sidenav-menu-heading">SITES</div>
 
-        <a class="nav-link cursor-pointer" (click)="navToLinksWithSource('youtube.com')">
+        <a class="nav-link cursor-pointer" routerLink="/entries/links" [queryParams]="{'source': 'youtube.com'}">
           <div class="lks-nav-link-icon">
             <i class="fa-brands fa-youtube fa-lg"></i>
           </div>
           youtube.com
         </a>
-        <a class="nav-link cursor-pointer" (click)="navToLinksWithSource('reddit.com')">
+        <a class="nav-link cursor-pointer" routerLink="/entries/links" [queryParams]="{'source': 'reddit.com'}">
           <div class="lks-nav-link-icon">
             <i class="fa-brands fa-reddit fa-lg"></i>
           </div>
           reddit.com
         </a>
-        <a class="nav-link cursor-pointer" (click)="navToLinksWithSource('news.ycombinator.com')">
+        <a class="nav-link cursor-pointer" routerLink="/entries/links" [queryParams]="{'source': 'news.com'}">
           <div class="lks-nav-link-icon">
             <i class="fa-brands fa-hacker-news fa-lg"></i>
           </div>

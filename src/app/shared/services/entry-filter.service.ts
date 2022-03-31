@@ -1,8 +1,9 @@
 import {Injectable} from "@angular/core";
 import {BehaviorSubject} from "rxjs";
 import {EntryFilter} from "@shared/models/entry-filter.model";
-import {Collection, EntryType, Tag} from "@shared/models";
+import {EntryType} from "@shared/models";
 import {SortConfig, SortDirection} from "@shared/models/sort-config.model";
+import {ParamMap} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -34,83 +35,89 @@ export class EntryFilterService {
   private entryFilterSubject = new BehaviorSubject<EntryFilter>(this.DEFAULT_FILTER);
   $entryFilter = this.entryFilterSubject.asObservable();
 
-  private filterUpdated() {
-    // if no search term set reset back sort order
-    if (this.entryFilter.searchTerms == '' && this.entryFilter.sort == this.MOST_RELEVANT_SORT) {
-      this.entryFilter.sort = this.DEFAULT_FILTER.sort;
-    }
-    this.entryFilterSubject.next(this.entryFilter);
-  }
-
-  // only set page property of current filter
   setPage(newPage: number) {
     this.entryFilter.page = newPage;
-    this.filterUpdated();
+    return this.nonDefaultConfig();
   }
 
-  applySort(config: SortConfig) {
+  // apply filter settings from sort config over current filter
+  applySortConfig(config: SortConfig) {
     this.entryFilter = {
       ...this.entryFilter,
       ...config
     };
-    this.filterUpdated();
+    return this.nonDefaultConfig();
   }
 
   // completely overwrite filter with new definition
   setFilter(entryFilter: EntryFilter) {
     this.entryFilter = entryFilter;
-    this.filterUpdated();
-  }
-
-  // set search term property of current filter
-  setSearch(searchTerms: string, propagate: boolean = true) {
-    this.entryFilter.searchTerms = searchTerms;
-    this.entryFilter.sort = this.MOST_RELEVANT_SORT;
-    this.entryFilter.tags = this.DEFAULT_FILTER.tags;
-    this.entryFilter.collections = this.DEFAULT_FILTER.collections;
-    this.entryFilter.entryType = EntryType.ENTRIES;
-    if (propagate) {
-      this.filterUpdated();
-    }
-  }
-
-  setSource(source: string) {
-    this.entryFilter.source = source;
-    this.filterUpdated();
-  }
-
-  setTag(tag: Tag) {
-    this.entryFilter.tags = [tag];
-    this.filterUpdated();
-  }
-
-  setCollection(collection: Collection) {
-    this.entryFilter.collections = [collection];
-    this.filterUpdated();
+    return this.nonDefaultConfig();
   }
 
   // set new entry type of current filter
-  updateToType(entryType: EntryType) {
+  updateToType(entryType: EntryType): void {
     this.entryFilter.entryType = entryType;
-    this.filterUpdated();
-  }
-
-  // reset to defaults but add provided entry type
-  resetToType(entryType: EntryType = EntryType.ENTRIES) {
-    this.entryFilter = {
-      ...this.DEFAULT_FILTER,
-      entryType: entryType
-    };
-    this.filterUpdated();
   }
 
   // completely reset to defaults but keep old entry type
   resetAll() {
-    const entryType = this.entryFilter.entryType;
     this.entryFilter = {
       ...this.DEFAULT_FILTER,
-      entryType: entryType
+      entryType: this.entryFilter.entryType
     };
-    this.filterUpdated();
+    return this.nonDefaultConfig();
+  }
+
+  // set all filter settings from given query param map
+  applyParams(params: ParamMap) {
+    this.entryFilter = {
+      ...this.DEFAULT_FILTER,
+      entryType: this.entryFilter.entryType
+    };
+    if (params.has("page")) {
+      this.entryFilter.page = Number(params.get("page"));
+    }
+    if (params.has("size")) {
+      this.entryFilter.size = Number(params.get("size"));
+    }
+    if (params.has("source")) {
+      this.entryFilter.source = params.get("source");
+    }
+    if (params.has("sort")) {
+      this.entryFilter.sort = params.get("sort");
+    }
+    if (params.has("direction")) {
+      this.entryFilter.direction = params.get("direction") as SortDirection;
+    }
+    if (params.has("q")) {
+      this.entryFilter.searchTerms = params.get("q");
+    }
+    if (params.has("tags")) {
+      this.entryFilter.tags = params.get("tags").split(",");
+    }
+    if (params.has("collections")) {
+      this.entryFilter.collections = params.get("collections").split(",");
+    }
+    this.onFilterUpdated();
+  }
+
+  // compute all entry filter params that differ from the default
+  private nonDefaultConfig() {
+    const params: any = {};
+    for (const [key, value] of Object.entries(this.entryFilter)) {
+      if (this.DEFAULT_FILTER.hasOwnProperty(key) && value != this.DEFAULT_FILTER[key]) {
+        params[key] = value;
+      }
+    }
+    return params;
+  }
+
+  private onFilterUpdated() {
+    // if no search term set reset back sort order
+    if (this.entryFilter.searchTerms == '' && this.entryFilter.sort == this.MOST_RELEVANT_SORT) {
+      this.entryFilter.sort = this.DEFAULT_FILTER.sort;
+    }
+    this.entryFilterSubject.next(this.entryFilter);
   }
 }

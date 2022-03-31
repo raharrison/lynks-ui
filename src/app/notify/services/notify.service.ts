@@ -34,4 +34,9 @@ export class NotifyService {
       .pipe(this.responseHandler.handleResponseError("Unable to mark notification as read"));
   }
 
+  markAllRead() {
+    return this.http.post(`/api/notifications/markAllRead`, null)
+      .pipe(this.responseHandler.handleResponse("All notifications marked as read", "Unable to mark notifications as read"));
+  }
+
 }

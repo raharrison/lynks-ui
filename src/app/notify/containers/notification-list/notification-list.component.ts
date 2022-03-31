@@ -58,6 +58,10 @@ export class NotificationListComponent implements OnInit {
     this.notifyService.markRead(notification.id).subscribe(_ => notification.read = true);
   }
 
+  markAllRead() {
+    this.notifyService.markAllRead().subscribe(() => this.loadNotifications());
+  }
+
   resolveEntryHref(entryType: EntryType): string {
     switch (entryType) {
       case EntryType.LINK:

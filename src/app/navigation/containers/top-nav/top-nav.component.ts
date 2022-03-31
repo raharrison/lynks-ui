@@ -27,7 +27,7 @@ export class TopNavComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.entryFilterSubscription = this.entryFilterService.$entryFilter
       .subscribe(filter => {
-        this.searchTerms = filter.searchTerms;
+        this.searchTerms = filter.q;
         this.changeDetectorRef.markForCheck();
       });
   }
@@ -37,7 +37,8 @@ export class TopNavComponent implements OnInit, OnDestroy {
   }
 
   onSearchSubmit() {
-    this.router.navigate(["/entries"], {queryParams: {"q": this.searchTerms}});
+    const params = this.entryFilterService.setSearch(this.searchTerms);
+    this.router.navigate(["/entries"], {queryParams: params});
   }
 
   ngOnDestroy(): void {

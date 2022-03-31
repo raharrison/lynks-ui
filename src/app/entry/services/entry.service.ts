@@ -34,7 +34,7 @@ export class EntryService {
       .pipe(
         switchMap(filter => {
           this.entriesLoadingSubject.next(LoadingStatus.LOADING);
-          if (filter.searchTerms !== "") {
+          if (filter.q !== "") {
             return this.runSearchQuery(filter)
               .pipe(this.responseHandler.catchAndLogError("Unable to search entries"));
           } else {
@@ -50,7 +50,7 @@ export class EntryService {
     const opts = {
       params: {
         ...this.constructFilterParams(filter),
-        q: filter.searchTerms
+        q: filter.q
       }
     }
     return this.http.get<Page<SlimEntry>>(`/api/entry/search`, opts)
@@ -79,11 +79,12 @@ export class EntryService {
     if (this.entryFilterService.DEFAULT_FILTER.size != filter.size) {
       params.size = filter.size;
     }
-    if (filter.searchTerms == '') {
+    if (filter.q == '') {
       if (this.entryFilterService.DEFAULT_FILTER.sort != filter.sort) {
         params.sort = filter.sort;
       }
     } else {
+      // only add sort param if not set to most relevant (maps to date updated)
       if (this.entryFilterService.MOST_RELEVANT_SORT != filter.sort) {
         params.sort = filter.sort;
       }

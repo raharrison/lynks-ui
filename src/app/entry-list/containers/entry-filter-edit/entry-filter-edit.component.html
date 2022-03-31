@@ -8,7 +8,7 @@
             <label class="form-label" for="sortBy">Sort By</label>
             <select class="form-select" id="sortBy" name="sortBy" required
                     [(ngModel)]="entryFilter.sort">
-              <option value="mostRelevant" *ngIf="entryFilter.searchTerms !== ''">Most Relevant</option>
+              <option value="mostRelevant" *ngIf="entryFilter.q !== ''">Most Relevant</option>
               <option value="dateUpdated">Date Updated</option>
               <option value="dateCreated">Date Created</option>
             </select>
@@ -41,14 +41,14 @@
           <div class="col-md-6">
             <label class="form-label" for="tagPicker">Tags</label>
             <lks-group-editor id="tagPicker" type="tag" [selectedIds]="entryFilter.tags"
-                              [maxSelected]="5" [disabled]="entryFilter.searchTerms != ''"
+                              [maxSelected]="5" [disabled]="entryFilter.q != ''"
                               (selectedChange)="setNewFilterTags($event)"></lks-group-editor>
           </div>
 
           <div class="col-md-6">
             <label class="form-label" for="collectionPicker">Collections</label>
             <lks-group-editor id="collectionPicker" type="collection" [selectedIds]="entryFilter.collections"
-                              [maxSelected]="5" [disabled]="entryFilter.searchTerms != ''"
+                              [maxSelected]="5" [disabled]="entryFilter.q != ''"
                               (selectedChange)="setNewFilterCollections($event)"></lks-group-editor>
           </div>
         </div>

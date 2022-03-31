@@ -21,7 +21,7 @@ export class EntryFilterService {
     sort: "dateUpdated",
     direction: SortDirection.DESC,
     entryType: EntryType.ENTRIES,
-    searchTerms: ""
+    q: ""
   }
 
   readonly SORT_CONFIGS: SortConfig[] = [
@@ -52,6 +52,16 @@ export class EntryFilterService {
   // completely overwrite filter with new definition
   setFilter(entryFilter: EntryFilter) {
     this.entryFilter = entryFilter;
+    return this.nonDefaultConfig();
+  }
+
+  // set search term property of current filter
+  setSearch(q: string) {
+    this.entryFilter.q = q;
+    this.entryFilter.sort = this.MOST_RELEVANT_SORT;
+    this.entryFilter.tags = this.DEFAULT_FILTER.tags;
+    this.entryFilter.collections = this.DEFAULT_FILTER.collections;
+    this.entryFilter.entryType = EntryType.ENTRIES;
     return this.nonDefaultConfig();
   }
 
@@ -91,7 +101,10 @@ export class EntryFilterService {
       this.entryFilter.direction = params.get("direction") as SortDirection;
     }
     if (params.has("q")) {
-      this.entryFilter.searchTerms = params.get("q");
+      this.entryFilter.q = params.get("q");
+      if (!params.has("sort")) {
+        this.entryFilter.sort = this.MOST_RELEVANT_SORT;
+      }
     }
     if (params.has("tags")) {
       this.entryFilter.tags = params.getAll("tags");
@@ -102,7 +115,7 @@ export class EntryFilterService {
     this.onFilterUpdated();
   }
 
-  // compute all entry filter params that differ from the default
+  // compute all entry filter params that differ from the default to be set as query params
   private nonDefaultConfig() {
     const params: any = {};
     for (const [key, value] of Object.entries(this.entryFilter)) {
@@ -110,12 +123,25 @@ export class EntryFilterService {
         params[key] = value;
       }
     }
+    if (this.entryFilter.q != '') {
+      // most relevant becomes the default when search query is present so remove
+      if (this.entryFilter.sort == this.MOST_RELEVANT_SORT) {
+        delete params['sort'];
+      } else {
+        // keep if not most relevant
+        params.sort = this.entryFilter.sort;
+      }
+    } else if (this.entryFilter.sort == this.MOST_RELEVANT_SORT) {
+      // no search query so remove most relevant sorting
+      delete params['sort'];
+    }
     return params;
   }
 
+  // push an update of filter criteria to all subscribers
   private onFilterUpdated() {
     // if no search term set reset back sort order
-    if (this.entryFilter.searchTerms == '' && this.entryFilter.sort == this.MOST_RELEVANT_SORT) {
+    if (this.entryFilter.q == '' && this.entryFilter.sort == this.MOST_RELEVANT_SORT) {
       this.entryFilter.sort = this.DEFAULT_FILTER.sort;
     }
     this.entryFilterSubject.next(this.entryFilter);

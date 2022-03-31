@@ -19,12 +19,12 @@ export const ROUTES: Routes = [
           import('../entry-list/entry-list.module').then(m => m.EntryListModule)
       },
       {
-        path: 'notes',
+        path: 'entries/notes',
         loadChildren: () =>
           import('../entry-note/entry-note.module').then(m => m.EntryNoteModule)
       },
       {
-        path: 'links',
+        path: 'entries/links',
         loadChildren: () =>
           import('../entry-link/entry-link.module').then(m => m.EntryLinkModule)
       },

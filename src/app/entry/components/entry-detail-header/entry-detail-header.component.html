@@ -7,14 +7,14 @@
     </div>
   </div>
   <div class="btn-group">
-    <a routerLink="/entries" class="btn  btn-outline-secondary me-2"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back</a>
+    <a routerLink=".." class="btn  btn-outline-secondary me-2"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back</a>
     <button *ngIf="!previousVersion" (click)="onStarClick()" class="btn btn-sm btn-outline-primary me-2">
       <i class="fa-solid fa-star" aria-hidden="true"></i> {{ entry.starred ? "Unstar" : "Star"}}
     </button>
-    <a *ngIf="!previousVersion" [routerLink]="['edit']" class="btn  btn-outline-primary me-2">
+    <a *ngIf="!previousVersion" routerLink="edit" class="btn  btn-outline-primary me-2">
       <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i> Edit
     </a>
-    <button *ngIf="!previousVersion" (click)="openDeleteModal()" class="btn  btn-outline-danger">
+    <button *ngIf="!previousVersion" (click)="openDeleteModal()" class="btn btn-outline-danger">
       <i class="fa-solid fa-trash-alt" aria-hidden="true"></i> Delete
     </button>
   </div>

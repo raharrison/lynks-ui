@@ -29,7 +29,7 @@
         </div>
 
         <div class="mb-3 float-end">
-          <button type="button" (click)="onCancel()" class="btn btn-outline-secondary me-2" [disabled]="saving">Cancel</button>
+          <button type="button" routerLink=".." class="btn btn-outline-secondary me-2" [disabled]="saving">Cancel</button>
 
           <div class="btn-group me-3">
             <button (click)="onSubmit(true)" type="submit" class="btn btn-success ps-4" [ngClass]="updateMode ? 'pe-3' : 'pe-4'"

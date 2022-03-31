@@ -54,14 +54,6 @@ export class NoteEditComponent implements OnInit {
     }
   }
 
-  onCancel() {
-    if (this.updateMode) {
-      this.router.navigate(["/entries/notes", this.note.id]);
-    } else {
-      this.router.navigate(["/entries/notes"]);
-    }
-  }
-
   onSubmit(saveNewVersion: boolean) {
     this.note.tags = this.selectedTags.map(t => t.id);
     this.note.collections = this.selectedCollections.map(c => c.id);
@@ -78,7 +70,9 @@ export class NoteEditComponent implements OnInit {
       .subscribe({
         next: data => {
           this.saving = false;
-          this.router.navigate(["/notes", data.id]);
+          this.router.navigate(["..", data.id], {
+            relativeTo: this.route
+          });
         },
         error: () => {
           this.saving = false;
@@ -93,7 +87,9 @@ export class NoteEditComponent implements OnInit {
       .subscribe({
         next: data => {
           this.saving = false;
-          this.router.navigate(["/notes", data.id]);
+          this.router.navigate([".."], {
+            relativeTo: this.route
+          });
         },
         error: () => {
           this.saving = false;

@@ -41,11 +41,11 @@ export class NoteService implements EntryResource<SlimNote, Note> {
 
   constructPath(id?: string, version?: string): string[] {
     if (id == undefined) {
-      return ["/notes"];
+      return ["/entries/notes"];
     }
     if (version == undefined) {
-      return ["/notes", id];
+      return ["/entries/notes", id];
     }
-    return ["/notes", id, version];
+    return ["/entries/notes", id, version];
   }
 }

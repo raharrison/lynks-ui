@@ -33,7 +33,7 @@
           <strong>Existing Links Found:</strong>
           <ul>
             <li *ngFor="let existing of existingLinks">
-              <a routerLink="/links/{{existing.id}}">{{existing.title}}</a>&nbsp;
+              <a routerLink="../{{existing.id}}">{{existing.title}}</a>&nbsp;
               <span class="text-muted"><lks-time-ago [date]="existing.dateUpdated"></lks-time-ago></span>
             </li>
           </ul>
@@ -67,7 +67,7 @@
         </div>
 
         <div class="mb-3 float-end">
-          <button type="button" (click)="onCancel()" class="btn btn-outline-secondary me-2" [disabled]="saving">Cancel</button>
+          <button type="button" routerLink=".." class="btn btn-outline-secondary me-2" [disabled]="saving">Cancel</button>
           <button type="submit" class="btn btn-success px-4" [disabled]="saving || !linkForm.form.valid">
             <span *ngIf="saving" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             <i *ngIf="!saving" class="fa-solid fa-save" aria-hidden="true"></i>

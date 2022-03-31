@@ -104,14 +104,6 @@ export class LinkEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  onCancel() {
-    if (this.updateMode) {
-      this.router.navigate(["/entries/links", this.link.id]);
-    } else {
-      this.router.navigate(["/entries/links"]);
-    }
-  }
-
   onSubmit() {
     if (this.link.title == "") {
       this.link.title = this.link.url;
@@ -131,7 +123,9 @@ export class LinkEditComponent implements OnInit, OnDestroy {
       .subscribe({
         next: data => {
           this.saving = false;
-          this.router.navigate(["/links", data.id]);
+          this.router.navigate(["..", data.id], {
+            relativeTo: this.route
+          });
         },
         error: () => {
           this.saving = false;
@@ -146,7 +140,9 @@ export class LinkEditComponent implements OnInit, OnDestroy {
       .subscribe({
         next: data => {
           this.saving = false;
-          this.router.navigate(["/links", data.id]);
+          this.router.navigate([".."], {
+            relativeTo: this.route
+          });
         },
         error: () => {
           this.saving = false;

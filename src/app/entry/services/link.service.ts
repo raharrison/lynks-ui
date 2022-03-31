@@ -46,12 +46,12 @@ export class LinkService implements EntryResource<SlimLink, Link> {
 
   constructPath(id?: string, version?: string): string[] {
     if (id == undefined) {
-      return ["/links"];
+      return ["/entries/links"];
     }
     if (version == undefined) {
-      return ["/links", id];
+      return ["/entries/links", id];
     }
-    return ["/links", id, version];
+    return ["/entries/links", id, version];
   }
 
   constructTempUrl(base: string): string {

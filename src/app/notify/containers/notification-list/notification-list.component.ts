@@ -65,9 +65,9 @@ export class NotificationListComponent implements OnInit {
   resolveEntryHref(entryType: EntryType): string {
     switch (entryType) {
       case EntryType.LINK:
-        return "/links"
+        return "/entries/links"
       case EntryType.NOTE:
-        return "/notes"
+        return "/entries/notes"
       default:
         return "/entries"
     }

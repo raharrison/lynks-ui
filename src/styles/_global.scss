@@ -59,3 +59,19 @@ body {
 .schedule-help-tooltip li {
   text-align: left;
 }
+
+
+// dark theme on multi-select component
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
+  background-color: #212529 !important;
+  color: #f9f9f9 !important;
+  border-radius: 3px;
+}
+
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon.left {
+  border-right: 1px solid lighten(#212529, 46) !important;
+}
+
+.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon:hover {
+  background-color: lighten(#212529, 65) !important;
+}

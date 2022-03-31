@@ -94,10 +94,10 @@ export class EntryFilterService {
       this.entryFilter.searchTerms = params.get("q");
     }
     if (params.has("tags")) {
-      this.entryFilter.tags = params.get("tags").split(",");
+      this.entryFilter.tags = params.getAll("tags");
     }
     if (params.has("collections")) {
-      this.entryFilter.collections = params.get("collections").split(",");
+      this.entryFilter.collections = params.getAll("collections");
     }
     this.onFilterUpdated();
   }

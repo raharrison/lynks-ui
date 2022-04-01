@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {SlimLink} from "@shared/models";
+import {EntryType, SlimLink} from "@shared/models";
+import {RouteProviderService} from "@shared/services/route-provider.service";
 
 @Component({
   selector: 'lks-link-list-item',
@@ -12,7 +13,10 @@ export class LinkListItemComponent {
   @Input()
   link: SlimLink;
 
-  constructor() {
+  linkPath: string;
+
+  constructor(private routeProvider: RouteProviderService) {
+    this.linkPath = this.routeProvider.entryDefsByType[EntryType.LINK].path;
   }
 
 }

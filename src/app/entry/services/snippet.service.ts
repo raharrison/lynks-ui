@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {NewSnippet, SlimSnippet, Snippet} from "@shared/models";
+import {EntryType, NewSnippet, SlimSnippet, Snippet} from "@shared/models";
 import {ResponseHandlerService} from "@shared/services/response-handler.service";
 import {EntryResource} from "@app/entry/services/entry-resource";
+import {RouteProviderService} from "@shared/services/route-provider.service";
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ import {EntryResource} from "@app/entry/services/entry-resource";
 export class SnippetService implements EntryResource<SlimSnippet, Snippet> {
 
   constructor(private http: HttpClient,
+              private routeProvider: RouteProviderService,
               private responseHandler: ResponseHandlerService) {
   }
 
@@ -40,12 +42,13 @@ export class SnippetService implements EntryResource<SlimSnippet, Snippet> {
   }
 
   constructPath(id?: string, version?: string): string[] {
+    const base = this.routeProvider.entryDefsByType[EntryType.SNIPPET].path;
     if (id == undefined) {
-      return ["/entries/snippets"];
+      return [base];
     }
     if (version == undefined) {
-      return ["/entries/snippets", id];
+      return [base, id];
     }
-    return ["/entries/snippets", id, version];
+    return [base, id, version];
   }
 }

@@ -1,7 +1,8 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {Collection} from "@shared/models";
 import {Subscription} from "rxjs";
-import {CollectionService, EntryFilterService} from "@shared/services";
+import {CollectionService} from "@shared/services/collection.service";
+import {RouteProviderService} from "@shared/services/route-provider.service";
 
 @Component({
   selector: 'lks-collection-list',
@@ -18,7 +19,7 @@ export class CollectionListComponent implements OnInit, OnDestroy {
 
   constructor(private collectionService: CollectionService,
               private changeDetectorRef: ChangeDetectorRef,
-              public entryFilterService: EntryFilterService) {
+              public routeProvider: RouteProviderService) {
   }
 
   ngOnInit(): void {

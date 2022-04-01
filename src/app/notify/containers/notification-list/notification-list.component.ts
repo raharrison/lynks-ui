@@ -5,6 +5,7 @@ import {LoadingStatus} from "@shared/models/loading-status.model";
 import {Page} from "@shared/models/page.model";
 import {EntryType} from "@shared/models";
 import {SortConfig, SortDirection} from "@shared/models/sort-config.model";
+import {RouteProviderService} from "@shared/services/route-provider.service";
 
 @Component({
   selector: 'lks-notification-list',
@@ -24,7 +25,8 @@ export class NotificationListComponent implements OnInit {
   notificationPage: Page<Notification>;
   currentPage: number = 1;
 
-  constructor(private notifyService: NotifyService) {
+  constructor(private routeProvider: RouteProviderService,
+              private notifyService: NotifyService) {
   }
 
   ngOnInit(): void {
@@ -62,17 +64,11 @@ export class NotificationListComponent implements OnInit {
     this.notifyService.markAllRead().subscribe(() => this.loadNotifications());
   }
 
-  resolveEntryHref(entryType: EntryType): string {
-    switch (entryType) {
-      case EntryType.LINK:
-        return "/entries/links"
-      case EntryType.NOTE:
-        return "/entries/notes"
-      case EntryType.SNIPPET:
-        return "/entries/snippets"
-      default:
-        return "/entries"
+  resolveEntryHref(entryType?: EntryType): string {
+    if (!entryType) {
+      return this.routeProvider.baseEntryPath;
     }
+    return this.routeProvider.entryDefsByType[entryType].path;
   }
 
 }

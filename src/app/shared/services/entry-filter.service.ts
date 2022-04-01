@@ -123,6 +123,7 @@ export class EntryFilterService {
         params[key] = value;
       }
     }
+    delete params["entryType"];
     if (this.entryFilter.q != '') {
       // most relevant becomes the default when search query is present so remove
       if (this.entryFilter.sort == this.MOST_RELEVANT_SORT) {

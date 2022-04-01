@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {NewNote, Note, SlimNote} from "@shared/models";
+import {EntryType, NewNote, Note, SlimNote} from "@shared/models";
 import {ResponseHandlerService} from "@shared/services/response-handler.service";
 import {EntryResource} from "@app/entry/services/entry-resource";
+import {RouteProviderService} from "@shared/services/route-provider.service";
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ import {EntryResource} from "@app/entry/services/entry-resource";
 export class NoteService implements EntryResource<SlimNote, Note> {
 
   constructor(private http: HttpClient,
+              private routeProvider: RouteProviderService,
               private responseHandler: ResponseHandlerService) {
   }
 
@@ -40,12 +42,13 @@ export class NoteService implements EntryResource<SlimNote, Note> {
   }
 
   constructPath(id?: string, version?: string): string[] {
+    const base = this.routeProvider.entryDefsByType[EntryType.NOTE].path;
     if (id == undefined) {
-      return ["/entries/notes"];
+      return [base];
     }
     if (version == undefined) {
-      return ["/entries/notes", id];
+      return [base, id];
     }
-    return ["/entries/notes", id, version];
+    return [base, id, version];
   }
 }

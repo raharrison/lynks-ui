@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {SlimNote} from "@shared/models";
+import {EntryType, SlimNote} from "@shared/models";
+import {RouteProviderService} from "@shared/services/route-provider.service";
 
 @Component({
   selector: 'lks-note-list-item',
@@ -12,7 +13,10 @@ export class NoteListItemComponent {
   @Input()
   note: SlimNote;
 
-  constructor() {
+  notePath: string;
+
+  constructor(private routeProvider: RouteProviderService) {
+    this.notePath = this.routeProvider.entryDefsByType[EntryType.NOTE].path;
   }
 
 }

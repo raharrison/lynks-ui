@@ -27,9 +27,9 @@
         Create
       </button>
       <div ngbDropdownMenu aria-labelledby="createButtonDropdown">
-        <button ngbDropdownItem routerLink="/entries/links/create">New Link</button>
-        <button ngbDropdownItem routerLink="/entries/notes/create">New Note</button>
-        <button ngbDropdownItem routerLink="/entries/snippets/create">New Snippet</button>
+        <button ngbDropdownItem [routerLink]="createItem.path" *ngFor="let createItem of routeProvider.createEntryItems">
+          New {{createItem.name}}
+        </button>
       </div>
     </div>
   </div>
@@ -45,9 +45,9 @@
   <div *ngIf="loadingStatus == 'loaded' && entryPage?.content?.length > 0">
     <div class="entry-list-item list-hover" *ngFor="let entry of entryPage.content">
       <ng-container [ngSwitch]="entry.type">
-        <lks-note-list-item *ngSwitchCase="'note'" [note]="$any(entry)"></lks-note-list-item>
-        <lks-link-list-item *ngSwitchCase="'link'" [link]="$any(entry)"></lks-link-list-item>
-        <lks-snippet-list-item *ngSwitchCase="'snippet'" [snippet]="$any(entry)"></lks-snippet-list-item>
+        <lks-note-list-item *ngSwitchCase="EntryType.NOTE" [note]="$any(entry)"></lks-note-list-item>
+        <lks-link-list-item *ngSwitchCase="EntryType.LINK" [link]="$any(entry)"></lks-link-list-item>
+        <lks-snippet-list-item *ngSwitchCase="EntryType.SNIPPET" [snippet]="$any(entry)"></lks-snippet-list-item>
       </ng-container>
       <hr>
     </div>

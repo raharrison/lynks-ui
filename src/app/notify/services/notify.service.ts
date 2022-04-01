@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {ResponseHandlerService} from "@shared/services";
+import {ResponseHandlerService} from "@shared/services/response-handler.service";
 import {Page} from "@shared/models/page.model";
 import {SortConfig, SortDirection} from "@shared/models/sort-config.model";
 import {Notification} from "@app/notify/models";

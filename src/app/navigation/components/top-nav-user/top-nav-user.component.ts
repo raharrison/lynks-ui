@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {UserService} from '@app/shared/services';
+import {UserService} from '@app/shared/services/user.service';
 
 @Component({
     selector: 'lks-top-nav-user',

@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
-import {NavigationService} from '@app/navigation/services';
-import {EntryFilterService} from "@shared/services";
 import {Subscription} from "rxjs";
 import {Router} from "@angular/router";
-import {entryLinkItems} from "@app/navigation/data/entry-list-links.data";
+import {NavigationService} from '@app/navigation/services';
+import {EntryFilterService} from "@shared/services/entry-filter.service";
+import {RouteProviderService} from "@shared/services/route-provider.service";
 
 @Component({
   selector: 'lks-top-nav',
@@ -16,11 +16,10 @@ export class TopNavComponent implements OnInit, OnDestroy {
   private entryFilterSubscription: Subscription;
   searchTerms: string = "";
 
-  entryLinkItems = entryLinkItems;
-
   constructor(private router: Router,
               private changeDetectorRef: ChangeDetectorRef,
               private navigationService: NavigationService,
+              public routeProvider: RouteProviderService,
               private entryFilterService: EntryFilterService) {
   }
 
@@ -38,7 +37,7 @@ export class TopNavComponent implements OnInit, OnDestroy {
 
   onSearchSubmit() {
     const params = this.entryFilterService.setSearch(this.searchTerms);
-    this.router.navigate(["/entries"], {queryParams: params});
+    this.router.navigate([this.routeProvider.baseEntryPath], {queryParams: params});
   }
 
   ngOnDestroy(): void {

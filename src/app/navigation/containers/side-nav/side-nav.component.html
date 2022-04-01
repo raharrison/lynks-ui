@@ -9,45 +9,45 @@
             Create
           </button>
           <div ngbDropdownMenu aria-labelledby="navCreateButtonDropdown">
-            <button ngbDropdownItem routerLink="/entries/links/create">New Link</button>
-            <button ngbDropdownItem routerLink="/entries/notes/create">New Note</button>
-            <button ngbDropdownItem routerLink="/entries/snippets/create">New Snippet</button>
+            <button ngbDropdownItem [routerLink]="createItem.path" *ngFor="let createItem of routeProvider.createEntryItems">
+              New {{createItem.name}}
+            </button>
           </div>
         </div>
 
         <div class="lks-sidenav-menu-heading">CORE</div>
 
-        <a class="nav-link cursor-pointer" [class.active]="isRouteActive(entryLinkItem.path)"
-           [routerLink]="entryLinkItem.path" *ngFor="let entryLinkItem of entryLinkItems">
+        <a class="nav-link cursor-pointer" [class.active]="isRouteActive(entryItem.path)"
+           [routerLink]="entryItem.path" *ngFor="let entryItem of routeProvider.entryDefs">
           <div class="lks-nav-link-icon">
-            <i class="fa-solid fa-{{entryLinkItem.icon}}"></i>
+            <i class="fa-solid fa-{{entryItem.icon}}"></i>
           </div>
-          {{entryLinkItem.name}}
+          {{entryItem.name}}
         </a>
 
         <a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
-           routerLink="/groups">
+           [routerLink]="routeProvider.groupsPath">
           <div class="lks-nav-link-icon">
-            <i class="fa-solid fa-object-group"></i>
+            <i class="fa-solid fa-layer-group"></i>
           </div>
           Groups
         </a>
 
         <div class="lks-sidenav-menu-heading">SITES</div>
 
-        <a class="nav-link cursor-pointer" routerLink="/entries/links" [queryParams]="{'source': 'youtube.com'}">
+        <a class="nav-link cursor-pointer" [routerLink]="linkPath" [queryParams]="{'source': 'youtube.com'}">
           <div class="lks-nav-link-icon">
             <i class="fa-brands fa-youtube fa-lg"></i>
           </div>
           youtube.com
         </a>
-        <a class="nav-link cursor-pointer" routerLink="/entries/links" [queryParams]="{'source': 'reddit.com'}">
+        <a class="nav-link cursor-pointer" [routerLink]="linkPath" [queryParams]="{'source': 'reddit.com'}">
           <div class="lks-nav-link-icon">
             <i class="fa-brands fa-reddit fa-lg"></i>
           </div>
           reddit.com
         </a>
-        <a class="nav-link cursor-pointer" routerLink="/entries/links" [queryParams]="{'source': 'news.com'}">
+        <a class="nav-link cursor-pointer" [routerLink]="linkPath" [queryParams]="{'source': 'news.ycombinator.com'}">
           <div class="lks-nav-link-icon">
             <i class="fa-brands fa-hacker-news fa-lg"></i>
           </div>

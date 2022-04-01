@@ -8,11 +8,11 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
-      <li class="nav-item" *ngFor="let entryLinkItem of entryLinkItems">
-        <a class="nav-link cursor-pointer" [routerLink]="entryLinkItem.path">{{entryLinkItem.name}}</a>
+      <li class="nav-item" *ngFor="let entryItem of routeProvider.entryDefs">
+        <a class="nav-link cursor-pointer" [routerLink]="entryItem.path">{{entryItem.name}}</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/groups">Groups</a>
+        <a class="nav-link" [routerLink]="routeProvider.groupsPath">Groups</a>
       </li>
       <li class="nav-item dropdown" routerLinkActive="active" ngbDropdown>
         <a
@@ -24,9 +24,9 @@
           ngbDropdownToggle
         >Create</a>
         <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="createDropdown">
-          <a class="dropdown-item" routerLink="/entries/links/create" ngbDropdownItem>New Link</a>
-          <a class="dropdown-item" routerLink="/entries/notes/create" ngbDropdownItem>New Note</a>
-          <a class="dropdown-item" routerLink="/entries/snippets/create" ngbDropdownItem>New Snippet</a>
+          <a class="dropdown-item" [routerLink]="createItem.path" ngbDropdownItem
+             *ngFor="let createItem of routeProvider.createEntryItems">New {{createItem.name}}
+          </a>
         </div>
       </li>
     </ul>
@@ -45,7 +45,7 @@
     </div>
   </form>
   <!-- Navbar Notifications -->
-  <div class="notification-button navbar-nav ms-auto ms-md-0 me-2" routerLink="/notifications">
+  <div class="notification-button navbar-nav ms-auto ms-md-0 me-2" [routerLink]="routeProvider.notificationsPath">
     <i class="fa-solid fa-bell fa-lg"></i>
   </div>
   <!-- Navbar User -->

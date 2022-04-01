@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {Collection, NewSnippet, Snippet, Tag} from "@shared/models";
+import {Collection, EntryType, NewSnippet, Snippet, Tag} from "@shared/models";
 import {LoadingStatus} from "@shared/models/loading-status.model";
 import {SnippetService} from "@app/entry/services/snippet.service";
+import {RouteProviderService} from "@shared/services/route-provider.service";
 
 @Component({
   selector: 'lks-snippet-edit',
@@ -10,6 +11,7 @@ import {SnippetService} from "@app/entry/services/snippet.service";
   styleUrls: ['./snippet-edit.component.scss']
 })
 export class SnippetEditComponent implements OnInit {
+  EntryType = EntryType;
 
   loadingStatus: LoadingStatus = LoadingStatus.LOADED;
   saving = false;
@@ -23,6 +25,7 @@ export class SnippetEditComponent implements OnInit {
 
   constructor(private router: Router,
               private route: ActivatedRoute,
+              public routeProvider: RouteProviderService,
               private snippetService: SnippetService) {
   }
 

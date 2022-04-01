@@ -2,13 +2,13 @@
   <div class="col-md-12">
     <div class="d-flex align-content-center">
       <div class="flex-shrink-0">
-        <img class="thumbnail-img cursor-pointer" src="/assets/img/note_thumbnail.jpg" alt="Thumbnail" [routerLink]="['/entries/notes', note.id]">
+        <img class="thumbnail-img cursor-pointer" src="/assets/img/note_thumbnail.jpg" alt="Thumbnail" [routerLink]="[notePath, note.id]">
       </div>
       <div class="flex-grow-1 ms-3">
         <div class="d-flex">
           <div class="flex-grow-1">
             <i class="fa-solid fa-book align-self-center me-1" ngbTooltip="Note"></i>
-            <a class="title me-2" [routerLink]="['/entries/notes', note.id]"> {{note.title}}</a>
+            <a class="title me-2" [routerLink]="[notePath, note.id]"> {{note.title}}</a>
             <div class="d-flex mt-1" *ngIf="note.tags.length > 0 || note.collections.length > 0">
               <lks-group-view [groups]="note.tags" type="tags" [minimal]="true" class="me-3"></lks-group-view>
               <lks-group-view [groups]="note.collections" type="collections" [minimal]="true"></lks-group-view>

@@ -3,14 +3,14 @@
     <div class="d-flex align-content-center">
       <div class="flex-shrink-0">
         <img class="thumbnail-img cursor-pointer" src="/assets/img/note_thumbnail.jpg" alt="Thumbnail"
-             [routerLink]="['/entries/snippets', snippet.id]">
+             [routerLink]="[snippetPath, snippet.id]">
       </div>
       <div class="flex-grow-1 ms-3">
         <div class="d-flex">
           <div class="flex-grow-1">
             <div class="d-flex align-items-center">
               <i class="fa-solid fa-sticky-note align-self-start me-2 mt-1" ngbTooltip="Snippet"></i>
-              <lks-markdown-view class="cursor-pointer" [routerLink]="['/entries/snippets', snippet.id]"
+              <lks-markdown-view class="cursor-pointer" [routerLink]="[snippetPath, snippet.id]"
                                  [markdown]="snippet.markdownText"></lks-markdown-view>
             </div>
             <div class="d-flex mt-1" *ngIf="snippet.tags.length > 0 || snippet.collections.length > 0">

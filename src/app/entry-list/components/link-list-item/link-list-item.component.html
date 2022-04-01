@@ -3,7 +3,7 @@
     <div class="d-flex align-content-center">
       <div class="flex-shrink-0" *ngIf="link.thumbnailId">
         <img class="thumbnail-img cursor-pointer" src="/api/entry/{{link.id}}/resource/{{link.thumbnailId}}" alt="Thumbnail"
-             [routerLink]="['/entries/links', link.id]">
+             [routerLink]="[linkPath, link.id]">
       </div>
       <div class="flex-shrink-0" *ngIf="!link.thumbnailId">
         <img class="thumbnail-img" src="/assets/img/link_thumbnail.jpg" alt="Thumbnail">
@@ -12,7 +12,7 @@
         <div class="d-flex">
           <div class="flex-grow-1">
             <i class="fa-solid fa-link align-self-center me-1" ngbTooltip="Link"></i>
-            <a class="title me-2" [routerLink]="['/entries/links', link.id]"> {{link.title}}</a>
+            <a class="title me-2" [routerLink]="[linkPath, link.id]"> {{link.title}}</a>
             <span class="align-self-center">{{link.source}}</span>
             <div class="d-flex mt-1" *ngIf="link.tags.length > 0 || link.collections.length > 0">
               <lks-group-view [groups]="link.tags" type="tags" [minimal]="true" class="me-3"></lks-group-view>

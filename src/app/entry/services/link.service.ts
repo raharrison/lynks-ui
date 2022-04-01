@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Link, NewLink, SlimLink, Suggestion} from "@shared/models";
+import {EntryType, Link, NewLink, SlimLink, Suggestion} from "@shared/models";
 import {ResponseHandlerService} from "@shared/services/response-handler.service";
 import {EntryResource} from "@app/entry/services/entry-resource";
+import {RouteProviderService} from "@shared/services/route-provider.service";
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ import {EntryResource} from "@app/entry/services/entry-resource";
 export class LinkService implements EntryResource<SlimLink, Link> {
 
   constructor(private http: HttpClient,
+              private routeProvider: RouteProviderService,
               private responseHandler: ResponseHandlerService) {
   }
 
@@ -45,13 +47,14 @@ export class LinkService implements EntryResource<SlimLink, Link> {
   }
 
   constructPath(id?: string, version?: string): string[] {
+    const base = this.routeProvider.entryDefsByType[EntryType.LINK].path;
     if (id == undefined) {
-      return ["/entries/links"];
+      return [base];
     }
     if (version == undefined) {
-      return ["/entries/links", id];
+      return [base, id];
     }
-    return ["/entries/links", id, version];
+    return [base, id, version];
   }
 
   constructTempUrl(base: string): string {

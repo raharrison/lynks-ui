@@ -9,7 +9,8 @@
 </a>
 
 <nav class="lks-sidenav-menu-nested nav" *ngIf="expanded">
-  <a class="nav-link cursor-pointer" *ngFor="let collection of collections" routerLink="/entries" [queryParams]="{'collections': collection.id}">
+  <a class="nav-link cursor-pointer" *ngFor="let collection of collections" [routerLink]="routeProvider.baseEntryPath"
+     [queryParams]="{'collections': collection.id}">
     {{ collection.name }}
   </a>
 </nav>

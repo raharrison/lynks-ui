@@ -1,5 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import {SlimSnippet} from "@shared/models";
+import {EntryType, SlimSnippet} from "@shared/models";
+import {RouteProviderService} from "@shared/services/route-provider.service";
 
 @Component({
   selector: 'lks-snippet-list-item',
@@ -12,7 +13,10 @@ export class SnippetListItemComponent {
   @Input()
   snippet: SlimSnippet;
 
-  constructor() {
+  snippetPath: string;
+
+  constructor(private routeProvider: RouteProviderService) {
+    this.snippetPath = this.routeProvider.entryDefsByType[EntryType.SNIPPET].path;
   }
 
 }

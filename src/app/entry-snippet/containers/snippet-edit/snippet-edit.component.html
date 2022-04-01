@@ -4,7 +4,8 @@
       <h2 class="mb-3">{{updateMode ? "Update Snippet" : "New Snippet"}}</h2>
 
       <div *ngIf="snippet.plainText.length > 150" class="alert alert-warning" role="alert">
-        This snippet is getting quite long, consider creating a <a routerLink="/entries/notes/create">New Note</a> instead
+        This snippet is getting quite long, consider creating a <a [routerLink]="routeProvider.createEntryByType[EntryType.NOTE].path">New Note</a>
+        instead
       </div>
 
       <form #snippetForm="ngForm">

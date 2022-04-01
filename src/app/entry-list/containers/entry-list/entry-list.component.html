@@ -29,6 +29,7 @@
       <div ngbDropdownMenu aria-labelledby="createButtonDropdown">
         <button ngbDropdownItem routerLink="/entries/links/create">New Link</button>
         <button ngbDropdownItem routerLink="/entries/notes/create">New Note</button>
+        <button ngbDropdownItem routerLink="/entries/snippets/create">New Snippet</button>
       </div>
     </div>
   </div>
@@ -42,9 +43,12 @@
     </div>
   </div>
   <div *ngIf="loadingStatus == 'loaded' && entryPage?.content?.length > 0">
-    <div *ngFor="let entry of entryPage.content">
-      <lks-note-list-item *ngIf="entry.type=='note'" [note]="$any(entry)"></lks-note-list-item>
-      <lks-link-list-item *ngIf="entry.type=='link'" [link]="$any(entry)"></lks-link-list-item>
+    <div class="entry-list-item list-hover" *ngFor="let entry of entryPage.content">
+      <ng-container [ngSwitch]="entry.type">
+        <lks-note-list-item *ngSwitchCase="'note'" [note]="$any(entry)"></lks-note-list-item>
+        <lks-link-list-item *ngSwitchCase="'link'" [link]="$any(entry)"></lks-link-list-item>
+        <lks-snippet-list-item *ngSwitchCase="'snippet'" [snippet]="$any(entry)"></lks-snippet-list-item>
+      </ng-container>
       <hr>
     </div>
     <ngb-pagination class="d-flex justify-content-center"

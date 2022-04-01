@@ -1,0 +1,33 @@
+<lks-loader [loadingStatus]="loadingStatus" entity="snippet">
+  <ng-container *ngIf="snippet">
+    <lks-entry-detail-header [entry]="snippet" [previousVersion]="!!version"></lks-entry-detail-header>
+
+    <div class="row">
+      <div class="col-md-12 mb-4">
+        <div class="card card-body">
+          <lks-markdown-view [markdown]="snippet.markdownText"></lks-markdown-view>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 mb-4">
+        <lks-entry-detail-metadata [entry]="snippet"></lks-entry-detail-metadata>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 mb-4">
+        <lks-card [isCollapsed]="true">
+          <span header> Attachments:</span>
+          <content>
+            <lks-attachment-list [entryId]="snippet?.id"></lks-attachment-list>
+          </content>
+        </lks-card>
+      </div>
+    </div>
+
+    <lks-entry-tabs [entry]="snippet"></lks-entry-tabs>
+  </ng-container>
+</lks-loader>
+

@@ -11,6 +11,7 @@ import {tap} from "rxjs/operators";
 import {EntryFilter} from "@shared/models/entry-filter.model";
 import {LoadingStatus} from "@shared/models/loading-status.model";
 import {EntryResource} from "@app/entry/services/entry-resource";
+import {SnippetService} from "@app/entry/services/snippet.service";
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,7 @@ export class EntryService {
               private responseHandler: ResponseHandlerService,
               private entryFilterService: EntryFilterService,
               private noteService: NoteService,
+              private snippetService: SnippetService,
               private linkService: LinkService) {
   }
 
@@ -109,6 +111,8 @@ export class EntryService {
       return this.linkService;
     } else if (type == EntryType.NOTE) {
       return this.noteService;
+    } else if (type == EntryType.SNIPPET) {
+      return this.snippetService;
     } else {
       throw new TypeError("Unknown entry type: " + type);
     }

@@ -5,7 +5,7 @@
 
       <form (ngSubmit)="onSubmit()" #linkForm="ngForm">
         <div class="mb-3">
-          <label for="linkTitle">Title</label>
+          <label class="form-label" for="linkTitle">Title</label>
           <input [(ngModel)]="link.title" id="linkTitle" name="title" type="text" class="form-control title-input"
                  placeholder="Enter title" #title="ngModel">
           <small class="form-text text-muted">
@@ -14,7 +14,7 @@
         </div>
 
         <div class="mb-3">
-          <label for="linkUrl">URL</label>
+          <label class="form-label" for="linkUrl">URL</label>
           <div class="input-group">
             <input [(ngModel)]="link.url" (ngModelChange)="urlFieldChanged.next($event)" id="linkUrl" name="url" type="text"
                    class="form-control form-control-lg title-input"
@@ -56,12 +56,12 @@
         </div>
 
         <div class="mb-3">
-          <label for="tagPicker">Tags</label>
+          <label class="form-label" for="tagPicker">Tags</label>
           <lks-group-editor id="tagPicker" type="tag" [selected]="selectedTags" (selectedChange)="selectedTags = $event"></lks-group-editor>
         </div>
 
         <div class="mb-3">
-          <label for="collectionPicker">Collections</label>
+          <label class="form-label" for="collectionPicker">Collections</label>
           <lks-group-editor id="collectionPicker" type="collection" [selected]="selectedCollections"
                             (selectedChange)="selectedCollections = $event"></lks-group-editor>
         </div>

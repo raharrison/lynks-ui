@@ -75,3 +75,12 @@ body {
 .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon:hover {
   background-color: lighten(#212529, 65) !important;
 }
+
+// entry list hover background colour
+.list-hover:hover {
+  background-color: #f6f5f5 !important;
+}
+
+.list-hover:hover .markdown-body {
+  background-color: #f6f5f5 !important;
+}

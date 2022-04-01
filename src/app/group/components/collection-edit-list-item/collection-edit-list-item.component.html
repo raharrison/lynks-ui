@@ -1,5 +1,5 @@
 <th>
-  <label for="collectionNameInput"></label>
+  <label class="form-label" for="collectionNameInput"></label>
   <input *ngIf="editMode" (click)="$event.stopPropagation()" class="d-inline form-control" type="text" id="collectionNameInput"
          name="collectionNameInput"
          [(ngModel)]="collectionNameInput">

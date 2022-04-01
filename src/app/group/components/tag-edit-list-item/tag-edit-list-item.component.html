@@ -1,5 +1,5 @@
 <th>
-  <label for="tagNameInput"></label>
+  <label class="form-label" for="tagNameInput"></label>
   <input *ngIf="editMode" (click)="$event.stopPropagation()" class="d-inline form-control" type="text" id="tagNameInput" name="tagNameInput"
          [(ngModel)]="tagNameInput">
   <span *ngIf="!editMode">{{ tag.name }}</span>

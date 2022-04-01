@@ -68,6 +68,8 @@ export class NotificationListComponent implements OnInit {
         return "/entries/links"
       case EntryType.NOTE:
         return "/entries/notes"
+      case EntryType.SNIPPET:
+        return "/entries/snippets"
       default:
         return "/entries"
     }

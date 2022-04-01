@@ -1,0 +1,29 @@
+<div class="row py-1">
+  <div class="col-md-12">
+    <div class="d-flex align-content-center">
+      <div class="flex-shrink-0">
+        <img class="thumbnail-img cursor-pointer" src="/assets/img/note_thumbnail.jpg" alt="Thumbnail"
+             [routerLink]="['/entries/snippets', snippet.id]">
+      </div>
+      <div class="flex-grow-1 ms-3">
+        <div class="d-flex">
+          <div class="flex-grow-1">
+            <div class="d-flex align-items-center">
+              <i class="fa-solid fa-sticky-note align-self-start me-2 mt-1" ngbTooltip="Snippet"></i>
+              <lks-markdown-view class="cursor-pointer" [routerLink]="['/entries/snippets', snippet.id]"
+                                 [markdown]="snippet.markdownText"></lks-markdown-view>
+            </div>
+            <div class="d-flex mt-1" *ngIf="snippet.tags.length > 0 || snippet.collections.length > 0">
+              <lks-group-view [groups]="snippet.tags" type="tags" [minimal]="true" class="me-3"></lks-group-view>
+              <lks-group-view [groups]="snippet.collections" type="collections" [minimal]="true"></lks-group-view>
+            </div>
+          </div>
+          <div>
+            <span class="align-self-center ms-auto"><span>({{snippet.id}})</span> updated <lks-time-ago
+              [date]="snippet.dateUpdated"></lks-time-ago></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

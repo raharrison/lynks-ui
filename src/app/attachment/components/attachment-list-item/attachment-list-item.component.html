@@ -1,5 +1,5 @@
 <th>
-  <label for="attachmentNameInput"></label>
+  <label class="form-label" for="attachmentNameInput"></label>
   <input style="width: 100%" *ngIf="editMode" (click)="$event.stopPropagation()" type="text" id="attachmentNameInput" name="attachmentNameInput"
          [(ngModel)]="attachmentNameInput">
   <span *ngIf="!editMode">{{ attachment.name }}</span>

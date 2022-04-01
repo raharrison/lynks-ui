@@ -2,7 +2,8 @@
   <div class="col-md-12">
     <div class="d-flex align-content-center">
       <div class="flex-shrink-0" *ngIf="link.thumbnailId">
-        <img class="thumbnail-img" src="/api/entry/{{link.id}}/resource/{{link.thumbnailId}}" alt="Thumbnail">
+        <img class="thumbnail-img cursor-pointer" src="/api/entry/{{link.id}}/resource/{{link.thumbnailId}}" alt="Thumbnail"
+             [routerLink]="['/entries/links', link.id]">
       </div>
       <div class="flex-shrink-0" *ngIf="!link.thumbnailId">
         <img class="thumbnail-img" src="/assets/img/link_thumbnail.jpg" alt="Thumbnail">

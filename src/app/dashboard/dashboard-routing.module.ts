@@ -24,6 +24,11 @@ export const ROUTES: Routes = [
           import('../entry-note/entry-note.module').then(m => m.EntryNoteModule)
       },
       {
+        path: 'entries/snippets',
+        loadChildren: () =>
+          import('../entry-snippet/entry-snippet.module').then(m => m.EntrySnippetModule)
+      },
+      {
         path: 'entries/links',
         loadChildren: () =>
           import('../entry-link/entry-link.module').then(m => m.EntryLinkModule)

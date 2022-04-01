@@ -47,7 +47,10 @@ export class EntryListComponent implements OnInit, OnDestroy {
         this.entryTypeDesc = "Notes";
       } else if (this.entryType == EntryType.LINK) {
         this.entryTypeDesc = "Links";
+      } else if (this.entryType == EntryType.SNIPPET) {
+        this.entryTypeDesc = "Snippets";
       }
+
       this.entryFilterService.updateToType(this.entryType);
       this.entryFilterService.applyParams(params);
 
@@ -61,7 +64,7 @@ export class EntryListComponent implements OnInit, OnDestroy {
           this.entryPage = page;
         });
       }
-    })
+    });
   }
 
   onPageChange(newPage: number) {

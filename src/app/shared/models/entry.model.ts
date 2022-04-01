@@ -37,6 +37,7 @@ export interface NewEntry {
 export enum EntryType {
   LINK = "link",
   NOTE = "note",
+  SNIPPET = "snippet",
   ENTRIES = "entry"
 }
 

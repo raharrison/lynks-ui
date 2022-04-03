@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 
 import * as authContainers from './containers';
 import {RouteData} from "@shared/models";
+import {LoggedOutGuard} from "@shared/guards/logged-out.guard";
 
 export const ROUTES: Routes = [
     {
@@ -10,30 +11,30 @@ export const ROUTES: Routes = [
         pathMatch: 'full',
         redirectTo: 'login',
     },
-    {
-        path: 'login',
-        canActivate: [],
-        component: authContainers.LoginComponent,
-        data: {
-          title: 'Login',
-        } as RouteData,
-    },
-    {
-        path: 'register',
-        canActivate: [],
-        component: authContainers.RegisterComponent,
-        data: {
-          title: 'Register',
-        } as RouteData,
-    },
-    {
-        path: 'forgot-password',
-        canActivate: [],
-        component: authContainers.ForgotPasswordComponent,
-        data: {
-          title: 'Forgot Password',
-        } as RouteData,
-    },
+  {
+    path: 'login',
+    canActivate: [LoggedOutGuard],
+    component: authContainers.LoginComponent,
+    data: {
+      title: 'Login',
+    } as RouteData,
+  },
+  {
+    path: 'register',
+    canActivate: [LoggedOutGuard],
+    component: authContainers.RegisterComponent,
+    data: {
+      title: 'Register',
+    } as RouteData,
+  },
+  {
+    path: 'forgot-password',
+    canActivate: [LoggedOutGuard],
+    component: authContainers.ForgotPasswordComponent,
+    data: {
+      title: 'Forgot Password',
+    } as RouteData,
+  },
 ];
 
 @NgModule({

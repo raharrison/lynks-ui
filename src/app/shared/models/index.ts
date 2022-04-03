@@ -1,4 +1,5 @@
 export * from './user.model';
+export * from './auth.model';
 export * from './route-data.model';
 export * from './discussion.model';
 export * from './entry.model';

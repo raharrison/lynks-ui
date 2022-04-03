@@ -2,11 +2,13 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
 import * as dashboardContainers from './containers';
+import {LoggedInGuard} from "@shared/guards/logged-in.guard";
 
 export const ROUTES: Routes = [
   {
     path: '',
     component: dashboardContainers.DashboardComponent,
+    canActivate: [LoggedInGuard],
     children: [
       {
         path: '',

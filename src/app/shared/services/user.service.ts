@@ -1,28 +1,57 @@
 import {Injectable} from '@angular/core';
-import {Observable, ReplaySubject} from 'rxjs';
-
-import {User} from "@shared/models";
-
-const userSubject: ReplaySubject<User> = new ReplaySubject(1);
+import {HttpBackend, HttpClient} from "@angular/common/http";
+import {Observable, ReplaySubject, switchMap, tap} from 'rxjs';
+import {AuthRequest, User} from "@shared/models";
+import {ResponseHandlerService} from "@shared/services/response-handler.service";
 
 @Injectable({
-    providedIn: 'root',
+  providedIn: 'root',
 })
 export class UserService {
-    constructor() {
-        this.user = {
-            id: '123',
-            firstName: 'Bob',
-            lastName: 'Smith',
-            email: 'no-reply@bobsmith.com',
-        };
-    }
 
-    set user(user: User) {
-        userSubject.next(user);
-    }
+  private http: HttpClient;
+  private userSubject: ReplaySubject<User> = new ReplaySubject(1);
 
-    get user$(): Observable<User> {
-        return userSubject.asObservable();
-    }
+  constructor(private responseHandler: ResponseHandlerService,
+              httpBackend: HttpBackend) {
+    this.http = new HttpClient(httpBackend); // prevent cyclic dependency
+    this.getCurrentUser().subscribe();
+  }
+
+  set user(user: User) {
+    this.userSubject.next(user);
+  }
+
+  get user$(): Observable<User> {
+    return this.userSubject.asObservable();
+  }
+
+  getCurrentUser(): Observable<User> {
+    return this.http.get<User>("/api/user")
+      .pipe(tap({
+        next: user => this.user = user,
+        error: () => this.logoutUser()
+      }));
+  }
+
+  login(loginRequest: AuthRequest): Observable<User> {
+    return this.http.post("/api/login", loginRequest)
+      .pipe(
+        switchMap(() => this.getCurrentUser()),
+        tap({error: () => this.logoutUser()}),
+        this.responseHandler.handleResponseError("Unable to login, check your details"),
+      );
+  }
+
+  logout(): Observable<any> {
+    return this.http.post("/api/logout", null)
+      .pipe(
+        tap(() => this.logoutUser()),
+        this.responseHandler.handleResponseError("Unable to logout at this time")
+      );
+  }
+
+  logoutUser() {
+    this.user = null;
+  }
 }

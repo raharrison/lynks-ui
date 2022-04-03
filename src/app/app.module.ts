@@ -1,4 +1,4 @@
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -9,6 +9,7 @@ import {SharedModule} from "@shared/shared.module";
 import {HIGHLIGHT_OPTIONS} from "ngx-highlightjs";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {LoadingBarHttpClientModule} from "@ngx-loading-bar/http-client";
+import {AuthInterceptor} from "@shared/interceptors/auth.interceptor";
 
 function getHighlightLanguages() {
   return {
@@ -46,14 +47,20 @@ function getHighlightLanguages() {
     LoadingBarHttpClientModule,
     SharedModule,
   ],
-  providers: [{
-    provide: HIGHLIGHT_OPTIONS,
-    useValue: {
-      coreLibraryLoader: () => import('highlight.js/lib/core'),
-      lineNumbers: false,
-      languages: getHighlightLanguages()
-    }
-  }],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
+    {
+      provide: HIGHLIGHT_OPTIONS,
+      useValue: {
+        coreLibraryLoader: () => import('highlight.js/lib/core'),
+        lineNumbers: false,
+        languages: getHighlightLanguages()
+      }
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule {

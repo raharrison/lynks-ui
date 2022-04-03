@@ -16,6 +16,7 @@ export class RouteProviderService {
   readonly baseEntryPath = "/entries";
   readonly groupsPath = "/groups";
   readonly notificationsPath = "/notifications";
+  readonly loginPath = "/auth/login";
 
   readonly entryDefsByType: { [key in EntryType]?: EntryRouteDef } = {
     [EntryType.ENTRIES]: {name: "Entries", path: this.baseEntryPath, type: EntryType.ENTRIES, icon: "table"},

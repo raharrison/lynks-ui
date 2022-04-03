@@ -6,7 +6,7 @@
   <div class="dropdown-menu dropdown-menu-right" ngbDropdownMenu aria-labelledby="dropdownUser">
     <h6 class="dropdown-header">
       <div class="dropdown-user-details">
-        <div class="dropdown-user-details-name">{{ user.firstName }} {{ user.lastName }}</div>
+        <div class="dropdown-user-details-name">{{user.displayName ?? user.username}}</div>
         <div class="dropdown-user-details-email">{{ user.email }}</div>
       </div>
     </h6>
@@ -14,6 +14,6 @@
     <a class="dropdown-item" routerLink="/">Settings</a>
     <a class="dropdown-item" routerLink="/">Activity Log</a>
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item" routerLink="/">Logout</a>
+    <a class="dropdown-item cursor-pointer" (click)="onLogoutSubmit()">Logout</a>
   </div>
 </li>

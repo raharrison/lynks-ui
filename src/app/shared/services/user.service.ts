@@ -47,11 +47,16 @@ export class UserService {
     return this.http.post("/api/logout", null)
       .pipe(
         tap(() => this.logoutUser()),
-        this.responseHandler.handleResponseError("Unable to logout at this time")
+        this.responseHandler.handleResponse("Successfully logged out", "Unable to logout at this time")
       );
   }
 
   logoutUser() {
     this.user = null;
+  }
+
+  register(user: User): Observable<User> {
+    return this.http.post<User>("/api/user/register", user)
+      .pipe(this.responseHandler.handleResponse("New user successfully registered", "Unable to register new user at this time"));
   }
 }

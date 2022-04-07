@@ -14,14 +14,15 @@
 
     // Wraps the content when using the sidenav layout
     #layoutSidenav_content {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        min-width: 0;
-        flex-grow: 1;
-        min-height: calc(100vh - #{$topnav-base-height});
-        margin-left: -$sidenav-base-width;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-width: 0;
+      flex-grow: 1;
+      min-height: calc(100vh - #{$topnav-base-height});
+      margin-left: -$sidenav-base-width;
+      background-color: #f9f9f9;
     }
 }
 

@@ -17,6 +17,14 @@ export const ROUTES: Routes = [
     data: {
       title: 'User Settings',
     } as RouteData,
+  },
+  {
+    path: 'activity',
+    canActivate: [],
+    component: userContainers.UserActivityLogComponent,
+    data: {
+      title: 'User Activity',
+    } as RouteData,
   }
 ];
 

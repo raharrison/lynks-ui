@@ -1,0 +1,62 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="d-flex align-items-center pb-2">
+      <h2>Activity Log</h2>
+      <div class="ms-auto">
+        <button type="button" class="btn btn-sm btn-outline-secondary" (click)="loadActivityLog()">
+          <i class="fa-solid fa-refresh"></i> Refresh
+        </button>
+      </div>
+    </div>
+    <hr>
+
+    <lks-loader [loadingStatus]="loadingStatus" entity="activity log">
+      <div *ngIf="loadingStatus == 'loaded' && activityPage?.content?.length == 0">
+        <div class="text-center">
+          <i class="fa-solid fa-search fa-2x"></i>
+          <h5 class="text-center">No activity found</h5>
+        </div>
+      </div>
+      <div class="mb-2" *ngIf="loadingStatus == 'loaded' && activityPage?.content?.length > 0">
+        <div class="card mb-2" *ngFor="let logItem of activityPage.content">
+          <div class="card-body">
+            <div class="d-flex align-content-center">
+              <div class="flex-shrink-0 align-self-center">
+                <i class="fa-solid" [ngClass]="resolveEntryIcon(logItem.entryType)"></i>
+              </div>
+              <div class="flex-grow-1 ms-3">
+                <div class="d-flex">
+                  <div class="flex-grow-1">
+                    <span class="card-text">{{logItem.details}}</span> - <span>{{logItem.src}}</span>
+                    <div class="d-flex mt-1">
+                      <a class="align-self-center card-subtitle text-muted title me-2"
+                         [routerLink]="[resolveEntryHref(logItem.entryType), logItem.entryId]">
+                        {{logItem.entryTitle}}
+                      </a>
+                    </div>
+                  </div>
+                  <div class="align-self-center ms-auto">
+                    <span>({{logItem.id}}) </span>
+                    <lks-time-ago [date]="logItem.timestamp"></lks-time-ago>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ngb-pagination class="d-flex justify-content-center"
+                        (pageChange)="onPageChange($event)"
+                        [collectionSize]="activityPage.total"
+                        [pageSize]="activityPage.size"
+                        [page]="activityPage.page"
+                        [boundaryLinks]="true"
+                        [maxSize]="8"
+                        [rotate]="true">
+        </ngb-pagination>
+      </div>
+    </lks-loader>
+
+  </div>
+</div>
+
+

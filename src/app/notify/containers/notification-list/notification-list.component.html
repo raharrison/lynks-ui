@@ -29,7 +29,7 @@
           <h5 class="text-center">No notifications found</h5>
         </div>
       </div>
-      <div class="mb-2" *ngIf="loadingStatus == 'loaded' && notificationPage?.content?.length > 0">
+      <div *ngIf="loadingStatus == 'loaded' && notificationPage?.content?.length > 0">
         <div class="card mb-2" *ngFor="let notification of notificationPage.content">
           <div class="card-body" [ngClass]="notification.read ? 'card-read' : 'card-unread'" (click)="markRead(notification)">
             <div class="d-flex align-content-center">

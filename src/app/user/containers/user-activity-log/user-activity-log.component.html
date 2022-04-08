@@ -17,7 +17,7 @@
           <h5 class="text-center">No activity found</h5>
         </div>
       </div>
-      <div class="mb-2" *ngIf="loadingStatus == 'loaded' && activityPage?.content?.length > 0">
+      <div *ngIf="loadingStatus == 'loaded' && activityPage?.content?.length > 0">
         <div class="card mb-2" *ngFor="let logItem of activityPage.content">
           <div class="card-body">
             <div class="d-flex align-content-center">

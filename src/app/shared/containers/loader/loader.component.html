@@ -1,4 +1,4 @@
-<div class="mb-3" [ngSwitch]="loadingStatus">
+<div class="pb-3" [ngSwitch]="loadingStatus">
   <lks-loading-spinner *ngSwitchCase="LoadingStatus.LOADING" [small]="small"></lks-loading-spinner>
 
   <ng-container *ngSwitchCase="LoadingStatus.LOADED">

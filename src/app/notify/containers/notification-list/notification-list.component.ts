@@ -57,7 +57,9 @@ export class NotificationListComponent implements OnInit {
   }
 
   markRead(notification: Notification) {
-    this.notifyService.markRead(notification.id).subscribe(_ => notification.read = true);
+    if (!notification.read) {
+      this.notifyService.markRead(notification.id).subscribe(_ => notification.read = true);
+    }
   }
 
   markAllRead() {

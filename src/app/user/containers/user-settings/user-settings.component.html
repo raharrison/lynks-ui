@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="pb-2">
+      <h2>User Settings</h2>
+    </div>
+    <hr>
+
+    <lks-loader [loadingStatus]="loadingStatus" entity="user profile">
+      <div class="pb-3">
+        <lks-user-profile [user]="user"></lks-user-profile>
+      </div>
+
+      <hr>
+      <div class="pt-3 pb-3">
+        <lks-user-change-password [user]="user"></lks-user-change-password>
+      </div>
+    </lks-loader>
+
+  </div>
+</div>
+
+

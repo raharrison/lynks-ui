@@ -29,7 +29,7 @@ export class ResponseHandlerService {
       error: error => {
         ResponseHandlerService.handleError(error);
         if (error.error) {
-          this.toastrService.error(`${errorMessage}: ${error.error}`, "Error");
+          this.toastrService.error(error.error, errorMessage);
         } else {
           this.toastrService.error(errorMessage, "Error");
         }

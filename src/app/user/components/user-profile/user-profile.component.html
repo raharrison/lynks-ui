@@ -1,0 +1,30 @@
+<div class="card">
+  <h5 class="card-header"><i class="fa-solid fa-address-card fa-xs"></i> Profile</h5>
+  <div class="card-body">
+    <form (ngSubmit)="onSubmit()" [formGroup]="profileForm">
+      <div class="mb-3">
+        <label for="displayNameInput" class="form-label">Display Name</label>
+        <input type="text" class="form-control" id="displayNameInput" name="displayNameInput" placeholder="Bob Smith"
+               formControlName="displayName">
+      </div>
+      <div class="mb-3">
+        <label for="emailInput" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="emailInput" name="emailInput" placeholder="name@example.com"
+               formControlName="email" [ngClass]="email.touched && email.invalid ? 'is-invalid' : ''">
+        <div class="invalid-feedback">
+          Please provide a valid email address
+        </div>
+      </div>
+      <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="digestInput" name="digestInput" aria-describedby="digestHelp"
+               formControlName="digest">
+        <label class="form-check-label" for="digestInput">Send Digest Emails</label>
+        <div id="digestHelp" class="form-text">We'll send you a weekly email of links in your collection that remain unread.</div>
+      </div>
+      <button class="btn btn-primary" [disabled]="saving || !profileForm.valid">
+        <span *ngIf="saving" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <i *ngIf="!saving" class="fa-solid fa-save" aria-hidden="true"></i> Save Profile
+      </button>
+    </form>
+  </div>
+</div>

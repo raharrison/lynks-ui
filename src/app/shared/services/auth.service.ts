@@ -7,7 +7,7 @@ import {ResponseHandlerService} from "@shared/services/response-handler.service"
 @Injectable({
   providedIn: 'root',
 })
-export class UserService {
+export class AuthService {
 
   private http: HttpClient;
   private userSubject: ReplaySubject<User> = new ReplaySubject(1);
@@ -55,7 +55,7 @@ export class UserService {
     this.user = null;
   }
 
-  register(user: User): Observable<User> {
+  register(user: AuthRequest): Observable<User> {
     return this.http.post<User>("/api/user/register", user)
       .pipe(this.responseHandler.handleResponse("New user successfully registered", "Unable to register new user at this time"));
   }

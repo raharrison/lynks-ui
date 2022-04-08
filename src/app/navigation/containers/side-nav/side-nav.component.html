@@ -69,6 +69,6 @@
   </ng-scrollbar>
   <div class="lks-sidenav-footer">
     <div class="small">Logged in as:</div>
-    <span *ngIf="userService.user$ | async as user">{{user.displayName ?? user.username}}</span>
+    <span *ngIf="authService.user$ | async as user">{{user.displayName ?? user.username}}</span>
   </div>
 </nav>

@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {UserService} from '@app/shared/services/user.service';
+import {AuthService} from '@shared/services/auth.service';
 import {Router} from "@angular/router";
 import {RouteProviderService} from "@shared/services/route-provider.service";
 
@@ -12,11 +12,11 @@ import {RouteProviderService} from "@shared/services/route-provider.service";
 export class TopNavUserComponent {
   constructor(private router: Router,
               private routeProvider: RouteProviderService,
-              public userService: UserService) {
+              public authService: AuthService) {
   }
 
   onLogoutSubmit() {
-    this.userService.logout().subscribe({
+    this.authService.logout().subscribe({
       next: () => this.router.navigate([this.routeProvider.loginPath])
     })
   }

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {UserService} from "@shared/services/user.service";
+import {AuthService} from "@shared/services/auth.service";
 import {AuthRequest} from "@shared/models";
 
 @Component({
@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
   loginRequest: AuthRequest;
 
   constructor(private router: Router,
-              private userService: UserService) {
+              private authService: AuthService) {
     this.loginRequest = {
       username: "",
       password: ""
@@ -21,11 +21,11 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.logoutUser();
+    this.authService.logoutUser();
   }
 
   onLoginSubmit() {
-    this.userService.login(this.loginRequest).subscribe({
+    this.authService.login(this.loginRequest).subscribe({
       next: () => {
         this.router.navigate(["/"]);
       },

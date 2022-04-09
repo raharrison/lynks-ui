@@ -31,7 +31,10 @@ export class NotifyService {
       params.direction = sortConfig.direction;
     }
     return this.http.get<Page<Notification>>("/api/notifications", {params})
-      .pipe(this.responseHandler.handleResponseError("Unable to retrieve notifications"));
+      .pipe(
+        tap(() => this.updateUnreadCount()),
+        this.responseHandler.handleResponseError("Unable to retrieve notifications")
+      );
   }
 
   markRead(notificationId: string): Observable<any> {

@@ -26,7 +26,7 @@ export class NotificationListComponent implements OnInit {
   currentPage: number = 1;
 
   constructor(private routeProvider: RouteProviderService,
-              private notifyService: NotifyService) {
+              public notifyService: NotifyService) {
   }
 
   ngOnInit(): void {

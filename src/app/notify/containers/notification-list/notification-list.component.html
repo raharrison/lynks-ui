@@ -2,6 +2,7 @@
   <div class="col-md-12">
     <div class="d-flex align-items-center pb-2">
       <h2>Notifications</h2>
+      <span class="ms-2 text-muted">({{notifyService.$unreadCount | async}} unread items)</span>
       <div class="ms-auto">
         <div ngbDropdown class="d-inline-block me-2">
           <button ngbDropdownToggle id="sortByToggle" type="button" class="btn dropdown-toggle" data-toggle="dropdown">Sort By <span

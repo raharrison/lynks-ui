@@ -1,6 +1,12 @@
 @import 'src/styles/variables';
 
-.notification-button {
-  color: $navbar-dark-color;
-  cursor: pointer;
+.notification-icon {
+  position: relative;
+
+  span {
+    position: absolute;
+    top: 5%;
+    right: 15%;
+    display: block;
+  }
 }

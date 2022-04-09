@@ -45,8 +45,13 @@
     </div>
   </form>
   <!-- Navbar Notifications -->
-  <div class="notification-button navbar-nav ms-auto ms-md-0 me-2" [routerLink]="routeProvider.notificationsPath">
-    <i class="fa-solid fa-bell fa-lg"></i>
+  <div class="navbar-nav ms-auto ms-md-0 me-2">
+    <a class="nav-link nav-icon notification-icon" [routerLink]="routeProvider.notificationsPath">
+      <i class="fa-solid fa-bell fa-lg"></i>
+      <span class="p-1 bg-danger border border-light rounded-circle" *ngIf="notifyService.$unreadCount | async">
+        <span class="visually-hidden">New notifications</span>
+      </span>
+    </a>
   </div>
   <!-- Navbar User -->
   <ul class="navbar-nav ms-auto ms-md-0 me-2">

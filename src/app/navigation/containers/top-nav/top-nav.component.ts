@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {NavigationService} from '@app/navigation/services';
 import {EntryFilterService} from "@shared/services/entry-filter.service";
 import {RouteProviderService} from "@shared/services/route-provider.service";
+import {NotifyService} from "@app/notify/services";
 
 @Component({
   selector: 'lks-top-nav',
@@ -20,7 +21,8 @@ export class TopNavComponent implements OnInit, OnDestroy {
               private changeDetectorRef: ChangeDetectorRef,
               private navigationService: NavigationService,
               public routeProvider: RouteProviderService,
-              private entryFilterService: EntryFilterService) {
+              private entryFilterService: EntryFilterService,
+              public notifyService: NotifyService) {
   }
 
   ngOnInit(): void {

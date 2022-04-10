@@ -41,6 +41,9 @@ export class AttachmentViewComponent implements OnInit, OnDestroy {
   @Input()
   attachmentId: string;
 
+  @Input()
+  fullViewer: boolean = true;
+
   attachment: Attachment;
   attachmentUrl: SafeUrl;
 

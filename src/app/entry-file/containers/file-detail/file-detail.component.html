@@ -11,9 +11,9 @@
     <div class="row" *ngIf="mainAttachmentId">
       <div class="col-md-12 mb-4">
         <lks-card [isCollapsed]="true" [preserveElements]="false" headerStyles="bg-primary text-white">
-          <span header><i class="ms-3 fa-solid fa-circle fa-sm"></i> View</span>
+          <span header><i class="ms-3 fa-solid fa-circle fa-sm"></i> Preview</span>
           <content>
-            <lks-attachment-view [entryId]="file.id" [attachmentId]="mainAttachmentId"></lks-attachment-view>
+            <lks-attachment-view [entryId]="file.id" [attachmentId]="mainAttachmentId" [fullViewer]="false"></lks-attachment-view>
           </content>
         </lks-card>
       </div>
@@ -21,7 +21,7 @@
 
     <div class="row">
       <div class="col-md-12 mb-4">
-        <lks-card [isCollapsed]="false">
+        <lks-card [isCollapsed]="true">
           <span header> Attachments:</span>
           <content>
             <lks-attachment-list [entryId]="file?.id" (onLoaded)="onAttachmentsLoaded($event)"></lks-attachment-list>

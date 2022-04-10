@@ -1,17 +1,21 @@
-<lks-loader [loadingStatus]="loadingStatus" entity="snippet">
+<lks-loader [loadingStatus]="loadingStatus" entity="file">
   <div class="row" *ngIf="loadingStatus != 'loading'">
     <div class="col-md-12 card card-body">
-      <h2 class="mb-3">{{updateMode ? "Update Snippet" : "New Snippet"}}</h2>
+      <h2 class="mb-3">{{updateMode ? "Update File" : "New File"}}</h2>
 
-      <div *ngIf="snippet.plainText.length > 150" class="alert alert-warning" role="alert">
-        This snippet is getting quite long, consider creating a <a [routerLink]="routeProvider.createEntryByType[EntryType.NOTE].path">New Note</a>
-        instead
-      </div>
-
-      <form #snippetForm="ngForm">
+      <form #fileForm="ngForm">
         <div class="mb-3">
-          <label class="form-label" for="plainText">Content</label>
-          <lks-markdown-editor [(ngModel)]="snippet.plainText" name="plainText" id="plainText" required></lks-markdown-editor>
+          <label class="form-label" for="fileTitle">Title</label>
+          <input [(ngModel)]="file.title" id="fileTitle" name="title" type="text" class="form-control form-control-lg title-input"
+                 placeholder="Enter title (required)" required #title="ngModel">
+          <div [hidden]="title.valid || title.pristine" class="alert alert-danger">
+            Title is required
+          </div>
+        </div>
+
+        <div class="mb-3" *ngIf="!updateMode">
+          <lks-attachment-upload [entryId]="file.id" (fileChanged)="onFileSelected($event)" [standalone]="false"></lks-attachment-upload>
+          <input type="checkbox" class="d-none" name="isFileSelected" [(ngModel)]="isFileSelected" required/>
         </div>
 
         <div class="mb-3">
@@ -30,14 +34,14 @@
 
           <div class="btn-group me-3">
             <button (click)="onSubmit(true)" type="submit" class="btn btn-success ps-4" [ngClass]="updateMode ? 'pe-3' : 'pe-4'"
-                    [disabled]="saving || !snippetForm.form.valid">
+                    [disabled]="saving || !fileForm.form.valid">
               <span *ngIf="saving" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
               <i *ngIf="!saving" class="fa-solid fa-save" aria-hidden="true"></i>
               &nbsp;{{saving ? "Saving.." : updateMode ? "Save" : "Create"}}
             </button>
             <div *ngIf="updateMode" class="btn-group" ngbDropdown role="group" aria-label="Save without new version dropdown">
               <button (click)="$event.preventDefault()" class="btn btn-success dropdown-toggle-split" ngbDropdownToggle
-                      [disabled]="saving || !snippetForm.form.valid"></button>
+                      [disabled]="saving || !fileForm.form.valid"></button>
               <div class="dropdown-menu" ngbDropdownMenu>
                 <button type="submit" (click)="onSubmit(false)" ngbDropdownItem>Save without version</button>
               </div>

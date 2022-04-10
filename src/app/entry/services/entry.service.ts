@@ -12,6 +12,7 @@ import {EntryFilter} from "@shared/models/entry-filter.model";
 import {LoadingStatus} from "@shared/models/loading-status.model";
 import {EntryResource} from "@app/entry/services/entry-resource";
 import {SnippetService} from "@app/entry/services/snippet.service";
+import {FileService} from "@app/entry/services/file.service";
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,7 @@ export class EntryService {
               private entryFilterService: EntryFilterService,
               private noteService: NoteService,
               private snippetService: SnippetService,
+              private fileService: FileService,
               private linkService: LinkService) {
   }
 
@@ -113,6 +115,8 @@ export class EntryService {
       return this.noteService;
     } else if (type == EntryType.SNIPPET) {
       return this.snippetService;
+    } else if (type == EntryType.FILE) {
+      return this.fileService;
     } else {
       throw new TypeError("Unknown entry type: " + type);
     }

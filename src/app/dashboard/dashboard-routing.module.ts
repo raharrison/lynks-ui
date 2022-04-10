@@ -23,22 +23,27 @@ export const ROUTES: Routes = [
       {
         path: 'entries/notes',
         loadChildren: () =>
-          import('../entry-note/entry-note.module').then(m => m.EntryNoteModule)
+            import('../entry-note/entry-note.module').then(m => m.EntryNoteModule)
       },
       {
         path: 'entries/snippets',
         loadChildren: () =>
-          import('../entry-snippet/entry-snippet.module').then(m => m.EntrySnippetModule)
+            import('../entry-snippet/entry-snippet.module').then(m => m.EntrySnippetModule)
+      },
+      {
+        path: 'entries/files',
+        loadChildren: () =>
+            import('../entry-file/entry-file.module').then(m => m.EntryFileModule)
       },
       {
         path: 'entries/links',
         loadChildren: () =>
-          import('../entry-link/entry-link.module').then(m => m.EntryLinkModule)
+            import('../entry-link/entry-link.module').then(m => m.EntryLinkModule)
       },
       {
         path: 'groups',
         loadChildren: () =>
-          import('../group/group.module').then(m => m.GroupModule),
+            import('../group/group.module').then(m => m.GroupModule),
       },
       {
         path: 'notifications',

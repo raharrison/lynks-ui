@@ -52,6 +52,8 @@ export class EntryListComponent implements OnInit, OnDestroy {
         this.entryTypeDesc = "Links";
       } else if (this.entryType == EntryType.SNIPPET) {
         this.entryTypeDesc = "Snippets";
+      } else if (this.entryType == EntryType.FILE) {
+        this.entryTypeDesc = "Files";
       }
 
       this.entryFilterService.updateToType(this.entryType);

@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {NgForm} from "@angular/forms";
 import {HttpEvent, HttpEventType} from "@angular/common/http";
 import {Attachment} from "@app/attachment/models";
 import {AttachmentService} from "@app/attachment/services/attachment.service";
@@ -14,8 +13,15 @@ export class AttachmentUploadComponent {
   @Input()
   entryId: string;
 
+  // whether to include upload button or rely on external component to submit
+  @Input()
+  standalone: boolean = true;
+
   @Output()
   attachmentUploaded = new EventEmitter<Attachment>();
+
+  @Output()
+  fileChanged = new EventEmitter<string>();
 
   // handle to the upload component filename
   fileToUploadName: string;
@@ -28,9 +34,10 @@ export class AttachmentUploadComponent {
 
   handleFileInput(event) {
     this.fileToUpload = event.target.files.item(0);
+    this.fileChanged.next(this.fileToUpload?.name);
   }
 
-  onSubmit(attachmentForm: NgForm) {
+  onSubmit() {
     this.attachmentService.uploadAttachment(this.entryId, this.fileToUpload)
       .subscribe({
         next: (event: HttpEvent<any>) => {
@@ -44,12 +51,13 @@ export class AttachmentUploadComponent {
                 this.fileToUpload = null;
                 // blank out the file component after upload
                 this.fileToUploadName = '';
-                attachmentForm.form.reset();
                 this.attachmentUploaded.emit(event.body);
               }, 500);
           }
-        }, error: () => {
+        },
+        error: err => {
           this.uploadProgress = 0;
+          this.attachmentUploaded.error(err);
         }
       });
   }

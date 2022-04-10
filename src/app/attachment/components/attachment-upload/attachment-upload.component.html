@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-body">
-    <form (ngSubmit)="onSubmit(attachmentForm)" #attachmentForm="ngForm">
+    <form (ngSubmit)="onSubmit()" #attachmentForm="ngForm">
       <div class="mb-3">
         <input type="file" (change)="handleFileInput($event)"
                class="form-control"
@@ -10,7 +10,7 @@
                required>
       </div>
       <div class="d-flex align-items-center">
-        <button type="submit" class="btn btn-success" [disabled]="!attachmentForm.form.valid || uploadProgress > 0">
+        <button type="submit" class="btn btn-success" [disabled]="!attachmentForm.form.valid || uploadProgress > 0" *ngIf="standalone">
           <span *ngIf="uploadProgress > 0" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
           <i *ngIf="uploadProgress == 0" class="fa-solid fa-upload" aria-hidden="true"></i> {{ uploadProgress > 0 ? "Uploading.." : "Upload" }}
         </button>

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {DomSanitizer, SafeUrl, Title} from "@angular/platform-browser";
 import {HighlightJS} from "ngx-highlightjs";
@@ -36,8 +36,11 @@ export class AttachmentViewComponent implements OnInit, OnDestroy {
   loadingAttachmentStatus: LoadingStatus = LoadingStatus.LOADING;
   loadingAttachmentDataStatus: LoadingStatus = LoadingStatus.LOADED;
 
+  @Input()
   entryId: string;
+  @Input()
   attachmentId: string;
+
   attachment: Attachment;
   attachmentUrl: SafeUrl;
 
@@ -56,8 +59,8 @@ export class AttachmentViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.entryId = this.route.snapshot.paramMap.get("id");
-    this.attachmentId = this.route.snapshot.paramMap.get("attachmentId");
+    this.entryId = this.entryId || this.route.snapshot.paramMap.get("id");
+    this.attachmentId = this.attachmentId || this.route.snapshot.paramMap.get("attachmentId");
     const unsafeUrl = this.attachmentService.createDownloadLink(this.entryId, this.attachmentId);
     this.attachmentUrl = this.sanitizer.bypassSecurityTrustResourceUrl(unsafeUrl);
 

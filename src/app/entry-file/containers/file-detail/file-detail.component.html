@@ -1,0 +1,36 @@
+<lks-loader [loadingStatus]="loadingStatus" entity="file">
+  <ng-container *ngIf="file">
+    <lks-entry-detail-header [entry]="file" [previousVersion]="!!version"></lks-entry-detail-header>
+
+    <div class="row">
+      <div class="col-md-12 mb-4">
+        <lks-entry-detail-metadata [entry]="file"></lks-entry-detail-metadata>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="mainAttachmentId">
+      <div class="col-md-12 mb-4">
+        <lks-card [isCollapsed]="true" [preserveElements]="false" headerStyles="bg-primary text-white">
+          <span header><i class="ms-3 fa-solid fa-circle fa-sm"></i> View</span>
+          <content>
+            <lks-attachment-view [entryId]="file.id" [attachmentId]="mainAttachmentId"></lks-attachment-view>
+          </content>
+        </lks-card>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 mb-4">
+        <lks-card [isCollapsed]="false">
+          <span header> Attachments:</span>
+          <content>
+            <lks-attachment-list [entryId]="file?.id" (onLoaded)="onAttachmentsLoaded($event)"></lks-attachment-list>
+          </content>
+        </lks-card>
+      </div>
+    </div>
+
+    <lks-entry-tabs [entry]="file"></lks-entry-tabs>
+  </ng-container>
+</lks-loader>
+

@@ -25,6 +25,11 @@ export const ROUTES: Routes = [
     path: 'snippets',
     data: {entryType: EntryType.SNIPPET, title: "Snippets"},
     component: EntryListComponent,
+  },
+  {
+    path: 'files',
+    data: {entryType: EntryType.FILE, title: "Files"},
+    component: EntryListComponent,
   }
 ];
 

@@ -48,6 +48,7 @@
         <lks-note-list-item *ngSwitchCase="EntryType.NOTE" [note]="$any(entry)"></lks-note-list-item>
         <lks-link-list-item *ngSwitchCase="EntryType.LINK" [link]="$any(entry)"></lks-link-list-item>
         <lks-snippet-list-item *ngSwitchCase="EntryType.SNIPPET" [snippet]="$any(entry)"></lks-snippet-list-item>
+        <lks-file-list-item *ngSwitchCase="EntryType.FILE" [file]="$any(entry)"></lks-file-list-item>
       </ng-container>
       <hr>
     </div>

@@ -38,6 +38,7 @@ export enum EntryType {
   LINK = "link",
   NOTE = "note",
   SNIPPET = "snippet",
+  FILE = "file",
   ENTRIES = "entry"
 }
 

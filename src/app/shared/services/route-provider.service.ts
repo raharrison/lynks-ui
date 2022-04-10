@@ -27,7 +27,8 @@ export class RouteProviderService {
       path: `${this.baseEntryPath}/snippets`,
       type: EntryType.SNIPPET,
       icon: "sticky-note"
-    }
+    },
+    [EntryType.FILE]: {name: "Files", path: `${this.baseEntryPath}/files`, type: EntryType.FILE, icon: "file"},
   };
 
   get entryDefs(): EntryRouteDef[] {
@@ -37,7 +38,8 @@ export class RouteProviderService {
   readonly createEntryByType: { [key in EntryType]?: EntryRouteDef } = {
     [EntryType.LINK]: {name: "Link", path: `${this.baseEntryPath}/links/create`, type: EntryType.LINK},
     [EntryType.NOTE]: {name: "Note", path: `${this.baseEntryPath}/notes/create`, type: EntryType.NOTE},
-    [EntryType.SNIPPET]: {name: "Snippet", path: `${this.baseEntryPath}/snippets/create`, type: EntryType.SNIPPET}
+    [EntryType.SNIPPET]: {name: "Snippet", path: `${this.baseEntryPath}/snippets/create`, type: EntryType.SNIPPET},
+    [EntryType.FILE]: {name: "File", path: `${this.baseEntryPath}/files/create`, type: EntryType.FILE}
   }
 
   get createEntryItems(): EntryRouteDef[] {

@@ -1,41 +1,41 @@
 <div *ngIf="readableContentAvailable" class="mb-4">
-  <lks-card [isCollapsed]="true" [preserveElements]="false" (onCollapseChange)="loadReadableAttachment($event)" headerStyles="bg-primary text-white">
+  <lks-card [isCollapsed]="true" [lazy]="true" (onCollapseChange)="loadReadableAttachment($event)" headerStyles="bg-primary text-white">
     <span header>
       <i class="ms-3 fa-solid fa-circle fa-sm"></i> Read
     </span>
-    <content>
+    <ng-template>
       <div [innerHTML]="readableContent" class="attachment-page" *ngIf="!readableContentLoading"></div>
       <div class="text-center" *ngIf="readableContentLoading">
         <div class="spinner-border center-loading" role="status">
           <span class="sr-only">Loading...</span>
         </div>
       </div>
-    </content>
+    </ng-template>
   </lks-card>
 </div>
 
 <div *ngIf="link.props?.attributes?.embedUrl" class="mb-4">
-  <lks-card [isCollapsed]="true" [preserveElements]="false" headerStyles="bg-secondary text-white">
+  <lks-card [isCollapsed]="true" [lazy]="true" headerStyles="bg-secondary text-white">
   <span header>
     <i class="ms-3 fa-solid fa-circle fa-sm"></i> Watch
   </span>
-    <content>
+    <ng-template>
       <div class="mt-3">
         <div class="embed-iframe ratio ratio-16x9">
           <iframe class="embed-responsive-item" [src]="link.props.attributes.embedUrl | safeUrl"
                   allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
       </div>
-    </content>
+    </ng-template>
   </lks-card>
 </div>
 
 <div *ngIf="link.props?.attributes?.summary" class="mb-4">
-  <lks-card [isCollapsed]="true" [preserveElements]="false" headerStyles="bg-info text-white">
+  <lks-card [isCollapsed]="true" [lazy]="true" headerStyles="bg-info text-white">
   <span header>
     <i class="ms-3 fa-solid fa-circle fa-sm"></i> Summary
   </span>
-    <content>
+    <ng-template>
       <h4 class="mb-3">{{ link.props.attributes.summary.title }}</h4>
       <lks-markdown-view [markdown]="link.props.attributes.summary.content"></lks-markdown-view>
       <h5>Keywords</h5>
@@ -43,6 +43,6 @@
         <li *ngFor="let keyword of link.props.attributes.summary.keywords">{{keyword}}</li>
       </ol>
       <span>Content reduced by {{ link.props.attributes.summary.reduced }}</span>
-    </content>
+    </ng-template>
   </lks-card>
 </div>

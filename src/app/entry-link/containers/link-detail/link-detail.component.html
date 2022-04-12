@@ -41,9 +41,9 @@
       <div class="col-md-12 mb-4">
         <lks-card [isCollapsed]="false">
           <span header> Attachments:</span>
-          <content>
+          <ng-template>
             <lks-attachment-list [entryId]="link?.id" (onLoaded)="attachments = $event"></lks-attachment-list>
-          </content>
+          </ng-template>
         </lks-card>
       </div>
     </div>

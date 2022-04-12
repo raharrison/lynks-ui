@@ -20,9 +20,9 @@
       <div class="col-md-12 mb-4">
         <lks-card [isCollapsed]="true">
           <span header> Attachments:</span>
-          <content>
+          <ng-template>
             <lks-attachment-list [entryId]="snippet?.id"></lks-attachment-list>
-          </content>
+          </ng-template>
         </lks-card>
       </div>
     </div>

@@ -1,5 +1,6 @@
 <div class="card">
-  <div class="card-header cursor-pointer {{headerStyles}}" style="font-weight: 500" (click)="isCollapsed = !isCollapsed; emitCollapseChange();">
+  <div class="card-header cursor-pointer {{headerStyles}}" style="font-weight: 500"
+       (click)="isCollapsed = !isCollapsed; isInit = true; emitCollapseChange();">
     <a data-toggle="collapse" aria-expanded="true" aria-controls="linkReaderContent">
       <i *ngIf="isCollapsed" class="fa-solid fa-chevron-down"></i>
       <i *ngIf="!isCollapsed" class="fa-solid fa-chevron-up"></i>
@@ -7,8 +8,8 @@
     </a>
   </div>
   <div class="card-body" [ngbCollapse]="isCollapsed">
-    <div *ngIf="preserveElements || !isCollapsed">
-      <ng-content select="content"></ng-content>
+    <div *ngIf="!isCollapsed || isInit">
+      <ng-container *ngTemplateOutlet="detailRef"></ng-container>
     </div>
   </div>
 </div>

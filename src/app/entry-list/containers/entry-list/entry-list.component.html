@@ -43,7 +43,7 @@
     </div>
   </div>
   <div *ngIf="loadingStatus == 'loaded' && entryPage?.content?.length > 0">
-    <div class="entry-list-item list-hover" *ngFor="let entry of entryPage.content">
+    <div class="entry-list-item list-hover" *ngFor="let entry of entryPage.content" [ngClass]="entry.starred ? 'starred' : ''">
       <ng-container [ngSwitch]="entry.type">
         <lks-note-list-item *ngSwitchCase="EntryType.NOTE" [note]="$any(entry)"></lks-note-list-item>
         <lks-link-list-item *ngSwitchCase="EntryType.LINK" [link]="$any(entry)"></lks-link-list-item>

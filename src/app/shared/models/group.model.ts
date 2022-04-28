@@ -28,3 +28,8 @@ export enum GroupType {
   TAG = "tag",
   COLLECTION = "collection"
 }
+
+export interface GroupIdSet {
+  tags: string[]
+  collections: string[]
+}

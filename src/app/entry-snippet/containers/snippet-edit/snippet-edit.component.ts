@@ -4,6 +4,7 @@ import {Collection, EntryType, NewSnippet, Snippet, Tag} from "@shared/models";
 import {LoadingStatus} from "@shared/models/loading-status.model";
 import {SnippetService} from "@app/entry/services/snippet.service";
 import {RouteProviderService} from "@shared/services/route-provider.service";
+import {EntryService} from "@app/entry/services/entry.service";
 
 @Component({
   selector: 'lks-snippet-edit',
@@ -26,6 +27,7 @@ export class SnippetEditComponent implements OnInit {
   constructor(private router: Router,
               private route: ActivatedRoute,
               public routeProvider: RouteProviderService,
+              private entryService: EntryService,
               private snippetService: SnippetService) {
   }
 
@@ -82,20 +84,23 @@ export class SnippetEditComponent implements OnInit {
   }
 
   private updateSnippet(saveNewVersion: boolean) {
-    // only save new version if main fields have changed
-    const forceNewVersion = SnippetEditComponent.checkFieldChanges(this.oldSnippet, this.snippet) ? saveNewVersion : false;
-    this.snippetService.update(this.snippet, forceNewVersion)
-      .subscribe({
-        next: data => {
-          this.saving = false;
-          this.router.navigate([".."], {
-            relativeTo: this.route
-          });
-        },
-        error: () => {
-          this.saving = false;
-        }
-      });
+    const hasFieldChanges = SnippetEditComponent.checkFieldChanges(this.oldSnippet, this.snippet);
+    const hasGroupChanges = this.entryService.haveGroupsChanged(this.oldSnippet, this.selectedTags, this.selectedCollections);
+    let updateCall = this.snippetService.update(this.snippet, hasFieldChanges ? saveNewVersion : false);
+    if (hasGroupChanges && !hasFieldChanges) {
+      updateCall = this.entryService.updateGroups(this.snippet.id, this.selectedTags, this.selectedCollections);
+    }
+    updateCall.subscribe({
+      next: _ => {
+        this.saving = false;
+        this.router.navigate([".."], {
+          relativeTo: this.route
+        });
+      },
+      error: () => {
+        this.saving = false;
+      }
+    });
   }
 
   private static checkFieldChanges(oldSnippet: Snippet, newSnippet: NewSnippet): boolean {

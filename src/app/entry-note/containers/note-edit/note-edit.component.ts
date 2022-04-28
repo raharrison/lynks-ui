@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {Collection, NewNote, Note, Tag} from "@shared/models";
 import {NoteService} from "@app/entry/services/note.service";
+import {EntryService} from "@app/entry/services/entry.service";
 import {LoadingStatus} from "@shared/models/loading-status.model";
 
 @Component({
@@ -23,6 +24,7 @@ export class NoteEditComponent implements OnInit {
 
   constructor(private router: Router,
               private route: ActivatedRoute,
+              private entryService: EntryService,
               private noteService: NoteService) {
   }
 
@@ -81,20 +83,23 @@ export class NoteEditComponent implements OnInit {
   }
 
   private updateNote(saveNewVersion: boolean) {
-    // only save new version if main fields have changed
-    const forceNewVersion = NoteEditComponent.checkFieldChanges(this.oldNote, this.note) ? saveNewVersion : false;
-    this.noteService.update(this.note, forceNewVersion)
-      .subscribe({
-        next: data => {
-          this.saving = false;
-          this.router.navigate([".."], {
-            relativeTo: this.route
-          });
-        },
-        error: () => {
-          this.saving = false;
-        }
-      });
+    const hasFieldChanges = NoteEditComponent.checkFieldChanges(this.oldNote, this.note);
+    const hasGroupChanges = this.entryService.haveGroupsChanged(this.oldNote, this.selectedTags, this.selectedCollections);
+    let updateCall = this.noteService.update(this.note, hasFieldChanges ? saveNewVersion : false);
+    if (hasGroupChanges && !hasFieldChanges) {
+      updateCall = this.entryService.updateGroups(this.note.id, this.selectedTags, this.selectedCollections);
+    }
+    updateCall.subscribe({
+      next: _ => {
+        this.saving = false;
+        this.router.navigate([".."], {
+          relativeTo: this.route
+        });
+      },
+      error: () => {
+        this.saving = false;
+      }
+    });
   }
 
   private static checkFieldChanges(oldNote: Note, newNote: NewNote): boolean {

@@ -4,7 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {NoteService} from "./note.service";
 import {LinkService} from "./link.service";
 import {ResponseHandlerService} from "@shared/services/response-handler.service";
-import {Entry, EntryAuditItem, EntryType, EntryVersion, SlimEntry} from "@shared/models";
+import {Collection, Entry, EntryAuditItem, EntryType, EntryVersion, GroupIdSet, SlimEntry, Tag} from "@shared/models";
 import {Page} from "@shared/models/page.model";
 import {EntryFilterService} from "@shared/services/entry-filter.service";
 import {tap} from "rxjs/operators";
@@ -138,5 +138,23 @@ export class EntryService {
       .pipe(this.responseHandler.handleResponseError(`Unable to ${starPath} entry`));
   }
 
+  updateGroups(entryId: string, tags: Tag[], collections: Collection[]): Observable<any> {
+    const groupSet: GroupIdSet = {tags: tags.map(t => t.id), collections: collections.map(c => c.id)};
+    return this.http.put<any>(`/api/entry/${entryId}/groups`, groupSet)
+      .pipe(this.responseHandler.handleResponse("Entry updated", "Unable to update entry groups"));
+  }
+
+  haveGroupsChanged(old: Entry, newTags: Tag[], newCollections: Collection[]): boolean {
+    const tagDiff = !EntryService.areListsEqual(old.tags.map(t => t.id), newTags.map(t => t.id));
+    const colDiff = !EntryService.areListsEqual(old.collections.map(c => c.id), newCollections.map(c => c.id));
+    return tagDiff || colDiff;
+  }
+
+  private static areListsEqual(left, right): boolean {
+    if (left.length === right.length) {
+      return left.every(element => !!right.includes(element));
+    }
+    return false;
+  }
 
 }

@@ -2,9 +2,9 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {LoadingStatus} from "@shared/models/loading-status.model";
 import {Collection, EntryType, File, NewFile, Tag} from "@shared/models";
 import {ActivatedRoute, Router} from "@angular/router";
-import {RouteProviderService} from "@shared/services/route-provider.service";
 import {FileService} from "@app/entry/services/file.service";
 import {AttachmentUploadComponent} from "@app/attachment/components";
+import {EntryService} from "@app/entry/services/entry.service";
 
 @Component({
   selector: 'lks-file-edit',
@@ -30,7 +30,7 @@ export class FileEditComponent implements OnInit, AfterViewInit {
 
   constructor(private router: Router,
               private route: ActivatedRoute,
-              public routeProvider: RouteProviderService,
+              private entryService: EntryService,
               private fileService: FileService) {
   }
 
@@ -114,20 +114,23 @@ export class FileEditComponent implements OnInit, AfterViewInit {
   }
 
   private updateFile(saveNewVersion: boolean) {
-    // only save new version if main fields have changed
-    const forceNewVersion = FileEditComponent.checkFieldChanges(this.oldFile, this.file) ? saveNewVersion : false;
-    this.fileService.update(this.file, forceNewVersion)
-      .subscribe({
-        next: () => {
-          this.saving = false;
-          this.router.navigate([".."], {
-            relativeTo: this.route
-          });
-        },
-        error: () => {
-          this.saving = false;
-        }
-      });
+    const hasFieldChanges = FileEditComponent.checkFieldChanges(this.oldFile, this.file);
+    const hasGroupChanges = this.entryService.haveGroupsChanged(this.oldFile, this.selectedTags, this.selectedCollections);
+    let updateCall = this.fileService.update(this.file, hasFieldChanges ? saveNewVersion : false);
+    if (hasGroupChanges && !hasFieldChanges) {
+      updateCall = this.entryService.updateGroups(this.file.id, this.selectedTags, this.selectedCollections);
+    }
+    updateCall.subscribe({
+      next: () => {
+        this.saving = false;
+        this.router.navigate([".."], {
+          relativeTo: this.route
+        });
+      },
+      error: () => {
+        this.saving = false;
+      }
+    });
   }
 
   private static checkFieldChanges(oldFile: File, newFile: NewFile): boolean {

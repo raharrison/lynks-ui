@@ -4,6 +4,7 @@ import {Collection, Grouping, GroupType, Link, NewLink, SlimLink, Tag} from "@sh
 import {LinkService} from "@app/entry/services/link.service";
 import {debounceTime, distinctUntilChanged, Subject, Subscription} from "rxjs";
 import {LoadingStatus} from "@shared/models/loading-status.model";
+import {EntryService} from "@app/entry/services/entry.service";
 
 @Component({
   selector: 'lks-link-edit',
@@ -32,6 +33,7 @@ export class LinkEditComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
               private route: ActivatedRoute,
+              private entryService: EntryService,
               private linkService: LinkService) {
   }
 
@@ -134,20 +136,23 @@ export class LinkEditComponent implements OnInit, OnDestroy {
   }
 
   private updateLink() {
-    // only save new version if main fields have changed
-    const forceNewVersion = LinkEditComponent.checkFieldChanges(this.oldLink, this.link);
-    this.linkService.update(this.link, forceNewVersion)
-      .subscribe({
-        next: data => {
-          this.saving = false;
-          this.router.navigate([".."], {
-            relativeTo: this.route
-          });
-        },
-        error: () => {
-          this.saving = false;
-        }
-      });
+    const hasFieldChanges = LinkEditComponent.checkFieldChanges(this.oldLink, this.link);
+    const hasGroupChanges = this.entryService.haveGroupsChanged(this.oldLink, this.selectedTags, this.selectedCollections);
+    let updateCall = this.linkService.update(this.link, hasFieldChanges);
+    if (hasGroupChanges && !hasFieldChanges) {
+      updateCall = this.entryService.updateGroups(this.link.id, this.selectedTags, this.selectedCollections);
+    }
+    updateCall.subscribe({
+      next: _ => {
+        this.saving = false;
+        this.router.navigate([".."], {
+          relativeTo: this.route
+        });
+      },
+      error: () => {
+        this.saving = false;
+      }
+    });
   }
 
   private static checkFieldChanges(oldLink: Link, newLink: NewLink): boolean {

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {DeleteConfirmModalComponent} from "@shared/components";
 import {Comment} from '@app/comment/models';
@@ -11,7 +11,7 @@ import {LoadingStatus} from "@shared/models/loading-status.model";
   templateUrl: './comment-list.component.html',
   styleUrls: ['./comment-list.component.scss']
 })
-export class CommentListComponent implements OnInit {
+export class CommentListComponent implements OnInit, OnChanges {
 
   readonly SORT_CONFIGS: SortConfig[] = [
     {name: "Oldest First", sort: "dateCreated", direction: SortDirection.ASC},
@@ -39,6 +39,12 @@ export class CommentListComponent implements OnInit {
 
   ngOnInit(): void {
     this.retrieveComments();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.entryId && !changes.entryId.isFirstChange()) {
+      this.retrieveComments();
+    }
   }
 
   private retrieveComments() {

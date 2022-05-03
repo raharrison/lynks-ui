@@ -55,3 +55,14 @@ export interface EntryAuditItem {
   details: string,
   timestamp: number
 }
+
+export interface EntryRefItem {
+  entryId: string
+  entryType: EntryType
+  title?: string
+}
+
+export interface EntryRefSet {
+  inbound: EntryRefItem[]
+  outbound: EntryRefItem[]
+}

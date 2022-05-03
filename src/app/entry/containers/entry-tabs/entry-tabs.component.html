@@ -42,6 +42,17 @@
       </div>
     </ng-template>
   </ng-container>
+  <ng-container ngbNavItem="references" [destroyOnHide]="true">
+    <a ngbNavLink routerLink="." fragment="references"><i class="fa-solid fa-arrow-right-arrow-left"></i> Refs <span
+      class="badge bg-primary">{{ refCount }}</span></a>
+    <ng-template ngbNavContent>
+      <div class="row">
+        <div class="col-md-12">
+          <lks-entry-tab-refs [entry]="entry" (onLoaded)="refCount = $event"></lks-entry-tab-refs>
+        </div>
+      </div>
+    </ng-template>
+  </ng-container>
   <ng-container ngbNavItem="history" [destroyOnHide]="true">
     <a ngbNavLink routerLink="." fragment="history"><i class="fa-solid fa-history"></i> History <span
       class="badge bg-primary">{{ historyCount }}</span></a>

@@ -5,6 +5,7 @@ import {EntryTabHistoryComponent} from "./entry-tab-history/entry-tab-history.co
 import {EntryTabDiscussionListComponent} from "./entry-tab-discussion-list/entry-tab-discussion-list.component";
 import {EntryTabTaskListComponent} from "./entry-tab-task-list/entry-tab-task-list.component";
 import {EntryTabTaskExecComponent} from "./entry-tab-task-exec/entry-tab-task-exec.component";
+import {EntryTabRefsComponent} from "./entry-tab-refs/entry-tab-refs.component";
 
 export const components = [
   EntryDetailHeaderComponent,
@@ -13,7 +14,8 @@ export const components = [
   EntryTabHistoryComponent,
   EntryTabDiscussionListComponent,
   EntryTabTaskListComponent,
-  EntryTabTaskExecComponent
+  EntryTabTaskExecComponent,
+  EntryTabRefsComponent
 ];
 
 export * from './entry-detail-header/entry-detail-header.component';
@@ -23,3 +25,4 @@ export * from './entry-tab-history/entry-tab-history.component';
 export * from './entry-tab-discussion-list/entry-tab-discussion-list.component';
 export * from './entry-tab-task-list/entry-tab-task-list.component';
 export * from './entry-tab-task-exec/entry-tab-task-exec.component';
+export * from './entry-tab-refs/entry-tab-refs.component';

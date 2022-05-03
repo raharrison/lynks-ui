@@ -4,7 +4,17 @@ import {HttpClient} from "@angular/common/http";
 import {NoteService} from "./note.service";
 import {LinkService} from "./link.service";
 import {ResponseHandlerService} from "@shared/services/response-handler.service";
-import {Collection, Entry, EntryAuditItem, EntryType, EntryVersion, GroupIdSet, SlimEntry, Tag} from "@shared/models";
+import {
+  Collection,
+  Entry,
+  EntryAuditItem,
+  EntryRefSet,
+  EntryType,
+  EntryVersion,
+  GroupIdSet,
+  SlimEntry,
+  Tag
+} from "@shared/models";
 import {Page} from "@shared/models/page.model";
 import {EntryFilterService} from "@shared/services/entry-filter.service";
 import {tap} from "rxjs/operators";
@@ -130,6 +140,11 @@ export class EntryService {
   getAudit(id: string): Observable<EntryAuditItem[]> {
     return this.http.get<EntryAuditItem[]>(`/api/entry/${id}/audit`)
       .pipe(this.responseHandler.handleResponseError("Unable to retrieve entry audit"));
+  }
+
+  getRefs(id: string): Observable<EntryRefSet> {
+    return this.http.get<EntryRefSet>(`/api/entry/${id}/refs`)
+      .pipe(this.responseHandler.handleResponseError("Unable to retrieve entry references"));
   }
 
   star(id: string, star: boolean): Observable<Entry> {

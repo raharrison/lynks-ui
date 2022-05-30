@@ -11,9 +11,10 @@ import * as sharedContainers from './containers';
 import * as sharedPipes from './pipes';
 import {HighlightModule} from "ngx-highlightjs";
 import {NgSelectModule} from "@ng-select/ng-select";
+import {TreeModule} from "@bugsplat/angular-tree-component";
 
 const angularLibs = [RouterModule, FormsModule, ReactiveFormsModule];
-const thirdParty = [NgbModule, HighlightModule, NgSelectModule];
+const thirdParty = [NgbModule, HighlightModule, NgSelectModule, TreeModule];
 
 @NgModule({
   imports: [CommonModule, angularLibs, ...thirdParty, ToastrModule.forRoot()],

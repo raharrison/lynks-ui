@@ -1,34 +1,43 @@
+<ng-template #editDialog let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{editingTag ? "Edit Tag" : "New Tag"}}</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <form class="form-inline" #tagForm="ngForm">
+      <div class="mb-3">
+        <label for="inputTagName" class="sr-only">New Tag name</label>
+        <input required type="text" class="form-control" id="inputTagName" name="inputTagName" placeholder="New Tag name.."
+               [(ngModel)]="newTagName">
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss('Cancel click')">Cancel</button>
+    <button type="submit" class="btn btn-success" [disabled]="newTagSaving || !tagForm.form.valid" (click)="onTagSave()">
+      <span *ngIf="newTagSaving" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      <i *ngIf="!newTagSaving" class="fa-solid fa-save" aria-hidden="true"></i>
+      {{editingTag ? "Save" : "Create"}}
+    </button>
+  </div>
+</ng-template>
+
 <div>
   <div class="card mb-3">
     <div class="card-body">
-      <form class="form-inline" (ngSubmit)="onTagSave(tagForm)" #tagForm="ngForm">
-        <div class="mb-3">
-          <label for="inputTagName" class="sr-only">New Tag name</label>
-          <input required type="text" class="form-control" id="inputTagName" name="inputTagName" placeholder="New Tag name.."
-                 [(ngModel)]="newTagName">
-        </div>
-        <button type="submit" class="btn btn-success" [disabled]="newTagSaving || !tagForm.form.valid">
-          <span *ngIf="newTagSaving" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-          <i *ngIf="!newTagSaving" class="fa-solid fa-save" aria-hidden="true"></i>
-          Create Tag
-        </button>
-      </form>
+      <button type="button" class="btn btn-success mb-2 me-2" (click)="editingTag = null; openEditDialog(editDialog)">
+        <i class="fa-solid fa-save" aria-hidden="true"></i> Create Tag
+      </button>
+      <button type="button" class="btn btn-primary mb-2 me-2" *ngIf="editingTag != null" (click)="openEditDialog(editDialog)">
+        <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i> Edit
+      </button>
+      <button type="button" class="btn btn-danger mb-2" *ngIf="editingTag != null" (click)="onTagDelete()">
+        <i class="fa-solid fa-trash-alt" aria-hidden="true"></i> Delete
+      </button>
+      <tree-root #tree [nodes]="tagTree" (updateData)="tree.treeModel.expandAll()"
+                 (activate)="setEditingTag($event.node.data)">
+      </tree-root>
     </div>
   </div>
-
-  <table class="table table-hover table-sm">
-    <thead>
-    <tr>
-      <th scope="col" style="width: 30%">Name</th>
-      <th scope="col" style="width: 20%">Created</th>
-      <th scope="col" style="width: 20%">Updated</th>
-      <th scope="col" style="width: 20%">Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let tag of $tags | async " lks-tag-edit-list-item [tag]="tag" (tagModified)="tagService.refreshTags()">
-    </tr>
-    </tbody>
-  </table>
 </div>
 

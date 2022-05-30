@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 import * as groupContainers from './containers';
-import * as groupComponents from './components';
 import {SharedModule} from "@app/shared/shared.module";
 import {NavigationModule} from "@app/navigation/navigation.module";
 import {GroupRoutingModule} from "@app/group/group-routing.module";
@@ -14,7 +13,7 @@ import {GroupRoutingModule} from "@app/group/group-routing.module";
     NavigationModule,
     GroupRoutingModule
   ],
-  declarations: [...groupContainers.containers, ...groupComponents.components]
+  declarations: [...groupContainers.containers]
 })
 export class GroupModule {
 }

@@ -28,7 +28,7 @@ export class CollectionEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.collectionService.$collections.subscribe(cols => {
+    this.collectionSubscription = this.collectionService.$collections.subscribe(cols => {
       this.collectionTree = [{
         id: this.rootId,
         name: "Collections",

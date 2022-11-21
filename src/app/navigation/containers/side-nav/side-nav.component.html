@@ -54,15 +54,10 @@
           ycombinator.com
         </a>
 
-        <ng-container *ngFor="let section of sideNavSections">
-          <div class="lks-sidenav-menu-heading" *ngIf="section.text">{{ section.text }}</div>
-          <ng-container *ngFor="let item of section.items">
-            <lks-side-nav-item [sideNavItem]="sideNavItems[item]"></lks-side-nav-item>
-          </ng-container>
-        </ng-container>
+        <div class="lks-sidenav-menu-heading">GROUPS</div>
 
-        <lks-tag-list></lks-tag-list>
         <lks-collection-list></lks-collection-list>
+        <lks-tag-list></lks-tag-list>
 
       </div>
     </div>

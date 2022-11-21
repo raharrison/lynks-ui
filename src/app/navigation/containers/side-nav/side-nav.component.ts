@@ -1,9 +1,8 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from "@angular/router";
 import {Subscription} from "rxjs";
 import {AuthService} from '@shared/services/auth.service';
 import {RouteProviderService} from "@shared/services/route-provider.service";
-import {SideNavItems, SideNavSection} from '@app/navigation/models';
 import {EntryType} from "@shared/models";
 
 @Component({
@@ -13,9 +12,6 @@ import {EntryType} from "@shared/models";
   styleUrls: ['side-nav.component.scss'],
 })
 export class SideNavComponent implements OnInit, OnDestroy {
-
-  @Input() sideNavSections!: SideNavSection[];
-  @Input() sideNavItems!: SideNavItems;
 
   EntryType = EntryType;
   linkPath: string;

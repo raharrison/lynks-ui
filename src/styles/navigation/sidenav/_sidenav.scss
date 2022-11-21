@@ -14,27 +14,27 @@
             flex-wrap: nowrap;
 
             .lks-sidenav-menu-heading {
-                padding: 1.75rem 1rem 0.75rem;
-                font-size: 0.75rem;
-                font-weight: bold;
-                text-transform: uppercase;
+              padding: 0.75rem 1rem 0.5rem;
+              font-size: 0.75rem;
+              font-weight: bold;
+              text-transform: uppercase;
             }
 
             .nav-link {
-                display: flex;
-                align-items: center;
-                padding-top: 0.75rem;
-                padding-bottom: 0.75rem;
-                position: relative;
+              display: flex;
+              align-items: center;
+              padding-top: 0.5rem;
+              padding-bottom: 0.5rem;
+              position: relative;
 
-                .lks-nav-link-icon {
-                    font-size: 0.9rem;
-                }
+              .lks-nav-link-icon {
+                font-size: 0.9rem;
+              }
 
-                .lks-sidenav-collapse-arrow {
-                    display: inline-block;
-                    margin-left: auto;
-                    transition: transform 0.15s ease;
+              .lks-sidenav-collapse-arrow {
+                display: inline-block;
+                margin-left: auto;
+                transition: transform 0.15s ease;
                 }
 
                 &.collapsed {

@@ -1,4 +1,4 @@
-<a [routerLink]="undefined" class="nav-link cursor-pointer" (click)="expanded = !expanded" [ngClass]="{collapsed: !expanded}">
+<a [routerLink]="undefined" class="nav-link cursor-pointer" (click)="expanded = !expanded" [ngClass]="{collapsed: !expanded, active: expanded}">
   <div class="lks-nav-link-icon">
     <i class="fa-solid fa-folder"></i>
   </div>
@@ -8,9 +8,6 @@
   </div>
 </a>
 
-<nav class="lks-sidenav-menu-nested nav" *ngIf="expanded">
-  <a class="nav-link cursor-pointer" *ngFor="let collection of collections" [routerLink]="routeProvider.baseEntryPath"
-     [queryParams]="{'collections': collection.id}">
-    {{ collection.name }}
-  </a>
+<nav class="lks-sidenav-menu-nested nav" [ngClass]="{'d-none': !expanded}">
+  <tree-root #tree [nodes]="collections" (activate)="onCollectionSelected($event.node.data)" (updateData)="onTreeLoaded()"></tree-root>
 </nav>

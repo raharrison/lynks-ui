@@ -3,13 +3,11 @@
     <div class="col-md-12">
       <div class="pb-2">
         <h2 *ngIf="fullViewer">{{ attachment?.name }}</h2>
+        <span class="text-gray-light me-2">Version {{attachment.version}}</span>
+        <span class="me-2 fw-bold">|</span>
         <lks-file-size class="text-gray-light me-2" [bytes]="attachment?.size"></lks-file-size>
         <span class="me-2 fw-bold">|</span>
         <span class="text-gray-light me-2">Created <lks-time-ago [date]="attachment?.dateCreated"></lks-time-ago></span>
-        <span *ngIf="attachment?.dateUpdated != attachment?.dateCreated" class="me-2 fw-bold">|</span>
-        <span *ngIf="attachment?.dateUpdated != attachment?.dateCreated" class="text-gray-light">
-                Updated <lks-time-ago [date]="attachment?.dateUpdated"></lks-time-ago>
-            </span>
         <span class="btn-group float-end">
                 <button routerLink="../.." class="btn btn-secondary me-1" *ngIf="fullViewer">
                     <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back</button>

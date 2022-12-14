@@ -17,7 +17,11 @@ export class AttachmentListComponent implements OnInit {
   onLoaded: EventEmitter<Attachment[]> = new EventEmitter<Attachment[]>();
 
   attachments: Attachment[] = [];
+  filteredAttachments: Attachment[] = [];
   loadingStatus: LoadingStatus = LoadingStatus.LOADING;
+
+  showVersions = false;
+  currentVersions: { [key: string]: number };
 
   constructor(private attachmentService: AttachmentService) {
   }
@@ -31,10 +35,35 @@ export class AttachmentListComponent implements OnInit {
     this.attachmentService.getAttachmentsForEntry(this.entryId).subscribe({
       next: data => {
         this.attachments = data;
+        this.currentVersions = AttachmentListComponent.buildCurrentVersions(data);
+        this.filterAttachments();
         this.loadingStatus = LoadingStatus.LOADED;
         this.onLoaded.emit(this.attachments);
       },
       error: () => this.loadingStatus = LoadingStatus.ERROR
     });
   }
+
+  filterAttachments() {
+    if (this.showVersions) {
+      this.filteredAttachments = this.attachments;
+    } else {
+      this.filteredAttachments = this.attachments.filter(a => this.currentVersions[a.parentId] === a.version);
+    }
+  }
+
+  private static buildCurrentVersions(attachments: Attachment[]) {
+    const currentVersions: { [key: string]: number } = {};
+    attachments.forEach(attachment => {
+      if (attachment.parentId in currentVersions) {
+        if (attachment.version > currentVersions[attachment.parentId]) {
+          currentVersions[attachment.parentId] = attachment.version;
+        }
+      } else {
+        currentVersions[attachment.parentId] = attachment.version;
+      }
+    });
+    return currentVersions;
+  }
+
 }

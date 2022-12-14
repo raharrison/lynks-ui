@@ -75,6 +75,7 @@ export class AttachmentListItemComponent implements OnInit {
         this.editMode = false;
         this.attachment.name = this.attachmentNameInput;
         this.attachmentNameInput = null;
+        this.attachmentModified.emit(res);
       });
   }
 

@@ -4,6 +4,7 @@
          [(ngModel)]="attachmentNameInput">
   <span *ngIf="!editMode">{{ attachment.name }}</span>
 </th>
+<td>{{ attachment.version }}</td>
 <td>{{ attachment.type | titlecase }}</td>
 <td>
   <lks-file-size [bytes]="attachment?.size"></lks-file-size>

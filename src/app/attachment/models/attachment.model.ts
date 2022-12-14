@@ -1,12 +1,13 @@
 export interface Attachment {
   id: string,
+  parentId: string,
   entryId: string,
+  version: number,
   name: string,
   extension: string,
   type: AttachmentType,
   size: number,
-  dateCreated: number,
-  dateUpdated: number
+  dateCreated: number
 }
 
 export enum AttachmentType {

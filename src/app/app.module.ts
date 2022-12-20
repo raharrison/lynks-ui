@@ -58,7 +58,10 @@ function getHighlightLanguages() {
       useValue: {
         coreLibraryLoader: () => import('highlight.js/lib/core'),
         lineNumbers: false,
-        languages: getHighlightLanguages()
+        languages: getHighlightLanguages(),
+        config: {
+          languages: []
+        }
       }
     }],
   bootstrap: [AppComponent]

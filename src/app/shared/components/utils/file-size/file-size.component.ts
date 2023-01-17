@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
-import * as fileSize from "filesize";
+import {filesize} from "filesize";
 
 @Component({
   selector: 'lks-file-size',
@@ -15,6 +15,6 @@ export class FileSizeComponent {
   }
 
   formatBytes(): string {
-    return this.bytes == null ? '' : fileSize(this.bytes);
+    return this.bytes == null ? '' : filesize(this.bytes).toString();
   }
 }

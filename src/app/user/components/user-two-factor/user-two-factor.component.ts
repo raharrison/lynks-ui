@@ -45,6 +45,7 @@ export class UserTwoFactorComponent implements OnInit {
 
   onEnabledSubmit() {
     const updateRequest: TwoFactorUpdateRequest = {
+      enabled: false,
       ...this.enableForm.value
     };
     // require confirmation when enabling 2fa
@@ -77,6 +78,7 @@ export class UserTwoFactorComponent implements OnInit {
 
   onValidateSubmit() {
     const updateRequest: TwoFactorValidateRequest = {
+      code: null,
       ...this.validateForm.value
     };
     this.saving = true;

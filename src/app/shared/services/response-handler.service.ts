@@ -21,6 +21,17 @@ export class ResponseHandlerService {
     });
   }
 
+  handleResponseErrorFilter<T>(errorFilter: (e: T) => boolean, errorMessage: string) {
+    return tap<T>({
+      error: (error) => {
+        if (errorFilter(error)) {
+          ResponseHandlerService.handleError(error);
+          this.toastrService.error(errorMessage, "Error");
+        }
+      }
+    });
+  }
+
   handleResponse<T>(successMessage: string, errorMessage: string) {
     return tap<T>({
       next: () => {

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpBackend, HttpClient} from "@angular/common/http";
 import {Observable, ReplaySubject, switchMap, tap} from 'rxjs';
-import {AuthRequest, User} from "@shared/models";
+import {AuthRequest, AuthResult, User} from "@shared/models";
 import {ResponseHandlerService} from "@shared/services/response-handler.service";
 
 @Injectable({
@@ -39,7 +39,10 @@ export class AuthService {
       .pipe(
         switchMap(() => this.getCurrentUser()),
         tap({error: () => this.logoutUser()}),
-        this.responseHandler.handleResponseError("Unable to login, check your details"),
+        // ignore 401 response code with totp_required as errors
+        this.responseHandler.handleResponseErrorFilter((error: any) => {
+          return error?.error?.result != AuthResult.TOTP_REQUIRED
+        }, "Unable to login, check your details"),
       );
   }
 

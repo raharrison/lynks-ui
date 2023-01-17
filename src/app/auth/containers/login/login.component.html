@@ -27,6 +27,18 @@
                        required
                        [(ngModel)]="loginRequest.password"/>
               </div>
+              <div class="mb-3" *ngIf="totpRequired">
+                <p><strong>Enter your one-time passcode below:</strong></p>
+                <input class="form-control"
+                       id="inputTotp"
+                       name="inputTotp"
+                       type="text"
+                       minlength="6"
+                       maxlength="6"
+                       placeholder="Enter 2FA Code"
+                       [required]="totpRequired"
+                       [(ngModel)]="loginRequest.totp"/>
+              </div>
               <div class="mb-3 form-check">
                 <input type="checkbox" class="form-check-input" id="rememberPasswordCheck" checked>
                 <label class="form-check-label" for="rememberPasswordCheck">Remember password</label>

@@ -42,7 +42,8 @@ export class MarkdownEditorComponent implements AfterViewInit, ControlValueAcces
     imageUploadEndpoint: "/api/imageUpload",
     previewImagesInEditor: true,
     imagePathAbsolute: true,
-    imageMaxSize: 1024 * 1024 * 5
+    imageMaxSize: 1024 * 1024 * 5,
+    toolbarButtonClassPrefix: "mde-"
   };
 
   @ViewChild('easymde', {static: true}) textarea: ElementRef | undefined;

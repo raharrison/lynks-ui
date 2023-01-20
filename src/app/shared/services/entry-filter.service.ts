@@ -27,7 +27,8 @@ export class EntryFilterService {
   readonly SORT_CONFIGS: SortConfig[] = [
     {name: "Recently Updated", sort: "dateUpdated", direction: SortDirection.DESC},
     {name: "Recently Created", sort: "dateCreated", direction: SortDirection.DESC},
-    {name: "Oldest First", sort: "dateUpdated", direction: SortDirection.ASC}
+    {name: "Oldest First", sort: "dateUpdated", direction: SortDirection.ASC},
+    {name: "Random", sort: "dateUpdated", direction: SortDirection.RAND}
   ];
 
   private entryFilter = {...this.DEFAULT_FILTER};

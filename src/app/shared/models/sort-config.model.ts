@@ -1,5 +1,5 @@
 export enum SortDirection {
-  ASC = "asc", DESC = "desc"
+  ASC = "asc", DESC = "desc", RAND = "rand"
 }
 
 export interface SortConfig {

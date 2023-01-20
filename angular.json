@@ -70,9 +70,9 @@
               "node_modules/@fortawesome/fontawesome-free/css/solid.min.css",
               "node_modules/@fortawesome/fontawesome-free/css/brands.min.css",
               "node_modules/highlight.js/styles/github.css",
-              "node_modules/ngx-toastr/toastr.css",
               "node_modules/@bugsplat/angular-tree-component/css/angular-tree-component.css",
-              "src/styles/styles.scss"
+              "src/styles/styles.scss",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": []
           },

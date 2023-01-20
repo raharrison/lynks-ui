@@ -31,7 +31,16 @@ export class EntryTabTaskExecComponent implements OnInit {
   }
 
   onSubmit() {
-    this.taskService.runTask(this.entryId, this.taskDefinition.id, this.model).subscribe();
+    const params = {};
+    Object.entries(this.model).forEach(([key, value]) => {
+      // convert any list inputs to comma-separated string
+      if (Array.isArray(value)) {
+        params[key] = value.join(",");
+      } else {
+        params[key] = value;
+      }
+    });
+    this.taskService.runTask(this.entryId, this.taskDefinition.id, params).subscribe();
   }
 
 }

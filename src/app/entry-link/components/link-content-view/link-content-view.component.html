@@ -46,3 +46,17 @@
     </ng-template>
   </lks-card>
 </div>
+
+<div *ngIf="link.content" class="mb-4">
+  <lks-card [isCollapsed]="true" [lazy]="true" headerStyles="bg-info text-white">
+  <span header>
+    <i class="ms-3 fa-solid fa-circle fa-sm"></i> Searchable Content
+  </span>
+    <ng-template>
+      <p class="text-muted">The text below will can used to identify this link when using the search function. Include keywords and content specific
+        to this
+        entry for more relevant results.</p>
+      <p>{{link.content}}</p>
+    </ng-template>
+  </lks-card>
+</div>

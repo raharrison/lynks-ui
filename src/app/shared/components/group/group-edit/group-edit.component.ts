@@ -28,6 +28,9 @@ export class GroupEditComponent implements OnInit, OnChanges, OnDestroy {
   @Input()
   disabled: boolean = false;
 
+  @Input()
+  placeholder: string;
+
   @Output()
   selectedChange = new EventEmitter<Grouping<any>[]>();
 
@@ -37,6 +40,9 @@ export class GroupEditComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit(): void {
+    if (this.placeholder == null) {
+      this.placeholder = `Select ${this.type}s`;
+    }
     if (this.type == "tag") {
       this.tagService.$tags.subscribe(groups => {
         this.groups = groups;

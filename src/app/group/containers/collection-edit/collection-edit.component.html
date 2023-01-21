@@ -6,12 +6,15 @@
   <div class="modal-body">
     <form class="form-inline" #collectionForm="ngForm">
       <div class="mb-3">
+        <p class="text-muted"><b>Hint:</b> Create nested collections at once using a path e.g. <b>parent/child/grandchild</b><br>
+          When using this option do not select a parent collection at the same time.</p>
         <label for="inputCollectionName" class="sr-only">New Collection name</label>
         <input required type="text" class="form-control" id="inputCollectionName" name="inputCollectionName" placeholder="New Collection name.."
                [(ngModel)]="newCollectionName">
       </div>
       <div class="mb-3">
         <lks-group-editor id="collectionPicker" type="collection"
+                          placeholder="Select a parent collection (optional)"
                           [selected]="newCollectionSelectedParent"
                           (selectedChange)="newCollectionSelectedParent = $event"
                           [maxSelected]="1"></lks-group-editor>
@@ -32,7 +35,7 @@
   <div class="card mb-3">
     <div class="card-body">
       <button type="button" class="btn btn-success mb-2 me-2" (click)="onCreateCollection(editDialog)">
-        <i class="fa-solid fa-save" aria-hidden="true"></i> Create Collection
+        <i class="fa-solid fa-plus-circle" aria-hidden="true"></i> Create Collection
       </button>
       <button type="button" class="btn btn-primary mb-2 me-2" *ngIf="editingCollection != null" (click)="openEditDialog(editDialog)">
         <i class="fa-solid fa-pen-to-square" aria-hidden="true"></i> Edit

@@ -1,3 +1,13 @@
+.title-input {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #292b2d;
+}
+
+.title-input:focus {
+  color: #292b2d;
+}
+
 .ng-valid[required], .ng-valid.required {
   border-left: 5px solid #42A948;
 }

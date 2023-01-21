@@ -60,7 +60,7 @@
           [multiple]="true"
           [closeOnSelect]="false"
           [searchable]="true"
-          placeholder="Select notification types"
+          placeholder="Select notification types.."
           required
         >
           <ng-option value="email">Email</ng-option>
@@ -71,7 +71,7 @@
 
       <div class="mb-3">
         <label class="form-label" for="reminderDateTime">Message <span class="text-muted">(required)</span></label>
-        <input class="form-control form-text" type="text" name="reminderMessage" id="reminderMessage" placeholder="Enter notification message"
+        <input class="form-control form-text" type="text" name="reminderMessage" id="reminderMessage" placeholder="Enter notification message.."
                [(ngModel)]="editingReminder.message" required/>
       </div>
 

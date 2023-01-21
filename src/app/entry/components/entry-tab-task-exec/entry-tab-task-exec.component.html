@@ -26,7 +26,7 @@
       [multiple]="true"
       [closeOnSelect]="false"
       [searchable]="true"
-      placeholder="Select {{param.name}}s"
+      placeholder="Select {{param.name}}s.."
     >
       <ng-option *ngFor="let option of param.options" [value]="option">{{option}}</ng-option>
     </ng-select>

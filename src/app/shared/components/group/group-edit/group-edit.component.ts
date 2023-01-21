@@ -41,7 +41,7 @@ export class GroupEditComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit(): void {
     if (this.placeholder == null) {
-      this.placeholder = `Select ${this.type}s`;
+      this.placeholder = `Select ${this.type}s..`;
     }
     if (this.type == "tag") {
       this.tagService.$tags.subscribe(groups => {

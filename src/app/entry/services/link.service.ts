@@ -69,4 +69,9 @@ export class LinkService implements EntryResource<SlimLink, Link> {
     return this.http.post<SlimLink[]>("/api/link/checkExisting", url);
   }
 
+  updateSearchableContent(entryId: string, content: string): Observable<{ content: string }> {
+    return this.http.post<{ content: string }>(`/api/link/${entryId}/content`, content)
+      .pipe(this.responseHandler.handleResponse("Searchable content updated", "Unable to update searchable content"));
+  }
+
 }

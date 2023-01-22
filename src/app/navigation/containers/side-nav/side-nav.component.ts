@@ -34,7 +34,8 @@ export class SideNavComponent implements OnInit, OnDestroy {
   }
 
   isRouteActive(path: string): boolean {
-    return this.router.url == path;
+    const url = this.router.url.split('?')[0];
+    return url == path;
   }
 
   ngOnDestroy(): void {

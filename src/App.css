@@ -1,0 +1,116 @@
+/* ─── Utility / layout helpers ─── */
+.flex          { display: flex; }
+.flex-col      { display: flex; flex-direction: column; }
+.flex-center   { display: flex; align-items: center; }
+.flex-between  { display: flex; align-items: center; justify-content: space-between; }
+.flex-wrap     { flex-wrap: wrap; }
+.flex-1        { flex: 1; min-width: 0; }
+.flex-shrink-0 { flex-shrink: 0; }
+
+.gap-6  { gap: 6px; }
+.gap-8  { gap: 8px; }
+.gap-10 { gap: 10px; }
+.gap-12 { gap: 12px; }
+.gap-16 { gap: 16px; }
+.gap-20 { gap: 20px; }
+
+.mb-6  { margin-bottom: 6px; }
+.mb-8  { margin-bottom: 8px; }
+.mb-12 { margin-bottom: 12px; }
+.mb-16 { margin-bottom: 16px; }
+.mb-20 { margin-bottom: 20px; }
+.mt-10 { margin-top: 10px; }
+.mr-4  { margin-right: 4px; }
+
+.min-w-0   { min-width: 0; }
+.w-full    { width: 100%; }
+.text-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ─── Entry card layout ─── */
+.entry-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.entry-card-body {
+  display: flex;
+  gap: 16px;
+}
+
+.entry-card-thumbnail {
+  width: 140px;
+  height: 100px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--bg-code);
+}
+
+.entry-card-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.entry-card-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.entry-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.entry-card-title-area {
+  flex: 1;
+  min-width: 0;
+}
+
+.entry-card-type-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.entry-card-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-primary);
+}
+
+.entry-card-subtitle {
+  margin: 2px 0 0;
+  font-size: var(--font-size-sm);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-secondary);
+}
+
+.entry-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.entry-card-date {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  margin-right: 4px;
+}
+
+.entry-card--read {
+  opacity: var(--opacity-read);
+  border-left: 3px solid var(--border-primary);
+}

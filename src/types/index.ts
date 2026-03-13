@@ -1,0 +1,360 @@
+// Entry types
+export type EntryType = 'link' | 'note' | 'snippet' | 'file';
+
+export type SortDirection = 'asc' | 'desc' | 'rand';
+
+// Groups
+export interface Tag {
+  id: string;
+  name: string;
+  path: string | null;
+  children: Tag[];
+  dateCreated: number;
+  dateUpdated: number;
+}
+
+export interface Collection {
+  id: string;
+  name: string;
+  path: string | null;
+  children: Collection[];
+  dateCreated: number;
+  dateUpdated: number;
+}
+
+export interface NewTag {
+  id?: string;
+  name: string;
+}
+
+export interface NewCollection {
+  id?: string;
+  name: string;
+  parentId?: string | null;
+}
+
+// Task definitions
+export type TaskParameterType = 'bool' | 'text' | 'number' | 'enum' | 'static' | 'multi';
+
+export interface TaskParameter {
+  name: string;
+  type: TaskParameterType;
+  description?: string;
+  value?: string;
+  options?: string[];
+  required: boolean;
+}
+
+export interface TaskDefinition {
+  id: string;
+  description: string;
+  className: string;
+  params: TaskParameter[];
+}
+
+// Discussions (used in link props attributes)
+export interface Discussion {
+  source: string;
+  title: string;
+  url: string;
+  score: number;
+  comments: number;
+  created: number;
+}
+
+// Properties
+export interface BaseProperties {
+  attributes: Record<string, unknown>;
+  tasks: TaskDefinition[];
+}
+
+export interface LinkAttributes {
+  discussions?: Discussion[];
+  /** false when link is alive, timestamp (ms) when processing failed */
+  dead?: boolean | number;
+  [key: string]: unknown;
+}
+
+export interface LinkProperties extends BaseProperties {
+  attributes: LinkAttributes;
+}
+
+// Base entry interfaces
+export interface SlimEntry {
+  id: string;
+  type: EntryType;
+  dateUpdated: number;
+  starred: boolean;
+  tags: Tag[];
+  collections: Collection[];
+}
+
+export interface Entry {
+  id: string;
+  type: EntryType;
+  dateCreated: number;
+  dateUpdated: number;
+  version: number;
+  starred: boolean;
+  props: BaseProperties;
+  tags: Tag[];
+  collections: Collection[];
+}
+
+// Link
+export interface Link extends Entry {
+  type: 'link';
+  title: string;
+  url: string;
+  source: string;
+  content: string | null;
+  thumbnailId: string | null;
+  read: boolean;
+  props: LinkProperties;
+}
+
+export interface SlimLink extends SlimEntry {
+  type: 'link';
+  title: string;
+  source: string;
+  thumbnailId: string | null;
+  read: boolean;
+}
+
+export interface NewLink {
+  id?: string;
+  title: string;
+  url: string;
+  tags?: string[];
+  collections?: string[];
+  process?: boolean;
+}
+
+// Note
+export interface Note extends Entry {
+  type: 'note';
+  title: string;
+  plainText: string;
+  markdownText: string;
+}
+
+export interface SlimNote extends SlimEntry {
+  type: 'note';
+  title: string;
+}
+
+export interface NewNote {
+  id?: string;
+  title: string;
+  plainText: string;
+  tags?: string[];
+  collections?: string[];
+}
+
+// Snippet
+export interface Snippet extends Entry {
+  type: 'snippet';
+  plainText: string;
+  markdownText: string;
+}
+
+export interface SlimSnippet extends SlimEntry {
+  type: 'snippet';
+  markdownText: string;
+}
+
+export interface NewSnippet {
+  id?: string;
+  plainText: string;
+  tags?: string[];
+  collections?: string[];
+}
+
+// File
+export interface FileEntry extends Entry {
+  type: 'file';
+  title: string;
+}
+
+export interface SlimFile extends SlimEntry {
+  type: 'file';
+  title: string;
+}
+
+export interface NewFile {
+  id?: string;
+  title: string;
+  tags?: string[];
+  collections?: string[];
+}
+
+// Union types
+export type AnyEntry = Link | Note | Snippet | FileEntry;
+export type AnySlimEntry = SlimLink | SlimNote | SlimSnippet | SlimFile;
+export type NewAnyEntry = NewLink | NewNote | NewSnippet | NewFile;
+
+// Page
+export interface Page<T> {
+  content: T[];
+  page: number;
+  size: number;
+  total: number;
+}
+
+// Page request
+export interface PageRequest {
+  page?: number;
+  size?: number;
+  tags?: string[];
+  collections?: string[];
+  source?: string;
+  sort?: string;
+  direction?: SortDirection;
+}
+
+// Comments
+export interface Comment {
+  id: string;
+  entryId: string;
+  plainText: string;
+  markdownText: string;
+  dateCreated: number;
+  dateUpdated: number;
+}
+
+export interface NewComment {
+  id?: string;
+  plainText: string;
+}
+
+// Reminders
+export type ReminderType = 'adhoc' | 'recurring';
+export type ReminderStatus = 'active' | 'completed' | 'disabled';
+export type NotificationMethod = 'email' | 'web' | 'pushover';
+
+export interface Reminder {
+  reminderId: string;
+  entryId: string;
+  type: ReminderType;
+  notifyMethods: NotificationMethod[];
+  message: string | null;
+  spec: string;
+  tz: string;
+  status: ReminderStatus;
+  dateCreated: number;
+  dateUpdated: number;
+}
+
+export interface NewReminder {
+  reminderId?: string;
+  entryId: string;
+  type: ReminderType;
+  notifyMethods: NotificationMethod[];
+  message?: string;
+  spec: string;
+  tz: string;
+  status: ReminderStatus;
+}
+
+// Notifications
+export type NotificationType = 'processed' | 'error' | 'reminder' | 'discussions';
+
+export interface Notification {
+  id: string;
+  type: NotificationType;
+  message: string;
+  read: boolean;
+  entryId: string | null;
+  entryType: EntryType | null;
+  entryTitle: string | null;
+  dateCreated: number;
+}
+
+// Resources
+export type ResourceType = 'upload' | 'screenshot' | 'thumbnail' | 'preview' | 'page' | 'document' | 'readable_doc' | 'readable_text' | 'generated';
+
+export interface Resource {
+  id: string;
+  parentId: string;
+  entryId: string;
+  version: number;
+  name: string;
+  extension: string;
+  type: ResourceType;
+  size: number;
+  dateCreated: number;
+}
+
+// Entry versions
+export interface EntryVersion {
+  id: string;
+  version: number;
+  dateUpdated: number;
+}
+
+// Entry audit
+export interface EntryAuditItem {
+  auditId: string;
+  entryId: string;
+  src: string | null;
+  details: string;
+  timestamp: number;
+}
+
+// Entry refs
+export interface EntryRefItem {
+  entryId: string;
+  entryType: EntryType;
+  title: string | null;
+}
+
+export interface EntryRefSet {
+  inbound: EntryRefItem[];
+  outbound: EntryRefItem[];
+}
+
+// Suggestions
+export interface Suggestion {
+  url: string;
+  title: string | null;
+  thumbnail: string | null;
+  preview: string | null;
+  keywords: string[];
+  tags: Tag[];
+  collections: Collection[];
+}
+
+// User
+export interface User {
+  username: string;
+  email: string | null;
+  displayName: string | null;
+  digest: boolean;
+  dateCreated: number;
+  dateUpdated: number;
+}
+
+export interface AuthRequest {
+  username: string;
+  password: string;
+  totp?: string;
+}
+
+export type AuthResult = 'success' | 'totp_required' | 'invalid_credentials';
+
+// Activity
+export interface ActivityLogItem {
+  id: string;
+  entryId: string;
+  src: string | null;
+  details: string;
+  entryType: EntryType;
+  entryTitle: string;
+  timestamp: number;
+}
+
+// Group sets
+export interface GroupIdSet {
+  tags: string[];
+  collections: string[];
+}

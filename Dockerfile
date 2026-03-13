@@ -1,4 +1,4 @@
-FROM node:19-bullseye-slim AS build
+FROM node:24-trixie-slim AS build
 
 WORKDIR /app
 
@@ -10,7 +10,7 @@ COPY . .
 
 RUN npm run build
 
-FROM nginx:1.23-alpine
+FROM nginx:1.29-alpine
 
 EXPOSE 80
 

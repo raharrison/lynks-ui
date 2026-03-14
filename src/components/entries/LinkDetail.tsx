@@ -1,45 +1,60 @@
-import {Button, Card, Collapse, Tag} from 'antd';
-import {ExportOutlined, EyeInvisibleOutlined, EyeOutlined, GlobalOutlined} from '@ant-design/icons';
-import {useMutation, useQueryClient} from '@tanstack/react-query';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import rehypeRaw from 'rehype-raw';
-import {markLinkRead, markLinkUnread} from '@/api/entries';
-import {getResourceUrl} from '@/api/resources';
-import {QK} from '@/utils/queryKeys';
-import type {Link} from '@/types';
+import { Button, Card, Tag } from 'antd';
+import { ExportOutlined, EyeInvisibleOutlined, EyeOutlined, GlobalOutlined } from '@ant-design/icons';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Link as RouterLink } from 'react-router-dom';
+import { markLinkRead, markLinkUnread } from '@/api/entries';
+import { getResourceUrl } from '@/api/resources';
+import { QK } from '@/utils/queryKeys';
+import { getYouTubeId } from '@/utils/youtube';
+import type { Link } from '@/types';
+import YouTubeEmbed from './YouTubeEmbed';
+import SearchableContent from './SearchableContent';
 
 export default function LinkDetail({ entry }: { entry: Link }) {
   const queryClient = useQueryClient();
+
   const readMutation = useMutation({
     mutationFn: () => entry.read ? markLinkUnread(entry.id) : markLinkRead(entry.id),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: QK.entry(entry.id) }),
   });
 
   const isDead = entry.props.attributes.dead === true;
+  const youtubeId = getYouTubeId(entry.url);
 
   return (
     <>
-      {/* Link metadata */}
-      <div style={{ marginBottom: 20 }}>
+      {/* URL block */}
+      <div style={{
+        marginBottom: 20,
+        padding: '14px 16px',
+        background: 'var(--bg-elevated)',
+        border: '1px solid var(--border-secondary)',
+        borderRadius: 'var(--radius-lg)',
+      }}>
         <a
           href={entry.url}
           target="_blank"
           rel="noopener noreferrer"
           style={{
-            display: 'block',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
             color: 'var(--accent)',
             fontSize: 'var(--font-size-md)',
+            fontWeight: 500,
             wordBreak: 'break-all',
             marginBottom: 12,
           }}
         >
-          {entry.url} <ExportOutlined style={{ fontSize: 'var(--font-size-xs)' }} />
+          <ExportOutlined style={{ flexShrink: 0 }} />
+          {entry.url}
         </a>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-          <Tag icon={<GlobalOutlined />} style={{ margin: 0, fontSize: 'var(--font-size-sm)', padding: '2px 10px' }}>
-            {entry.source}
-          </Tag>
+          <RouterLink to={`/links?source=${encodeURIComponent(entry.source)}`}>
+            <Tag icon={<GlobalOutlined />} style={{ margin: 0, fontSize: 'var(--font-size-sm)', padding: '2px 10px', cursor: 'pointer' }}>
+              {entry.source}
+            </Tag>
+          </RouterLink>
           <Button
             type={entry.read ? 'default' : 'primary'}
             size="small"
@@ -55,27 +70,18 @@ export default function LinkDetail({ entry }: { entry: Link }) {
       </div>
 
       {entry.thumbnailId && (
-        <Card style={{ marginBottom: 20 }}>
-          <img src={getResourceUrl(entry.id, entry.thumbnailId)} alt="Thumbnail"
-               style={{ maxWidth: '100%', maxHeight: 400, borderRadius: 10 }} />
+        <Card style={{ marginBottom: 16 }}>
+          <img
+            src={getResourceUrl(entry.id, entry.thumbnailId)}
+            alt="Thumbnail"
+            style={{ maxWidth: '100%', maxHeight: 400, borderRadius: 8 }}
+          />
         </Card>
       )}
 
-      {entry.content && (
-        <Collapse
-          style={{ marginBottom: 20 }}
-          items={[{
-            key: 'content',
-            label: 'Extracted Content',
-            children: (
-              <div className="markdown-content">
-                <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>{entry.content}</ReactMarkdown>
-              </div>
-            ),
-          }]}
-        />
-      )}
+      {youtubeId && <YouTubeEmbed videoId={youtubeId} />}
 
+      <SearchableContent entryId={entry.id} content={entry.content ?? null} />
     </>
   );
 }

@@ -1,8 +1,8 @@
-import { Spin, Tag, Typography } from 'antd';
-import { ArrowLeftOutlined, ExportOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
-import { entryDetailPath, entryTypeColor } from '@/utils/format';
-import { useEntryRefs } from '@/hooks/useEntryRefs';
+import {Empty, Spin, Tag, Typography} from 'antd';
+import {ArrowLeftOutlined, ExportOutlined} from '@ant-design/icons';
+import {Link} from 'react-router-dom';
+import {entryDetailPath, entryTypeColor} from '@/utils/format';
+import {useEntryRefs} from '@/hooks/useEntryRefs';
 
 export default function EntryRefs({ entryId }: { entryId: string }) {
   const { refs, isLoading } = useEntryRefs(entryId);
@@ -10,7 +10,7 @@ export default function EntryRefs({ entryId }: { entryId: string }) {
   if (isLoading) return <div style={{ textAlign: 'center', padding: 24 }}><Spin /></div>;
 
   if (!refs || (!refs.inbound.length && !refs.outbound.length)) {
-    return <div style={{ padding: '32px 0', textAlign: 'center', color: 'var(--text-muted)' }}>No references found</div>;
+    return <Empty description="No references found" style={{padding: '24px 0'}}/>;
   }
 
   return (

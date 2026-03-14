@@ -1,21 +1,21 @@
 import client from './client';
 import type {
-    AnyEntry,
-    AnySlimEntry,
-    EntryAuditItem,
-    EntryRefSet,
-    EntryVersion,
-    FileEntry,
-    GroupIdSet,
-    Link,
-    NewFile,
-    NewLink,
-    NewNote,
-    NewSnippet,
-    Note,
-    Page,
-    PageRequest,
-    Snippet,
+  AnyEntry,
+  AnySlimEntry,
+  EntryAuditItem,
+  EntryRefSet,
+  EntryVersion,
+  FileEntry,
+  GroupIdSet,
+  Link,
+  NewFile,
+  NewLink,
+  NewNote,
+  NewSnippet,
+  Note,
+  Page,
+  PageRequest,
+  Snippet,
 } from '@/types';
 
 function buildParams(req?: PageRequest): Record<string, string> {
@@ -49,6 +49,11 @@ export async function getEntryVersion(id: string, version: number): Promise<AnyE
 
 export async function searchEntries(query: string, req?: PageRequest): Promise<Page<AnySlimEntry>> {
   const { data } = await client.get('/entry/search', { params: { q: query, ...buildParams(req) } });
+  return data;
+}
+
+export async function resolveEntries(ids: string[]): Promise<AnySlimEntry[]> {
+  const {data} = await client.get('/entry/resolve', {params: {ids: ids.join(',')}});
   return data;
 }
 

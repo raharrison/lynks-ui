@@ -1,9 +1,8 @@
 import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import rehypeHighlight from 'rehype-highlight';
-import { Link } from 'react-router-dom';
-import { Card } from 'antd';
+import {Link} from 'react-router-dom';
+import {Card} from 'antd';
 
 interface MarkdownContentProps {
   html?: string | null;
@@ -46,7 +45,6 @@ export default function MarkdownContent({ html, plain, emptyMessage = 'No conten
       <Card style={{ marginBottom: 20 }}>
         <div className="markdown-content">
           <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
             rehypePlugins={[rehypeRaw, rehypeHighlight]}
             components={{ a: MarkdownLink }}
           >

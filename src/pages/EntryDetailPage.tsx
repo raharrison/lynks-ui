@@ -1,22 +1,17 @@
-import { useEffect, useRef } from 'react';
-import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
-import { Alert, App, Breadcrumb, Button, Popconfirm, Result, Tabs, Tag, Tooltip, Typography } from 'antd';
+import {useEffect, useRef} from 'react';
+import {useLocation, useNavigate, useParams, useSearchParams} from 'react-router-dom';
+import {Alert, App, Breadcrumb, Button, Popconfirm, Result, Tabs, Tag, Tooltip, Typography} from 'antd';
 import PageSkeleton from '@/components/common/PageSkeleton';
-import {
-  DeleteOutlined,
-  EditOutlined,
-  StarFilled,
-  StarOutlined,
-} from '@ant-design/icons';
-import { ENTRY_TYPE_COLORS, ENTRY_TYPE_LABELS } from '@/utils/constants';
-import { ENTRY_TYPE_ICONS } from '@/utils/icons';
-import { ENTRY_PATH_PREFIX, entryDetailPath, entryEditPath, formatDateTime, formatRelative } from '@/utils/format';
-import { EntryCollectionChip, EntryTagChip } from '@/components/common/EntryGroupChips';
-import { useEntry } from '@/hooks/useEntry';
-import { useStarEntry } from '@/hooks/useStarEntry';
-import { useDeleteEntry } from '@/hooks/useDeleteEntry';
-import { getApiErrorMessage } from '@/utils/apiError';
-import type { Discussion } from '@/types';
+import {DeleteOutlined, EditOutlined, StarFilled, StarOutlined,} from '@ant-design/icons';
+import {ENTRY_TYPE_COLORS, ENTRY_TYPE_LABELS} from '@/utils/constants';
+import {ENTRY_TYPE_ICONS} from '@/utils/icons';
+import {ENTRY_PATH_PREFIX, entryDetailPath, entryEditPath, formatDateTime, formatRelative} from '@/utils/format';
+import {EntryCollectionChip, EntryTagChip} from '@/components/common/EntryGroupChips';
+import {useEntry} from '@/hooks/useEntry';
+import {useStarEntry} from '@/hooks/useStarEntry';
+import {useDeleteEntry} from '@/hooks/useDeleteEntry';
+import {getApiErrorMessage} from '@/utils/apiError';
+import type {Discussion} from '@/types';
 import LinkDetail from '@/components/entries/LinkDetail';
 import NoteDetail from '@/components/entries/NoteDetail';
 import SnippetDetail from '@/components/entries/SnippetDetail';
@@ -102,7 +97,7 @@ export default function EntryDetailPage() {
       {/* Version banner */}
       {requestedVersion && (
         <Alert type="info" showIcon
-          message={`Viewing version ${requestedVersion} of ${entry.version}`}
+               title={`Viewing version ${requestedVersion}`}
           description={
             <Button type="link" size="small" style={{ padding: 0 }}
                     onClick={() => navigate(entryDetailPath(entry.type, id!), { replace: true })}>

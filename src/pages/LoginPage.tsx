@@ -1,23 +1,22 @@
-import { useState } from 'react';
-import { App, Button, Card, Form, Input, Typography } from 'antd';
-import { LockOutlined, SafetyOutlined, UserOutlined } from '@ant-design/icons';
-import { useLogin } from '@/hooks/useAuth';
-import { useAuthStore } from '@/stores/authStore';
-import { checkCurrentUser } from '@/api/user';
+import {useState} from 'react';
+import {App, Button, Card, Form, Input, Typography} from 'antd';
+import {LockOutlined, SafetyOutlined, UserOutlined} from '@ant-design/icons';
+import {useQueryClient} from '@tanstack/react-query';
+import {useLogin} from '@/hooks/useAuth';
+import {checkCurrentUser} from '@/api/user';
+import {QK} from '@/utils/queryKeys';
 
 export default function LoginPage() {
   const [needsTotp, setNeedsTotp] = useState(false);
   const [credentials, setCredentials] = useState({ username: '', password: '' });
   const { message } = App.useApp();
-  const { setUser, setChecked, setLoading } = useAuthStore();
   const { loginAsync, isPending } = useLogin();
+  const queryClient = useQueryClient();
 
   const completeLogin = async () => {
-    setLoading(true);
     const user = await checkCurrentUser();
-    setUser(user);
-    setChecked(true);
-    setLoading(false);
+    // Updating the cache triggers AuthGate's query subscription, which navigates away
+    queryClient.setQueryData(QK.user(), user);
   };
 
   const handleLogin = async (values: { username: string; password: string; totp?: string }) => {

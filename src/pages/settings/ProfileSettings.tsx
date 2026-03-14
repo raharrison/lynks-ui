@@ -1,15 +1,13 @@
-import { App, Button, Form, Input, Result, Skeleton, Switch, Typography } from 'antd';
-import { SaveOutlined } from '@ant-design/icons';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getCurrentUser, updateUser } from '@/api/user';
-import { QK } from '@/utils/queryKeys';
-import { useAuthStore } from '@/stores/authStore';
-import { getApiErrorMessage } from '@/utils/apiError';
+import {App, Button, Form, Input, Result, Skeleton, Switch, Typography} from 'antd';
+import {SaveOutlined} from '@ant-design/icons';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
+import {getCurrentUser, updateUser} from '@/api/user';
+import {QK} from '@/utils/queryKeys';
+import {getApiErrorMessage} from '@/utils/apiError';
 
 export default function ProfileSettings() {
   const { message } = App.useApp();
   const queryClient = useQueryClient();
-  const { setUser } = useAuthStore();
   const [form] = Form.useForm();
 
   const { data: user, isLoading, isError } = useQuery({
@@ -20,9 +18,8 @@ export default function ProfileSettings() {
   const updateMutation = useMutation({
     mutationFn: (values: { email?: string; displayName?: string; digest: boolean }) =>
       updateUser({ username: user!.username, ...values }),
-    onSuccess: (updated) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: QK.user() });
-      setUser(updated);
       message.success('Profile updated');
     },
     onError: (err) => message.error(getApiErrorMessage(err, 'Failed to update profile')),

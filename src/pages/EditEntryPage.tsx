@@ -1,11 +1,11 @@
-import { useBlocker, useNavigate, useParams } from 'react-router-dom';
-import { entryDetailPath } from '@/utils/format';
-import { Button, Card, Modal, Result } from 'antd';
-import { useState } from 'react';
+import {useBlocker, useNavigate, useParams} from 'react-router-dom';
+import {entryDetailPath} from '@/utils/format';
+import {Button, Card, Modal, Result} from 'antd';
+import {useRef, useState} from 'react';
 import PageSkeleton from '@/components/common/PageSkeleton';
-import { ArrowLeftOutlined } from '@ant-design/icons';
-import { ENTRY_TYPE_LABELS } from '@/utils/constants';
-import { useEntry } from '@/hooks/useEntry';
+import {ArrowLeftOutlined} from '@ant-design/icons';
+import {ENTRY_TYPE_LABELS} from '@/utils/constants';
+import {useEntry} from '@/hooks/useEntry';
 import LinkForm from '@/components/entries/forms/LinkForm';
 import NoteForm from '@/components/entries/forms/NoteForm';
 import SnippetForm from '@/components/entries/forms/SnippetForm';
@@ -16,7 +16,8 @@ export default function EditEntryPage() {
   const navigate = useNavigate();
   const { entry, isLoading, isError } = useEntry(id);
   const [isDirty, setIsDirty] = useState(false);
-  const blocker = useBlocker(isDirty);
+    const saving = useRef(false);
+    const blocker = useBlocker(() => isDirty && !saving.current);
 
   if (isLoading) return <PageSkeleton rows={6} showTitle={false} />;
 
@@ -25,7 +26,10 @@ export default function EditEntryPage() {
   }
 
   const backPath = entryDetailPath(entry.type, entry.id);
-  const onSuccess = (entryId: string) => navigate(entryDetailPath(entry.type, entryId), { state: { savedEntry: true } });
+    const onSuccess = (entryId: string) => {
+        saving.current = true;
+        navigate(entryDetailPath(entry.type, entryId), {state: {savedEntry: true}});
+    };
   const onCancel = () => navigate(backPath);
 
   return (

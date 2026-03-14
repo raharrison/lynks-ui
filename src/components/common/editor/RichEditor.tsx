@@ -1,27 +1,85 @@
-import { useEffect, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
-import { useEditor, EditorContent, type Editor } from '@tiptap/react';
+import {useEffect, useRef, useState} from 'react';
+import {createPortal} from 'react-dom';
+import {type Editor, EditorContent, useEditor} from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import ImageExt from '@tiptap/extension-image';
 import LinkExt from '@tiptap/extension-link';
 import Mention from '@tiptap/extension-mention';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
-import { Markdown } from 'tiptap-markdown';
-import { createLowlight, common } from 'lowlight';
-import { App, Button, Input, Popover, Tooltip } from 'antd';
+import {Markdown} from 'tiptap-markdown';
+import {common, createLowlight} from 'lowlight';
+import {App, Button, Input, Popover, Tooltip} from 'antd';
 import {
-  BoldOutlined, ItalicOutlined, StrikethroughOutlined,
-  CodeOutlined, OrderedListOutlined, UnorderedListOutlined, LineOutlined,
-  LinkOutlined, UndoOutlined, RedoOutlined,
+  BoldOutlined,
+  CodeOutlined,
+  ItalicOutlined,
+  LineOutlined,
+  LinkOutlined,
+  OrderedListOutlined,
+  RedoOutlined,
+  StrikethroughOutlined,
+  UndoOutlined,
+  UnorderedListOutlined,
 } from '@ant-design/icons';
 import client from '@/api/client';
-import { searchEntries } from '@/api/entries';
-import { entryDetailPath } from '@/utils/format';
-import { IMAGE_UPLOAD_PATH, MENTION_RESULTS_SIZE } from '@/utils/constants';
-import MentionList, { type MentionListHandle } from './MentionList';
-import type { AnySlimEntry } from '@/types';
+import {resolveEntries, searchEntries} from '@/api/entries';
+import {queryClient} from '@/lib/queryClient';
+import {entryDetailPath} from '@/utils/format';
+import {IMAGE_UPLOAD_PATH, MENTION_RESULTS_SIZE} from '@/utils/constants';
+import MentionList, {type MentionListHandle} from './MentionList';
+import type {AnySlimEntry} from '@/types';
 
 const lowlight = createLowlight(common);
+
+// Matches @id patterns stored in markdown (same character set as backend EntryLinkInlineParserExtension)
+const MENTION_PATTERN = /(?<!\w)@([a-z\d_-]{1,15})(?![\w-])/gi;
+
+// Pre-process stored markdown: replace @id with [@label](@id:type) so tiptap-markdown
+// parses them as Link marks, which transformMentionLinks then converts to Mention nodes.
+// Uses queryClient.fetchQuery so concurrent calls for the same IDs share one request.
+async function resolveMentionsForEditor(markdown: string): Promise<string> {
+  if (!markdown) return markdown;
+  const matches = [...markdown.matchAll(MENTION_PATTERN)];
+  if (!matches.length) return markdown;
+  const ids = [...new Set(matches.map(m => m[1]))].sort();
+  const entries = await queryClient.fetchQuery({
+    queryKey: ['entries', 'resolve', ...ids],
+    queryFn: () => resolveEntries(ids),
+    staleTime: 60_000,
+  });
+  if (!entries.length) return markdown;
+  const map = new Map(entries.map(e => [e.id, e]));
+  return markdown.replace(MENTION_PATTERN, (_, id: string) => {
+    const entry = map.get(id);
+    if (!entry) return `@${id}`;
+    const label = 'title' in entry ? entry.title : id;
+    return `[@${label}](@${id}:${entry.type})`;
+  });
+}
+
+// After setContent with pre-processed markdown, convert Link marks with @id:type hrefs
+// into proper Mention inline nodes. Replacements applied in reverse order to keep positions valid.
+function transformMentionLinks(editor: Editor) {
+  const mentionType = editor.schema.nodes['mention'];
+  if (!mentionType) return;
+  const replacements: { from: number; to: number; id: string; label: string; entryType: string }[] = [];
+  editor.state.doc.descendants((node, pos) => {
+    if (!node.isText) return;
+    const linkMark = node.marks.find(
+        m => m.type.name === 'link' && /^@[a-z\d_-]+:[a-z]+$/i.test(m.attrs['href'] as string)
+    );
+    if (!linkMark) return;
+    const [id, entryType] = (linkMark.attrs['href'] as string).slice(1).split(':');
+    const label = (node.text ?? '').replace(/^@/, '');
+    replacements.push({from: pos, to: pos + node.nodeSize, id, label, entryType});
+  });
+  if (!replacements.length) return;
+  let tr = editor.state.tr;
+  for (const r of [...replacements].reverse()) {
+    tr = tr.replaceWith(r.from, r.to, mentionType.create({id: r.id, label: r.label, entryType: r.entryType}));
+  }
+  editor.view.dispatch(tr);
+}
 
 // Extend Mention to carry entryType alongside id/label
 const MentionWithType = Mention.extend({
@@ -38,8 +96,9 @@ const MentionWithType = Mention.extend({
   addStorage() {
     return {
       markdown: {
-        serialize(state: { write: (s: string) => void }, node: { attrs: { label: string; entryType: string; id: string } }) {
-          state.write(`[@${node.attrs.label}](${entryDetailPath(node.attrs.entryType, node.attrs.id)})`);
+        // Serialize as bare @id — title is resolved server-side at render time
+        serialize(state: { write: (s: string) => void }, node: { attrs: { id: string } }) {
+          state.write(`@${node.attrs.id}`);
         },
       },
     };
@@ -168,7 +227,9 @@ export default function RichEditor({ value, onChange, minHeight = 200 }: {
   const { message } = App.useApp();
   const messageRef = useRef(message);
   useEffect(() => { messageRef.current = message; }, [message]);
-  const lastValue = useRef(value);
+  // null = not yet initialised; forces the first load to go through resolution
+  const lastValue = useRef<string | null>(null);
+  const skipOnUpdate = useRef(false);
   const [mentionState, setMentionState] = useState<MentionState | null>(null);
   const mentionListRef = useRef<MentionListHandle>(null);
   // Stable ref so suggestion callbacks always call the latest setter.
@@ -220,7 +281,7 @@ export default function RichEditor({ value, onChange, minHeight = 200 }: {
         },
       }),
     ],
-    content: value,
+    content: '',
     editorProps: {
       handlePaste: (_view, event) => {
         for (const item of event.clipboardData?.items ?? []) {
@@ -263,20 +324,28 @@ export default function RichEditor({ value, onChange, minHeight = 200 }: {
       },
     },
     onUpdate: ({ editor: e }) => {
+      if (skipOnUpdate.current) return;
       const md = (e.storage as unknown as { markdown: { getMarkdown: () => string } }).markdown.getMarkdown();
       lastValue.current = md;
       onChange(md);
     },
   });
 
-  // Sync external `value` changes into the editor (controlled-editor pattern).
-  // Guard: skip if value matches what the editor last emitted to avoid an edit→onChange→setContent
-  // loop. Limitation: if the parent normalises the markdown to a different string before passing
-  // it back, the guard will miss the change and the editor won't update.
+  // Load content into the editor, resolving any @id mentions to proper Mention nodes.
+  // lastValue starts as null so the first run always fires (even when value is '').
+  // resolveMentionsForEditor uses queryClient.fetchQuery, so StrictMode double-mount
+  // hits the cache on the second call rather than firing a second network request.
   useEffect(() => {
     if (!editor || value === lastValue.current) return;
-    lastValue.current = value;
-    editor.commands.setContent(value, false as unknown as Parameters<typeof editor.commands.setContent>[1]);
+    void resolveMentionsForEditor(value).then((resolved) => {
+      if (!editor) return;
+      skipOnUpdate.current = true;
+      editor.commands.setContent(resolved, false as unknown as Parameters<typeof editor.commands.setContent>[1]);
+      transformMentionLinks(editor);
+      skipOnUpdate.current = false;
+      const md = (editor.storage as unknown as { markdown: { getMarkdown: () => string } }).markdown.getMarkdown();
+      lastValue.current = md;
+    });
   }, [value, editor]);
 
   return (

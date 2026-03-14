@@ -1,11 +1,13 @@
 import {useEffect} from 'react';
 import './App.css';
 import {createBrowserRouter, Navigate, Outlet, RouterProvider, useLocation, useNavigate} from 'react-router-dom';
-import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {QueryClientProvider, useQuery} from '@tanstack/react-query';
+import {queryClient} from '@/lib/queryClient';
 import {App as AntApp, ConfigProvider, Spin, theme as antTheme} from 'antd';
 import {useAuthStore} from '@/stores/authStore';
 import {useThemeStore} from '@/stores/themeStore';
 import {checkCurrentUser} from '@/api/user';
+import {QK} from '@/utils/queryKeys';
 import AppLayout from '@/components/layout/AppLayout';
 import EntryListPage from '@/pages/EntryListPage';
 import EntryDetailPage from '@/pages/EntryDetailPage';
@@ -17,43 +19,35 @@ import SettingsPage from '@/pages/SettingsPage';
 import LoginPage from '@/pages/LoginPage';
 import ErrorBoundary from '@/components/common/ErrorBoundary';
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: 1,
-      staleTime: 30_000,
-      refetchOnWindowFocus: false,
-    },
-  },
-});
 
 function AuthGate() {
-  const { user, checked, loading, setUser, setChecked, setLoading } = useAuthStore();
+  const setUser = useAuthStore((s) => s.setUser);
   const navigate = useNavigate();
   const location = useLocation();
 
+  // useQuery deduplicates concurrent requests — safe under React StrictMode double-mount
+  const {data: user, isPending} = useQuery({
+    queryKey: QK.user(),
+    queryFn: checkCurrentUser,
+    retry: false,
+    staleTime: Infinity,
+  });
+
+  // Populate Zustand store for components that read user (AppHeader etc.)
   useEffect(() => {
-    let cancelled = false;
-    setLoading(true);
-    checkCurrentUser().then((currentUser) => {
-      if (cancelled) return;
-      setUser(currentUser);
-      setChecked(true);
-      setLoading(false);
-    });
-    return () => { cancelled = true; };
-  }, [setChecked, setLoading, setUser]);
+    setUser(user ?? null);
+  }, [user, setUser]);
 
   useEffect(() => {
-    if (!checked) return;
+    if (isPending) return;
     if (!user && location.pathname !== '/login') {
       navigate('/login', { replace: true });
     } else if (user && location.pathname === '/login') {
       navigate('/', { replace: true });
     }
-  }, [checked, user, location.pathname, navigate]);
+  }, [isPending, user, location.pathname, navigate]);
 
-  if (loading && !checked) {
+  if (isPending) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Spin size="large" />
@@ -61,11 +55,11 @@ function AuthGate() {
     );
   }
 
-  if (checked && !user && location.pathname !== '/login') {
+  if (!user && location.pathname !== '/login') {
     return <Navigate to="/login" replace />;
   }
 
-  if (checked && user && location.pathname === '/login') {
+  if (user && location.pathname === '/login') {
     return <Navigate to="/" replace />;
   }
 

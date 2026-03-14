@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import { App, Button, Collapse, Input } from 'antd';
-import { CheckOutlined, CloseOutlined, EditOutlined, SearchOutlined } from '@ant-design/icons';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {useState} from 'react';
+import {App, Button, Collapse, Input} from 'antd';
+import {CheckOutlined, CloseOutlined, EditOutlined, SearchOutlined} from '@ant-design/icons';
+import {useMutation, useQueryClient} from '@tanstack/react-query';
 import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
-import { updateLinkContent } from '@/api/entries';
-import { getApiErrorMessage } from '@/utils/apiError';
-import { QK } from '@/utils/queryKeys';
+import {updateLinkContent} from '@/api/entries';
+import {getApiErrorMessage} from '@/utils/apiError';
+import {QK} from '@/utils/queryKeys';
+import rehypeHighlight from "rehype-highlight";
 
 interface Props {
   entryId: string;
@@ -71,7 +71,7 @@ export default function SearchableContent({ entryId, content }: Props) {
         ) : (
           <div className="markdown-content">
             {content
-              ? <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>{content}</ReactMarkdown>
+                ? <ReactMarkdown rehypePlugins={[rehypeRaw, rehypeHighlight]}>{content}</ReactMarkdown>
               : <span style={{ color: 'var(--text-muted)' }}>No content. Click Edit to add some.</span>
             }
           </div>

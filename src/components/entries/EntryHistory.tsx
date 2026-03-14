@@ -1,9 +1,9 @@
-import { Spin, Tag, Typography } from 'antd';
-import { CheckCircleOutlined, ClockCircleOutlined, HistoryOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
-import { entryDetailPath, formatDateTime, formatRelative } from '@/utils/format';
-import { useEntryHistory } from '@/hooks/useEntryHistory';
-import type { EntryAuditItem, EntryVersion } from '@/types';
+import {Empty, Spin, Tag, Typography} from 'antd';
+import {CheckCircleOutlined, ClockCircleOutlined, HistoryOutlined} from '@ant-design/icons';
+import {useNavigate} from 'react-router-dom';
+import {entryDetailPath, formatDateTime, formatRelative} from '@/utils/format';
+import {useEntryHistory} from '@/hooks/useEntryHistory';
+import type {EntryAuditItem, EntryVersion} from '@/types';
 
 interface EntryHistoryProps {
   entryId: string;
@@ -111,9 +111,7 @@ export default function EntryHistory({ entryId, entryType, currentVersion }: Ent
       )}
 
       {versions.length === 0 && audit.length === 0 && (
-        <div style={{ padding: '32px 0', textAlign: 'center', color: 'var(--text-muted)' }}>
-          No history available
-        </div>
+          <Empty description="No history available" style={{padding: '24px 0'}}/>
       )}
     </div>
   );

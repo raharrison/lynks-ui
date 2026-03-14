@@ -357,6 +357,7 @@ body {
   padding: 14px 18px;
   border-radius: 10px;
   border: 1px solid var(--border-secondary);
+    background: var(--bg-surface);
   margin-bottom: 8px;
   transition: all 0.15s ease;
 }
@@ -379,6 +380,7 @@ body {
   padding: 12px;
   border-radius: 10px;
   border: 1px solid var(--border-secondary);
+    background: var(--bg-surface);
   transition: all 0.15s ease;
 }
 
@@ -437,7 +439,7 @@ body {
   border: 1px solid var(--border-primary);
   border-radius: 10px;
   overflow: hidden;
-  background: var(--bg-primary);
+    background: var(--bg-surface);
   transition: border-color 0.2s;
 }
 .rich-editor:focus-within {

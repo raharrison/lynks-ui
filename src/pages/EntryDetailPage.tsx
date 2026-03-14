@@ -37,7 +37,7 @@ export default function EntryDetailPage() {
   const activeTab = searchParams.get('tab') || 'resources';
 
   const { entry, isLoading, isFetching, isError } = useEntry(id, requestedVersion);
-  const { toggleStar } = useStarEntry(id || '');
+  const {toggleStar} = useStarEntry();
   const { deleteEntry } = useDeleteEntry();
 
   useEffect(() => {
@@ -147,7 +147,8 @@ export default function EntryDetailPage() {
           <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
             <Tooltip title={entry.starred ? 'Unstar' : 'Star'}>
               <Button size="middle" icon={entry.starred ? <StarFilled style={{ color: 'var(--color-warning)' }} /> : <StarOutlined />}
-                      onClick={() => toggleStar(entry.starred)} aria-label={entry.starred ? 'Unstar entry' : 'Star entry'} />
+                      onClick={() => toggleStar(entry.id, entry.starred)}
+                      aria-label={entry.starred ? 'Unstar entry' : 'Star entry'}/>
             </Tooltip>
             <Button size="middle" icon={<EditOutlined />} onClick={() => navigate(entryEditPath(entry.type, entry.id))}>Edit</Button>
             <Popconfirm title="Delete this entry?" description="This action cannot be undone."

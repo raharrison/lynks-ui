@@ -10,13 +10,13 @@ export default defineConfig({
     },
   },
   build: {
-    rollupOptions: {
+    rolldownOptions: {
       output: {
-        manualChunks: {
-          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-antd': ['antd', '@ant-design/icons'],
-          'vendor-query': ['@tanstack/react-query'],
-          'vendor-markdown': ['react-markdown', 'remark-gfm'],
+        manualChunks(id) {
+          if (id.includes('/node_modules/react') || id.includes('/node_modules/react-dom') || id.includes('/node_modules/react-router')) return 'vendor-react';
+          if (id.includes('/node_modules/antd/') || id.includes('/node_modules/@ant-design/')) return 'vendor-antd';
+          if (id.includes('/node_modules/@tiptap/') || id.includes('/node_modules/tiptap-markdown') || id.includes('/node_modules/prosemirror')) return 'vendor-editor';
+          if (id.includes('/node_modules/react-markdown/') || id.includes('/node_modules/rehype') || id.includes('/node_modules/remark') || id.includes('/node_modules/lowlight/') || id.includes('/node_modules/highlight.js/')) return 'vendor-markdown';
         },
       },
     },

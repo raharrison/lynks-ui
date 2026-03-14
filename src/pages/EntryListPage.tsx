@@ -1,13 +1,20 @@
-import { useCallback, useEffect } from 'react';
-import { Button, Empty, Input, Pagination, Segmented, Select, Skeleton, Spin } from 'antd';
-import { GlobalOutlined, SortAscendingOutlined, SortDescendingOutlined, SwapOutlined } from '@ant-design/icons';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { buildFilterUrl, parseSearchParams, pathToType } from '@/hooks/useUrlFilterSync';
-import { useEntries } from '@/hooks/useEntries';
-import { ENTRY_TYPE_LABELS, PAGE_SIZE_OPTIONS, SEARCH_SORT_OPTIONS, SORT_OPTIONS } from '@/utils/constants';
+import {useCallback, useEffect} from 'react';
+import {Button, Empty, Input, Pagination, Segmented, Select, Skeleton, Spin} from 'antd';
+import {GlobalOutlined, SortAscendingOutlined, SortDescendingOutlined, SwapOutlined} from '@ant-design/icons';
+import {useLocation, useNavigate, useParams, useSearchParams} from 'react-router-dom';
+import {buildFilterUrl, parseSearchParams} from '@/hooks/useUrlFilterSync';
+import {useEntries} from '@/hooks/useEntries';
+import {useStarEntry} from '@/hooks/useStarEntry';
+import {ENTRY_TYPE_LABELS, PAGE_SIZE_OPTIONS, SEARCH_SORT_OPTIONS, SORT_OPTIONS} from '@/utils/constants';
+import {ENTRY_PATH_PREFIX} from '@/utils/format';
 import EntryCard from '@/components/entries/EntryCard';
 import ActiveFilters from '@/components/entries/ActiveFilters';
-import type { EntryType, SortDirection } from '@/types';
+import type {EntryType, SortDirection} from '@/types';
+
+// Reverse of ENTRY_PATH_PREFIX: 'links' → 'link', etc.
+const prefixToType: Record<string, EntryType> = Object.fromEntries(
+    Object.entries(ENTRY_PATH_PREFIX).map(([type, prefix]) => [prefix, type as EntryType])
+);
 
 function ListSkeleton() {
   return (
@@ -30,11 +37,14 @@ export default function EntryListPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const {entryType: entryTypeParam} = useParams<{ entryType?: string }>();
 
-  const entryType: EntryType | null = pathToType[location.pathname] ?? null;
+  const entryType: EntryType | null = entryTypeParam ? (prefixToType[entryTypeParam] ?? null) : null;
   const { tags, collections, searchQuery, source, sort, direction, page, size } = parseSearchParams(
     searchParams.toString() ? `?${searchParams.toString()}` : ''
   );
+
+  const {toggleStar} = useStarEntry();
 
   // Reset sort when search is cleared
   useEffect(() => {
@@ -135,9 +145,9 @@ export default function EntryListPage() {
         <Empty description={searchQuery ? `No results for "${searchQuery}"` : 'No entries found'} style={{ padding: '48px 0' }} />
       ) : (
         <>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <div className="entry-list">
             {entries.map((entry) => (
-              <EntryCard key={entry.id} entry={entry} />
+                <EntryCard key={entry.id} entry={entry} onStar={toggleStar}/>
             ))}
           </div>
 

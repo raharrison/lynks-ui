@@ -1,18 +1,12 @@
-import { memo, useState } from 'react';
-import { Button, Tag, Tooltip } from 'antd';
-import {
-  EyeInvisibleOutlined,
-  EyeOutlined,
-  StarFilled,
-  StarOutlined,
-} from '@ant-design/icons';
-import { Link } from 'react-router-dom';
-import { ENTRY_TYPE_COLORS, ENTRY_TYPE_LABELS } from '@/utils/constants';
-import { ENTRY_TYPE_ICONS } from '@/utils/icons';
-import { entryDetailPath, formatRelative, truncate } from '@/utils/format';
-import { EntryCollectionChip, EntryTagChip } from '@/components/common/EntryGroupChips';
-import { useStarEntry } from '@/hooks/useStarEntry';
-import type { AnySlimEntry } from '@/types';
+import {memo, useMemo, useState} from 'react';
+import {Button, Tag, Tooltip} from 'antd';
+import {EyeInvisibleOutlined, EyeOutlined, StarFilled, StarOutlined,} from '@ant-design/icons';
+import {Link} from 'react-router-dom';
+import {ENTRY_TYPE_COLORS, ENTRY_TYPE_LABELS} from '@/utils/constants';
+import {ENTRY_TYPE_ICONS} from '@/utils/icons';
+import {entryDetailPath, formatRelative, truncate} from '@/utils/format';
+import {EntryCollectionChip, EntryTagChip} from '@/components/common/EntryGroupChips';
+import type {AnySlimEntry} from '@/types';
 
 function stripHtml(html: string): string {
   return html.replace(/<[^>]*>/g, '').trim();
@@ -31,21 +25,19 @@ function getSubtitle(entry: AnySlimEntry): string | null {
 
 interface EntryCardProps {
   entry: AnySlimEntry;
+  onStar: (id: string, starred: boolean) => void;
 }
 
-function EntryCard({ entry }: EntryCardProps) {
-  const { toggleStar } = useStarEntry(entry.id);
-
+function EntryCard({entry, onStar}: EntryCardProps) {
   const thumbnailId = entry.type === 'link' ? entry.thumbnailId : null;
   const isRead = entry.type === 'link' ? entry.read : true;
-  const title = getTitle(entry);
+  const title = useMemo(() => getTitle(entry), [entry]);
   const subtitle = getSubtitle(entry);
   const [thumbnailError, setThumbnailError] = useState(false);
 
   return (
     <Link to={entryDetailPath(entry.type, entry.id)} className="entry-card-link">
-      <div className={`entry-card${isRead && entry.type === 'link' ? ' entry-card--read' : ''}`}
-           style={{ borderRadius: 'var(--radius-lg)', padding: '16px 20px', background: 'var(--bg-surface)' }}>
+      <div className={`entry-card${isRead && entry.type === 'link' ? ' entry-card--read' : ''}`}>
         <div className="entry-card-body">
           {thumbnailId && !thumbnailError && (
             <div className="entry-card-thumbnail">
@@ -85,7 +77,10 @@ function EntryCard({ entry }: EntryCardProps) {
                 type="text"
                 size="small"
                 icon={entry.starred ? <StarFilled style={{ color: 'var(--color-warning)' }} /> : <StarOutlined />}
-                onClick={(e) => { e.preventDefault(); toggleStar(entry.starred); }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  onStar(entry.id, entry.starred);
+                }}
                 aria-label={entry.starred ? 'Unstar entry' : 'Star entry'}
               />
             </div>

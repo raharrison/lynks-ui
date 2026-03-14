@@ -74,11 +74,7 @@ const router = createBrowserRouter([
       {
         element: <ErrorBoundary><AppLayout /></ErrorBoundary>,
         children: [
-          { path: '/', element: <EntryListPage /> },
-          { path: '/links', element: <EntryListPage /> },
-          { path: '/notes', element: <EntryListPage /> },
-          { path: '/snippets', element: <EntryListPage /> },
-          { path: '/files', element: <EntryListPage /> },
+          {path: '/:entryType?', element: <EntryListPage/>},
           // Typed detail routes
           { path: '/links/:id', element: <EntryDetailPage /> },
           { path: '/notes/:id', element: <EntryDetailPage /> },

@@ -1,16 +1,26 @@
 import {useEffect, useRef, useState} from 'react';
 import {createPortal} from 'react-dom';
-import {type Editor, EditorContent, useEditor} from '@tiptap/react';
+import {type Editor, EditorContent, ReactNodeViewRenderer, useEditor} from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import ImageExt from '@tiptap/extension-image';
 import LinkExt from '@tiptap/extension-link';
 import Mention from '@tiptap/extension-mention';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
+import {
+  Table as TableExt,
+  TableCell as TableCellExt,
+  TableHeader as TableHeaderExt,
+  TableRow as TableRowExt
+} from '@tiptap/extension-table';
+import {TaskItem, TaskList} from '@tiptap/extension-list';
+import Placeholder from '@tiptap/extension-placeholder';
 import {Markdown} from 'tiptap-markdown';
-import {common, createLowlight} from 'lowlight';
 import {App, Button, Input, Popover, Tooltip} from 'antd';
+import {lowlight} from './lowlight';
+import CodeBlockView from './CodeBlockView';
 import {
   BoldOutlined,
+  CheckSquareOutlined,
   CodeOutlined,
   ItalicOutlined,
   LineOutlined,
@@ -29,7 +39,6 @@ import {IMAGE_UPLOAD_PATH, MENTION_RESULTS_SIZE} from '@/utils/constants';
 import MentionList, {type MentionListHandle} from './MentionList';
 import type {AnySlimEntry} from '@/types';
 
-const lowlight = createLowlight(common);
 
 // Matches @id patterns stored in markdown (same character set as backend EntryLinkInlineParserExtension)
 const MENTION_PATTERN = /(?<!\w)@([a-z\d_-]{1,15})(?![\w-])/gi;
@@ -203,10 +212,13 @@ function Toolbar({ editor }: { editor: Editor }) {
       <span className="toolbar-sep" />
       <ToolbarBtn title="Bullet list" active={editor.isActive('bulletList')} onClick={() => editor.chain().focus().toggleBulletList().run()}><UnorderedListOutlined /></ToolbarBtn>
       <ToolbarBtn title="Ordered list" active={editor.isActive('orderedList')} onClick={() => editor.chain().focus().toggleOrderedList().run()}><OrderedListOutlined /></ToolbarBtn>
+      <ToolbarBtn title="Task list" active={editor.isActive('taskList')}
+                  onClick={() => editor.chain().focus().toggleTaskList().run()}><CheckSquareOutlined/></ToolbarBtn>
       <span className="toolbar-sep" />
       <ToolbarBtn title="Code block" active={editor.isActive('codeBlock')} onClick={() => editor.chain().focus().toggleCodeBlock().run()}>
         <span style={{ fontSize: 'var(--font-size-xxs)', fontFamily: 'monospace', fontWeight: 700 }}>{'<>'}</span>
       </ToolbarBtn>
+
       <ToolbarBtn title="Blockquote" active={editor.isActive('blockquote')} onClick={() => editor.chain().focus().toggleBlockquote().run()}>
         <span style={{ fontSize: 'var(--font-size-sm)', fontWeight: 700 }}>"</span>
       </ToolbarBtn>
@@ -239,9 +251,20 @@ export default function RichEditor({ value, onChange, minHeight = 200 }: {
   const editor = useEditor({
     extensions: [
       StarterKit.configure({ codeBlock: false, link: false }),
-      CodeBlockLowlight.configure({ lowlight }),
+      CodeBlockLowlight.extend({
+        addNodeView() {
+          return ReactNodeViewRenderer(CodeBlockView);
+        },
+      }).configure({lowlight}),
       ImageExt.configure({ inline: false }),
       LinkExt.configure({ openOnClick: false, autolink: true }),
+      TableExt.configure({resizable: false}),
+      TableRowExt,
+      TableCellExt,
+      TableHeaderExt,
+      TaskList,
+      TaskItem.configure({nested: true}),
+      Placeholder.configure({placeholder: 'Write something…'}),
       Markdown.configure({ html: false, transformCopiedText: true, transformPastedText: true }),
       MentionWithType.configure({
         HTMLAttributes: { class: 'mention-node' },

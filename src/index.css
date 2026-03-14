@@ -414,6 +414,24 @@ body {
 }
 
 
+/* ─── Collapse / accordion headers ─── */
+.ant-collapse > .ant-collapse-item > .ant-collapse-header {
+  background: var(--bg-elevated);
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  letter-spacing: 0.01em;
+  border-radius: inherit !important;
+  transition: background 0.15s;
+}
+.ant-collapse > .ant-collapse-item > .ant-collapse-header:hover {
+  background: color-mix(in srgb, var(--accent) 8%, var(--bg-elevated));
+}
+.ant-collapse > .ant-collapse-item-active > .ant-collapse-header {
+  border-bottom: 1px solid var(--border-secondary);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0 !important;
+  color: var(--accent);
+}
+
 /* ─── Rich editor ─── */
 .rich-editor {
   border: 1px solid var(--border-primary);

@@ -106,6 +106,13 @@ export async function deleteLink(id: string): Promise<void> {
   await client.delete(`/link/${id}`);
 }
 
+export async function updateLinkContent(id: string, content: string): Promise<string> {
+  const { data } = await client.post(`/link/${id}/content`, content, {
+    headers: { 'Content-Type': 'text/plain' },
+  });
+  return (data as { content: string }).content;
+}
+
 export async function markLinkRead(id: string): Promise<Link> {
   const { data } = await client.post(`/link/${id}/read`);
   return data;

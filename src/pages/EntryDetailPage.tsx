@@ -113,12 +113,21 @@ export default function EntryDetailPage() {
         />
       )}
 
-      {/* Header */}
-      <div style={{ marginBottom: 24 }}>
-        <Breadcrumb style={{ marginBottom: 12 }} items={[
-          { title: <a onClick={() => navigate(`/${ENTRY_PATH_PREFIX[entry.type]}`)} style={{ cursor: 'pointer' }}>{ENTRY_TYPE_LABELS[entry.type]}s</a> },
-          { title: title },
-        ]} />
+      {/* Breadcrumb */}
+      <Breadcrumb style={{ marginBottom: 12 }} items={[
+        { title: <a onClick={() => navigate(`/${ENTRY_PATH_PREFIX[entry.type]}`)} style={{ cursor: 'pointer' }}>{ENTRY_TYPE_LABELS[entry.type]}s</a> },
+        { title: title },
+      ]} />
+
+      {/* Header panel */}
+      <div style={{
+        marginBottom: 24,
+        padding: '20px 24px',
+        background: 'var(--bg-surface)',
+        border: '1px solid var(--border-secondary)',
+        borderLeft: entry.starred ? '4px solid var(--color-warning)' : '1px solid var(--border-secondary)',
+        borderRadius: 'var(--radius-lg)',
+      }}>
 
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap' }}>
           <div style={{ flex: 1, minWidth: 0 }}>
@@ -156,7 +165,7 @@ export default function EntryDetailPage() {
         </div>
       </div>
 
-      <div style={{ height: 1, background: 'var(--border-secondary)', margin: '0 0 24px 0' }} />
+      <div style={{ marginBottom: 24 }} />
 
       {/* Type-specific content */}
       {entry.type === 'link' && <LinkDetail entry={entry} />}

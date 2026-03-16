@@ -1,7 +1,7 @@
+import {useEffect, useRef, useState} from 'react';
 import {useBlocker, useNavigate, useParams} from 'react-router-dom';
 import {entryDetailPath} from '@/utils/format';
 import {Button, Card, Modal, Result} from 'antd';
-import {useRef, useState} from 'react';
 import PageSkeleton from '@/components/common/PageSkeleton';
 import {ArrowLeftOutlined} from '@ant-design/icons';
 import {ENTRY_TYPE_LABELS} from '@/utils/constants';
@@ -16,6 +16,12 @@ export default function EditEntryPage() {
   const navigate = useNavigate();
   const { entry, isLoading, isError } = useEntry(id);
   const [isDirty, setIsDirty] = useState(false);
+
+    useEffect(() => {
+        if (!entry) return;
+        const title = 'title' in entry ? entry.title : ENTRY_TYPE_LABELS[entry.type];
+        document.title = `Edit ${title} - Lynks`;
+    }, [entry]);
     const saving = useRef(false);
     const blocker = useBlocker(() => isDirty && !saving.current);
 

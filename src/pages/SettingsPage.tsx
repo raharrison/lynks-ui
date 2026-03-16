@@ -1,5 +1,6 @@
-import { Card, Divider, Tabs, Typography } from 'antd';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import {useEffect} from 'react';
+import {Card, Divider, Tabs, Typography} from 'antd';
+import {useNavigate, useSearchParams} from 'react-router-dom';
 import ProfileSettings from './settings/ProfileSettings';
 import PasswordSettings from './settings/PasswordSettings';
 import TwoFactorSettings from './settings/TwoFactorSettings';
@@ -7,10 +8,19 @@ import TagManagement from './settings/TagManagement';
 import CollectionManagement from './settings/CollectionManagement';
 import ActivityLog from './settings/ActivityLog';
 
+const TAB_LABELS: Record<string, string> = {
+    profile: 'Profile', security: 'Security',
+    tags: 'Tags', collections: 'Collections', activity: 'Activity',
+};
+
 export default function SettingsPage() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const activeTab = searchParams.get('tab') || 'profile';
+
+    useEffect(() => {
+        document.title = `Settings - ${TAB_LABELS[activeTab] ?? 'Settings'} - Lynks`;
+    }, [activeTab]);
 
   return (
     <div>

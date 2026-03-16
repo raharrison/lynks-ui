@@ -1,10 +1,16 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {
-  createFile, createLink, createNote, createSnippet,
-  updateFile, updateLink, updateNote, updateSnippet,
+  createFile,
+  createLink,
+  createNote,
+  createSnippet,
+  updateFile,
+  updateLink,
+  updateNote,
+  updateSnippet,
 } from '@/api/entries';
-import { QK } from '@/utils/queryKeys';
-import type { AnyEntry, EntryType, NewAnyEntry, NewFile, NewLink, NewNote, NewSnippet } from '@/types';
+import {QK} from '@/utils/queryKeys';
+import type {AnyEntry, EntryType, NewAnyEntry, NewFile, NewLink, NewNote, NewSnippet} from '@/types';
 
 const createFns: Record<EntryType, (p: NewAnyEntry) => Promise<AnyEntry>> = {
   link: (p) => createLink(p as NewLink),
@@ -34,7 +40,7 @@ export function useSaveEntry(type: EntryType, entryId?: string) {
       isEdit ? updateFns[type](payload) : createFns[type](payload),
     onSuccess: (saved) => {
       queryClient.invalidateQueries({ queryKey: QK.entries() });
-      // For updates, populate the detail cache directly from the response — no extra fetch needed
+      // For updates, populate the detail cache directly from the response - no extra fetch needed
       if (entryId) queryClient.setQueryData(QK.entry(entryId), saved);
     },
   });

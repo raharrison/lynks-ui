@@ -177,7 +177,7 @@ export default function EntryDetailPage() {
         items={tabItems}
       />
 
-      {/* Comments — below tabs */}
+        {/* Comments - below tabs */}
       <div style={{ marginTop: 32 }}>
         <div style={{ height: 1, background: 'var(--border-secondary)', marginBottom: 24 }} />
         <Typography.Title level={5} style={{ marginBottom: 16 }}>Comments</Typography.Title>

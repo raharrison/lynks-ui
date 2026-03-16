@@ -25,7 +25,7 @@ function AuthGate() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // useQuery deduplicates concurrent requests — safe under React StrictMode double-mount
+    // useQuery deduplicates concurrent requests - safe under React StrictMode double-mount
   const {data: user, isPending} = useQuery({
     queryKey: QK.user(),
     queryFn: checkCurrentUser,

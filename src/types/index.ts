@@ -271,7 +271,17 @@ export interface Notification {
 }
 
 // Resources
-export type ResourceType = 'upload' | 'screenshot' | 'thumbnail' | 'preview' | 'page' | 'document' | 'readable_doc' | 'readable_text' | 'generated';
+export type ResourceType =
+    'upload'
+    | 'screenshot'
+    | 'thumbnail'
+    | 'preview'
+    | 'page'
+    | 'document'
+    | 'readable_doc'
+    | 'readable_text'
+    | 'generated'
+    | 'single_file';
 
 export interface Resource {
   id: string;

@@ -1,5 +1,5 @@
-import type { EntryType, SortDirection } from '@/types';
-import { ENTRY_PATH_PREFIX } from '@/utils/format';
+import type {EntryType, SortDirection} from '@/types';
+import {ENTRY_PATH_PREFIX} from '@/utils/format';
 
 const DEFAULTS = {
   sort: 'dateUpdated',
@@ -57,7 +57,7 @@ export const LIST_PATHS = Object.keys(pathToType);
 
 /**
  * Build a URL for a list page by merging overrides onto the CURRENT URL params
- * (reads directly from window.location.search — no async store lag).
+ * (reads directly from window.location.search - no async store lag).
  */
 export function buildFilterUrl(
   overrides: Partial<{

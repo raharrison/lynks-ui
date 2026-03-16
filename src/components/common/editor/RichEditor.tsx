@@ -105,7 +105,7 @@ const MentionWithType = Mention.extend({
   addStorage() {
     return {
       markdown: {
-        // Serialize as bare @id — title is resolved server-side at render time
+        // Serialize as bare @id - title is resolved server-side at render time
         serialize(state: { write: (s: string) => void }, node: { attrs: { id: string } }) {
           state.write(`@${node.attrs.id}`);
         },

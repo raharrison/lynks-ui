@@ -1,7 +1,7 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { login, logout } from '@/api/user';
-import { useAuthStore } from '@/stores/authStore';
-import type { AuthRequest } from '@/types';
+import {useMutation, useQueryClient} from '@tanstack/react-query';
+import {login, logout} from '@/api/user';
+import {useAuthStore} from '@/stores/authStore';
+import type {AuthRequest} from '@/types';
 
 export function useLogin() {
   const mutation = useMutation({
@@ -25,7 +25,7 @@ export function useLogout() {
       queryClient.clear();
     },
     onError: () => {
-      // Logout errors are non-critical — clear auth anyway
+        // Logout errors are non-critical - clear auth anyway
       clear();
     },
   });

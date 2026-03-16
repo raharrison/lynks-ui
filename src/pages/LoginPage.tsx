@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {App, Button, Card, Form, Input, Typography} from 'antd';
 import {LockOutlined, SafetyOutlined, UserOutlined} from '@ant-design/icons';
 import {useQueryClient} from '@tanstack/react-query';
@@ -7,6 +7,9 @@ import {checkCurrentUser} from '@/api/user';
 import {QK} from '@/utils/queryKeys';
 
 export default function LoginPage() {
+  useEffect(() => {
+    document.title = 'Login - Lynks';
+  }, []);
   const [needsTotp, setNeedsTotp] = useState(false);
   const [credentials, setCredentials] = useState({ username: '', password: '' });
   const { message } = App.useApp();

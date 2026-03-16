@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { App, Badge, Button, Empty, Pagination, Result, Spin, Tag, Typography } from 'antd';
+import {useEffect, useState} from 'react';
+import {App, Badge, Button, Empty, Pagination, Result, Spin, Tag, Typography} from 'antd';
 import {
   BellOutlined,
   CheckCircleOutlined,
@@ -9,11 +9,11 @@ import {
   MessageOutlined,
   WarningOutlined,
 } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
-import { formatRelative } from '@/utils/format';
-import { useNotifications } from '@/hooks/useNotifications';
-import { NOTIFICATIONS_PAGE_SIZE } from '@/utils/constants';
-import type { Notification, NotificationType } from '@/types';
+import {useNavigate} from 'react-router-dom';
+import {formatRelative} from '@/utils/format';
+import {useNotifications} from '@/hooks/useNotifications';
+import {NOTIFICATIONS_PAGE_SIZE} from '@/utils/constants';
+import type {Notification, NotificationType} from '@/types';
 
 const typeConfig: Record<NotificationType, { color: string; icon: React.ReactNode }> = {
   processed: { color: 'green', icon: <CheckCircleOutlined /> },
@@ -23,6 +23,9 @@ const typeConfig: Record<NotificationType, { color: string; icon: React.ReactNod
 };
 
 export default function NotificationsPage() {
+    useEffect(() => {
+        document.title = 'Notifications - Lynks';
+    }, []);
   const { message } = App.useApp();
   const navigate = useNavigate();
   const [page, setPage] = useState(1);

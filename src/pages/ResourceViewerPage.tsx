@@ -17,7 +17,7 @@ import {
 import {deleteResource, getResourceInfo, getResourceUrl, updateResource} from '@/api/resources';
 import {formatDateTime, formatFileSize} from '@/utils/format';
 import {QK} from '@/utils/queryKeys';
-import { getApiErrorMessage } from '@/utils/apiError';
+import {getApiErrorMessage} from '@/utils/apiError';
 import type {Resource} from '@/types';
 import client from '@/api/client';
 
@@ -152,6 +152,20 @@ function HtmlViewer({ entryId, resource }: { entryId: string; resource: Resource
 
 function ResourceContent({ entryId, resource }: { entryId: string; resource: Resource }) {
   const url = getResourceUrl(entryId, resource.id);
+
+  // single_file is self-contained HTML with inlined CSS/fonts/images as data URIs.
+  // DOMPurify strips data URIs and inline styles so it must bypass HtmlViewer and
+  // render in an iframe (same as PDF) to preserve the full offline-renderable page.
+  if (resource.type === 'single_file') {
+    return (
+        <iframe
+            src={url}
+            title={resource.name}
+            style={{width: '100%', height: '75vh', border: 'none', borderRadius: 10}}
+        />
+    );
+  }
+
   const viewType = getViewType(resource.extension);
 
   switch (viewType) {

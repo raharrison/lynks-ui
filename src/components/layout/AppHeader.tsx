@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Avatar, Badge, Button, Dropdown, Input, Layout, Menu, Segmented, Typography } from 'antd';
+import {useCallback, useEffect, useMemo, useState} from 'react';
+import {App, Avatar, Badge, Button, Dropdown, Input, Layout, Menu, Segmented, Typography} from 'antd';
 import {
   BellOutlined,
   CodeOutlined,
@@ -18,17 +18,16 @@ import {
   SettingOutlined,
   SunOutlined,
 } from '@ant-design/icons';
-import { useIsFetching } from '@tanstack/react-query';
-import { App } from 'antd';
-import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { useSidebarStore } from '@/stores/sidebarStore';
-import { buildFilterUrl, LIST_PATHS } from '@/hooks/useUrlFilterSync';
-import { useAuthStore } from '@/stores/authStore';
-import type { ThemeMode } from '@/stores/themeStore';
-import { useThemeStore } from '@/stores/themeStore';
-import { useUnreadCount } from '@/hooks/useUnreadCount';
-import { useLogout } from '@/hooks/useAuth';
-import { entryCreatePath } from '@/utils/format';
+import {useIsFetching} from '@tanstack/react-query';
+import {Link, useLocation, useNavigate, useSearchParams} from 'react-router-dom';
+import {useSidebarStore} from '@/stores/sidebarStore';
+import {buildFilterUrl, LIST_PATHS} from '@/hooks/useUrlFilterSync';
+import {useAuthStore} from '@/stores/authStore';
+import type {ThemeMode} from '@/stores/themeStore';
+import {useThemeStore} from '@/stores/themeStore';
+import {useUnreadCount} from '@/hooks/useUnreadCount';
+import {useLogout} from '@/hooks/useAuth';
+import {entryCreatePath} from '@/utils/format';
 
 const navItems = [
   { key: '/', label: 'Entries' },
@@ -72,7 +71,7 @@ export default function AppHeader() {
     logout(undefined, {
       onSuccess: () => navigate('/login', { replace: true }),
       onError: () => {
-        message.error('Logout failed — you may still be signed in on the server');
+          message.error('Logout failed - you may still be signed in on the server');
         navigate('/login', { replace: true });
       },
     });

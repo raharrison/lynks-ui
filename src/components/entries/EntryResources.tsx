@@ -1,19 +1,19 @@
-import { App, Button, Empty, Popconfirm, Spin, Tag, Tooltip, Typography, Upload } from 'antd';
+import {App, Button, Empty, Popconfirm, Spin, Tag, Tooltip, Typography, Upload} from 'antd';
 import {
   DeleteOutlined,
   DownloadOutlined,
   FileOutlined,
   FileTextOutlined,
+  GlobalOutlined,
   PictureOutlined,
   UploadOutlined,
 } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
-import { getResourceUrl } from '@/api/resources';
-import { entryDetailPath, formatDate, formatFileSize } from '@/utils/format';
-import { getApiErrorMessage } from '@/utils/apiError';
-import type { EntryType } from '@/types';
-import { useResources } from '@/hooks/useResources';
-import type { Resource, ResourceType } from '@/types';
+import {Link} from 'react-router-dom';
+import {getResourceUrl} from '@/api/resources';
+import {entryDetailPath, formatDate, formatFileSize} from '@/utils/format';
+import {getApiErrorMessage} from '@/utils/apiError';
+import type {EntryType, Resource, ResourceType} from '@/types';
+import {useResources} from '@/hooks/useResources';
 
 const resourceTypeIcons: Partial<Record<ResourceType, React.ReactNode>> = {
   upload: <UploadOutlined />,
@@ -25,6 +25,7 @@ const resourceTypeIcons: Partial<Record<ResourceType, React.ReactNode>> = {
   readable_doc: <FileTextOutlined />,
   readable_text: <FileTextOutlined />,
   generated: <FileOutlined />,
+  single_file: <GlobalOutlined/>,
 };
 
 const imageExtensions = new Set(['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg']);

@@ -1,7 +1,7 @@
+import {useEffect, useRef, useState} from 'react';
 import {useBlocker, useNavigate} from 'react-router-dom';
 import {ENTRY_PATH_PREFIX, entryDetailPath} from '@/utils/format';
 import {Button, Card, Modal} from 'antd';
-import {useRef, useState} from 'react';
 import {ArrowLeftOutlined} from '@ant-design/icons';
 import {ENTRY_TYPE_LABELS} from '@/utils/constants';
 import LinkForm from '@/components/entries/forms/LinkForm';
@@ -11,6 +11,9 @@ import FileForm from '@/components/entries/forms/FileForm';
 import type {EntryType} from '@/types';
 
 export default function CreateEntryPage({ type }: { type: EntryType }) {
+    useEffect(() => {
+        document.title = `New ${ENTRY_TYPE_LABELS[type]} - Lynks`;
+    }, [type]);
   const navigate = useNavigate();
   const [isDirty, setIsDirty] = useState(false);
     const saving = useRef(false);

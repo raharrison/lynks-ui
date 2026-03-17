@@ -14,7 +14,7 @@ function stripHtml(html: string): string {
 
 function getTitle(entry: AnySlimEntry): string {
   if ('title' in entry) return entry.title;
-  if ('markdownText' in entry) return truncate(stripHtml(entry.markdownText), 80);
+    if ('renderedContent' in entry) return truncate(stripHtml(entry.renderedContent), 80);
   return (entry as { id: string }).id;
 }
 

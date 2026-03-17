@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { App, Button, Typography } from 'antd';
-import { SaveOutlined } from '@ant-design/icons';
-import { useSaveEntry } from '@/hooks/useSaveEntry';
-import { useEntryFormGroups } from '@/hooks/useEntryFormGroups';
+import {useState} from 'react';
+import {App, Button, Typography} from 'antd';
+import {SaveOutlined} from '@ant-design/icons';
+import {useSaveEntry} from '@/hooks/useSaveEntry';
+import {useEntryFormGroups} from '@/hooks/useEntryFormGroups';
 import RichEditor from '@/components/common/editor/RichEditor';
 import TagCollectionSelect from '@/components/common/TagCollectionSelect';
-import { getApiErrorMessage } from '@/utils/apiError';
-import type { NewSnippet, Snippet } from '@/types';
+import {getApiErrorMessage} from '@/utils/apiError';
+import type {NewSnippet, Snippet} from '@/types';
 
 interface SnippetFormProps {
   entry?: Snippet;
@@ -19,13 +19,13 @@ export default function SnippetForm({ entry, onSuccess, onCancel, onDirtyChange 
   const { message } = App.useApp();
   const isEdit = !!entry;
   const { tags, setTags, collections, setCollections } = useEntryFormGroups(entry);
-  const [plainText, setPlainText] = useState(entry?.plainText || '');
+    const [content, setContent] = useState(entry?.plainContent || '');
   const mutation = useSaveEntry('snippet', entry?.id);
 
   const handleSave = () => {
     const payload: NewSnippet = {
       ...(isEdit && { id: entry.id }),
-      plainText,
+        content,
       tags,
       collections,
     };
@@ -42,7 +42,10 @@ export default function SnippetForm({ entry, onSuccess, onCancel, onDirtyChange 
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
       <div>
         <Typography.Text style={{ display: 'block', marginBottom: 6 }}>Content</Typography.Text>
-        <RichEditor value={plainText} onChange={(v) => { setPlainText(v); onDirtyChange?.(true); }} minHeight={300} />
+          <RichEditor value={content} onChange={(v) => {
+              setContent(v);
+              onDirtyChange?.(true);
+          }} minHeight={300}/>
       </div>
       <TagCollectionSelect
         selectedTags={tags}
@@ -56,7 +59,7 @@ export default function SnippetForm({ entry, onSuccess, onCancel, onDirtyChange 
           icon={<SaveOutlined />}
           onClick={handleSave}
           loading={mutation.isPending}
-          disabled={!plainText.trim()}
+          disabled={!content.trim()}
           style={{ borderRadius: 'var(--radius-pill)' }}
         >
           {isEdit ? 'Save' : 'Create Snippet'}

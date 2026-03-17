@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { App, Button, Form, Input } from 'antd';
-import { SaveOutlined } from '@ant-design/icons';
-import { useSaveEntry } from '@/hooks/useSaveEntry';
-import { useEntryFormGroups } from '@/hooks/useEntryFormGroups';
+import {useState} from 'react';
+import {App, Button, Form, Input} from 'antd';
+import {SaveOutlined} from '@ant-design/icons';
+import {useSaveEntry} from '@/hooks/useSaveEntry';
+import {useEntryFormGroups} from '@/hooks/useEntryFormGroups';
 import RichEditor from '@/components/common/editor/RichEditor';
 import TagCollectionSelect from '@/components/common/TagCollectionSelect';
-import { getApiErrorMessage } from '@/utils/apiError';
-import type { NewNote, Note } from '@/types';
+import {getApiErrorMessage} from '@/utils/apiError';
+import type {NewNote, Note} from '@/types';
 
 interface NoteFormProps {
   entry?: Note;
@@ -20,14 +20,14 @@ export default function NoteForm({ entry, onSuccess, onCancel, onDirtyChange }: 
   const isEdit = !!entry;
   const [form] = Form.useForm();
   const { tags, setTags, collections, setCollections } = useEntryFormGroups(entry);
-  const [plainText, setPlainText] = useState(entry?.plainText || '');
+    const [content, setContent] = useState(entry?.plainContent || '');
   const mutation = useSaveEntry('note', entry?.id);
 
   const handleFinish = (values: { title: string }) => {
     const payload: NewNote = {
       ...(isEdit && { id: entry.id }),
       title: values.title,
-      plainText,
+        content,
       tags,
       collections,
     };
@@ -52,7 +52,10 @@ export default function NoteForm({ entry, onSuccess, onCancel, onDirtyChange }: 
         <Input placeholder="Note title" />
       </Form.Item>
       <Form.Item label="Content" required>
-        <RichEditor value={plainText} onChange={(v) => { setPlainText(v); onDirtyChange?.(true); }} minHeight={400} />
+          <RichEditor value={content} onChange={(v) => {
+              setContent(v);
+              onDirtyChange?.(true);
+          }} minHeight={400}/>
       </Form.Item>
       <TagCollectionSelect
         selectedTags={tags}
@@ -67,7 +70,7 @@ export default function NoteForm({ entry, onSuccess, onCancel, onDirtyChange }: 
             htmlType="submit"
             icon={<SaveOutlined />}
             loading={mutation.isPending}
-            disabled={!plainText.trim()}
+            disabled={!content.trim()}
             style={{ borderRadius: 'var(--radius-pill)' }}
           >
             {isEdit ? 'Save' : 'Create Note'}

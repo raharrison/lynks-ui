@@ -54,7 +54,7 @@ export default function EntryDetailPage() {
   if (isLoading) return <PageSkeleton rows={6} showTitle showButtons />;
   if (isError || !entry) return <Result status="404" title="Entry not found" extra={<Button onClick={() => navigate('/')}>Back</Button>} />;
 
-  const title = 'title' in entry ? entry.title : `${entry.type} ${entry.id}`;
+    const title = 'title' in entry ? entry.title : null;
 
   const handleDelete = () => {
     deleteEntry({ id: entry.id, type: entry.type }, {
@@ -111,7 +111,7 @@ export default function EntryDetailPage() {
       {/* Breadcrumb */}
       <Breadcrumb style={{ marginBottom: 12 }} items={[
         { title: <a onClick={() => navigate(`/${ENTRY_PATH_PREFIX[entry.type]}`)} style={{ cursor: 'pointer' }}>{ENTRY_TYPE_LABELS[entry.type]}s</a> },
-        { title: title },
+          {title: title ?? ENTRY_TYPE_LABELS[entry.type]},
       ]} />
 
       {/* Header panel */}
@@ -132,7 +132,8 @@ export default function EntryDetailPage() {
               </Tag>
               <span className={`version-badge ${requestedVersion ? 'inactive' : 'active'}`}>v{entry.version}</span>
             </div>
-            <Typography.Title ref={titleRef} level={2} tabIndex={-1} style={{ margin: '0 0 8px 0', outline: 'none' }}>{title}</Typography.Title>
+              {title && <Typography.Title ref={titleRef} level={2} tabIndex={-1}
+                                          style={{margin: '0 0 8px 0', outline: 'none'}}>{title}</Typography.Title>}
             <Typography.Text type="secondary" style={{ fontSize: 'var(--font-size-sm)' }}>
               Created {formatDateTime(entry.dateCreated)} &middot; Updated {formatRelative(entry.dateUpdated)}
             </Typography.Text>

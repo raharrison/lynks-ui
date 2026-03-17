@@ -9,8 +9,8 @@ export interface Tag {
   name: string;
   path: string | null;
   children: Tag[];
-  dateCreated: number;
-  dateUpdated: number;
+  dateCreated: string;
+  dateUpdated: string;
 }
 
 export interface Collection {
@@ -18,8 +18,8 @@ export interface Collection {
   name: string;
   path: string | null;
   children: Collection[];
-  dateCreated: number;
-  dateUpdated: number;
+  dateCreated: string;
+  dateUpdated: string;
 }
 
 export interface NewTag {
@@ -83,7 +83,7 @@ export interface LinkProperties extends BaseProperties {
 export interface SlimEntry {
   id: string;
   type: EntryType;
-  dateUpdated: number;
+  dateUpdated: string;
   starred: boolean;
   tags: Tag[];
   collections: Collection[];
@@ -92,8 +92,8 @@ export interface SlimEntry {
 export interface Entry {
   id: string;
   type: EntryType;
-  dateCreated: number;
-  dateUpdated: number;
+  dateCreated: string;
+  dateUpdated: string;
   version: number;
   starred: boolean;
   props: BaseProperties;
@@ -134,8 +134,8 @@ export interface NewLink {
 export interface Note extends Entry {
   type: 'note';
   title: string;
-  plainText: string;
-  markdownText: string;
+  plainContent: string;
+  renderedContent: string;
 }
 
 export interface SlimNote extends SlimEntry {
@@ -146,7 +146,7 @@ export interface SlimNote extends SlimEntry {
 export interface NewNote {
   id?: string;
   title: string;
-  plainText: string;
+  content: string;
   tags?: string[];
   collections?: string[];
 }
@@ -154,18 +154,18 @@ export interface NewNote {
 // Snippet
 export interface Snippet extends Entry {
   type: 'snippet';
-  plainText: string;
-  markdownText: string;
+  plainContent: string;
+  renderedContent: string;
 }
 
 export interface SlimSnippet extends SlimEntry {
   type: 'snippet';
-  markdownText: string;
+  renderedContent: string;
 }
 
 export interface NewSnippet {
   id?: string;
-  plainText: string;
+  content: string;
   tags?: string[];
   collections?: string[];
 }
@@ -216,15 +216,15 @@ export interface PageRequest {
 export interface Comment {
   id: string;
   entryId: string;
-  plainText: string;
-  markdownText: string;
-  dateCreated: number;
-  dateUpdated: number;
+  plainContent: string;
+  renderedContent: string;
+  dateCreated: string;
+  dateUpdated: string;
 }
 
 export interface NewComment {
   id?: string;
-  plainText: string;
+  plainContent: string;
 }
 
 // Reminders
@@ -241,8 +241,8 @@ export interface Reminder {
   spec: string;
   tz: string;
   status: ReminderStatus;
-  dateCreated: number;
-  dateUpdated: number;
+  dateCreated: string;
+  dateUpdated: string;
 }
 
 export interface NewReminder {
@@ -267,7 +267,7 @@ export interface Notification {
   entryId: string | null;
   entryType: EntryType | null;
   entryTitle: string | null;
-  dateCreated: number;
+  dateCreated: string;
 }
 
 // Resources
@@ -292,14 +292,14 @@ export interface Resource {
   extension: string;
   type: ResourceType;
   size: number;
-  dateCreated: number;
+  dateCreated: string;
 }
 
 // Entry versions
 export interface EntryVersion {
   id: string;
   version: number;
-  dateUpdated: number;
+  dateUpdated: string;
 }
 
 // Entry audit
@@ -308,7 +308,7 @@ export interface EntryAuditItem {
   entryId: string;
   src: string | null;
   details: string;
-  timestamp: number;
+  timestamp: string;
 }
 
 // Entry refs
@@ -340,8 +340,8 @@ export interface User {
   email: string | null;
   displayName: string | null;
   digest: boolean;
-  dateCreated: number;
-  dateUpdated: number;
+  dateCreated: string;
+  dateUpdated: string;
 }
 
 export interface AuthRequest {
@@ -360,7 +360,7 @@ export interface ActivityLogItem {
   details: string;
   entryType: EntryType;
   entryTitle: string;
-  timestamp: number;
+  timestamp: string;
 }
 
 // Group sets

@@ -1,9 +1,9 @@
-import { App } from 'antd';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createComment, deleteComment, getComments, updateComment } from '@/api/comments';
-import { QK } from '@/utils/queryKeys';
-import { getApiErrorMessage } from '@/utils/apiError';
-import { COMMENTS_PAGE_SIZE } from '@/utils/constants';
+import {App} from 'antd';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
+import {createComment, deleteComment, getComments, updateComment} from '@/api/comments';
+import {QK} from '@/utils/queryKeys';
+import {getApiErrorMessage} from '@/utils/apiError';
+import {COMMENTS_PAGE_SIZE} from '@/utils/constants';
 
 export function useComments(entryId: string) {
   const { message } = App.useApp();
@@ -15,14 +15,14 @@ export function useComments(entryId: string) {
   });
 
   const addMutation = useMutation({
-    mutationFn: (plainText: string) => createComment(entryId, { plainText }),
+      mutationFn: (plainContent: string) => createComment(entryId, {plainContent}),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: QK.comments(entryId) }),
     onError: (err) => message.error(getApiErrorMessage(err, 'Failed to add comment')),
   });
 
   const editMutation = useMutation({
-    mutationFn: ({ id, plainText }: { id: string; plainText: string }) =>
-      updateComment(entryId, { id, plainText }),
+      mutationFn: ({id, plainContent}: { id: string; plainContent: string }) =>
+          updateComment(entryId, {id, plainContent}),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: QK.comments(entryId) }),
     onError: (err) => message.error(getApiErrorMessage(err, 'Failed to update comment')),
   });

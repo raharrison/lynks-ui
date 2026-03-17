@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import {useState} from 'react';
 import DOMPurify from 'dompurify';
-import { App, Button, Empty, Popconfirm, Spin, Typography } from 'antd';
-import { DeleteOutlined, EditOutlined, MessageOutlined, SendOutlined } from '@ant-design/icons';
-import { formatRelative } from '@/utils/format';
-import { useComments } from '@/hooks/useComments';
+import {App, Button, Empty, Popconfirm, Spin, Typography} from 'antd';
+import {DeleteOutlined, EditOutlined, MessageOutlined, SendOutlined} from '@ant-design/icons';
+import {formatRelative} from '@/utils/format';
+import {useComments} from '@/hooks/useComments';
 import RichEditor from '@/components/common/editor/RichEditor';
-import type { Comment } from '@/types';
+import type {Comment} from '@/types';
 
 export default function CommentSection({ entryId }: { entryId: string }) {
   const { message } = App.useApp();
@@ -56,7 +56,7 @@ export default function CommentSection({ entryId }: { entryId: string }) {
                   />
                   <div style={{ marginTop: 10, display: 'flex', gap: 8 }}>
                     <Button size="small" type="primary"
-                      onClick={() => editComment({ id: editing.id, plainText: editing.text }, {
+                            onClick={() => editComment({id: editing.id, plainContent: editing.text}, {
                         onSuccess: () => setEditing(null),
                       })}
                       loading={isEditing}
@@ -68,12 +68,12 @@ export default function CommentSection({ entryId }: { entryId: string }) {
                 </div>
               ) : (
                 <>
-                  {comment.markdownText ? (
+                    {comment.renderedContent ? (
                     <div className="markdown-content" style={{ fontSize: 14 }}
-                         dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(comment.markdownText) }} />
+                         dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(comment.renderedContent)}}/>
                   ) : (
                     <div className="markdown-content" style={{ fontSize: 14, whiteSpace: 'pre-wrap' }}>
-                      {comment.plainText}
+                        {comment.plainContent}
                     </div>
                   )}
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 10 }}>
@@ -86,7 +86,7 @@ export default function CommentSection({ entryId }: { entryId: string }) {
                         type="text"
                         size="small"
                         icon={<EditOutlined />}
-                        onClick={() => setEditing({ id: comment.id, text: comment.plainText })}
+                        onClick={() => setEditing({id: comment.id, text: comment.plainContent})}
                       />
                       <Popconfirm
                         title="Delete this comment?"

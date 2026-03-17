@@ -1,18 +1,18 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { ENTRY_TYPE_COLORS, ENTRY_TYPE_LABELS } from '@/utils/constants';
+import {ENTRY_TYPE_COLORS, ENTRY_TYPE_LABELS} from '@/utils/constants';
 
 dayjs.extend(relativeTime);
 
-export function formatDate(timestamp: number): string {
+export function formatDate(timestamp: string): string {
   return dayjs(timestamp).format('MMM D, YYYY');
 }
 
-export function formatDateTime(timestamp: number): string {
+export function formatDateTime(timestamp: string): string {
   return dayjs(timestamp).format('MMM D, YYYY h:mm A');
 }
 
-export function formatRelative(timestamp: number): string {
+export function formatRelative(timestamp: string): string {
   return dayjs(timestamp).fromNow();
 }
 

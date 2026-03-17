@@ -41,7 +41,7 @@ import type {AnySlimEntry} from '@/types';
 
 
 // Matches @id patterns stored in markdown (same character set as backend EntryLinkInlineParserExtension)
-const MENTION_PATTERN = /(?<!\w)@([a-z\d_-]{1,15})(?![\w-])/gi;
+const MENTION_PATTERN = /(?<!\w)@([a-z\d_-]{1,16})(?![\w-])/gi;
 
 // Pre-process stored markdown: replace @id with [@label](@id:type) so tiptap-markdown
 // parses them as Link marks, which transformMentionLinks then converts to Mention nodes.

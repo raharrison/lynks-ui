@@ -1,8 +1,8 @@
-import { Empty, Tag, Typography } from 'antd';
-import { ExportOutlined, LinkOutlined, RedditOutlined } from '@ant-design/icons';
-import { formatRelative } from '@/utils/format';
-import { REDDIT_BASE_URL } from '@/utils/constants';
-import type { Discussion } from '@/types';
+import {Empty, Tag, Typography} from 'antd';
+import {ExportOutlined, LinkOutlined, RedditOutlined} from '@ant-design/icons';
+import {formatRelative} from '@/utils/format';
+import {REDDIT_BASE_URL} from '@/utils/constants';
+import type {Discussion} from '@/types';
 
 interface SourceConfig {
   label: string;
@@ -73,7 +73,7 @@ export default function EntryDiscussions({ discussions }: { discussions: Discuss
               <div style={{ display: 'flex', gap: 12 }}>
                 <Typography.Text type="secondary" style={{ fontSize: 'var(--font-size-xs)' }}>{d.score} points</Typography.Text>
                 <Typography.Text type="secondary" style={{ fontSize: 'var(--font-size-xs)' }}>{d.comments} comments</Typography.Text>
-                {d.created > 0 && (
+                {d.created && (
                   <Typography.Text type="secondary" style={{ fontSize: 'var(--font-size-xs)' }}>{formatRelative(d.created)}</Typography.Text>
                 )}
               </div>

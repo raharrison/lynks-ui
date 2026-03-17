@@ -59,7 +59,7 @@ export interface Discussion {
   url: string;
   score: number;
   comments: number;
-  created: number;
+  created: string;
 }
 
 // Properties

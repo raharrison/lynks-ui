@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { App, Button, DatePicker, Empty, Form, Input, Modal, Popconfirm, Radio, Select, Spin, Tag, Typography } from 'antd';
-import { BellOutlined, ClockCircleOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import {useState} from 'react';
+import {App, Button, DatePicker, Empty, Form, Input, Modal, Popconfirm, Radio, Select, Spin, Tag, Typography} from 'antd';
+import {BellOutlined, ClockCircleOutlined, DeleteOutlined, PlusOutlined} from '@ant-design/icons';
 import dayjs from 'dayjs';
-import { formatDateTime } from '@/utils/format';
-import { useReminders } from '@/hooks/useReminders';
-import { getApiErrorMessage } from '@/utils/apiError';
-import { NOTIFICATION_METHOD_OPTIONS } from '@/utils/constants';
-import type { NotificationMethod, Reminder, ReminderType } from '@/types';
+import {formatDateTime} from '@/utils/format';
+import {useReminders} from '@/hooks/useReminders';
+import {getApiErrorMessage} from '@/utils/apiError';
+import {NOTIFICATION_METHOD_OPTIONS} from '@/utils/constants';
+import type {NotificationMethod, Reminder, ReminderType} from '@/types';
 
 const statusColors: Record<string, string> = {
   active: 'green',
@@ -75,7 +75,7 @@ export default function ReminderSection({ entryId }: { entryId: string }) {
                   <Tag style={{ margin: 0 }}>{reminder.type}</Tag>
                   {reminder.type === 'adhoc' && (
                     <Typography.Text type="secondary" style={{ fontSize: 'var(--font-size-xs)' }}>
-                      {formatDateTime(Number(reminder.spec))}
+                        {formatDateTime(new Date(Number(reminder.spec)).toISOString())}
                     </Typography.Text>
                   )}
                   {reminder.type === 'recurring' && (

@@ -67,8 +67,10 @@ export default function EntryHistory({ entryId, entryType, currentVersion }: Ent
                       <span className={`version-badge ${isActive ? 'active' : 'inactive'}`}>
                         v{v.version}
                       </span>
-                      {isLatest && <Tag color="green" style={{ fontSize: 'var(--font-size-xxs)', margin: 0 }}>Latest</Tag>}
-                      {isActive && <Tag color="blue" style={{ fontSize: 'var(--font-size-xxs)', margin: 0 }}>Viewing</Tag>}
+                        {isLatest &&
+                            <Tag className="lynks-chip" style={{fontSize: 'var(--font-size-xxs)', margin: 0}}>Latest</Tag>}
+                        {isActive && <Tag className="lynks-chip lynks-chip-accent"
+                                          style={{fontSize: 'var(--font-size-xxs)', margin: 0}}>Viewing</Tag>}
                     </div>
                     <Typography.Text type="secondary" style={{ fontSize: 'var(--font-size-xs)', marginTop: 2, display: 'block' }}>
                       {formatDateTime(v.dateUpdated)} ({formatRelative(v.dateUpdated)})
@@ -99,7 +101,7 @@ export default function EntryHistory({ entryId, entryType, currentVersion }: Ent
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
                   <Typography.Text style={{ fontSize: 'var(--font-size-sm)' }}>{a.details}</Typography.Text>
-                  {a.src && <Tag style={{ fontSize: 'var(--font-size-xxs)', margin: 0 }}>{a.src}</Tag>}
+                    {a.src && <Tag className="lynks-chip" style={{fontSize: 'var(--font-size-xxs)', margin: 0}}>{a.src}</Tag>}
                 </div>
                 <Typography.Text type="secondary" style={{ fontSize: 'var(--font-size-xs)' }}>
                   {formatDateTime(a.timestamp)} ({formatRelative(a.timestamp)})

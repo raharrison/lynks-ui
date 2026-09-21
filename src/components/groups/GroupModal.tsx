@@ -1,9 +1,8 @@
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import {App, Input, Modal, TreeSelect} from 'antd';
 import {useQueryClient} from '@tanstack/react-query';
 import {createCollection, createTag, updateCollection, updateTag} from '@/api/groups';
-import { getApiErrorMessage } from '@/utils/apiError';
-import { mapTree } from '@/utils/groups';
+import {getApiErrorMessage} from '@/utils/apiError';
 import type {Collection} from '@/types';
 
 interface GroupModalProps {
@@ -15,8 +14,17 @@ interface GroupModalProps {
 }
 
 type TreeSelectNode = { value: string; title: string; children?: TreeSelectNode[] };
-const collectionsToTreeSelect = (collections: Collection[]): TreeSelectNode[] =>
-  mapTree(collections, (c, children) => ({ value: c.id, title: c.name, children }));
+
+// excludeId drops the collection being edited along with its descendants, since
+// the server writes parentId unvalidated and would happily build a cycle
+function collectionsToTreeSelect(collections: Collection[], excludeId?: string): TreeSelectNode[] {
+    return collections
+        .filter((c) => c.id !== excludeId)
+        .map((c) => {
+            const children = collectionsToTreeSelect(c.children, excludeId);
+            return {value: c.id, title: c.name, children: children.length ? children : undefined};
+        });
+}
 
 export default function GroupModal({ type, open, onClose, collections = [], editItem }: GroupModalProps) {
   const { message } = App.useApp();
@@ -25,13 +33,14 @@ export default function GroupModal({ type, open, onClose, collections = [], edit
   const [loading, setLoading] = useState(false);
   const queryClient = useQueryClient();
 
-  // Reset state when editItem changes
-  useEffect(() => {
-    if (open) {
-      setName(editItem?.name || '');
-      setParentId(editItem?.parentId);
+    const formKey = open ? editItem?.id ?? 'new' : null;
+    const [lastFormKey, setLastFormKey] = useState(formKey);
+
+    if (formKey !== lastFormKey) {
+        setLastFormKey(formKey);
+        setName(editItem?.name || '');
+        setParentId(editItem?.parentId);
     }
-  }, [open, editItem]);
 
   const isEditing = !!editItem;
 
@@ -87,7 +96,7 @@ export default function GroupModal({ type, open, onClose, collections = [], edit
         {type === 'collection' && (
           <TreeSelect
             placeholder="Parent collection (optional)"
-            treeData={collectionsToTreeSelect(collections)}
+            treeData={collectionsToTreeSelect(collections, editItem?.id)}
             value={parentId}
             onChange={setParentId}
             allowClear

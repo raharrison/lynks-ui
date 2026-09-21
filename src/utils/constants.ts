@@ -1,4 +1,4 @@
-import type { EntryType, NotificationMethod } from '@/types';
+import type {EntryType, NotificationMethod} from '@/types';
 
 export const ENTRY_TYPE_LABELS: Record<EntryType, string> = {
   link: 'Link',
@@ -7,11 +7,12 @@ export const ENTRY_TYPE_LABELS: Record<EntryType, string> = {
   file: 'File',
 };
 
-export const ENTRY_TYPE_COLORS: Record<EntryType, string> = {
-  link: 'blue',
-  note: 'green',
-  snippet: 'orange',
-  file: 'purple',
+/** Chip modifiers defined in index.css. Entry type is the only decorative colour. */
+export const ENTRY_TYPE_CHIP_MODIFIER: Record<EntryType, string> = {
+    link: 'lynks-chip-type-link',
+    note: 'lynks-chip-type-note',
+    snippet: 'lynks-chip-type-snippet',
+    file: 'lynks-chip-type-file',
 };
 
 export const SORT_OPTIONS = [
@@ -44,7 +45,6 @@ export const IMAGE_UPLOAD_PATH = '/imageUpload';
 export const REDDIT_BASE_URL = 'https://old.reddit.com';
 
 export const NOTIFICATION_METHOD_OPTIONS: { label: string; value: NotificationMethod }[] = [
-  { label: 'Web', value: 'web' },
-  { label: 'Email', value: 'email' },
-  { label: 'Pushover', value: 'pushover' },
+    {label: 'Push', value: 'push'},
+    {label: 'Jolt', value: 'jolt'},
 ];

@@ -2,9 +2,9 @@ import {memo, useMemo, useState} from 'react';
 import {Button, Tag, Tooltip} from 'antd';
 import {EyeInvisibleOutlined, EyeOutlined, StarFilled, StarOutlined,} from '@ant-design/icons';
 import {Link} from 'react-router-dom';
-import {ENTRY_TYPE_COLORS, ENTRY_TYPE_LABELS} from '@/utils/constants';
+import {ENTRY_TYPE_LABELS} from '@/utils/constants';
 import {ENTRY_TYPE_ICONS} from '@/utils/icons';
-import {entryDetailPath, formatRelative, truncate} from '@/utils/format';
+import {entryDetailPath, entryTypeChipClass, formatRelative, truncate} from '@/utils/format';
 import {EntryCollectionChip, EntryTagChip} from '@/components/common/EntryGroupChips';
 import type {AnySlimEntry} from '@/types';
 
@@ -53,11 +53,13 @@ function EntryCard({entry, onStar}: EntryCardProps) {
             <div className="entry-card-header">
               <div className="entry-card-title-area">
                 <div className="entry-card-type-row">
-                  <Tag color={ENTRY_TYPE_COLORS[entry.type]} style={{ margin: 0, fontSize: 'var(--font-size-xxs)', lineHeight: '20px' }}>
+                    <Tag className={entryTypeChipClass(entry.type)}
+                         style={{margin: 0, fontSize: 'var(--font-size-xxs)', lineHeight: '20px'}}>
                     {ENTRY_TYPE_ICONS[entry.type]} {ENTRY_TYPE_LABELS[entry.type]}
                   </Tag>
                   {entry.type === 'link' && !isRead && (
-                    <Tag color="cyan" style={{ margin: 0, fontSize: 'var(--font-size-xxs)', lineHeight: '20px' }}>
+                      <Tag className="lynks-chip lynks-chip-accent"
+                           style={{margin: 0, fontSize: 'var(--font-size-xxs)', lineHeight: '20px'}}>
                       <EyeInvisibleOutlined /> Unread
                     </Tag>
                   )}
@@ -76,7 +78,7 @@ function EntryCard({entry, onStar}: EntryCardProps) {
               <Button
                 type="text"
                 size="small"
-                icon={entry.starred ? <StarFilled style={{ color: 'var(--color-warning)' }} /> : <StarOutlined />}
+                icon={entry.starred ? <StarFilled style={{color: 'var(--color-star)'}}/> : <StarOutlined/>}
                 onClick={(e) => {
                   e.preventDefault();
                   onStar(entry.id, entry.starred);

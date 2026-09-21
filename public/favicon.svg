@@ -1,6 +1,33 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
-  <path d="M13 11.5h-1.5A4.5 4.5 0 0 0 7 16v0a4.5 4.5 0 0 0 4.5 4.5H13" stroke="#7c6af7" stroke-width="2.5"
-        stroke-linecap="round"/>
-  <path d="M19 11.5h1.5A4.5 4.5 0 0 1 25 16v0a4.5 4.5 0 0 1-4.5 4.5H19" stroke="#7c6af7" stroke-width="2.5" stroke-linecap="round"/>
-  <line x1="13" y1="16" x2="19" y2="16" stroke="#7c6af7" stroke-width="2.5" stroke-linecap="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Lynks">
+    <defs>
+        <linearGradient id="lynks-face" x1="2" y1="0" x2="30" y2="32" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#2e2e38"/>
+            <stop offset="0.5" stop-color="#18181b"/>
+            <stop offset="1" stop-color="#0a0a0f"/>
+        </linearGradient>
+        <radialGradient id="lynks-vignette" cx="31" cy="33" r="28" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#000" stop-opacity="0.28"/>
+            <stop offset="0.55" stop-color="#000" stop-opacity="0.12"/>
+            <stop offset="1" stop-color="#000" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="lynks-sheen" cx="9" cy="6" r="24" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#fff" stop-opacity="0.16"/>
+            <stop offset="0.45" stop-color="#fff" stop-opacity="0.06"/>
+            <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+        </radialGradient>
+    </defs>
+
+    <g id="tile">
+        <rect width="32" height="32" rx="7.2" fill="url(#lynks-face)"/>
+        <rect width="32" height="32" rx="7.2" fill="url(#lynks-vignette)"/>
+        <rect width="32" height="32" rx="7.2" fill="url(#lynks-sheen)"/>
+    </g>
+
+    <g id="glyph">
+        <path d="M10.2 7.4V21.6H19.6" fill="none" stroke="#bef264" stroke-width="3.2" stroke-linecap="round"
+              stroke-linejoin="round"/>
+        <circle cx="21.2" cy="21.6" r="3.2" fill="#bef264"/>
+        <path d="M15.6 10.2H24.6" fill="none" stroke="#bef264" stroke-width="2.5" stroke-linecap="round" opacity="0.85"/>
+        <path d="M19 14.4H24.6" fill="none" stroke="#bef264" stroke-width="2.5" stroke-linecap="round" opacity="0.85"/>
+    </g>
 </svg>

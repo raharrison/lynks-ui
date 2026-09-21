@@ -1,5 +1,5 @@
 import {useCallback, useEffect} from 'react';
-import {Button, Empty, Input, Pagination, Segmented, Select, Skeleton, Spin} from 'antd';
+import {Button, Empty, Input, Pagination, Select, Spin} from 'antd';
 import {GlobalOutlined, SortAscendingOutlined, SortDescendingOutlined, SwapOutlined} from '@ant-design/icons';
 import {useLocation, useNavigate, useParams, useSearchParams} from 'react-router-dom';
 import {buildFilterUrl, parseSearchParams} from '@/hooks/useUrlFilterSync';
@@ -8,6 +8,7 @@ import {useStarEntry} from '@/hooks/useStarEntry';
 import {ENTRY_TYPE_LABELS, PAGE_SIZE_OPTIONS, SEARCH_SORT_OPTIONS, SORT_OPTIONS} from '@/utils/constants';
 import {ENTRY_PATH_PREFIX} from '@/utils/format';
 import EntryCard from '@/components/entries/EntryCard';
+import EntryListSkeleton from '@/components/entries/EntryListSkeleton';
 import ActiveFilters from '@/components/entries/ActiveFilters';
 import type {EntryType, SortDirection} from '@/types';
 
@@ -15,23 +16,6 @@ import type {EntryType, SortDirection} from '@/types';
 const prefixToType: Record<string, EntryType> = Object.fromEntries(
     Object.entries(ENTRY_PATH_PREFIX).map(([type, prefix]) => [prefix, type as EntryType])
 );
-
-function ListSkeleton() {
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-      {[1, 2, 3, 4, 5].map((i) => (
-        <div key={i} style={{
-          padding: '18px 20px',
-          borderRadius: 'var(--radius-lg)',
-          border: '1px solid var(--border-secondary)',
-          background: 'var(--bg-surface)',
-        }}>
-          <Skeleton active avatar={{ shape: 'square', size: 68 }} paragraph={{ rows: 1 }} />
-        </div>
-      ))}
-    </div>
-  );
-}
 
 export default function EntryListPage() {
   const location = useLocation();
@@ -115,30 +99,37 @@ export default function EntryListPage() {
             size="middle"
           />
           {sort !== 'mostRelevant' && (
-            <Segmented
-              size="middle"
-              value={direction === 'rand' ? 'desc' : direction}
-              onChange={(val) => handleSort(sort, val as SortDirection)}
-              options={[
-                { value: 'desc', icon: <SortDescendingOutlined /> },
-                { value: 'asc', icon: <SortAscendingOutlined /> },
-              ]}
-            />
+              <>
+                  <Button
+                      size="middle"
+                      type={direction === 'desc' ? 'primary' : 'default'}
+                      icon={<SortDescendingOutlined/>}
+                      onClick={() => handleSort(sort, 'desc')}
+                      title="Descending"
+                  />
+                  <Button
+                      size="middle"
+                      type={direction === 'asc' ? 'primary' : 'default'}
+                      icon={<SortAscendingOutlined/>}
+                      onClick={() => handleSort(sort, 'asc')}
+                      title="Ascending"
+                  />
+                  <Button
+                      icon={<SwapOutlined/>}
+                      size="middle"
+                      type={direction === 'rand' ? 'primary' : 'default'}
+                      onClick={() => handleSort(sort, 'rand')}
+                      title="Random order"
+                  />
+              </>
           )}
-          <Button
-            icon={<SwapOutlined />}
-            size="middle"
-            type={direction === 'rand' ? 'primary' : 'default'}
-            onClick={() => handleSort(sort, 'rand')}
-            title="Random order"
-          />
         </div>
       </div>
 
       <ActiveFilters />
 
       {isLoading ? (
-        <ListSkeleton />
+          <EntryListSkeleton/>
       ) : isError ? (
         <Empty description="Failed to load entries" />
       ) : entries.length === 0 ? (

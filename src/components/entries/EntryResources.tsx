@@ -98,7 +98,7 @@ export default function EntryResources({ entryId, entryType }: { entryId: string
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
                     <Typography.Text strong style={{ fontSize: 'var(--font-size-sm)' }} ellipsis>{resource.name}</Typography.Text>
-                    <Tag style={{ fontSize: 'var(--font-size-xxs)', margin: 0 }}>{resource.type}</Tag>
+                      <Tag className="lynks-chip" style={{fontSize: 'var(--font-size-xxs)', margin: 0}}>{resource.type}</Tag>
                   </div>
                   <Typography.Text type="secondary" style={{ fontSize: 'var(--font-size-xs)' }}>
                     {formatFileSize(resource.size)} &middot; v{resource.version} &middot; {formatDate(resource.dateCreated)}

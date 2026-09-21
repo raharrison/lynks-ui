@@ -1,13 +1,14 @@
 import {useEffect, useState} from 'react';
 import {App, Badge, Button, Empty, Pagination, Result, Spin, Tag, Typography} from 'antd';
 import {
-  BellOutlined,
-  CheckCircleOutlined,
-  CheckOutlined,
-  ClockCircleOutlined,
-  ExportOutlined,
-  MessageOutlined,
-  WarningOutlined,
+    BellOutlined,
+    CheckCircleOutlined,
+    CheckOutlined,
+    ClockCircleOutlined,
+    ExportOutlined,
+    MessageOutlined,
+    ReadOutlined,
+    WarningOutlined,
 } from '@ant-design/icons';
 import {useNavigate} from 'react-router-dom';
 import {formatRelative} from '@/utils/format';
@@ -15,11 +16,13 @@ import {useNotifications} from '@/hooks/useNotifications';
 import {NOTIFICATIONS_PAGE_SIZE} from '@/utils/constants';
 import type {Notification, NotificationType} from '@/types';
 
-const typeConfig: Record<NotificationType, { color: string; icon: React.ReactNode }> = {
-  processed: { color: 'green', icon: <CheckCircleOutlined /> },
-  error: { color: 'red', icon: <WarningOutlined /> },
-  reminder: { color: 'blue', icon: <ClockCircleOutlined /> },
-  discussions: { color: 'purple', icon: <MessageOutlined /> },
+/* The chip stays neutral; the icon colour is what distinguishes the kind. */
+const typeConfig: Record<NotificationType, { iconColor: string; icon: React.ReactNode }> = {
+    processed: {iconColor: 'var(--chip-note)', icon: <CheckCircleOutlined/>},
+    error: {iconColor: 'var(--color-danger)', icon: <WarningOutlined/>},
+    reminder: {iconColor: 'var(--chip-link)', icon: <ClockCircleOutlined/>},
+    discussions: {iconColor: 'var(--chip-file)', icon: <MessageOutlined/>},
+    digest: {iconColor: 'var(--chip-snippet)', icon: <ReadOutlined/>},
 };
 
 export default function NotificationsPage() {
@@ -84,14 +87,15 @@ export default function NotificationsPage() {
               >
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
                   <Badge dot={!notification.read} offset={[-2, 2]}>
-                    <span style={{ fontSize: 20, color: config.color }}>{config.icon}</span>
+                      <span style={{fontSize: 20, color: config.iconColor}}>{config.icon}</span>
                   </Badge>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
                       <Typography.Text strong={!notification.read} style={{ fontSize: 14 }}>
                         {notification.message}
                       </Typography.Text>
-                      <Tag color={config.color} style={{ fontSize: 'var(--font-size-xxs)', margin: 0 }}>{notification.type}</Tag>
+                        <Tag className="lynks-chip"
+                             style={{fontSize: 'var(--font-size-xxs)', margin: 0}}>{notification.type}</Tag>
                     </div>
                     <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
                       <Typography.Text type="secondary" style={{ fontSize: 'var(--font-size-xs)' }}>

@@ -32,7 +32,7 @@ import {
   UnorderedListOutlined,
 } from '@ant-design/icons';
 import client from '@/api/client';
-import {resolveEntries, searchEntries} from '@/api/entries';
+import {resolveEntries, suggestEntries} from '@/api/entries';
 import {queryClient} from '@/lib/queryClient';
 import {entryDetailPath} from '@/utils/format';
 import {IMAGE_UPLOAD_PATH, MENTION_RESULTS_SIZE} from '@/utils/constants';
@@ -135,6 +135,7 @@ function ToolbarBtn({ title, active, onClick, disabled, children }: {
         onClick={onClick}
         onMouseDown={(e) => e.preventDefault()}
         aria-label={title}
+        tabIndex={-1}
         style={{ borderRadius: 4, minWidth: 28 }}
       >
         {children}
@@ -233,8 +234,8 @@ interface MentionState {
   position: { top: number; left: number };
 }
 
-export default function RichEditor({ value, onChange, minHeight = 200 }: {
-  value: string; onChange: (md: string) => void; minHeight?: number;
+export default function RichEditor({value, onChange, minHeight = 200, autoFocus = false}: {
+    value: string; onChange: (md: string) => void; minHeight?: number; autoFocus?: boolean;
 }) {
   const { message } = App.useApp();
   const messageRef = useRef(message);
@@ -244,11 +245,11 @@ export default function RichEditor({ value, onChange, minHeight = 200 }: {
   const skipOnUpdate = useRef(false);
   const [mentionState, setMentionState] = useState<MentionState | null>(null);
   const mentionListRef = useRef<MentionListHandle>(null);
-  // Stable ref so suggestion callbacks always call the latest setter.
-  // setMentionState is a stable dispatch function from useState, so the ref never needs updating.
+    // Suggestion callbacks are created once, so they reach the setter through a ref.
   const setMentionRef = useRef(setMentionState);
 
   const editor = useEditor({
+      autofocus: autoFocus ? 'start' : false,
     extensions: [
       StarterKit.configure({ codeBlock: false, link: false }),
       CodeBlockLowlight.extend({
@@ -274,7 +275,7 @@ export default function RichEditor({ value, onChange, minHeight = 200 }: {
         suggestion: {
           items: async ({ query }) => {
             if (!query) return [];
-            const res = await searchEntries(query, { page: 1, size: MENTION_RESULTS_SIZE, sort: 'dateUpdated', direction: 'desc' });
+              const res = await suggestEntries(query, {page: 1, size: MENTION_RESULTS_SIZE});
             return res.content;
           },
           render: () => {
@@ -354,10 +355,7 @@ export default function RichEditor({ value, onChange, minHeight = 200 }: {
     },
   });
 
-  // Load content into the editor, resolving any @id mentions to proper Mention nodes.
-  // lastValue starts as null so the first run always fires (even when value is '').
-  // resolveMentionsForEditor uses queryClient.fetchQuery, so StrictMode double-mount
-  // hits the cache on the second call rather than firing a second network request.
+    // lastValue starts as null so the first run fires even when value is ''.
   useEffect(() => {
     if (!editor || value === lastValue.current) return;
     void resolveMentionsForEditor(value).then((resolved) => {

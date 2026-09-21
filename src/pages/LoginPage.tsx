@@ -66,12 +66,18 @@ export default function LoginPage() {
         border: '1px solid var(--border-secondary)',
       }}>
         <div style={{ textAlign: 'center', marginBottom: 32 }}>
+            <img
+                src="/favicon.svg"
+                alt=""
+                width={56}
+                height={56}
+                style={{display: 'block', margin: '0 auto 14px', borderRadius: 13}}
+            />
           <div style={{
             fontWeight: 800,
             fontSize: 32,
-            background: 'linear-gradient(135deg, var(--accent) 0%, #a78bfa 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
+              color: 'var(--text-primary)',
+              letterSpacing: '-1px',
             marginBottom: 8,
           }}>
             Lynks

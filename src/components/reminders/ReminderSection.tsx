@@ -8,10 +8,10 @@ import {getApiErrorMessage} from '@/utils/apiError';
 import {NOTIFICATION_METHOD_OPTIONS} from '@/utils/constants';
 import type {NotificationMethod, Reminder, ReminderType} from '@/types';
 
-const statusColors: Record<string, string> = {
-  active: 'green',
-  completed: 'default',
-  disabled: 'red',
+const statusChipClass: Record<string, string> = {
+    active: 'lynks-chip lynks-chip-accent',
+    completed: 'lynks-chip',
+    disabled: 'lynks-chip lynks-chip-danger',
 };
 
 export default function ReminderSection({ entryId }: { entryId: string }) {
@@ -28,7 +28,7 @@ export default function ReminderSection({ entryId }: { entryId: string }) {
       spec = String(values.spec);
     }
     addReminder(
-      { type: values.type, spec, message: values.message, notifyMethods: values.notifyMethods || ['web'] },
+        {type: values.type, spec, message: values.message, notifyMethods: values.notifyMethods || ['push']},
       {
         onSuccess: () => { setModalOpen(false); form.resetFields(); message.success('Reminder created'); },
         onError: (err: Error) => message.error(getApiErrorMessage(err, 'Failed to create reminder')),
@@ -69,10 +69,11 @@ export default function ReminderSection({ entryId }: { entryId: string }) {
                   <Typography.Text style={{ fontSize: 14 }}>
                     {reminder.message || (reminder.type === 'adhoc' ? 'One-time reminder' : 'Recurring reminder')}
                   </Typography.Text>
-                  <Tag color={statusColors[reminder.status]} style={{ fontSize: 'var(--font-size-xxs)', margin: 0 }}>{reminder.status}</Tag>
+                    <Tag className={statusChipClass[reminder.status] ?? 'lynks-chip'}
+                         style={{fontSize: 'var(--font-size-xxs)', margin: 0}}>{reminder.status}</Tag>
                 </div>
                 <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap' }}>
-                  <Tag style={{ margin: 0 }}>{reminder.type}</Tag>
+                    <Tag className="lynks-chip" style={{margin: 0}}>{reminder.type}</Tag>
                   {reminder.type === 'adhoc' && (
                     <Typography.Text type="secondary" style={{ fontSize: 'var(--font-size-xs)' }}>
                         {formatDateTime(new Date(Number(reminder.spec)).toISOString())}
@@ -82,7 +83,8 @@ export default function ReminderSection({ entryId }: { entryId: string }) {
                     <Typography.Text type="secondary" style={{ fontSize: 'var(--font-size-xs)' }}>{reminder.spec}</Typography.Text>
                   )}
                   {reminder.notifyMethods.map((m) => (
-                    <Tag key={m} icon={<BellOutlined />} style={{ fontSize: 'var(--font-size-xxs)', margin: 0 }}>{m}</Tag>
+                      <Tag key={m} icon={<BellOutlined/>} className="lynks-chip"
+                           style={{fontSize: 'var(--font-size-xxs)', margin: 0}}>{m}</Tag>
                   ))}
                 </div>
               </div>
@@ -107,7 +109,7 @@ export default function ReminderSection({ entryId }: { entryId: string }) {
         confirmLoading={isAdding}
         destroyOnHidden
       >
-        <Form form={form} onFinish={handleSubmit} layout="vertical" initialValues={{ type: 'adhoc', notifyMethods: ['web'] }}>
+          <Form form={form} onFinish={handleSubmit} layout="vertical" initialValues={{type: 'adhoc', notifyMethods: ['push']}}>
           <Form.Item name="type" label="Type">
             <Radio.Group>
               <Radio value="adhoc">One-time</Radio>
@@ -133,7 +135,8 @@ export default function ReminderSection({ entryId }: { entryId: string }) {
             <Input placeholder="Optional reminder message" />
           </Form.Item>
 
-          <Form.Item name="notifyMethods" label="Notification Methods">
+              <Form.Item name="notifyMethods" label="Notification Methods"
+                         extra="Jolt delivery is skipped unless the server has a jolt host and token configured">
             <Select mode="multiple" options={NOTIFICATION_METHOD_OPTIONS} />
           </Form.Item>
         </Form>

@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import {ENTRY_TYPE_COLORS, ENTRY_TYPE_LABELS} from '@/utils/constants';
+import {ENTRY_TYPE_CHIP_MODIFIER, ENTRY_TYPE_LABELS} from '@/utils/constants';
 
 dayjs.extend(relativeTime);
 
@@ -28,8 +28,9 @@ export function entryTypeLabel(type: string): string {
   return ENTRY_TYPE_LABELS[type as keyof typeof ENTRY_TYPE_LABELS] ?? (type.charAt(0).toUpperCase() + type.slice(1).toLowerCase());
 }
 
-export function entryTypeColor(type: string): string {
-  return ENTRY_TYPE_COLORS[type as keyof typeof ENTRY_TYPE_COLORS] ?? 'default';
+export function entryTypeChipClass(type: string): string {
+    const modifier = ENTRY_TYPE_CHIP_MODIFIER[type as keyof typeof ENTRY_TYPE_CHIP_MODIFIER];
+    return `lynks-chip lynks-chip-type${modifier ? ' ' + modifier : ''}`;
 }
 
 export const ENTRY_PATH_PREFIX: Record<string, string> = {

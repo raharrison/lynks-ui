@@ -6,6 +6,7 @@ import {queryClient} from '@/lib/queryClient';
 import {App as AntApp, ConfigProvider, Spin, theme as antTheme} from 'antd';
 import {useAuthStore} from '@/stores/authStore';
 import {useThemeStore} from '@/stores/themeStore';
+import {LIME, LIME_ACTIVE, LIME_HOVER, LIME_INK, PALETTE} from '@/theme';
 import {checkCurrentUser} from '@/api/user';
 import {QK} from '@/utils/queryKeys';
 import AppLayout from '@/components/layout/AppLayout';
@@ -13,6 +14,7 @@ import EntryListPage from '@/pages/EntryListPage';
 import EntryDetailPage from '@/pages/EntryDetailPage';
 import CreateEntryPage from '@/pages/CreateEntryPage';
 import EditEntryPage from '@/pages/EditEntryPage';
+import DigestPage from '@/pages/DigestPage';
 import NotificationsPage from '@/pages/NotificationsPage';
 import ResourceViewerPage from '@/pages/ResourceViewerPage';
 import SettingsPage from '@/pages/SettingsPage';
@@ -97,6 +99,7 @@ const router = createBrowserRouter([
           { path: '/files/:entryId/resource/:resourceId', element: <ResourceViewerPage /> },
           // Backward-compat alias
           { path: '/entry/:id', element: <EntryDetailPage /> },
+          {path: '/digest', element: <DigestPage/>},
           { path: '/notifications', element: <NotificationsPage /> },
           { path: '/settings', element: <SettingsPage /> },
         ],
@@ -112,29 +115,47 @@ function ThemedApp() {
     document.documentElement.setAttribute('data-theme', resolved);
   }, [resolved]);
 
+  const palette = PALETTE[resolved];
+
   const themeConfig = {
     algorithm: resolved === 'dark' ? antTheme.darkAlgorithm : antTheme.defaultAlgorithm,
     token: {
-      colorPrimary: '#4f6ef7',
+      colorPrimary: palette.accent,
+      colorLink: palette.accent,
+      colorLinkHover: palette.accentHover,
       borderRadius: 10,
       fontSize: 14,
-      colorBgContainer: resolved === 'dark' ? '#1a1a2e' : '#ffffff',
-      colorBgElevated: resolved === 'dark' ? '#1f1f3a' : '#ffffff',
-      colorBgLayout: resolved === 'dark' ? '#0f0f1e' : '#f0f2f5',
-      colorBorder: resolved === 'dark' ? '#2d2d4a' : '#e8e8e8',
-      colorBorderSecondary: resolved === 'dark' ? '#252542' : '#f0f0f0',
+      colorBgContainer: palette.bgContainer,
+      colorBgElevated: palette.bgElevated,
+      colorBgLayout: palette.bgLayout,
+      colorBorder: palette.border,
+      colorBorderSecondary: palette.borderSecondary,
     },
     components: {
       Layout: {
-        headerBg: resolved === 'dark' ? '#141428' : '#ffffff',
-        siderBg: resolved === 'dark' ? '#141428' : '#ffffff',
-        bodyBg: resolved === 'dark' ? '#0f0f1e' : '#f0f2f5',
+        headerBg: palette.bgHeader,
+        siderBg: palette.bgHeader,
+        bodyBg: palette.bgLayout,
       },
       Card: {
-        colorBgContainer: resolved === 'dark' ? '#1a1a2e' : '#ffffff',
+        colorBgContainer: palette.bgContainer,
       },
       Menu: {
         itemBg: 'transparent',
+      },
+      Switch: {
+        colorPrimary: LIME,
+        colorPrimaryHover: LIME_HOVER,
+      },
+      // Filled buttons keep the brand lime in both themes, which is why their
+      // label is ink rather than Ant Design's default white.
+      Button: {
+        colorPrimary: LIME,
+        colorPrimaryHover: LIME_HOVER,
+        colorPrimaryActive: LIME_ACTIVE,
+        primaryColor: LIME_INK,
+        solidTextColor: LIME_INK,
+        primaryShadow: 'none',
       },
     },
   };

@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { App, Button, Empty, Popconfirm, Spin, Tag } from 'antd';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteTag } from '@/api/groups';
-import { QK } from '@/utils/queryKeys';
-import { useGroups } from '@/hooks/useGroups';
+import {useState} from 'react';
+import {App, Button, Empty, Popconfirm, Spin, Tag} from 'antd';
+import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
+import {useMutation, useQueryClient} from '@tanstack/react-query';
+import {deleteTag} from '@/api/groups';
+import {QK} from '@/utils/queryKeys';
+import {useGroups} from '@/hooks/useGroups';
 import GroupModal from '@/components/groups/GroupModal';
-import { getApiErrorMessage } from '@/utils/apiError';
+import {getApiErrorMessage} from '@/utils/apiError';
 
 function flattenForList<T extends { id: string; name: string; children?: T[] }>(items: T[], depth = 0): (T & { depth: number })[] {
   const result: (T & { depth: number })[] = [];
@@ -57,7 +57,7 @@ export default function TagManagement() {
               border: '1px solid var(--border-secondary)',
               background: 'var(--bg-surface)',
             }}>
-              <Tag>{tag.name}</Tag>
+                <Tag className="lynks-chip">{tag.name}</Tag>
               <div style={{ display: 'flex', gap: 4 }}>
                 <Button type="text" size="small" icon={<EditOutlined />}
                         onClick={() => setEditModal({ open: true, item: { id: tag.id, name: tag.name } })} />

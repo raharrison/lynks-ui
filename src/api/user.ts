@@ -38,7 +38,7 @@ export async function checkCurrentUser(): Promise<User | null> {
   }
 }
 
-export async function updateUser(update: { username: string; email?: string; displayName?: string; digest?: boolean }): Promise<User> {
+export async function updateUser(update: { username: string; displayName?: string; digest?: boolean }): Promise<User> {
   const { data } = await client.put('/user', update);
   return data;
 }

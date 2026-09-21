@@ -1,19 +1,25 @@
-import { useState } from 'react';
-import { App, Button, Empty, Popconfirm, Spin, Tag } from 'antd';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteCollection } from '@/api/groups';
-import { QK } from '@/utils/queryKeys';
-import { useGroups } from '@/hooks/useGroups';
+import {useState} from 'react';
+import {App, Button, Empty, Popconfirm, Spin, Tag} from 'antd';
+import {DeleteOutlined, EditOutlined} from '@ant-design/icons';
+import {useMutation, useQueryClient} from '@tanstack/react-query';
+import {deleteCollection} from '@/api/groups';
+import {QK} from '@/utils/queryKeys';
+import {useGroups} from '@/hooks/useGroups';
 import GroupModal from '@/components/groups/GroupModal';
-import { getApiErrorMessage } from '@/utils/apiError';
+import {getApiErrorMessage} from '@/utils/apiError';
 
-function flattenForList<T extends { id: string; name: string; children?: T[] }>(items: T[], depth = 0): (T & { depth: number })[] {
-  const result: (T & { depth: number })[] = [];
+type Flattened<T> = T & { depth: number; parentId?: string };
+
+// parentId is carried down from the walk: the API models hierarchy as nested
+// children only, so an edited collection has no other way to know its parent
+function flattenForList<T extends { id: string; name: string; children?: T[] }>(
+    items: T[], depth = 0, parentId?: string,
+): Flattened<T>[] {
+  const result: Flattened<T>[] = [];
   for (const item of items) {
-    result.push({ ...item, depth });
+    result.push({...item, depth, parentId});
     if (item.children?.length) {
-      result.push(...flattenForList(item.children, depth + 1));
+      result.push(...flattenForList(item.children, depth + 1, item.id));
     }
   }
   return result;
@@ -23,7 +29,10 @@ export default function CollectionManagement() {
   const { message } = App.useApp();
   const queryClient = useQueryClient();
   const { collections, isLoading } = useGroups();
-  const [editModal, setEditModal] = useState<{ open: boolean; item: { id: string; name: string } | null }>({ open: false, item: null });
+  const [editModal, setEditModal] = useState<{
+    open: boolean;
+    item: { id: string; name: string; parentId?: string } | null
+  }>({open: false, item: null});
 
   const deleteMutation = useMutation({
     mutationFn: deleteCollection,
@@ -57,10 +66,10 @@ export default function CollectionManagement() {
               border: '1px solid var(--border-secondary)',
               background: 'var(--bg-surface)',
             }}>
-              <Tag color="geekblue">{col.name}</Tag>
+              <Tag className="lynks-chip">{col.name}</Tag>
               <div style={{ display: 'flex', gap: 4 }}>
                 <Button type="text" size="small" icon={<EditOutlined />}
-                        onClick={() => setEditModal({ open: true, item: { id: col.id, name: col.name } })} />
+                        onClick={() => setEditModal({open: true, item: {id: col.id, name: col.name, parentId: col.parentId}})}/>
                 <Popconfirm title="Delete this collection?" onConfirm={() => deleteMutation.mutate(col.id)}
                             okText="Delete" okButtonProps={{ danger: true }}>
                   <Button type="text" size="small" danger icon={<DeleteOutlined />} />

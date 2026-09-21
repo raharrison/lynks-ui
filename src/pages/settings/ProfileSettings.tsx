@@ -16,7 +16,7 @@ export default function ProfileSettings() {
   });
 
   const updateMutation = useMutation({
-    mutationFn: (values: { email?: string; displayName?: string; digest: boolean }) =>
+      mutationFn: (values: { displayName?: string; digest: boolean }) =>
       updateUser({ username: user!.username, ...values }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: QK.user() });
@@ -34,7 +34,6 @@ export default function ProfileSettings() {
       onFinish={(v) => updateMutation.mutate(v)}
       layout="vertical"
       initialValues={{
-        email: user?.email || '',
         displayName: user?.displayName || '',
         digest: user?.digest || false,
       }}
@@ -45,11 +44,8 @@ export default function ProfileSettings() {
       <Form.Item name="displayName" label="Display Name">
         <Input placeholder="Your display name" />
       </Form.Item>
-      <Form.Item name="email" label="Email">
-        <Input type="email" placeholder="your@email.com" />
-      </Form.Item>
-      <Form.Item name="digest" label="Email Digest" valuePropName="checked"
-                 extra="Receive periodic email digests of unread links">
+        <Form.Item name="digest" label="Digest Notifications" valuePropName="checked"
+                   extra="Get notified when the weekly digest of unread links is regenerated">
         <Switch />
       </Form.Item>
       <Button type="primary" htmlType="submit" icon={<SaveOutlined />} loading={updateMutation.isPending}

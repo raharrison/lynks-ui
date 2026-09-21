@@ -6,19 +6,17 @@ import type {Discussion} from '@/types';
 
 interface SourceConfig {
   label: string;
-  color: string;
   icon: React.ReactNode;
 }
 
 const SOURCE_CONFIG: Record<string, SourceConfig> = {
-  reddit: { label: 'Reddit', color: 'orange', icon: <RedditOutlined /> },
-  hacker_news: { label: 'Hacker News', color: 'volcano', icon: <LinkOutlined /> },
+    reddit: {label: 'Reddit', icon: <RedditOutlined/>},
+    hacker_news: {label: 'Hacker News', icon: <LinkOutlined/>},
 };
 
 function getSourceConfig(source: string): SourceConfig {
   return SOURCE_CONFIG[source.toLowerCase()] ?? {
     label: source.charAt(0).toUpperCase() + source.slice(1).toLowerCase().replace(/_/g, ' '),
-    color: 'default',
     icon: <LinkOutlined />,
   };
 }
@@ -61,7 +59,7 @@ export default function EntryDiscussions({ discussions }: { discussions: Discuss
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
                 <Tag
-                  color={config.color}
+                    className="lynks-chip"
                   icon={config.icon}
                   style={{ margin: 0, fontSize: 'var(--font-size-xs)' }}
                 >

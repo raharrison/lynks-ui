@@ -59,6 +59,9 @@ export default function SearchableContent({ entryId, content }: Props) {
               autoSize={{ minRows: 6, maxRows: 30 }}
               style={{ fontFamily: 'monospace', fontSize: 'var(--font-size-sm)' }}
             />
+              <span style={{fontSize: 'var(--font-size-xs)', color: 'var(--text-muted)'}}>
+              Some words may be removed or altered when saved - common words and punctuation are stripped to improve search results.
+            </span>
             <div style={{ display: 'flex', gap: 8 }}>
               <Button type="primary" size="small" icon={<CheckOutlined />} loading={mutation.isPending} onClick={() => mutation.mutate(draft)}>
                 Save

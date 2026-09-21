@@ -3,9 +3,16 @@ import {useLocation, useNavigate, useParams, useSearchParams} from 'react-router
 import {Alert, App, Breadcrumb, Button, Popconfirm, Result, Tabs, Tag, Tooltip, Typography} from 'antd';
 import PageSkeleton from '@/components/common/PageSkeleton';
 import {DeleteOutlined, EditOutlined, StarFilled, StarOutlined,} from '@ant-design/icons';
-import {ENTRY_TYPE_COLORS, ENTRY_TYPE_LABELS} from '@/utils/constants';
+import {ENTRY_TYPE_LABELS} from '@/utils/constants';
 import {ENTRY_TYPE_ICONS} from '@/utils/icons';
-import {ENTRY_PATH_PREFIX, entryDetailPath, entryEditPath, formatDateTime, formatRelative} from '@/utils/format';
+import {
+  ENTRY_PATH_PREFIX,
+  entryDetailPath,
+  entryEditPath,
+  entryTypeChipClass,
+  formatDateTime,
+  formatRelative
+} from '@/utils/format';
 import {EntryCollectionChip, EntryTagChip} from '@/components/common/EntryGroupChips';
 import {useEntry} from '@/hooks/useEntry';
 import {useStarEntry} from '@/hooks/useStarEntry';
@@ -127,7 +134,7 @@ export default function EntryDetailPage() {
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap' }}>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-              <Tag color={ENTRY_TYPE_COLORS[entry.type]} style={{ fontSize: 'var(--font-size-xs)', padding: '2px 10px' }}>
+                <Tag className={entryTypeChipClass(entry.type)} style={{fontSize: 'var(--font-size-xs)', padding: '2px 10px'}}>
                 {ENTRY_TYPE_ICONS[entry.type]} {ENTRY_TYPE_LABELS[entry.type]}
               </Tag>
               <span className={`version-badge ${requestedVersion ? 'inactive' : 'active'}`}>v{entry.version}</span>
@@ -147,7 +154,7 @@ export default function EntryDetailPage() {
 
           <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
             <Tooltip title={entry.starred ? 'Unstar' : 'Star'}>
-              <Button size="middle" icon={entry.starred ? <StarFilled style={{ color: 'var(--color-warning)' }} /> : <StarOutlined />}
+                <Button size="middle" icon={entry.starred ? <StarFilled style={{color: 'var(--color-star)'}}/> : <StarOutlined/>}
                       onClick={() => toggleStar(entry.id, entry.starred)}
                       aria-label={entry.starred ? 'Unstar entry' : 'Star entry'}/>
             </Tooltip>

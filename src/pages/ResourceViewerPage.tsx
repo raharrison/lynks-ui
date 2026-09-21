@@ -93,11 +93,11 @@ function TextViewer({ entryId, resource }: { entryId: string; resource: Resource
 
   return (
     <div style={{ position: 'relative' }}>
-      <Tag style={{ position: 'absolute', top: 8, right: 8, zIndex: 1, fontSize: 'var(--font-size-xxs)' }}>
+        <Tag className="lynks-chip" style={{position: 'absolute', top: 8, right: 8, zIndex: 1, fontSize: 'var(--font-size-xxs)'}}>
         {lang}
       </Tag>
       <pre style={{
-        background: 'var(--bg-code, #f5f5f5)',
+          background: 'var(--bg-code)',
         border: '1px solid var(--border-secondary)',
         borderRadius: 10,
         padding: '16px 20px',
@@ -338,9 +338,10 @@ export default function ResourceViewerPage() {
               </Typography.Title>
             )}
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-              <Tag style={{ margin: 0, fontSize: 'var(--font-size-xs)' }}>.{resource.extension}</Tag>
-              <Tag style={{ margin: 0, fontSize: 'var(--font-size-xs)' }}>{resource.type}</Tag>
-              <Tag color={viewType === 'unsupported' ? 'default' : 'green'} style={{ margin: 0, fontSize: 'var(--font-size-xs)' }}>
+                <Tag className="lynks-chip" style={{margin: 0, fontSize: 'var(--font-size-xs)'}}>.{resource.extension}</Tag>
+                <Tag className="lynks-chip" style={{margin: 0, fontSize: 'var(--font-size-xs)'}}>{resource.type}</Tag>
+                <Tag className={viewType === 'unsupported' ? 'lynks-chip' : 'lynks-chip lynks-chip-accent'}
+                     style={{margin: 0, fontSize: 'var(--font-size-xs)'}}>
                 {viewType === 'unsupported' ? 'No preview' : viewType}
               </Tag>
             </div>

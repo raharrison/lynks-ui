@@ -1,0 +1,33 @@
+{
+    "id": "/",
+    "name": "Lynks",
+    "short_name": "Lynks",
+    "description": "Self-hosted link, note and knowledge manager",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "lang": "en-GB",
+    "dir": "ltr",
+    "background_color": "#0b0b0e",
+    "icons": [
+        {
+            "src": "/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/icon-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ],
+    "theme_color": "#0b0b0e"
+}

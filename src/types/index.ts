@@ -230,7 +230,7 @@ export interface NewComment {
 // Reminders
 export type ReminderType = 'adhoc' | 'recurring';
 export type ReminderStatus = 'active' | 'completed' | 'disabled';
-export type NotificationMethod = 'email' | 'web' | 'pushover';
+export type NotificationMethod = 'push' | 'jolt';
 
 export interface Reminder {
   reminderId: string;
@@ -256,8 +256,15 @@ export interface NewReminder {
   status: ReminderStatus;
 }
 
+// Digest
+export interface Digest {
+    id: string;
+    links: SlimLink[];
+    dateCreated: string;
+}
+
 // Notifications
-export type NotificationType = 'processed' | 'error' | 'reminder' | 'discussions';
+export type NotificationType = 'processed' | 'error' | 'reminder' | 'discussions' | 'digest';
 
 export interface Notification {
   id: string;
@@ -337,7 +344,6 @@ export interface Suggestion {
 // User
 export interface User {
   username: string;
-  email: string | null;
   displayName: string | null;
   digest: boolean;
   dateCreated: string;

@@ -12,6 +12,7 @@ export const QK = {
   notifications: (page?: number) => page != null ? ['notifications', page] as const : ['notifications'] as const,
   resource: (entryId: string, resourceId: string) => ['resource', entryId, resourceId] as const,
   unread: () => ['notifications', 'unread'] as const,
+    digest: () => ['digest'] as const,
   user: () => ['user'] as const,
   activity: (page: number) => ['activity', page] as const,
   twoFaStatus: () => ['2fa-status'] as const,

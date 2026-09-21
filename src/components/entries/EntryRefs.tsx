@@ -1,7 +1,7 @@
 import {Empty, Spin, Tag, Typography} from 'antd';
 import {ArrowLeftOutlined, ExportOutlined} from '@ant-design/icons';
 import {Link} from 'react-router-dom';
-import {entryDetailPath, entryTypeColor} from '@/utils/format';
+import {entryDetailPath, entryTypeChipClass} from '@/utils/format';
 import {useEntryRefs} from '@/hooks/useEntryRefs';
 
 export default function EntryRefs({ entryId }: { entryId: string }) {
@@ -21,7 +21,8 @@ export default function EntryRefs({ entryId }: { entryId: string }) {
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
             {refs.outbound.map((r) => (
               <Link key={r.entryId} to={entryDetailPath(r.entryType, r.entryId)} className="ref-card" style={{ textDecoration: 'none', color: 'inherit' }}>
-                <Tag color={entryTypeColor(r.entryType)} style={{ margin: 0, fontSize: 'var(--font-size-xxs)' }}>{r.entryType}</Tag>
+                  <Tag className={entryTypeChipClass(r.entryType)}
+                       style={{margin: 0, fontSize: 'var(--font-size-xxs)'}}>{r.entryType}</Tag>
                 <Typography.Text style={{ fontSize: 'var(--font-size-sm)' }}>{r.title || r.entryId}</Typography.Text>
               </Link>
             ))}
@@ -34,7 +35,8 @@ export default function EntryRefs({ entryId }: { entryId: string }) {
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
             {refs.inbound.map((r) => (
               <Link key={r.entryId} to={entryDetailPath(r.entryType, r.entryId)} className="ref-card" style={{ textDecoration: 'none', color: 'inherit' }}>
-                <Tag color={entryTypeColor(r.entryType)} style={{ margin: 0, fontSize: 'var(--font-size-xxs)' }}>{r.entryType}</Tag>
+                  <Tag className={entryTypeChipClass(r.entryType)}
+                       style={{margin: 0, fontSize: 'var(--font-size-xxs)'}}>{r.entryType}</Tag>
                 <Typography.Text style={{ fontSize: 'var(--font-size-sm)' }}>{r.title || r.entryId}</Typography.Text>
               </Link>
             ))}

@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { App, Button, Collapse, Input, Select, Switch, Tag, Typography } from 'antd';
-import { PlayCircleOutlined, SettingOutlined } from '@ant-design/icons';
-import { useEntryTasks } from '@/hooks/useEntryTasks';
-import { getApiErrorMessage } from '@/utils/apiError';
-import type { TaskDefinition, TaskParameter } from '@/types';
+import {useState} from 'react';
+import {App, Button, Collapse, Input, Select, Switch, Tag, Typography} from 'antd';
+import {PlayCircleOutlined, SettingOutlined} from '@ant-design/icons';
+import {useEntryTasks} from '@/hooks/useEntryTasks';
+import {getApiErrorMessage} from '@/utils/apiError';
+import type {TaskDefinition, TaskParameter} from '@/types';
 
 function TaskParamInput({ param, value, onChange }: { param: TaskParameter; value: string; onChange: (v: string) => void }) {
   switch (param.type) {
@@ -33,7 +33,7 @@ function TaskParamInput({ param, value, onChange }: { param: TaskParameter; valu
     case 'number':
       return <Input type="number" value={value} onChange={(e) => onChange(e.target.value)} placeholder={param.description} />;
     case 'static':
-      return <Tag style={{ fontSize: 'var(--font-size-sm)', padding: '2px 10px' }}>{param.value}</Tag>;
+        return <Tag className="lynks-chip" style={{fontSize: 'var(--font-size-sm)', padding: '2px 10px'}}>{param.value}</Tag>;
     default:
       return <Input value={value} onChange={(e) => onChange(e.target.value)} placeholder={param.description || param.name} />;
   }
@@ -106,7 +106,7 @@ export default function EntryTasks({ entryId, tasks }: { entryId: string; tasks:
               {staticParams.map((param) => (
                 <div key={param.name} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                   <Typography.Text type="secondary" style={{ fontSize: 'var(--font-size-xs)' }}>{param.description || param.name}:</Typography.Text>
-                  <Tag style={{ margin: 0, fontSize: 'var(--font-size-xs)' }}>{param.value}</Tag>
+                    <Tag className="lynks-chip" style={{margin: 0, fontSize: 'var(--font-size-xs)'}}>{param.value}</Tag>
                 </div>
               ))}
             </div>
@@ -119,13 +119,13 @@ export default function EntryTasks({ entryId, tasks }: { entryId: string; tasks:
                   <SettingOutlined style={{ fontSize: 'var(--font-size-xxs)', color: 'var(--text-muted)' }} />
                   <Typography.Text style={{ fontSize: 'var(--font-size-sm)' }}>
                     {param.description || param.name}
-                    {param.required && <span style={{ color: '#ff4d4f' }}> *</span>}
+                      {param.required && <span style={{color: 'var(--color-danger)'}}> *</span>}
                   </Typography.Text>
                   {isMissing && (
                     <Typography.Text type="danger" style={{ fontSize: 'var(--font-size-xs)' }}>Required</Typography.Text>
                   )}
                 </div>
-                <div style={{ outline: isMissing ? '1px solid #ff4d4f' : undefined, borderRadius: 6 }}>
+                  <div style={{outline: isMissing ? '1px solid var(--color-danger)' : undefined, borderRadius: 6}}>
                   <TaskParamInput
                     param={param}
                     value={paramValues[task.id]?.[param.name] || param.value || ''}

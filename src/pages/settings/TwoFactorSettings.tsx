@@ -1,11 +1,10 @@
-import { useState } from 'react';
-import { Alert, Button, Card, Divider, Input, Popconfirm, Skeleton, Typography } from 'antd';
-import { CheckCircleOutlined, CloseCircleOutlined, SafetyOutlined } from '@ant-design/icons';
-import { App } from 'antd';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { get2FASecret, get2FAStatus, update2FA, validate2FACode } from '@/api/user';
-import { QK } from '@/utils/queryKeys';
-import { getApiErrorMessage } from '@/utils/apiError';
+import {useState} from 'react';
+import {Alert, App, Button, Card, Divider, Input, Popconfirm, Skeleton, Typography} from 'antd';
+import {CheckCircleOutlined, CloseCircleOutlined, SafetyOutlined} from '@ant-design/icons';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
+import {get2FASecret, get2FAStatus, update2FA, validate2FACode} from '@/api/user';
+import {QK} from '@/utils/queryKeys';
+import {getApiErrorMessage} from '@/utils/apiError';
 
 export default function TwoFactorSettings() {
   const { message } = App.useApp();
@@ -17,10 +16,11 @@ export default function TwoFactorSettings() {
     queryFn: get2FAStatus,
   });
 
+    // The secret only exists once 2FA is on - enabling is what generates it server side
   const { data: secretData } = useQuery({
     queryKey: QK.twoFaSecret(),
     queryFn: get2FASecret,
-    enabled: !!status && !status.enabled,
+      enabled: status?.enabled === true,
   });
 
   const toggleMutation = useMutation({
@@ -63,7 +63,7 @@ export default function TwoFactorSettings() {
         style={{ borderRadius: 10 }}
       />
 
-      {!enabled && secretData?.secret && (
+        {enabled && secretData?.secret && (
         <Card title="Setup" style={{ borderRadius: 'var(--radius-lg)' }}>
           <Typography.Paragraph>
             Add this secret to your authenticator app:
@@ -91,7 +91,7 @@ export default function TwoFactorSettings() {
 
       <Popconfirm
         title={enabled ? 'Disable 2FA?' : 'Enable 2FA?'}
-        description={enabled ? 'This will remove the extra security layer.' : 'Make sure you have saved the secret first.'}
+        description={enabled ? 'This will remove the extra security layer and discard the current secret.' : 'A new secret will be generated for your authenticator app.'}
         onConfirm={() => toggleMutation.mutate(!enabled)}
         okText={enabled ? 'Disable' : 'Enable'}
         okButtonProps={enabled ? { danger: true } : {}}

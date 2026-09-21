@@ -1,12 +1,12 @@
-import { Button, Card, Tag } from 'antd';
-import { ExportOutlined, EyeInvisibleOutlined, EyeOutlined, GlobalOutlined } from '@ant-design/icons';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Link as RouterLink } from 'react-router-dom';
-import { markLinkRead, markLinkUnread } from '@/api/entries';
-import { getResourceUrl } from '@/api/resources';
-import { QK } from '@/utils/queryKeys';
-import { getYouTubeId } from '@/utils/youtube';
-import type { Link } from '@/types';
+import {Button, Card, Tag} from 'antd';
+import {ExportOutlined, EyeInvisibleOutlined, EyeOutlined, GlobalOutlined} from '@ant-design/icons';
+import {useMutation, useQueryClient} from '@tanstack/react-query';
+import {Link as RouterLink} from 'react-router-dom';
+import {markLinkRead, markLinkUnread} from '@/api/entries';
+import {getResourceUrl} from '@/api/resources';
+import {QK} from '@/utils/queryKeys';
+import {getYouTubeId} from '@/utils/youtube';
+import type {Link} from '@/types';
 import YouTubeEmbed from './YouTubeEmbed';
 import SearchableContent from './SearchableContent';
 
@@ -51,7 +51,8 @@ export default function LinkDetail({ entry }: { entry: Link }) {
         </a>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
           <RouterLink to={`/links?source=${encodeURIComponent(entry.source)}`}>
-            <Tag icon={<GlobalOutlined />} style={{ margin: 0, fontSize: 'var(--font-size-sm)', padding: '2px 10px', cursor: 'pointer' }}>
+              <Tag icon={<GlobalOutlined/>} className="lynks-chip lynks-chip-clickable"
+                   style={{margin: 0, fontSize: 'var(--font-size-sm)', padding: '2px 10px'}}>
               {entry.source}
             </Tag>
           </RouterLink>
@@ -65,7 +66,7 @@ export default function LinkDetail({ entry }: { entry: Link }) {
           >
             {entry.read ? 'Read' : 'Unread'}
           </Button>
-          {isDead && <Tag color="red" style={{ margin: 0 }}>Dead Link</Tag>}
+            {isDead && <Tag className="lynks-chip lynks-chip-danger" style={{margin: 0}}>Dead Link</Tag>}
         </div>
       </div>
 

@@ -49,7 +49,7 @@ export default function NoteForm({ entry, onSuccess, onCancel, onDirtyChange }: 
       onValuesChange={() => onDirtyChange?.(true)}
     >
       <Form.Item name="title" label="Title" rules={[{ required: true }]}>
-        <Input placeholder="Note title" />
+          <Input autoFocus={!isEdit} placeholder="Note title"/>
       </Form.Item>
       <Form.Item label="Content" required>
           <RichEditor value={content} onChange={(v) => {
@@ -70,7 +70,6 @@ export default function NoteForm({ entry, onSuccess, onCancel, onDirtyChange }: 
             htmlType="submit"
             icon={<SaveOutlined />}
             loading={mutation.isPending}
-            disabled={!content.trim()}
             style={{ borderRadius: 'var(--radius-pill)' }}
           >
             {isEdit ? 'Save' : 'Create Note'}

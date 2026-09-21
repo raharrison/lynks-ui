@@ -1,9 +1,9 @@
-import { Tag } from 'antd';
-import { CloseCircleOutlined, GlobalOutlined } from '@ant-design/icons';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { buildFilterUrl, parseSearchParams, pathToType } from '@/hooks/useUrlFilterSync';
-import { useGroups } from '@/hooks/useGroups';
-import { entryTypeColor, entryTypeLabel } from '@/utils/format';
+import {Tag} from 'antd';
+import {CloseCircleOutlined, GlobalOutlined} from '@ant-design/icons';
+import {useLocation, useNavigate, useSearchParams} from 'react-router-dom';
+import {buildFilterUrl, parseSearchParams, pathToType} from '@/hooks/useUrlFilterSync';
+import {useGroups} from '@/hooks/useGroups';
+import {entryTypeChipClass, entryTypeLabel} from '@/utils/format';
 
 const chipStyle: React.CSSProperties = { fontSize: 'var(--font-size-sm)', padding: '2px 10px', margin: 0 };
 
@@ -32,7 +32,7 @@ export default function ActiveFilters() {
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center', marginBottom: 16 }}>
       {entryType && (
         <Tag
-          color={entryTypeColor(entryType)}
+            className={entryTypeChipClass(entryType)}
           closable
           onClose={() => navigate(buildFilterUrl({}, '/'))}
           style={chipStyle}
@@ -43,7 +43,7 @@ export default function ActiveFilters() {
 
       {searchQuery && (
         <Tag
-          color="magenta"
+            className="lynks-chip"
           closable
           onClose={() => navigate(buildFilterUrl({ searchQuery: '' }, location.pathname, location.search))}
           style={chipStyle}
@@ -55,7 +55,7 @@ export default function ActiveFilters() {
       {source && (
         <Tag
           icon={<GlobalOutlined />}
-          color="cyan"
+          className="lynks-chip"
           closable
           onClose={() => navigate(buildFilterUrl({ source: '' }, location.pathname, location.search))}
           style={chipStyle}
@@ -67,7 +67,7 @@ export default function ActiveFilters() {
       {tags.map((tagId) => {
         const tag = flatTags.find((t) => t.value === tagId);
         return (
-          <Tag key={tagId} closable onClose={() => removeTag(tagId)} style={chipStyle}>
+            <Tag key={tagId} className="lynks-chip lynks-chip-accent" closable onClose={() => removeTag(tagId)} style={chipStyle}>
             {tag?.label || tagId}
           </Tag>
         );
@@ -76,7 +76,8 @@ export default function ActiveFilters() {
       {collections.map((colId) => {
         const col = flatCollections.find((c) => c.value === colId);
         return (
-          <Tag key={colId} color="geekblue" closable onClose={() => removeCollection(colId)} style={chipStyle}>
+            <Tag key={colId} className="lynks-chip lynks-chip-accent" closable onClose={() => removeCollection(colId)}
+                 style={chipStyle}>
             {col?.label || colId}
           </Tag>
         );
@@ -85,7 +86,8 @@ export default function ActiveFilters() {
       {(tags.length > 0 || collections.length > 0 || searchQuery || source) && (
         <Tag
           icon={<CloseCircleOutlined />}
-          style={{ cursor: 'pointer', ...chipStyle }}
+          className="lynks-chip lynks-chip-clickable"
+          style={chipStyle}
           onClick={clearAll}
         >
           Clear all

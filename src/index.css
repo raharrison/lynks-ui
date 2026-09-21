@@ -1,4 +1,5 @@
 /* ─── Design tokens ─── */
+/* Colours mirror src/theme.ts, which Ant Design needs as literals. Keep in sync. */
 :root {
   --sidebar-width: 280px;
   --sidebar-collapsed-width: 0px;
@@ -14,66 +15,110 @@
   --font-size-sm: 13px;
   --font-size-md: 15px;
 
-  --color-warning: #faad14;
+    --color-warning: #d97706;
+    --color-danger: #dc2626;
   --opacity-read: 0.8;
 
   --z-fixed: 9999;
   --z-dropdown: 9999;
 
+    /* The lime from the icon. Same value in both themes, always over ink. */
+    --accent-solid: #bef264;
+    --accent-solid-hover: #d9f99d;
+    --accent-solid-active: #a3e635;
+
     /* Light theme */
-  --bg-primary: #f0f2f5;
+    --bg-primary: #f4f4f5;
   --bg-surface: #ffffff;
   --bg-surface-hover: #fafafa;
   --bg-elevated: #ffffff;
-  --bg-code: #f6f8fa;
-  --bg-code-block: #1e1e2e;
-  --text-primary: #1a1a2e;
-  --text-secondary: #6b7280;
-  --text-muted: #6b7280;
-  --border-primary: #e5e7eb;
-  --border-secondary: #f0f0f0;
-  --accent: #4f6ef7;
-  --accent-light: rgba(79, 110, 247, 0.08);
+    --bg-header: #ffffff;
+    --bg-code: #f4f4f5;
+    --bg-code-block: #fafafa;
+    --text-primary: #18181b;
+    --text-secondary: #52525b;
+    --text-muted: #71717a;
+    --border-primary: #e4e4e7;
+    --border-secondary: #f4f4f5;
+    /* Lime only reaches 1.6:1 on white, so text and borders step down to lime-700. */
+    --accent: #4d7c0f;
+    --accent-hover: #3f6212;
+    --accent-light: rgba(132, 204, 22, 0.12);
+    --accent-ink: #1a2e05;
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.08);
-  --card-hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    --card-hover-shadow: 0 8px 24px rgba(24, 24, 27, 0.1);
   --scrollbar-thumb: #d4d4d8;
   --scrollbar-hover: #a1a1aa;
-  --blockquote-border: #4f6ef7;
-  --blockquote-bg: rgba(79, 110, 247, 0.04);
-  --table-header-bg: #f9fafb;
-  --table-border: #e5e7eb;
-  --unread-bg: #f0fdf4;
+    --blockquote-border: #84cc16;
+    --blockquote-bg: rgba(132, 204, 22, 0.06);
+    --table-header-bg: #fafafa;
+    --table-border: #e4e4e7;
+    --unread-bg: rgba(132, 204, 22, 0.09);
+    --unread-border: rgba(132, 204, 22, 0.28);
+
+    /* Entry types are the only decorative colour in the UI, so these stay muted. */
+    --chip-link: #0369a1;
+    --chip-note: #0f766e;
+    --chip-snippet: #b45309;
+    --chip-file: #7e22ce;
+    --color-star: #d97706;
+    --chip-bg: #f4f4f5;
+    --chip-bg-hover: #e8e8ea;
+    --chip-border: #e4e4e7;
+    --chip-border-hover: #d4d4d8;
+    --accent-chip-bg: rgba(132, 204, 22, 0.16);
+    --accent-chip-bg-hover: rgba(132, 204, 22, 0.26);
+    --accent-chip-border: rgba(132, 204, 22, 0.5);
 }
 
 [data-theme="dark"] {
-  --bg-primary: #0f0f1e;
-  --bg-surface: #1a1a2e;
-  --bg-surface-hover: #1f1f3a;
-  --bg-elevated: #1f1f3a;
-  --bg-code: #252542;
-  --bg-code-block: #0d0d1a;
-  --text-primary: #e5e7eb;
-  --text-secondary: #9ca3af;
-  --text-muted: #6b7280;
-  --border-primary: #2d2d4a;
-  --border-secondary: #252542;
-  --accent: #6d8aff;
-  --accent-light: rgba(109, 138, 255, 0.1);
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
-  --card-hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-  --scrollbar-thumb: #3f3f5c;
-  --scrollbar-hover: #52527a;
-  --blockquote-border: #6d8aff;
-  --blockquote-bg: rgba(109, 138, 255, 0.06);
-  --table-header-bg: #1f1f3a;
-  --table-border: #2d2d4a;
-  --unread-bg: rgba(34, 197, 94, 0.08);
-}
+    --color-warning: #fbbf24;
+    --color-danger: #f87171;
 
+    --bg-primary: #0b0b0e;
+    --bg-surface: #16161a;
+    --bg-surface-hover: #1e1e23;
+    --bg-elevated: #1e1e23;
+    --bg-header: #121216;
+    --bg-code: #1e1e23;
+    --bg-code-block: #0e0e12;
+    --text-primary: #e4e4e7;
+    --text-secondary: #a1a1aa;
+    --text-muted: #71717a;
+    --border-primary: #2c2c33;
+    --border-secondary: #222228;
+    --accent: #bef264;
+    --accent-hover: #d9f99d;
+    --accent-light: rgba(190, 242, 100, 0.12);
+    --accent-ink: #14200a;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+    --card-hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    --scrollbar-thumb: #3f3f46;
+    --scrollbar-hover: #52525b;
+    --blockquote-border: #bef264;
+    --blockquote-bg: rgba(190, 242, 100, 0.06);
+    --table-header-bg: #1e1e23;
+    --table-border: #2c2c33;
+    --unread-bg: rgba(190, 242, 100, 0.07);
+    --unread-border: rgba(190, 242, 100, 0.22);
+
+    --chip-link: #7dd3fc;
+    --chip-note: #5eead4;
+    --chip-snippet: #fcd34d;
+    --chip-file: #d8b4fe;
+    --color-star: #fbbf24;
+    --chip-bg: #24242b;
+    --chip-bg-hover: #2f2f38;
+    --chip-border: #34343d;
+    --chip-border-hover: #46464f;
+    --accent-chip-bg: rgba(190, 242, 100, 0.18);
+    --accent-chip-bg-hover: rgba(190, 242, 100, 0.28);
+    --accent-chip-border: rgba(190, 242, 100, 0.5);
+}
 
 /* ─── Base reset ─── */
 * {
@@ -131,7 +176,7 @@ body {
     right: 0;
   height: 3px;
   z-index: var(--z-fixed);
-  background: linear-gradient(90deg, var(--accent) 0%, #a78bfa 50%, var(--accent) 100%);
+    background: linear-gradient(90deg, var(--accent-solid) 0%, var(--accent) 50%, var(--accent-solid) 100%);
   background-size: 200% 100%;
   animation: loading-bar 1.2s ease-in-out infinite;
 }
@@ -252,7 +297,7 @@ body {
 
 .markdown-content pre {
   background: var(--bg-code-block);
-  color: #abb2bf;
+    color: var(--text-primary);
   padding: 20px;
   border-radius: 10px;
   overflow-x: auto;
@@ -403,6 +448,7 @@ body {
   border-radius: 8px;
   overflow-x: auto;
   margin: 0;
+    border: 1px solid var(--border-primary);
 }
 
 .rich-editor .ProseMirror pre code { background: none; padding: 0; }
@@ -600,7 +646,7 @@ body {
 
 .notification-item.unread {
     background: var(--unread-bg);
-    border-color: rgba(34, 197, 94, 0.2);
+    border-color: var(--unread-border);
 }
 
 .resource-item {
@@ -629,6 +675,89 @@ body {
     font-size: 48px;
     margin-bottom: 16px;
     opacity: 0.4;
+}
+
+
+/* ─── Chips ─── */
+/* Ant Design injects its styles after this file, so a plain `.ant-tag.x` only
+   ties its preset rules and loses the cascade. Qualifying with `:root` wins
+   outright and still reaches chips rendered into portals. Chips therefore pass
+   className and never Ant Design's `color` prop. */
+:root .ant-tag.lynks-chip {
+    background: var(--chip-bg);
+    border-color: var(--chip-border);
+    color: var(--text-secondary);
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+:root .ant-tag.lynks-chip-clickable {
+    cursor: pointer;
+}
+
+:root .ant-tag.lynks-chip-clickable:hover {
+    background: var(--chip-bg-hover);
+    border-color: var(--chip-border-hover);
+    color: var(--text-primary);
+}
+
+/* Selected filters and unread entries: the only place lime lands on a chip. */
+:root .ant-tag.lynks-chip-accent {
+    background: var(--accent-chip-bg);
+    border-color: var(--accent-chip-border);
+    color: var(--accent);
+    font-weight: 600;
+}
+
+:root .ant-tag.lynks-chip-accent.lynks-chip-clickable:hover {
+    background: var(--accent-chip-bg-hover);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* Entry type is the only decorative colour left in the UI. */
+:root .ant-tag.lynks-chip-type {
+    --chip: var(--text-secondary);
+    background: color-mix(in srgb, var(--chip) 14%, transparent);
+    border-color: color-mix(in srgb, var(--chip) 34%, transparent);
+    color: var(--chip);
+}
+
+:root .ant-tag.lynks-chip-type-link {
+    --chip: var(--chip-link);
+}
+
+:root .ant-tag.lynks-chip-type-note {
+    --chip: var(--chip-note);
+}
+
+:root .ant-tag.lynks-chip-type-snippet {
+    --chip: var(--chip-snippet);
+}
+
+:root .ant-tag.lynks-chip-type-file {
+    --chip: var(--chip-file);
+}
+
+:root .ant-tag.lynks-chip-danger {
+    background: color-mix(in srgb, var(--color-danger) 14%, transparent);
+    border-color: color-mix(in srgb, var(--color-danger) 36%, transparent);
+    color: var(--color-danger);
+}
+
+
+/* ─── Ant Design overrides ─── */
+/* Dark mode fills controls with the bright lime, which is far too light to
+   carry Ant Design's white tick or dot. */
+[data-theme="dark"] .ant-checkbox-checked .ant-checkbox-inner::after {
+    border-color: var(--accent-ink);
+}
+
+[data-theme="dark"] .ant-radio-checked .ant-radio-inner::after {
+    background-color: var(--accent-ink);
+}
+
+[data-theme="dark"] .ant-switch.ant-switch-checked .ant-switch-inner-checked {
+    color: var(--accent-ink);
 }
 
 

@@ -4,7 +4,7 @@ import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {starEntry, unstarEntry} from '@/api/entries';
 import {QK} from '@/utils/queryKeys';
 import {getApiErrorMessage} from '@/utils/apiError';
-import type {AnyEntry, AnySlimEntry, Page} from '@/types';
+import type {AnyEntry, AnySlimEntry, Digest, Page} from '@/types';
 
 export function useStarEntry(): { toggleStar: (id: string, starred: boolean) => void; isStarring: boolean } {
   const { message } = App.useApp();
@@ -16,6 +16,7 @@ export function useStarEntry(): { toggleStar: (id: string, starred: boolean) => 
     onMutate: async ({id, starred}) => {
       await queryClient.cancelQueries({ queryKey: QK.entries() });
       await queryClient.cancelQueries({queryKey: QK.entry(id)});
+        await queryClient.cancelQueries({queryKey: QK.digest()});
 
       queryClient.setQueriesData<Page<AnySlimEntry>>({ queryKey: QK.entries() }, (old) => {
         if (!old) return old;
@@ -29,6 +30,11 @@ export function useStarEntry(): { toggleStar: (id: string, starred: boolean) => 
         if (!old) return old;
         return { ...old, starred: !starred };
       });
+
+        queryClient.setQueryData<Digest>(QK.digest(), (old) => {
+            if (!old) return old;
+            return {...old, links: old.links.map((l) => (l.id === id ? {...l, starred: !starred} : l))};
+        });
     },
     onError: (err, {id, starred}) => {
       queryClient.setQueriesData<Page<AnySlimEntry>>({ queryKey: QK.entries() }, (old) => {
@@ -39,6 +45,10 @@ export function useStarEntry(): { toggleStar: (id: string, starred: boolean) => 
         if (!old) return old;
         return { ...old, starred };
       });
+        queryClient.setQueryData<Digest>(QK.digest(), (old) => {
+            if (!old) return old;
+            return {...old, links: old.links.map((l) => (l.id === id ? {...l, starred} : l))};
+        });
       message.error(getApiErrorMessage(err, 'Failed to update star'));
     },
   });

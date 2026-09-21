@@ -1,6 +1,6 @@
 ## Lynks UI - Self-hosted link and note manager
 
-**React 19 + TypeScript + Vite 8**
+**React 19 + TypeScript 6 + Vite 8**
 
 Frontend webapp for the Lynks project. Accompanied by [lynks-server](https://github.com/raharrison/lynks-server) which provides
 the backend API.
@@ -26,6 +26,7 @@ the backend API.
 - **Syntax highlighting** for code snippets
 - Light and dark theme
 - Notifications and scheduled reminder management
+- **Weekly digest** page of unread links, regenerated on a schedule
 - Settings: profile, password, two-factor auth (TOTP), tag/collection management, activity log
 
 ### Dev Commands
@@ -36,3 +37,16 @@ npm run build    # Type-check + production build
 npm run lint     # ESLint
 npm run preview  # Preview production build
 ```
+
+### Deployment
+
+No container. `npm run build` emits static files to `dist/`, which get dropped
+where the VPS nginx serves them:
+
+```bash
+npm run build
+rsync -a --delete dist/ vps:/var/www/lynks/
+```
+
+The nginx site config lives in `lynks-server/config/nginx.conf`, since it also
+proxies `/api` to the API service.

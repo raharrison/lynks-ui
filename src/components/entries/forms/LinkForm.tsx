@@ -1,12 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
-import { App, Button, Form, Input, Switch, Tag, Tooltip } from 'antd';
-import { BulbOutlined, SaveOutlined } from '@ant-design/icons';
-import { suggestLink } from '@/api/suggest';
-import { useSaveEntry } from '@/hooks/useSaveEntry';
-import { useEntryFormGroups } from '@/hooks/useEntryFormGroups';
+import {useEffect, useRef, useState} from 'react';
+import {App, Button, Form, Input, Switch, Tag, Tooltip} from 'antd';
+import {BulbOutlined, SaveOutlined} from '@ant-design/icons';
+import {isAxiosError} from 'axios';
+import {suggestLink} from '@/api/suggest';
+import {useSaveEntry} from '@/hooks/useSaveEntry';
+import {useEntryFormGroups} from '@/hooks/useEntryFormGroups';
 import TagCollectionSelect from '@/components/common/TagCollectionSelect';
-import { getApiErrorMessage } from '@/utils/apiError';
-import type { Link, NewLink } from '@/types';
+import {getApiErrorMessage} from '@/utils/apiError';
+import type {Link, NewLink} from '@/types';
 
 interface LinkFormProps {
   entry?: Link;
@@ -48,8 +49,14 @@ export default function LinkForm({ entry, onSuccess, onCancel, onDirtyChange }: 
         if (suggestion.thumbnail) setThumbnail(`/api/temp/${suggestion.thumbnail}`);
         if (suggestion.keywords.length) setKeywords(suggestion.keywords);
       }
-    } catch {
-      // suggestions are optional
+    } catch (err) {
+      if (!controller.signal.aborted) {
+        if (isAxiosError(err) && err.response?.status === 422) {
+          message.warning(getApiErrorMessage(err, 'Suggestion unavailable for this URL'));
+        } else if (!isAxiosError(err) || err.code !== 'ERR_CANCELED') {
+          message.warning('Suggestion unavailable for this URL');
+        }
+      }
     } finally {
       if (!controller.signal.aborted) setSuggesting(false);
     }
@@ -83,6 +90,7 @@ export default function LinkForm({ entry, onSuccess, onCancel, onDirtyChange }: 
     >
       <Form.Item name="url" label="URL" rules={[{ required: true, type: 'url', message: 'Valid URL required' }]}>
         <Input
+            autoFocus={!isEdit}
           placeholder="https://example.com"
           suffix={
             !isEdit && (
@@ -116,7 +124,7 @@ export default function LinkForm({ entry, onSuccess, onCancel, onDirtyChange }: 
         <div style={{ marginBottom: 16 }}>
           <span style={{ fontSize: 'var(--font-size-xs)', color: 'var(--ant-color-text-secondary)', marginRight: 8 }}>Keywords:</span>
           {keywords.map((kw) => (
-            <Tag key={kw} style={{ marginBottom: 4 }}>{kw}</Tag>
+              <Tag key={kw} className="lynks-chip" style={{marginBottom: 4}}>{kw}</Tag>
           ))}
         </div>
       )}

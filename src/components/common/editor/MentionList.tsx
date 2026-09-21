@@ -1,5 +1,5 @@
-import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
-import type { AnySlimEntry } from '@/types';
+import {forwardRef, useEffect, useImperativeHandle, useState} from 'react';
+import type {AnySlimEntry} from '@/types';
 
 interface MentionListProps {
   items: AnySlimEntry[];
@@ -13,7 +13,6 @@ export interface MentionListHandle {
 const MentionList = forwardRef<MentionListHandle, MentionListProps>(({ items, command }, ref) => {
   const [selected, setSelected] = useState(0);
 
-  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { setSelected(0); }, [items]);
 
   const select = (index: number) => {

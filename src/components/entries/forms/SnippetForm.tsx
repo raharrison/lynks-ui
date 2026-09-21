@@ -45,7 +45,7 @@ export default function SnippetForm({ entry, onSuccess, onCancel, onDirtyChange 
           <RichEditor value={content} onChange={(v) => {
               setContent(v);
               onDirtyChange?.(true);
-          }} minHeight={300}/>
+          }} minHeight={300} autoFocus={!isEdit}/>
       </div>
       <TagCollectionSelect
         selectedTags={tags}

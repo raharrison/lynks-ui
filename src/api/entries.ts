@@ -52,6 +52,11 @@ export async function searchEntries(query: string, req?: PageRequest): Promise<P
   return data;
 }
 
+export async function suggestEntries(query: string, req?: PageRequest): Promise<Page<AnySlimEntry>> {
+    const {data} = await client.get('/entry/suggest', {params: {q: query, ...buildParams(req)}});
+    return data;
+}
+
 export async function resolveEntries(ids: string[]): Promise<AnySlimEntry[]> {
   const {data} = await client.get('/entry/resolve', {params: {ids: ids.join(',')}});
   return data;

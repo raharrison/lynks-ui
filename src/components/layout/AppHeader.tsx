@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useMemo, useState} from 'react';
+import {useCallback, useMemo, useState} from 'react';
 import {App, Avatar, Badge, Button, Dropdown, Input, Layout, Menu, Segmented, Typography} from 'antd';
 import {
   BellOutlined,
@@ -35,6 +35,7 @@ const navItems = [
   { key: '/notes', label: 'Notes' },
   { key: '/snippets', label: 'Snippets' },
   { key: '/files', label: 'Files' },
+    {key: '/digest', label: 'Digest'},
 ];
 
 const themeOptions: { value: ThemeMode; icon: React.ReactNode; label: string }[] = [
@@ -56,10 +57,12 @@ export default function AppHeader() {
   const { logout } = useLogout();
   const isFetchingEntries = useIsFetching({ queryKey: ['entries'] }) > 0;
   const [localSearch, setLocalSearch] = useState(searchQuery);
+    const [lastSearchQuery, setLastSearchQuery] = useState(searchQuery);
 
-  useEffect(() => {
+    if (searchQuery !== lastSearchQuery) {
+        setLastSearchQuery(searchQuery);
     setLocalSearch(searchQuery);
-  }, [searchQuery]);
+    }
 
   const handleSearch = (value: string) => {
     const onListPage = LIST_PATHS.includes(location.pathname);
@@ -87,6 +90,13 @@ export default function AppHeader() {
     { key: 'file', icon: <FileOutlined />, label: 'New File', onClick: () => navigate(entryCreatePath('file')) },
   ], [navigate]);
 
+    // Pages outside the nav (settings, notifications) match nothing and select nothing
+    const selectedNavKeys = useMemo(() => {
+        if (location.pathname === '/') return ['/'];
+        const match = navItems.find((n) => n.key !== '/' && location.pathname.startsWith(n.key));
+        return match ? [match.key] : [];
+    }, [location.pathname]);
+
   const themeIcon = useMemo(
     () => themeMode === 'dark' ? <MoonOutlined /> : themeMode === 'light' ? <SunOutlined /> : <DesktopOutlined />,
     [themeMode]);
@@ -98,11 +108,6 @@ export default function AppHeader() {
       label: (
         <div style={{ padding: '4px 0' }}>
           <Typography.Text strong>{displayName}</Typography.Text>
-          {user?.email && (
-            <Typography.Text type="secondary" style={{ display: 'block', fontSize: 'var(--font-size-xs)' }}>
-              {user.email}
-            </Typography.Text>
-          )}
         </div>
       ),
       disabled: true,
@@ -129,7 +134,7 @@ export default function AppHeader() {
     { key: 'activity', icon: <HistoryOutlined />, label: <Link to="/settings?tab=activity" style={{ color: 'inherit' }}>Activity</Link> },
     { type: 'divider' as const },
     { key: 'logout', icon: <LogoutOutlined />, label: 'Logout', onClick: handleLogout, danger: true },
-  ], [displayName, user?.email, themeMode, themeIcon, setThemeMode, handleLogout]);
+  ], [displayName, themeMode, themeIcon, setThemeMode, handleLogout]);
 
   return (
     <Layout.Header style={{
@@ -160,16 +165,22 @@ export default function AppHeader() {
           style={{
             display: 'flex',
             alignItems: 'center',
+              gap: 9,
             textDecoration: 'none',
           }}
+          aria-label="Lynks home"
         >
-          <img src="/favicon.svg" alt="Lynks" style={{ width: 28, height: 28 }} />
+            <img
+                src="/favicon.svg"
+                alt=""
+                width={28}
+                height={28}
+                style={{display: 'block', borderRadius: 7}}
+            />
           <span style={{
             fontWeight: 800,
             fontSize: 20,
-            background: 'linear-gradient(135deg, var(--accent) 0%, #a78bfa 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
+              color: 'var(--text-primary)',
             whiteSpace: 'nowrap',
             letterSpacing: '-0.5px',
           }}>
@@ -180,7 +191,7 @@ export default function AppHeader() {
         <Menu
           className="desktop-only"
           mode="horizontal"
-          selectedKeys={[location.pathname === '/' ? '/' : navItems.find(n => n.key !== '/' && location.pathname.startsWith(n.key))?.key ?? '/']}
+          selectedKeys={selectedNavKeys}
           onClick={({ key }) => navigate(key)}
           disabledOverflow
           items={navItems.map(n => ({ key: n.key, label: n.label, style: { padding: '0 12px' } }))}
@@ -230,7 +241,8 @@ export default function AppHeader() {
 
         <Dropdown menu={{ items: userMenuItems }} trigger={['click']} placement="bottomRight">
           <div style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8, padding: '0 6px' }}>
-            <Avatar size={32} style={{ background: 'linear-gradient(135deg, var(--accent) 0%, #a78bfa 100%)', fontSize: 14, fontWeight: 600 }}>
+              <Avatar size={32}
+                      style={{background: 'var(--accent-solid)', color: 'var(--accent-ink)', fontSize: 14, fontWeight: 700}}>
               {initials}
             </Avatar>
             <Typography.Text className="desktop-only" style={{ fontSize: 'var(--font-size-sm)', maxWidth: 100 }} ellipsis>

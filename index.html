@@ -1,13 +1,31 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSI+CiAgPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iOCIgZmlsbD0iIzFhMWEyZSIvPgogIDxwYXRoIGQ9Ik0xMyAxMS41aC0xLjVBNC41IDQuNSAwIDAgMCA3IDE2djBhNC41IDQuNSAwIDAgMCA0LjUgNC41SDEzIiBzdHJva2U9IiM3YzZhZjciIHN0cm9rZS13aWR0aD0iMi41IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cGF0aCBkPSJNMTkgMTEuNWgxLjVBNC41IDQuNSAwIDAgMSAyNSAxNnYwYTQuNSA0LjUgMCAwIDEtNC41IDQuNUgxOSIgc3Ryb2tlPSIjN2M2YWY3IiBzdHJva2Utd2lkdGg9IjIuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPGxpbmUgeDE9IjEzIiB5MT0iMTYiIHgyPSIxOSIgeTI9IjE2IiBzdHJva2U9IiM3YzZhZjciIHN0cm9rZS13aWR0aD0iMi41IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPC9zdmc+Cg==" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="icon" href="/favicon.ico" sizes="32x32"/>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+    <link rel="manifest" href="/manifest.webmanifest"/>
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)"/>
+    <meta name="theme-color" content="#0b0b0e" media="(prefers-color-scheme: dark)"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="Self-hosted link, note and knowledge manager"/>
     <title>Lynks</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+    <!-- Set the theme before React mounts, so a dark session does not flash white -->
+    <script>
+        (function () {
+            try {
+                var mode = (JSON.parse(localStorage.getItem("lynks-theme") || "{}").state || {}).mode || "system";
+                var dark = mode === "dark" ||
+                    (mode === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+                document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
+            } catch (_) {
+            }
+        })();
+    </script>
+</head>
+<body>
+<div id="root"></div>
+<script type="module" src="/src/main.tsx"></script>
+</body>
 </html>

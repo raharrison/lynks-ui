@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {App, Button, Typography} from 'antd';
+import {App, Button} from 'antd';
 import {SaveOutlined} from '@ant-design/icons';
 import {useSaveEntry} from '@/hooks/useSaveEntry';
 import {useEntryFormGroups} from '@/hooks/useEntryFormGroups';
@@ -39,21 +39,22 @@ export default function SnippetForm({ entry, onSuccess, onCancel, onDirtyChange 
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-      <div>
-        <Typography.Text style={{ display: 'block', marginBottom: 6 }}>Content</Typography.Text>
+      <div className="entry-doc">
+          <div className="entry-doc-content">
           <RichEditor value={content} onChange={(v) => {
               setContent(v);
               onDirtyChange?.(true);
-          }} minHeight={300} autoFocus={!isEdit}/>
+          }} minHeight={460} autoFocus={!isEdit} flush/>
       </div>
+          <div className="entry-doc-meta">
       <TagCollectionSelect
         selectedTags={tags}
         selectedCollections={collections}
         onTagsChange={setTags}
         onCollectionsChange={setCollections}
       />
-      <div style={{ display: 'flex', gap: 8 }}>
+          </div>
+          <div className="entry-form-actions">
         <Button
           type="primary"
           icon={<SaveOutlined />}

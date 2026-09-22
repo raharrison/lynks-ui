@@ -85,7 +85,7 @@ export default function FileForm({ entry, onSuccess, onCancel, onDirtyChange }: 
         onCollectionsChange={setCollections}
       />
       <Form.Item style={{ marginTop: 20 }}>
-        <div style={{ display: 'flex', gap: 8 }}>
+          <div className="entry-form-actions">
             <Button
                 type="primary"
                 htmlType="submit"

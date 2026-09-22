@@ -24,6 +24,8 @@ const MentionList = forwardRef<MentionListHandle, MentionListProps>(({ items, co
 
   useImperativeHandle(ref, () => ({
     onKeyDown: (event: KeyboardEvent) => {
+        // Nothing to pick, so let the editor have the key.
+        if (!items.length) return false;
       if (event.key === 'ArrowUp') {
         setSelected((s) => (s - 1 + items.length) % items.length);
         return true;

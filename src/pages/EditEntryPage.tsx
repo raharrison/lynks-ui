@@ -1,11 +1,11 @@
 import {useEffect, useRef, useState} from 'react';
 import {useBlocker, useNavigate, useParams} from 'react-router-dom';
 import {entryDetailPath} from '@/utils/format';
-import {Button, Card, Modal, Result} from 'antd';
+import {Button, Result} from 'antd';
 import PageSkeleton from '@/components/common/PageSkeleton';
-import {ArrowLeftOutlined} from '@ant-design/icons';
 import {ENTRY_TYPE_LABELS} from '@/utils/constants';
 import {useEntry} from '@/hooks/useEntry';
+import EntryEditorShell from '@/components/entries/EntryEditorShell';
 import LinkForm from '@/components/entries/forms/LinkForm';
 import NoteForm from '@/components/entries/forms/NoteForm';
 import SnippetForm from '@/components/entries/forms/SnippetForm';
@@ -39,28 +39,21 @@ export default function EditEntryPage() {
   const onCancel = () => navigate(backPath);
 
   return (
-    <div>
-      <Button type="text" icon={<ArrowLeftOutlined />} onClick={() => navigate(backPath)} style={{ marginBottom: 16 }}>
-        Back
-      </Button>
-      <Card title={`Edit ${ENTRY_TYPE_LABELS[entry.type]}`} style={{ borderRadius: 'var(--radius-lg)' }}>
-        {entry.type === 'link' && <LinkForm entry={entry} onSuccess={onSuccess} onCancel={onCancel} onDirtyChange={setIsDirty} />}
-        {entry.type === 'note' && <NoteForm entry={entry} onSuccess={onSuccess} onCancel={onCancel} onDirtyChange={setIsDirty} />}
-        {entry.type === 'snippet' && <SnippetForm entry={entry} onSuccess={onSuccess} onCancel={onCancel} onDirtyChange={setIsDirty} />}
-        {entry.type === 'file' && <FileForm entry={entry} onSuccess={onSuccess} onCancel={onCancel} onDirtyChange={setIsDirty} />}
-      </Card>
-
-      <Modal
-        open={blocker.state === 'blocked'}
-        title="Discard changes?"
-        onOk={() => blocker.proceed?.()}
-        onCancel={() => blocker.reset?.()}
-        okText="Discard"
-        okButtonProps={{ danger: true }}
-        cancelText="Keep editing"
+      <EntryEditorShell
+          type={entry.type}
+          heading={`Edit ${ENTRY_TYPE_LABELS[entry.type].toLowerCase()}`}
+          isDirty={isDirty}
+          onBack={() => navigate(backPath)}
+          blocker={blocker}
       >
-        You have unsaved changes. If you leave, your changes will be lost.
-      </Modal>
-    </div>
+          {entry.type === 'link' &&
+              <LinkForm entry={entry} onSuccess={onSuccess} onCancel={onCancel} onDirtyChange={setIsDirty}/>}
+          {entry.type === 'note' &&
+              <NoteForm entry={entry} onSuccess={onSuccess} onCancel={onCancel} onDirtyChange={setIsDirty}/>}
+          {entry.type === 'snippet' &&
+              <SnippetForm entry={entry} onSuccess={onSuccess} onCancel={onCancel} onDirtyChange={setIsDirty}/>}
+          {entry.type === 'file' &&
+              <FileForm entry={entry} onSuccess={onSuccess} onCancel={onCancel} onDirtyChange={setIsDirty}/>}
+      </EntryEditorShell>
   );
 }

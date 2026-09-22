@@ -1,5 +1,5 @@
-import {useState} from 'react';
 import {App, Button, Form, Input} from 'antd';
+import {useState} from 'react';
 import {SaveOutlined} from '@ant-design/icons';
 import {useSaveEntry} from '@/hooks/useSaveEntry';
 import {useEntryFormGroups} from '@/hooks/useEntryFormGroups';
@@ -47,36 +47,45 @@ export default function NoteForm({ entry, onSuccess, onCancel, onDirtyChange }: 
       layout="vertical"
       initialValues={{ title: entry?.title }}
       onValuesChange={() => onDirtyChange?.(true)}
+      className="entry-doc"
     >
-      <Form.Item name="title" label="Title" rules={[{ required: true }]}>
-          <Input autoFocus={!isEdit} placeholder="Note title"/>
+        <Form.Item name="title" rules={[{required: true, message: 'Give the note a title'}]} className="entry-doc-title">
+            <Input variant="borderless" autoFocus={!isEdit} placeholder="Untitled note"/>
       </Form.Item>
-      <Form.Item label="Content" required>
-          <RichEditor value={content} onChange={(v) => {
-              setContent(v);
-              onDirtyChange?.(true);
-          }} minHeight={400}/>
-      </Form.Item>
-      <TagCollectionSelect
-        selectedTags={tags}
-        selectedCollections={collections}
-        onTagsChange={setTags}
-        onCollectionsChange={setCollections}
-      />
-      <Form.Item style={{ marginTop: 20 }}>
-        <div style={{ display: 'flex', gap: 8 }}>
-          <Button
-            type="primary"
-            htmlType="submit"
-            icon={<SaveOutlined />}
-            loading={mutation.isPending}
-            style={{ borderRadius: 'var(--radius-pill)' }}
-          >
-            {isEdit ? 'Save' : 'Create Note'}
-          </Button>
-          {onCancel && <Button onClick={onCancel} style={{ borderRadius: 'var(--radius-pill)' }}>Cancel</Button>}
+
+        <div className="entry-doc-content">
+            <RichEditor
+                value={content}
+                onChange={(v) => {
+                    setContent(v);
+                    onDirtyChange?.(true);
+                }}
+                minHeight={420}
+                flush
+            />
         </div>
-      </Form.Item>
+
+        <div className="entry-doc-meta">
+            <TagCollectionSelect
+                selectedTags={tags}
+                selectedCollections={collections}
+                onTagsChange={setTags}
+                onCollectionsChange={setCollections}
+            />
+        </div>
+
+        <div className="entry-form-actions">
+            <Button
+                type="primary"
+                htmlType="submit"
+                icon={<SaveOutlined/>}
+                loading={mutation.isPending}
+                style={{borderRadius: 'var(--radius-pill)'}}
+            >
+                {isEdit ? 'Save' : 'Create Note'}
+            </Button>
+            {onCancel && <Button onClick={onCancel} style={{borderRadius: 'var(--radius-pill)'}}>Cancel</Button>}
+        </div>
     </Form>
   );
 }

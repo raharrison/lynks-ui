@@ -1,5 +1,7 @@
 /* ─── Design tokens ─── */
-/* Colours mirror src/theme.ts, which Ant Design needs as literals. Keep in sync. */
+/* Colours shared with src/theme.ts are mirrored by hand, because Ant Design
+   derives its ramps from literals and cannot read these. Values only Ant Design
+   consumes live in theme.ts alone. Keep the overlap in sync. */
 :root {
   --sidebar-width: 280px;
   --sidebar-collapsed-width: 0px;
@@ -24,15 +26,12 @@
 
     /* The lime from the icon. Same value in both themes, always over ink. */
     --accent-solid: #bef264;
-    --accent-solid-hover: #d9f99d;
-    --accent-solid-active: #a3e635;
 
     /* Light theme */
     --bg-primary: #f4f4f5;
   --bg-surface: #ffffff;
   --bg-surface-hover: #fafafa;
   --bg-elevated: #ffffff;
-    --bg-header: #ffffff;
     --bg-code: #f4f4f5;
     --bg-code-block: #fafafa;
     --text-primary: #18181b;
@@ -42,7 +41,6 @@
     --border-secondary: #f4f4f5;
     /* Lime only reaches 1.6:1 on white, so text and borders step down to lime-700. */
     --accent: #4d7c0f;
-    --accent-hover: #3f6212;
     --accent-light: rgba(132, 204, 22, 0.12);
     --accent-ink: #1a2e05;
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
@@ -81,7 +79,6 @@
     --bg-surface: #16161a;
     --bg-surface-hover: #1e1e23;
     --bg-elevated: #1e1e23;
-    --bg-header: #121216;
     --bg-code: #1e1e23;
     --bg-code-block: #0e0e12;
     --text-primary: #e4e4e7;
@@ -90,7 +87,6 @@
     --border-primary: #2c2c33;
     --border-secondary: #222228;
     --accent: #bef264;
-    --accent-hover: #d9f99d;
     --accent-light: rgba(190, 242, 100, 0.12);
     --accent-ink: #14200a;
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
@@ -346,11 +342,133 @@ body {
 }
 
 
-/* ─── Rich editor ─── */
+/* ─── Entry create / edit pages ─── */
+.entry-editor-back {
+    margin-bottom: 12px;
+    color: var(--text-secondary);
+}
+
+.entry-editor-head {
+    margin-bottom: 18px;
+}
+
+.entry-editor-title-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.entry-editor-title {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    line-height: 1.2;
+    color: var(--text-primary);
+}
+
+.entry-editor-dirty {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: var(--font-size-xs);
+    color: var(--text-secondary);
+}
+
+.entry-editor-dirty::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--accent-solid);
+}
+
+.entry-editor-hint {
+    margin: 8px 0 0;
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+}
+
+.entry-editor-body {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-secondary);
+    border-radius: var(--radius-lg);
+    padding: 24px 26px 12px;
+    box-shadow: var(--shadow-sm);
+}
+
+/* The document forms supply their own inner padding so the editor gutter can
+   reach the panel edge. */
+.entry-editor-body:has(.entry-doc) {
+    padding: 26px 0 12px;
+}
+
+.entry-editor-body:has(.entry-doc) .entry-doc-meta,
+.entry-editor-body:has(.entry-doc) .entry-form-actions {
+    margin-left: 26px;
+    margin-right: 26px;
+}
+
+/* The note and snippet forms are document-shaped: the panel is the page, so the
+   title and body run flush and the metadata sits below a rule. */
+.entry-doc-title {
+    margin-bottom: 0;
+}
+
+.entry-doc-title .ant-input {
+    padding: 0 24px 0 56px;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1.25;
+    color: var(--text-primary);
+}
+
+.entry-doc-title .ant-input::placeholder {
+    color: var(--text-muted);
+    font-weight: 700;
+}
+
+.entry-doc-title .ant-form-item-explain {
+    padding-left: 56px;
+}
+
+.entry-doc-content {
+    margin-top: 4px;
+}
+
+.entry-doc-meta {
+    margin-top: 8px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border-secondary);
+}
+
+/* A long note would otherwise push Save far below the fold. */
+.entry-form-actions {
+    position: sticky;
+    bottom: 14px;
+    margin-top: 22px;
+    z-index: 2;
+    display: flex;
+    gap: 8px;
+    width: fit-content;
+    padding: 10px 12px;
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-pill);
+    background: color-mix(in srgb, var(--bg-elevated) 88%, transparent);
+    backdrop-filter: blur(8px);
+    box-shadow: var(--shadow-md);
+}
+
+
+/* ─── Rich editor (Milkdown Crepe) ─── */
+/* Crepe ships its own themes; this maps its variables onto the Lynks tokens so
+   the editor follows light/dark with the rest of the app. */
 .rich-editor {
   border: 1px solid var(--border-primary);
-  border-radius: 10px;
-  overflow: hidden;
+    border-radius: var(--radius-md);
     background: var(--bg-surface);
   transition: border-color 0.2s;
 }
@@ -360,152 +478,162 @@ body {
   box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 20%, transparent);
 }
 
-.rich-editor-toolbar {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 2px;
-  padding: 6px 8px;
-  border-bottom: 1px solid var(--border-primary);
-  background: var(--bg-surface);
+/* The document layout hands the whole panel to the editor, so it drops its own
+   frame and lets the page card be the page. */
+.rich-editor--flush,
+.rich-editor--flush:focus-within {
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
 }
 
-.toolbar-sep {
-    display: inline-block;
-    width: 1px;
-    height: 16px;
-    background: var(--border-primary);
-    margin: 0 4px;
-    vertical-align: middle;
+.rich-editor .milkdown {
+    --crepe-color-background: var(--bg-surface);
+    --crepe-color-on-background: var(--text-primary);
+    --crepe-color-surface: var(--bg-surface);
+    --crepe-color-surface-low: var(--bg-code);
+    --crepe-color-on-surface: var(--text-primary);
+    --crepe-color-on-surface-variant: var(--text-secondary);
+    /* Crepe uses "outline" for the block handle icons, drop cursor and caret as
+       well as for borders, so a border-weight grey makes the caret invisible. */
+    --crepe-color-outline: var(--text-muted);
+    --crepe-color-primary: var(--accent);
+    --crepe-color-secondary: var(--accent-light);
+    --crepe-color-on-secondary: var(--accent);
+    --crepe-color-inverse: var(--text-primary);
+    --crepe-color-on-inverse: var(--bg-surface);
+    --crepe-color-inline-code: var(--chip-snippet);
+    --crepe-color-error: var(--color-danger);
+    --crepe-color-hover: var(--bg-surface-hover);
+    --crepe-color-selected: var(--accent-light);
+    --crepe-color-inline-area: var(--bg-code);
+
+    --crepe-base-font-size: 15px;
+    --crepe-font-title: inherit;
+    --crepe-font-default: inherit;
+    --crepe-font-code: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+
+    --crepe-shadow-1: var(--shadow-sm);
+    --crepe-shadow-2: var(--shadow-md);
+
+    background: transparent;
+    color: var(--text-primary);
 }
 
-.rich-editor .ProseMirror {
-  padding: 12px 16px;
+/* The native caret is hidden in favour of a drawn one, so this is the only
+   thing making the cursor visible. */
+.rich-editor .milkdown .ProseMirror-focused {
+    --prosemirror-virtual-cursor-color: var(--accent);
+}
+
+/* The add and drag handles are absolutely positioned to the left of the block,
+   so the left padding is what gives them somewhere to land. */
+.rich-editor .milkdown .ProseMirror {
   min-height: var(--editor-min-height, 200px);
+    padding: 16px 24px 24px 56px;
   outline: none;
-  color: var(--text-primary);
-  font-size: 14px;
-  line-height: 1.7;
+    font-size: 15px;
+    line-height: 1.75;
 }
 
-.rich-editor .ProseMirror p { margin: 0 0 8px; }
-.rich-editor .ProseMirror p:last-child { margin-bottom: 0; }
+.rich-editor .milkdown .milkdown-block-handle .operation-item svg {
+    fill: var(--text-secondary);
+}
 
-.rich-editor .ProseMirror h1,
-.rich-editor .ProseMirror h2,
-.rich-editor .ProseMirror h3 { font-weight: 600; margin: 16px 0 8px; color: var(--text-primary); }
-.rich-editor .ProseMirror h1 { font-size: 1.5em; }
-.rich-editor .ProseMirror h2 { font-size: 1.25em; }
-.rich-editor .ProseMirror h3 { font-size: 1.1em; }
+.rich-editor .milkdown .ProseMirror p {
+    margin: 0 0 10px;
+}
 
-.rich-editor .ProseMirror ul,
-.rich-editor .ProseMirror ol { padding-left: 24px; margin: 0 0 8px; }
+.rich-editor .milkdown .ProseMirror h1 {
+    font-size: 1.7em;
+    margin: 22px 0 8px;
+}
 
-.rich-editor .ProseMirror blockquote {
-  border-left: 3px solid var(--accent);
-  padding-left: 12px;
-  margin: 8px 0;
+.rich-editor .milkdown .ProseMirror h2 {
+    font-size: 1.38em;
+    margin: 20px 0 8px;
+}
+
+.rich-editor .milkdown .ProseMirror h3 {
+    font-size: 1.15em;
+    margin: 18px 0 6px;
+}
+
+.rich-editor .milkdown .ProseMirror > :first-child {
+    margin-top: 0;
+}
+
+.rich-editor .milkdown .ProseMirror blockquote {
+    border-left: 3px solid var(--blockquote-border);
+    background: var(--blockquote-bg);
+    padding: 8px 14px;
+    margin: 10px 0;
   color: var(--text-secondary);
 }
 
-.rich-editor .ProseMirror code {
-  background: var(--bg-code);
-  padding: 2px 5px;
-  border-radius: 4px;
-  font-size: 0.875em;
-  font-family: monospace;
-}
-
-.rich-editor .ProseMirror a {
+.rich-editor .milkdown .ProseMirror a {
     color: var(--accent);
-    text-decoration: underline;
 }
 
-.rich-editor .ProseMirror p.is-editor-empty:first-child::before {
-    content: attr(data-placeholder);
-    color: var(--text-muted);
-    pointer-events: none;
-    float: left;
-    height: 0;
-}
-
-/* Code block node view */
-.code-block-node {
-  position: relative;
-  margin: 8px 0;
-}
-
-.code-block-lang-select {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  z-index: 1;
-}
-
-.rich-editor .ProseMirror pre {
-  background: var(--bg-code);
-  padding: 36px 16px 12px;
-  border-radius: 8px;
-  overflow-x: auto;
+/* Crepe spaces list rows for a document-style editor; inside a form they read
+   as disconnected items. */
+.rich-editor .milkdown .ProseMirror li p {
   margin: 0;
-    border: 1px solid var(--border-primary);
 }
 
-.rich-editor .ProseMirror pre code { background: none; padding: 0; }
-
-/* Task list */
-.rich-editor .ProseMirror ul[data-type="taskList"] {
-    list-style: none;
-    padding-left: 4px;
+.rich-editor .milkdown .ProseMirror .milkdown-list-item-block {
+    margin: 1px 0;
 }
 
-.rich-editor .ProseMirror ul[data-type="taskList"] li {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
+.rich-editor .milkdown .ProseMirror .milkdown-list-item-block .children {
+    padding: 0;
 }
 
-.rich-editor .ProseMirror ul[data-type="taskList"] li > label {
-    margin-top: 2px;
-    flex-shrink: 0;
+.mention-node {
+    cursor: default;
 }
 
-.rich-editor .ProseMirror ul[data-type="taskList"] li > div {
-    flex: 1;
-}
-
-.rich-editor .ProseMirror ul[data-type="taskList"] li[data-checked="true"] > div {
-    opacity: 0.6;
-    text-decoration: line-through;
-}
-
-/* Table */
-.rich-editor .ProseMirror table {
-    border-collapse: collapse;
-    width: 100%;
-    margin: 8px 0;
-}
-.rich-editor .ProseMirror th,
-.rich-editor .ProseMirror td {
-    border: 1px solid var(--border-primary);
-    padding: 6px 12px;
-    min-width: 80px;
-    vertical-align: top;
-}
-
-.rich-editor .ProseMirror th {
+/* Crepe fixes its CodeMirror theme at construction, so the chrome is pinned
+   here rather than re-creating the editor whenever the app theme flips. */
+:root .rich-editor .milkdown .cm-editor,
+:root .rich-editor .milkdown .cm-gutters {
     background: var(--bg-code);
-    font-weight: 600;
+    color: var(--text-primary);
 }
 
-.rich-editor .ProseMirror .selectedCell {
-    background: var(--accent-light);
+:root .rich-editor .milkdown .cm-gutters {
+    border-right: 1px solid var(--border-secondary);
 }
 
-.rich-editor .ProseMirror img {
-    max-width: 100%;
-    border-radius: 6px;
-    margin: 4px 0;
+:root .rich-editor .milkdown .cm-lineNumbers .cm-gutterElement {
+    color: var(--text-muted);
+}
+
+:root .rich-editor .milkdown .cm-activeLine {
+    background: color-mix(in srgb, var(--accent) 7%, transparent);
+}
+
+:root .rich-editor .milkdown .cm-activeLineGutter {
+    background: transparent;
+    color: var(--text-secondary);
+}
+
+:root .rich-editor .milkdown .cm-cursor {
+    border-left-color: var(--text-primary);
+}
+
+/* The slash provider positions this with floating-ui by writing left/top, so
+   without absolute positioning the list drops to the bottom of the editor. */
+.mention-slash-root {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: var(--z-dropdown);
+}
+
+.mention-slash-root[data-show='false'] {
+    display: none;
 }
 
 
@@ -519,42 +647,63 @@ body {
   font-weight: 500;
 }
 
+/* Shaped to match Crepe's own slash menu, since both are summoned the same way. */
 .mention-dropdown {
-  background: var(--bg-elevated, var(--bg-surface));
+    background: var(--bg-elevated);
   border: 1px solid var(--border-primary);
-  border-radius: 8px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
-  min-width: 220px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden auto;
+    padding: 4px;
+    min-width: 280px;
+    max-width: 420px;
+    max-height: 300px;
 }
 
 .mention-item {
   display: flex;
   align-items: center;
-  gap: 8px;
+    gap: 10px;
   width: 100%;
-  padding: 8px 12px;
-  background: none;
+    padding: 8px 10px;
+    /* Buttons do not inherit font-family, so without this the list renders in the
+       browser default serif. */
+    font-family: inherit;
   border: none;
+    border-radius: var(--radius-sm);
+    background: none;
   cursor: pointer;
   text-align: left;
   color: var(--text-primary);
-  font-size: 13px;
+    font-size: var(--font-size-sm);
 }
 
 .mention-item:hover,
-.mention-item--selected { background: color-mix(in srgb, var(--accent) 12%, transparent); }
-
-.mention-item-type {
-  font-size: 11px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  flex-shrink: 0;
+.mention-item--selected {
+    background: var(--accent-chip-bg);
+    color: var(--accent);
 }
 
-.mention-item-label { color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mention-item-type {
+    flex-shrink: 0;
+    min-width: 52px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: var(--chip-bg);
+    border: 1px solid var(--chip-border);
+  color: var(--text-muted);
+    font-size: var(--font-size-xxs);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+    text-align: center;
+}
 
+.mention-item-label {
+    color: inherit;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 /* ─── UI components ─── */
 .version-badge {

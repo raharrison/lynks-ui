@@ -1,9 +1,8 @@
 import {useEffect, useRef, useState} from 'react';
 import {useBlocker, useNavigate} from 'react-router-dom';
 import {ENTRY_PATH_PREFIX, entryDetailPath} from '@/utils/format';
-import {Button, Card, Modal} from 'antd';
-import {ArrowLeftOutlined} from '@ant-design/icons';
 import {ENTRY_TYPE_LABELS} from '@/utils/constants';
+import EntryEditorShell from '@/components/entries/EntryEditorShell';
 import LinkForm from '@/components/entries/forms/LinkForm';
 import NoteForm from '@/components/entries/forms/NoteForm';
 import SnippetForm from '@/components/entries/forms/SnippetForm';
@@ -26,28 +25,17 @@ export default function CreateEntryPage({ type }: { type: EntryType }) {
   const onCancel = () => navigate(listPath);
 
   return (
-    <div>
-      <Button type="text" icon={<ArrowLeftOutlined />} onClick={() => navigate(listPath)} style={{ marginBottom: 16 }}>
-        Back
-      </Button>
-      <Card title={`Create ${ENTRY_TYPE_LABELS[type]}`} style={{ borderRadius: 'var(--radius-lg)' }}>
-        {type === 'link' && <LinkForm onSuccess={onSuccess} onCancel={onCancel} onDirtyChange={setIsDirty} />}
-        {type === 'note' && <NoteForm onSuccess={onSuccess} onCancel={onCancel} onDirtyChange={setIsDirty} />}
-        {type === 'snippet' && <SnippetForm onSuccess={onSuccess} onCancel={onCancel} onDirtyChange={setIsDirty} />}
-        {type === 'file' && <FileForm onSuccess={onSuccess} onCancel={onCancel} onDirtyChange={setIsDirty} />}
-      </Card>
-
-      <Modal
-        open={blocker.state === 'blocked'}
-        title="Discard changes?"
-        onOk={() => blocker.proceed?.()}
-        onCancel={() => blocker.reset?.()}
-        okText="Discard"
-        okButtonProps={{ danger: true }}
-        cancelText="Keep editing"
+      <EntryEditorShell
+          type={type}
+          heading={`New ${ENTRY_TYPE_LABELS[type].toLowerCase()}`}
+          isDirty={isDirty}
+          onBack={() => navigate(listPath)}
+          blocker={blocker}
       >
-        You have unsaved changes. If you leave, your changes will be lost.
-      </Modal>
-    </div>
+          {type === 'link' && <LinkForm onSuccess={onSuccess} onCancel={onCancel} onDirtyChange={setIsDirty}/>}
+          {type === 'note' && <NoteForm onSuccess={onSuccess} onCancel={onCancel} onDirtyChange={setIsDirty}/>}
+          {type === 'snippet' && <SnippetForm onSuccess={onSuccess} onCancel={onCancel} onDirtyChange={setIsDirty}/>}
+          {type === 'file' && <FileForm onSuccess={onSuccess} onCancel={onCancel} onDirtyChange={setIsDirty}/>}
+      </EntryEditorShell>
   );
 }

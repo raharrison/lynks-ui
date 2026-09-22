@@ -13,7 +13,7 @@ the backend API.
 - [TanStack React Query](https://tanstack.com/query) - Server state and caching
 - [React Router 7](https://reactrouter.com/) - Client-side routing
 - [Zustand](https://zustand.docs.pmnd.rs/) - Client state (auth, sidebar, theme)
-- [Tiptap 3](https://tiptap.dev/) - Rich text editing
+- [Milkdown 7](https://milkdown.dev/) - Markdown-native rich text editing (Crepe)
 - [Axios](https://axios-http.com/) - HTTP client with session cookie auth
 
 ### Features
@@ -22,7 +22,8 @@ the backend API.
 - Tag and collection management with hierarchy support
 - Full-text search with live filtering
 - Rich entry detail view - readable content, screenshots, discussions, comments and reminders
-- Inline **rich text / Markdown editor** with Tiptap
+- Inline **Markdown editor** with Milkdown: slash menu, drag handles, CodeMirror
+  code blocks, and `@` mentions that link entries
 - **Syntax highlighting** for code snippets
 - Light and dark theme
 - Notifications and scheduled reminder management

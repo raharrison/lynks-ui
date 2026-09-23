@@ -30,8 +30,6 @@ export const SEARCH_SORT_OPTIONS = [
 
 export const PAGE_SIZE_OPTIONS = ['10', '25', '50'] as const;
 
-export const NOTIFICATION_POLL_INTERVAL = 5 * 60 * 1000; // 5 minutes
-
 export const MOBILE_BREAKPOINT = 768;
 
 export const MENTION_RESULTS_SIZE = 6;
@@ -43,6 +41,8 @@ export const NOTIFICATIONS_PAGE_SIZE = 20;
 export const IMAGE_UPLOAD_PATH = '/imageUpload';
 
 export const REDDIT_BASE_URL = 'https://old.reddit.com';
+
+export const NOTIFICATION_POLL_INTERVAL = 30 * 1000;
 
 export const NOTIFICATION_METHOD_OPTIONS: { label: string; value: NotificationMethod }[] = [
     {label: 'Push', value: 'push'},

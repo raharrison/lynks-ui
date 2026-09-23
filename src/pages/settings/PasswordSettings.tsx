@@ -1,17 +1,15 @@
-import { App, Button, Form, Input } from 'antd';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { changePassword, getCurrentUser } from '@/api/user';
-import { QK } from '@/utils/queryKeys';
-import { getApiErrorMessage } from '@/utils/apiError';
+import {App, Button, Form, Input} from 'antd';
+import {useMutation} from '@tanstack/react-query';
+import {changePassword} from '@/api/user';
+import {getApiErrorMessage} from '@/utils/apiError';
 
 export default function PasswordSettings() {
   const { message } = App.useApp();
   const [form] = Form.useForm();
-  const { data: user } = useQuery({ queryKey: QK.user(), queryFn: getCurrentUser });
 
   const mutation = useMutation({
     mutationFn: (values: { oldPassword: string; newPassword: string }) =>
-      changePassword({ username: user!.username, ...values }),
+        changePassword({oldPassword: values.oldPassword, newPassword: values.newPassword}),
     onSuccess: () => {
       form.resetFields();
       message.success('Password changed successfully');
@@ -24,7 +22,7 @@ export default function PasswordSettings() {
       <Form.Item name="oldPassword" label="Current Password" rules={[{ required: true }]}>
         <Input.Password />
       </Form.Item>
-      <Form.Item name="newPassword" label="New Password" rules={[{ required: true, min: 6, message: 'Minimum 6 characters' }]}>
+        <Form.Item name="newPassword" label="New Password" rules={[{required: true, min: 8, message: 'Minimum 8 characters'}]}>
         <Input.Password />
       </Form.Item>
       <Form.Item name="confirmPassword" label="Confirm New Password"

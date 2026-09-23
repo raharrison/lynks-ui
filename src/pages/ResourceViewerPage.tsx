@@ -155,10 +155,12 @@ function ResourceContent({ entryId, resource }: { entryId: string; resource: Res
 
   // single_file is self-contained HTML with inlined CSS/fonts/images as data URIs.
   // DOMPurify strips data URIs and inline styles so it must bypass HtmlViewer and
-  // render in an iframe (same as PDF) to preserve the full offline-renderable page.
+    // render in an iframe to preserve the full offline-renderable page. It is a captured
+    // third-party page, so the empty sandbox keeps it from running script or reaching the app.
   if (resource.type === 'single_file') {
     return (
         <iframe
+            sandbox=""
             src={url}
             title={resource.name}
             style={{width: '100%', height: '75vh', border: 'none', borderRadius: 10}}

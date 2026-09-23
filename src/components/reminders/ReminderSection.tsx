@@ -4,6 +4,9 @@ import {BellOutlined, ClockCircleOutlined, DeleteOutlined, PlusOutlined} from '@
 import dayjs from 'dayjs';
 import {formatDateTime} from '@/utils/format';
 import {useReminders} from '@/hooks/useReminders';
+import {useQuery} from '@tanstack/react-query';
+import {getCurrentUser} from '@/api/user';
+import {QK} from '@/utils/queryKeys';
 import {getApiErrorMessage} from '@/utils/apiError';
 import {NOTIFICATION_METHOD_OPTIONS} from '@/utils/constants';
 import type {NotificationMethod, Reminder, ReminderType} from '@/types';
@@ -19,6 +22,9 @@ export default function ReminderSection({ entryId }: { entryId: string }) {
   const { reminders, isLoading, addReminder, removeReminder, isAdding } = useReminders(entryId);
   const [modalOpen, setModalOpen] = useState(false);
   const [form] = Form.useForm();
+    const {data: user} = useQuery({queryKey: QK.user(), queryFn: getCurrentUser});
+    const methodOptions = NOTIFICATION_METHOD_OPTIONS.map((option) =>
+        option.value === 'jolt' ? {...option, disabled: !user?.joltConfigured} : option);
 
   const handleSubmit = (values: { type: ReminderType; spec?: string; date?: dayjs.Dayjs; message?: string; notifyMethods: NotificationMethod[] }) => {
     let spec: string;
@@ -136,8 +142,8 @@ export default function ReminderSection({ entryId }: { entryId: string }) {
           </Form.Item>
 
               <Form.Item name="notifyMethods" label="Notification Methods"
-                         extra="Jolt delivery is skipped unless the server has a jolt host and token configured">
-            <Select mode="multiple" options={NOTIFICATION_METHOD_OPTIONS} />
+                         extra={user?.joltConfigured ? undefined : 'Set your Jolt token under Settings to use Jolt'}>
+                  <Select mode="multiple" options={methodOptions}/>
           </Form.Item>
         </Form>
       </Modal>

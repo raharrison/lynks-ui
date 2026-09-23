@@ -1,7 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
-import { getUnreadCount } from '@/api/notifications';
-import { QK } from '@/utils/queryKeys';
-import { NOTIFICATION_POLL_INTERVAL } from '@/utils/constants';
+import {useQuery} from '@tanstack/react-query';
+import {getUnreadCount} from '@/api/notifications';
+import {QK} from '@/utils/queryKeys';
+import {NOTIFICATION_POLL_INTERVAL} from '@/utils/constants';
 
 export function useUnreadCount() {
   const { data } = useQuery({

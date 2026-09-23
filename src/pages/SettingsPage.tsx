@@ -1,8 +1,9 @@
 import {useEffect} from 'react';
-import {Card, Divider, Tabs, Typography} from 'antd';
+import {Card, Divider, Space, Tabs, Typography} from 'antd';
 import {useNavigate, useSearchParams} from 'react-router-dom';
 import ProfileSettings from './settings/ProfileSettings';
 import PasswordSettings from './settings/PasswordSettings';
+import JoltSettings from './settings/JoltSettings';
 import TwoFactorSettings from './settings/TwoFactorSettings';
 import TagManagement from './settings/TagManagement';
 import CollectionManagement from './settings/CollectionManagement';
@@ -38,8 +39,8 @@ export default function SettingsPage() {
               <Card style={{ borderRadius: 'var(--radius-lg)' }}>
                 <ProfileSettings />
                 <Divider />
-                <Typography.Title level={5}>Change Password</Typography.Title>
-                <PasswordSettings />
+                  <Typography.Title level={5}>Jolt Notifications</Typography.Title>
+                  <JoltSettings/>
               </Card>
             ),
           },
@@ -47,9 +48,14 @@ export default function SettingsPage() {
             key: 'security',
             label: 'Security',
             children: (
-              <Card title="Two-Factor Authentication" style={{ borderRadius: 'var(--radius-lg)' }}>
-                <TwoFactorSettings />
-              </Card>
+                <Space orientation="vertical" size="large" style={{width: '100%'}}>
+                    <Card title="Change Password" style={{borderRadius: 'var(--radius-lg)'}}>
+                        <PasswordSettings/>
+                    </Card>
+                    <Card title="Two-Factor Authentication" style={{borderRadius: 'var(--radius-lg)'}}>
+                        <TwoFactorSettings/>
+                    </Card>
+                </Space>
             ),
           },
           {

@@ -1,8 +1,18 @@
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
+import rehypeSanitize, {defaultSchema} from 'rehype-sanitize';
 import rehypeHighlight from 'rehype-highlight';
 import {Link} from 'react-router-dom';
 import {Card} from 'antd';
+
+// Notes are rendered server side and may carry raw HTML, so it is filtered before it reaches the DOM
+const sanitizeSchema = {
+  ...defaultSchema,
+  attributes: {
+    ...defaultSchema.attributes,
+    input: [...(defaultSchema.attributes?.input ?? []), ['className', 'task-list-item-checkbox'], 'checked', 'readOnly'],
+  },
+};
 
 interface MarkdownContentProps {
   html?: string | null;
@@ -45,7 +55,7 @@ export default function MarkdownContent({ html, plain, emptyMessage = 'No conten
       <Card style={{ marginBottom: 20 }}>
         <div className="markdown-content">
           <ReactMarkdown
-            rehypePlugins={[rehypeRaw, rehypeHighlight]}
+              rehypePlugins={[rehypeRaw, [rehypeSanitize, sanitizeSchema], rehypeHighlight]}
             components={{ a: MarkdownLink }}
           >
             {html}

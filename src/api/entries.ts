@@ -4,6 +4,7 @@ import type {
   AnySlimEntry,
   EntryAuditItem,
   EntryRefSet,
+  EntryType,
   EntryVersion,
   FileEntry,
   GroupIdSet,
@@ -79,6 +80,11 @@ export async function updateEntryGroups(id: string, groups: GroupIdSet): Promise
 export async function getEntryVersions(id: string): Promise<EntryVersion[]> {
   const { data } = await client.get(`/entry/${id}/history`);
   return data;
+}
+
+export async function revertEntry(type: EntryType, id: string, version: number): Promise<AnyEntry> {
+    const {data} = await client.post(`/${type}/${id}/revert/${version}`);
+    return data;
 }
 
 export async function getEntryAudit(id: string): Promise<EntryAuditItem[]> {

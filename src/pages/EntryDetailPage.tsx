@@ -2,7 +2,7 @@ import {useEffect, useRef} from 'react';
 import {useLocation, useNavigate, useParams, useSearchParams} from 'react-router-dom';
 import {Alert, App, Breadcrumb, Button, Popconfirm, Result, Tabs, Tag, Tooltip, Typography} from 'antd';
 import PageSkeleton from '@/components/common/PageSkeleton';
-import {DeleteOutlined, EditOutlined, StarFilled, StarOutlined,} from '@ant-design/icons';
+import {DeleteOutlined, EditOutlined, RollbackOutlined, StarFilled, StarOutlined,} from '@ant-design/icons';
 import {ENTRY_TYPE_LABELS} from '@/utils/constants';
 import {ENTRY_TYPE_ICONS} from '@/utils/icons';
 import {
@@ -17,6 +17,7 @@ import {EntryCollectionChip, EntryTagChip} from '@/components/common/EntryGroupC
 import {useEntry} from '@/hooks/useEntry';
 import {useStarEntry} from '@/hooks/useStarEntry';
 import {useDeleteEntry} from '@/hooks/useDeleteEntry';
+import {useRevertEntry} from '@/hooks/useRevertEntry';
 import {getApiErrorMessage} from '@/utils/apiError';
 import type {Discussion} from '@/types';
 import LinkDetail from '@/components/entries/LinkDetail';
@@ -46,6 +47,7 @@ export default function EntryDetailPage() {
   const { entry, isLoading, isFetching, isError } = useEntry(id, requestedVersion);
   const {toggleStar} = useStarEntry();
   const { deleteEntry } = useDeleteEntry();
+    const {revert, isReverting} = useRevertEntry();
 
   useEffect(() => {
     const title = entry && 'title' in entry ? entry.title : null;
@@ -72,6 +74,13 @@ export default function EntryDetailPage() {
       onError: (err: Error) => message.error(getApiErrorMessage(err, 'Failed to delete entry')),
     });
   };
+
+    const handleRevert = () => {
+        if (!requestedVersion) return;
+        revert({type: entry.type, id: entry.id, version: requestedVersion}, {
+            onSuccess: () => navigate(entryDetailPath(entry.type, entry.id), {replace: true}),
+        });
+    };
 
   const handleTabChange = (key: string) => {
     setSearchParams((prev) => {
@@ -106,10 +115,19 @@ export default function EntryDetailPage() {
         <Alert type="info" showIcon
                title={`Viewing version ${requestedVersion}`}
           description={
-            <Button type="link" size="small" style={{ padding: 0 }}
-                    onClick={() => navigate(entryDetailPath(entry.type, id!), { replace: true })}>
-              Return to latest version
-            </Button>
+              <div style={{display: 'flex', gap: 16, flexWrap: 'wrap'}}>
+                  <Button type="link" size="small" style={{padding: 0}}
+                          onClick={() => navigate(entryDetailPath(entry.type, id!), {replace: true})}>
+                      Return to latest version
+                  </Button>
+                  <Popconfirm title={`Restore version ${requestedVersion}?`}
+                              description="Its content is saved as a new version. Tags and collections stay as they are now."
+                              onConfirm={handleRevert} okText="Restore">
+                      <Button type="link" size="small" style={{padding: 0}} icon={<RollbackOutlined/>} loading={isReverting}>
+                          Restore this version
+                      </Button>
+                  </Popconfirm>
+              </div>
           }
           style={{ marginBottom: 20, borderRadius: 10 }}
         />

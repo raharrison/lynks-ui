@@ -343,9 +343,11 @@ export interface Suggestion {
 
 // User
 export interface User {
+    id: string;
   username: string;
   displayName: string | null;
   digest: boolean;
+    joltConfigured: boolean;
   dateCreated: string;
   dateUpdated: string;
 }

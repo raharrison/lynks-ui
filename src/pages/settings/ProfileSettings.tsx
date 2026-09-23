@@ -17,7 +17,7 @@ export default function ProfileSettings() {
 
   const updateMutation = useMutation({
       mutationFn: (values: { displayName?: string; digest: boolean }) =>
-      updateUser({ username: user!.username, ...values }),
+          updateUser(values),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: QK.user() });
       message.success('Profile updated');

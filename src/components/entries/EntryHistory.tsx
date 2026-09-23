@@ -15,7 +15,7 @@ export default function EntryHistory({ entryId, entryType, currentVersion }: Ent
   const navigate = useNavigate();
   const { versions, audit, isLoading } = useEntryHistory(entryId);
 
-  const latestVersion = currentVersion;
+  const latestVersion = versions.reduce((max, v) => Math.max(max, v.version), 0);
 
   const handleVersionClick = (version: number) => {
     const base = entryDetailPath(entryType, entryId);

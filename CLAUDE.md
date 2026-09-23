@@ -67,6 +67,15 @@ src/
 - `src/types/index.ts` mirrors the server's models by hand; an API shape change has
   to be made here too
 - Notification methods are `push` and `jolt`; enums cross the wire lowercased
+- Notifications are polled: `useUnreadCount` refetches the unread count every
+  `NOTIFICATION_POLL_INTERVAL`, and the list refetches when opened. There is no websocket
+- Server-rendered markdown can carry raw HTML, so `MarkdownContent` runs it through
+  `rehype-sanitize`. The schema extends the default only for flexmark's task-list
+  checkboxes; widen it deliberately, never by dropping the plugin
+- Stored resources are untrusted third-party content on the app's origin. The
+  SingleFile iframe is `sandbox=""` and the server adds a CSP sandbox; keep both
+- Old versions open at `?version=N` on the detail page, whose banner offers restore.
+  Restoring posts to `/{type}/{id}/revert/{version}` and lands back on the new latest
 - `public/favicon.svg` is the source the other icons were derived from. Its
   `<g id="tile">` and `<g id="glyph">` split exists so the maskable and apple-touch
   variants can be rebuilt full-bleed with the glyph scaled into the safe area;

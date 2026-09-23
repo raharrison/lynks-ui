@@ -38,12 +38,17 @@ export async function checkCurrentUser(): Promise<User | null> {
   }
 }
 
-export async function updateUser(update: { username: string; displayName?: string; digest?: boolean }): Promise<User> {
+export async function updateUser(update: { displayName?: string; digest?: boolean }): Promise<User> {
   const { data } = await client.put('/user', update);
   return data;
 }
 
-export async function changePassword(request: { username: string; oldPassword: string; newPassword: string }): Promise<void> {
+export async function setJoltToken(token: string | null): Promise<User> {
+  const {data} = await client.put('/user/jolt', {token});
+  return data;
+}
+
+export async function changePassword(request: { oldPassword: string; newPassword: string }): Promise<void> {
   await client.post('/user/changePassword', request);
 }
 

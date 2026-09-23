@@ -16,6 +16,7 @@ import type {
   Note,
   Page,
   PageRequest,
+  SlimLink,
   Snippet,
 } from '@/types';
 
@@ -139,7 +140,7 @@ export async function markLinkUnread(id: string): Promise<Link> {
   return data;
 }
 
-export async function checkExistingLink(url: string): Promise<Link[]> {
+export async function checkExistingLink(url: string): Promise<SlimLink[]> {
   const { data } = await client.post('/link/checkExisting', url, {
     headers: { 'Content-Type': 'text/plain' },
   });

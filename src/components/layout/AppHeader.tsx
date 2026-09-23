@@ -2,6 +2,7 @@ import {useCallback, useMemo, useState} from 'react';
 import {App, Avatar, Badge, Button, Dropdown, Input, Layout, Menu, Segmented, Typography} from 'antd';
 import {
   BellOutlined,
+  ClockCircleOutlined,
   CodeOutlined,
   DesktopOutlined,
   FileOutlined,
@@ -130,6 +131,7 @@ export default function AppHeader() {
       ),
     },
     { type: 'divider' as const },
+      {key: 'reminders', icon: <ClockCircleOutlined/>, label: <Link to="/reminders" style={{color: 'inherit'}}>Reminders</Link>},
     { key: 'settings', icon: <SettingOutlined />, label: <Link to="/settings" style={{ color: 'inherit' }}>Settings</Link> },
     { key: 'activity', icon: <HistoryOutlined />, label: <Link to="/settings?tab=activity" style={{ color: 'inherit' }}>Activity</Link> },
     { type: 'divider' as const },

@@ -16,6 +16,7 @@ import CreateEntryPage from '@/pages/CreateEntryPage';
 import EditEntryPage from '@/pages/EditEntryPage';
 import DigestPage from '@/pages/DigestPage';
 import NotificationsPage from '@/pages/NotificationsPage';
+import RemindersPage from '@/pages/RemindersPage';
 import ResourceViewerPage from '@/pages/ResourceViewerPage';
 import SettingsPage from '@/pages/SettingsPage';
 import LoginPage from '@/pages/LoginPage';
@@ -101,6 +102,7 @@ const router = createBrowserRouter([
           { path: '/entry/:id', element: <EntryDetailPage /> },
           {path: '/digest', element: <DigestPage/>},
           { path: '/notifications', element: <NotificationsPage /> },
+          {path: '/reminders', element: <RemindersPage/>},
           { path: '/settings', element: <SettingsPage /> },
         ],
       },

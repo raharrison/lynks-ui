@@ -20,18 +20,20 @@ deploy it.
 src/
 ├── api/          # Axios API client modules (one file per domain)
 ├── components/   # Reusable UI components
-│   ├── common/   # Shared components (editor, markdown, group chips)
+│   ├── common/   # Shared components (editor/, markdown, group chips)
 │   ├── entries/  # Entry-specific components and forms
 │   ├── layout/   # AppHeader, AppLayout, AppSidebar
 │   ├── comments/
 │   ├── groups/
-│   └── reminders/
+│   ├── notifications/
+│   └── reminders/  # ReminderList, ReminderFormModal, ScheduleBuilder
 ├── hooks/        # Custom React Query hooks (queries + mutations)
+├── lib/          # queryClient
 ├── pages/        # Route-level page components
 │   └── settings/ # Settings sub-pages
 ├── stores/       # Zustand stores (authStore, sidebarStore, themeStore)
 ├── types/        # index.ts - all domain TypeScript interfaces
-└── utils/        # apiError, constants, format, queryKeys
+└── utils/        # apiError, constants, format, groups, icons, queryKeys, schedule, youtube
 ```
 
 ## Key Conventions
@@ -67,8 +69,14 @@ src/
 - `src/types/index.ts` mirrors the server's models by hand; an API shape change has
   to be made here too
 - Notification methods are `push` and `jolt`; enums cross the wire lowercased
+- A recurring reminder's schedule is the server's `Schedule` JSON. `ScheduleBuilder` is
+  the only editor for it and `describeSchedule` in `utils/schedule.ts` the only way it
+  is shown; the raw spec never reaches the screen. Next fire times come from
+  `POST /reminder/preview`, so the server stays the one place they are computed
 - Notifications are polled: `useUnreadCount` refetches the unread count every
-  `NOTIFICATION_POLL_INTERVAL`, and the list refetches when opened. There is no websocket
+  `NOTIFICATION_POLL_INTERVAL`, and the list refetches when opened. There is no websocket.
+  When the count rises it fetches the newest notifications and toasts them; the first
+  poll after load only sets the baseline, so existing unread ones never toast
 - Server-rendered markdown can carry raw HTML, so `MarkdownContent` runs it through
   `rehype-sanitize`. The schema extends the default only for flexmark's task-list
   checkboxes; widen it deliberately, never by dropping the plugin

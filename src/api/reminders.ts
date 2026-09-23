@@ -1,8 +1,8 @@
 import client from './client';
-import type {NewReminder, Reminder} from '@/types';
+import type {NewReminder, Page, Reminder, Schedule} from '@/types';
 
-export async function getReminders(): Promise<Reminder[]> {
-  const { data } = await client.get('/reminder');
+export async function getReminders(page: number, size: number): Promise<Page<Reminder>> {
+    const {data} = await client.get('/reminder', {params: {page, size}});
   return data;
 }
 
@@ -30,9 +30,7 @@ export async function deleteReminder(id: string): Promise<void> {
   await client.delete(`/reminder/${id}`);
 }
 
-export async function validateSchedule(spec: string): Promise<string> {
-  const { data } = await client.post('/reminder/validate', spec, {
-    headers: { 'Content-Type': 'text/plain' },
-  });
+export async function previewSchedule(schedule: Schedule, tz: string): Promise<string[]> {
+    const {data} = await client.post('/reminder/preview', {schedule, tz});
   return data;
 }

@@ -26,9 +26,13 @@ the backend API.
   code blocks, and `@` mentions that link entries
 - **Syntax highlighting** for code snippets
 - Light and dark theme
-- Notifications and scheduled reminder management
+- Notifications, polled every minute, with a toast when new ones arrive
+- One-time and recurring **reminders**, with a schedule builder for intervals,
+  weekdays, nth weekdays and days of the month, managed per entry or from the
+  Reminders page
+- A warning when a link being saved already exists
 - **Weekly digest** page of unread links, regenerated on a schedule
-- Settings: profile, password, two-factor auth (TOTP), tag/collection management, activity log
+- Settings: profile, Jolt token, password, two-factor auth (TOTP), tag/collection management, activity log
 
 ### Dev Commands
 
@@ -41,13 +45,12 @@ npm run preview  # Preview production build
 
 ### Deployment
 
-No container. `npm run build` emits static files to `dist/`, which get dropped
-where the VPS nginx serves them:
+No container. `npm run build` emits static files to `dist/`, which the VPS nginx
+serves.
 
-```bash
-npm run build
-rsync -a --delete dist/ vps:/var/www/lynks/
-```
+Pushing a version tag matching `version` in `package.json` (e.g. `2.1.0`) runs the
+`Release` workflow, which lints, builds and copies `dist/` to
+`UI_TARGET_PATH<version>/` on the host. Point the nginx root at that release.
 
 The nginx site config lives in `lynks-server/config/nginx.conf`, since it also
 proxies `/api` to the API service.

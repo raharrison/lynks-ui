@@ -190,10 +190,6 @@ body {
     font-size: 13px;
 }
 
-.sidebar-tree .ant-tree-treenode {
-    padding: 3px 0;
-}
-
 
 /* ─── Markdown content ─── */
 .markdown-content {

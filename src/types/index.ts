@@ -232,18 +232,45 @@ export type ReminderType = 'adhoc' | 'recurring';
 export type ReminderStatus = 'active' | 'completed' | 'disabled';
 export type NotificationMethod = 'push' | 'jolt';
 
-export interface Reminder {
+export type Weekday = 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday';
+
+/** Clock-aligned: each day restarts at `from` (default midnight). Times are HH:mm. */
+export interface IntervalSchedule {
+  kind: 'interval';
+  every: number;
+  unit: 'minutes' | 'hours';
+  from?: string | null;
+  to?: string | null;
+}
+
+/** Empty lists mean "every". Days are either monthDays or weekdays, optionally narrowed by ordinals. */
+export interface CalendarSchedule {
+  kind: 'calendar';
+  at: string;
+  weekdays?: Weekday[];
+  ordinals?: number[];
+  monthDays?: number[];
+  months?: number[];
+}
+
+export type Schedule = IntervalSchedule | CalendarSchedule;
+
+interface ReminderBase {
   reminderId: string;
   entryId: string;
-  type: ReminderType;
   notifyMethods: NotificationMethod[];
   message: string | null;
-  spec: string;
   tz: string;
   status: ReminderStatus;
   dateCreated: string;
   dateUpdated: string;
+  entryType: EntryType | null;
+  entryTitle: string | null;
 }
+
+export type Reminder =
+    | (ReminderBase & { type: 'adhoc'; fireAt: number })
+    | (ReminderBase & { type: 'recurring'; schedule: Schedule });
 
 export interface NewReminder {
   reminderId?: string;
@@ -251,7 +278,8 @@ export interface NewReminder {
   type: ReminderType;
   notifyMethods: NotificationMethod[];
   message?: string;
-  spec: string;
+  fireAt?: number;
+  schedule?: Schedule;
   tz: string;
   status: ReminderStatus;
 }

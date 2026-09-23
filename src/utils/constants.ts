@@ -38,11 +38,13 @@ export const COMMENTS_PAGE_SIZE = 100;
 
 export const NOTIFICATIONS_PAGE_SIZE = 20;
 
+export const REMINDERS_PAGE_SIZE = 20;
+
 export const IMAGE_UPLOAD_PATH = '/imageUpload';
 
 export const REDDIT_BASE_URL = 'https://old.reddit.com';
 
-export const NOTIFICATION_POLL_INTERVAL = 30 * 1000;
+export const NOTIFICATION_POLL_INTERVAL = 60 * 1000;
 
 export const NOTIFICATION_METHOD_OPTIONS: { label: string; value: NotificationMethod }[] = [
     {label: 'Push', value: 'push'},

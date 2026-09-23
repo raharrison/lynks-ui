@@ -1,8 +1,14 @@
 import {useEffect, useRef, useState} from 'react';
-import {App, Button, Form, Input, Switch, Tag, Tooltip} from 'antd';
+import {Alert, App, Button, Form, Input, Switch, Tag, Tooltip} from 'antd';
 import {BulbOutlined, SaveOutlined} from '@ant-design/icons';
 import {isAxiosError} from 'axios';
+import {useQuery} from '@tanstack/react-query';
+import {Link as RouterLink} from 'react-router-dom';
 import {suggestLink} from '@/api/suggest';
+import {checkExistingLink} from '@/api/entries';
+import {useDebouncedValue} from '@/hooks/useDebouncedValue';
+import {QK} from '@/utils/queryKeys';
+import {entryDetailPath} from '@/utils/format';
 import {useSaveEntry} from '@/hooks/useSaveEntry';
 import {useEntryFormGroups} from '@/hooks/useEntryFormGroups';
 import TagCollectionSelect from '@/components/common/TagCollectionSelect';
@@ -26,6 +32,16 @@ export default function LinkForm({ entry, onSuccess, onCancel, onDirtyChange }: 
   const [keywords, setKeywords] = useState<string[]>([]);
   const suggestControllerRef = useRef<AbortController | null>(null);
   const mutation = useSaveEntry('link', entry?.id);
+
+    const url = useDebouncedValue((Form.useWatch('url', form) as string | undefined)?.trim() ?? '', 400);
+    const {data: existing = []} = useQuery({
+        queryKey: QK.existingLinks(url),
+        queryFn: () => checkExistingLink(url),
+        enabled: url.length > 3 && url !== entry?.url,
+        retry: false,
+    });
+    // the server rejects half-typed URLs with a 400, which just means nothing to warn about
+    const duplicates = url.length > 3 && url !== entry?.url ? existing.filter((l) => l.id !== entry?.id) : [];
 
   useEffect(() => {
     return () => { suggestControllerRef.current?.abort(); };
@@ -104,6 +120,22 @@ export default function LinkForm({ entry, onSuccess, onCancel, onDirtyChange }: 
           }
         />
       </Form.Item>
+
+        {duplicates.length > 0 && (
+            <Alert
+                type="warning"
+                showIcon
+                style={{marginTop: -12, marginBottom: 16}}
+                title={duplicates.length === 1 ? 'You have already saved this link' : `You have already saved this link ${duplicates.length} times`}
+                description={
+                    <div style={{display: 'flex', flexDirection: 'column', gap: 2}}>
+                        {duplicates.map((l) => (
+                            <RouterLink key={l.id} to={entryDetailPath('link', l.id)}>{l.title || l.source}</RouterLink>
+                        ))}
+                    </div>
+                }
+            />
+        )}
 
       {thumbnail && (
         <div style={{ marginBottom: 16 }}>

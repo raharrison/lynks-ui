@@ -31,7 +31,9 @@ export default function TagManagement() {
       queryClient.invalidateQueries({ queryKey: QK.tags() });
       message.success('Tag deleted');
     },
-    onError: (err) => message.error(getApiErrorMessage(err, 'Failed to delete tag')),
+      onError: (err) => {
+          message.error(getApiErrorMessage(err, 'Failed to delete tag'));
+      },
   });
 
   const flatTags = flattenForList(tags);

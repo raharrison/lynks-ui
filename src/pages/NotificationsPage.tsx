@@ -33,16 +33,10 @@ export default function NotificationsPage() {
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
 
-  const { notifications, total, isLoading, isError, markRead, markAllReadAsync, isMarkingAll } = useNotifications(page);
+    const {notifications, total, isLoading, isError, markRead, markAllRead, isMarkingAll} = useNotifications(page);
 
-  const handleMarkAllRead = async () => {
-    try {
-      const { read } = await markAllReadAsync();
-      message.success(`Marked ${read} notifications as read`);
-    } catch {
-      message.error('Failed to mark notifications as read');
-    }
-  };
+    const handleMarkAllRead = () =>
+        markAllRead(undefined, {onSuccess: ({read}) => message.success(`Marked ${read} notifications as read`)});
 
   return (
     <div>

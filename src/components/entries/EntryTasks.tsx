@@ -2,7 +2,6 @@ import {useState} from 'react';
 import {App, Button, Collapse, Input, Select, Switch, Tag, Typography} from 'antd';
 import {PlayCircleOutlined, SettingOutlined} from '@ant-design/icons';
 import {useEntryTasks} from '@/hooks/useEntryTasks';
-import {getApiErrorMessage} from '@/utils/apiError';
 import type {TaskDefinition, TaskParameter} from '@/types';
 
 function TaskParamInput({ param, value, onChange }: { param: TaskParameter; value: string; onChange: (v: string) => void }) {
@@ -54,7 +53,6 @@ export default function EntryTasks({ entryId, tasks }: { entryId: string; tasks:
     }
     runTask({ taskId: task.id, params }, {
       onSuccess: () => message.success(`Task "${task.description}" started`),
-      onError: (err) => message.error(getApiErrorMessage(err, 'Failed to run task')),
     });
   };
 

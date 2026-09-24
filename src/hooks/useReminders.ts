@@ -44,13 +44,17 @@ export function useReminderMutations() {
   const save = useMutation({
     mutationFn: (reminder: NewReminder) => reminder.reminderId ? updateReminder(reminder) : createReminder(reminder),
     onSuccess: invalidate,
-    onError: (err) => message.error(getApiErrorMessage(err, 'Failed to save reminder')),
+      onError: (err) => {
+          message.error(getApiErrorMessage(err, 'Failed to save reminder'));
+      },
   });
 
   const remove = useMutation({
     mutationFn: deleteReminder,
     onSuccess: invalidate,
-    onError: (err) => message.error(getApiErrorMessage(err, 'Failed to delete reminder')),
+      onError: (err) => {
+          message.error(getApiErrorMessage(err, 'Failed to delete reminder'));
+      },
   });
 
   return {

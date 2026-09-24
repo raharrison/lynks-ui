@@ -260,7 +260,9 @@ export default function ResourceViewerPage() {
       message.success('Resource renamed');
       setEditing(false);
     },
-    onError: (err) => message.error(getApiErrorMessage(err, 'Failed to rename resource')),
+      onError: (err) => {
+          message.error(getApiErrorMessage(err, 'Failed to rename resource'));
+      },
   });
 
   const deleteMutation = useMutation({
@@ -270,7 +272,9 @@ export default function ResourceViewerPage() {
       message.success('Resource deleted');
       navigate('../..', { relative: 'path' });
     },
-    onError: (err) => message.error(getApiErrorMessage(err, 'Failed to delete resource')),
+      onError: (err) => {
+          message.error(getApiErrorMessage(err, 'Failed to delete resource'));
+      },
   });
 
   const startRename = () => {

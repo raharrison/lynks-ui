@@ -15,8 +15,8 @@
     <script>
         (function () {
             try {
-                var mode = (JSON.parse(localStorage.getItem("lynks-theme") || "{}").state || {}).mode || "system";
-                var dark = mode === "dark" ||
+                const mode = (JSON.parse(localStorage.getItem("lynks-theme") || "{}").state || {}).mode || "system";
+                const dark = mode === "dark" ||
                     (mode === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
                 document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
             } catch (_) {

@@ -19,7 +19,9 @@ export function useRevertEntry() {
             queryClient.invalidateQueries({queryKey: QK.entries()});
             message.success(`Restored version ${version} as v${entry.version}`);
         },
-        onError: (err) => message.error(getApiErrorMessage(err, 'Failed to restore version')),
+        onError: (err) => {
+            message.error(getApiErrorMessage(err, 'Failed to restore version'));
+        },
     });
 
     return {revert, isReverting};

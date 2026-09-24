@@ -14,7 +14,9 @@ export default function PasswordSettings() {
       form.resetFields();
       message.success('Password changed successfully');
     },
-    onError: (err) => message.error(getApiErrorMessage(err, 'Failed to change password. Check your current password.')),
+      onError: (err) => {
+          message.error(getApiErrorMessage(err, 'Failed to change password. Check your current password.'));
+      },
   });
 
   return (

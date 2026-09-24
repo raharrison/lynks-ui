@@ -1,8 +1,8 @@
-import { App } from 'antd';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { deleteResource, getResources, uploadResource } from '@/api/resources';
-import { QK } from '@/utils/queryKeys';
-import { getApiErrorMessage } from '@/utils/apiError';
+import {App} from 'antd';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
+import {deleteResource, getResources, uploadResource} from '@/api/resources';
+import {QK} from '@/utils/queryKeys';
+import {getApiErrorMessage} from '@/utils/apiError';
 
 export function useResources(entryId: string) {
   const { message } = App.useApp();
@@ -16,13 +16,17 @@ export function useResources(entryId: string) {
   const uploadMutation = useMutation({
     mutationFn: (file: File) => uploadResource(entryId, file),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: QK.resources(entryId) }),
-    onError: (err) => message.error(getApiErrorMessage(err, 'Failed to upload resource')),
+      onError: (err) => {
+          message.error(getApiErrorMessage(err, 'Failed to upload resource'));
+      },
   });
 
   const deleteMutation = useMutation({
     mutationFn: (resourceId: string) => deleteResource(entryId, resourceId),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: QK.resources(entryId) }),
-    onError: (err) => message.error(getApiErrorMessage(err, 'Failed to delete resource')),
+      onError: (err) => {
+          message.error(getApiErrorMessage(err, 'Failed to delete resource'));
+      },
   });
 
   return {

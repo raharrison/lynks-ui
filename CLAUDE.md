@@ -77,9 +77,14 @@ src/
   `NOTIFICATION_POLL_INTERVAL`, and the list refetches when opened. There is no websocket.
   When the count rises it fetches the newest notifications and toasts them; the first
   poll after load only sets the baseline, so existing unread ones never toast
-- Server-rendered markdown can carry raw HTML, so `MarkdownContent` runs it through
-  `rehype-sanitize`. The schema extends the default only for flexmark's task-list
-  checkboxes; widen it deliberately, never by dropping the plugin
+- Server-rendered markdown and a link's scraped content can carry raw HTML, so
+  `MarkdownContent` and `SearchableContent` both run it through `rehype-sanitize` with
+  the schema in `common/sanitizeSchema.ts`. It extends the default only for flexmark's
+  task-list checkboxes; widen it deliberately, never by dropping the plugin
+- Mutation errors are reported once, by the hook that owns the mutation; callers add
+  only their own success handling. A `useMutation` callback must not return antd's
+  `message.*()`: it is a thenable that resolves when the toast closes, and TanStack
+  awaits it, so the mutation stays pending (and buttons loading) for about 3 seconds
 - Stored resources are untrusted third-party content on the app's origin. The
   SingleFile iframe is `sandbox=""` and the server adds a CSP sandbox; keep both
 - Old versions open at `?version=N` on the detail page, whose banner offers restore.
@@ -96,7 +101,32 @@ npm run dev      # Start dev server (http://localhost:3000)
 npm run build    # Type-check + production build
 npm run lint     # ESLint
 npm run preview  # Preview production build
+npm test         # Vitest, once
+npm run coverage # Vitest with a v8 coverage report
 ```
+
+## Tests
+
+- Vitest + jsdom + Testing Library, one `*.test.ts(x)` beside each module. Only the entry
+  forms, the layout and the create/edit pages share a file, because they share setup.
+  CI runs the suite in both workflows
+- Helpers live in `src/test/`: `renderWithProviders` / `renderHookWithProviders` (query
+  client, Ant Design `App`, a memory data router so `useBlocker` works, and `location()` /
+  `router` for navigation), fixture factories in `fixtures.ts`, and `apiError` for code
+  mocked above the network. Pass `path` when the component reads route params
+- The API is mocked at the network with MSW, so the real axios client and its 401
+  interceptor run. Unhandled requests fail the test; register handlers with `server.use`
+- Forms that embed `RichEditor` swap it for `src/test/FakeEditor.tsx` (a textarea) with
+  `vi.mock`. The real Milkdown editor is covered on its own in `MilkdownEditor.test.tsx`;
+  jsdom has no layout, so its tests place the caret by DOM selection rather than a click
+- A jsdom `FormData` holding a `File` cannot cross Vitest's fetch bridge, so multipart
+  uploads mock `uploadResource` and assert its arguments instead of the request
+- `App.tsx` builds its router at import, so `App.test.tsx` sets the url and re-imports it
+- Ant Design ids every radio group `test-id` under `NODE_ENV=test`, so jsdom can
+  uncheck one group's input when another is checked. Assert on the wrapper's
+  `-checked` class instead
+- Mention labels in `editor/mention.ts` are cached at module level, so tests that
+  resolve them cannot assume a clean cache
 
 ## Auth
 

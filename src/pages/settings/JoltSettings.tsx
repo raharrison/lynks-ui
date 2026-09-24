@@ -18,7 +18,9 @@ export default function JoltSettings() {
             setToken('');
             message.success(updated.joltConfigured ? 'Jolt token saved' : 'Jolt token removed');
         },
-        onError: (err) => message.error(getApiErrorMessage(err, 'Failed to update Jolt token')),
+        onError: (err) => {
+            message.error(getApiErrorMessage(err, 'Failed to update Jolt token'));
+        },
     });
 
     return (

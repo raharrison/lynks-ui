@@ -22,7 +22,9 @@ export default function ProfileSettings() {
       queryClient.invalidateQueries({ queryKey: QK.user() });
       message.success('Profile updated');
     },
-    onError: (err) => message.error(getApiErrorMessage(err, 'Failed to update profile')),
+      onError: (err) => {
+          message.error(getApiErrorMessage(err, 'Failed to update profile'));
+      },
   });
 
   if (isLoading) return <Skeleton active />;

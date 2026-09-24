@@ -4,10 +4,12 @@ import {CheckOutlined, CloseOutlined, EditOutlined, SearchOutlined} from '@ant-d
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
+import rehypeSanitize from 'rehype-sanitize';
+import rehypeHighlight from 'rehype-highlight';
 import {updateLinkContent} from '@/api/entries';
 import {getApiErrorMessage} from '@/utils/apiError';
 import {QK} from '@/utils/queryKeys';
-import rehypeHighlight from "rehype-highlight";
+import {sanitizeSchema} from '@/components/common/sanitizeSchema';
 
 interface Props {
   entryId: string;
@@ -17,6 +19,7 @@ interface Props {
 export default function SearchableContent({ entryId, content }: Props) {
   const queryClient = useQueryClient();
   const { message } = App.useApp();
+    const [expanded, setExpanded] = useState(false);
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState('');
 
@@ -27,17 +30,22 @@ export default function SearchableContent({ entryId, content }: Props) {
       setEditing(false);
       message.success('Content updated');
     },
-    onError: (err) => message.error(getApiErrorMessage(err, 'Failed to update content')),
+      onError: (err) => {
+          message.error(getApiErrorMessage(err, 'Failed to update content'));
+      },
   });
 
   const startEdit = () => {
     setDraft(content ?? '');
     setEditing(true);
+      setExpanded(true);
   };
 
   return (
     <Collapse
       style={{ marginBottom: 16 }}
+      activeKey={expanded ? ['content'] : []}
+      onChange={(keys) => setExpanded(keys.length > 0)}
       items={[{
         key: 'content',
         label: <span><SearchOutlined style={{ marginRight: 8 }} />Searchable Content</span>,
@@ -74,7 +82,8 @@ export default function SearchableContent({ entryId, content }: Props) {
         ) : (
           <div className="markdown-content">
             {content
-                ? <ReactMarkdown rehypePlugins={[rehypeRaw, rehypeHighlight]}>{content}</ReactMarkdown>
+                ? <ReactMarkdown
+                    rehypePlugins={[rehypeRaw, [rehypeSanitize, sanitizeSchema], rehypeHighlight]}>{content}</ReactMarkdown>
               : <span style={{ color: 'var(--text-muted)' }}>No content. Click Edit to add some.</span>
             }
           </div>

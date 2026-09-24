@@ -30,7 +30,9 @@ export default function TwoFactorSettings() {
       queryClient.invalidateQueries({ queryKey: QK.twoFaSecret() });
       message.success(status?.enabled ? '2FA disabled' : '2FA enabled');
     },
-    onError: (err) => message.error(getApiErrorMessage(err, 'Failed to update 2FA')),
+      onError: (err) => {
+          message.error(getApiErrorMessage(err, 'Failed to update 2FA'));
+      },
   });
 
   const validateMutation = useMutation({
@@ -42,7 +44,9 @@ export default function TwoFactorSettings() {
         message.error('Invalid code');
       }
     },
-    onError: (err) => message.error(getApiErrorMessage(err, 'Failed to validate code')),
+      onError: (err) => {
+          message.error(getApiErrorMessage(err, 'Failed to validate code'));
+      },
   });
 
   if (isLoading) return <Skeleton active />;

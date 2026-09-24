@@ -17,20 +17,26 @@ export function useComments(entryId: string) {
   const addMutation = useMutation({
       mutationFn: (plainContent: string) => createComment(entryId, {plainContent}),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: QK.comments(entryId) }),
-    onError: (err) => message.error(getApiErrorMessage(err, 'Failed to add comment')),
+      onError: (err) => {
+          message.error(getApiErrorMessage(err, 'Failed to add comment'));
+      },
   });
 
   const editMutation = useMutation({
       mutationFn: ({id, plainContent}: { id: string; plainContent: string }) =>
           updateComment(entryId, {id, plainContent}),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: QK.comments(entryId) }),
-    onError: (err) => message.error(getApiErrorMessage(err, 'Failed to update comment')),
+      onError: (err) => {
+          message.error(getApiErrorMessage(err, 'Failed to update comment'));
+      },
   });
 
   const deleteMutation = useMutation({
     mutationFn: (id: string) => deleteComment(entryId, id),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: QK.comments(entryId) }),
-    onError: (err) => message.error(getApiErrorMessage(err, 'Failed to delete comment')),
+      onError: (err) => {
+          message.error(getApiErrorMessage(err, 'Failed to delete comment'));
+      },
   });
 
   return {

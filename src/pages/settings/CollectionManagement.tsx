@@ -40,7 +40,9 @@ export default function CollectionManagement() {
       queryClient.invalidateQueries({ queryKey: QK.collections() });
       message.success('Collection deleted');
     },
-    onError: (err) => message.error(getApiErrorMessage(err, 'Failed to delete collection')),
+      onError: (err) => {
+          message.error(getApiErrorMessage(err, 'Failed to delete collection'));
+      },
   });
 
   const flatCollections = flattenForList(collections);

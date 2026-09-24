@@ -6,19 +6,18 @@ import {DeleteOutlined, EditOutlined, RollbackOutlined, StarFilled, StarOutlined
 import {ENTRY_TYPE_LABELS} from '@/utils/constants';
 import {ENTRY_TYPE_ICONS} from '@/utils/icons';
 import {
-  ENTRY_PATH_PREFIX,
-  entryDetailPath,
-  entryEditPath,
-  entryTypeChipClass,
-  formatDateTime,
-  formatRelative
+    ENTRY_PATH_PREFIX,
+    entryDetailPath,
+    entryEditPath,
+    entryTypeChipClass,
+    formatDateTime,
+    formatRelative
 } from '@/utils/format';
 import {EntryCollectionChip, EntryTagChip} from '@/components/common/EntryGroupChips';
 import {useEntry} from '@/hooks/useEntry';
 import {useStarEntry} from '@/hooks/useStarEntry';
 import {useDeleteEntry} from '@/hooks/useDeleteEntry';
 import {useRevertEntry} from '@/hooks/useRevertEntry';
-import {getApiErrorMessage} from '@/utils/apiError';
 import type {Discussion} from '@/types';
 import LinkDetail from '@/components/entries/LinkDetail';
 import NoteDetail from '@/components/entries/NoteDetail';
@@ -71,7 +70,6 @@ export default function EntryDetailPage() {
         message.success('Entry deleted');
         navigate('/');
       },
-      onError: (err: Error) => message.error(getApiErrorMessage(err, 'Failed to delete entry')),
     });
   };
 

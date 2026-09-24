@@ -1,17 +1,16 @@
 import {App, Button, Empty, Popconfirm, Spin, Tag, Tooltip, Typography, Upload} from 'antd';
 import {
-  DeleteOutlined,
-  DownloadOutlined,
-  FileOutlined,
-  FileTextOutlined,
-  GlobalOutlined,
-  PictureOutlined,
-  UploadOutlined,
+    DeleteOutlined,
+    DownloadOutlined,
+    FileOutlined,
+    FileTextOutlined,
+    GlobalOutlined,
+    PictureOutlined,
+    UploadOutlined,
 } from '@ant-design/icons';
 import {Link} from 'react-router-dom';
 import {getResourceUrl} from '@/api/resources';
 import {entryDetailPath, formatDate, formatFileSize} from '@/utils/format';
-import {getApiErrorMessage} from '@/utils/apiError';
 import type {EntryType, Resource, ResourceType} from '@/types';
 import {useResources} from '@/hooks/useResources';
 
@@ -50,7 +49,6 @@ export default function EntryResources({ entryId, entryType }: { entryId: string
           beforeUpload={(file) => {
             upload(file, {
               onSuccess: () => message.success('File uploaded successfully'),
-              onError: (err: Error) => message.error(getApiErrorMessage(err, 'Upload failed')),
             });
             return false;
           }}
@@ -125,7 +123,6 @@ export default function EntryResources({ entryId, entryType }: { entryId: string
                     title="Delete this resource?"
                     onConfirm={() => remove(resource.id, {
                       onSuccess: () => message.success('Resource deleted'),
-                      onError: (err: Error) => message.error(getApiErrorMessage(err, 'Failed to delete resource')),
                     })}
                     okText="Delete"
                     okButtonProps={{ danger: true }}

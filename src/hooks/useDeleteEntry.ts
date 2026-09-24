@@ -1,9 +1,9 @@
-import { App } from 'antd';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteFile, deleteLink, deleteNote, deleteSnippet } from '@/api/entries';
-import { QK } from '@/utils/queryKeys';
-import { getApiErrorMessage } from '@/utils/apiError';
-import type { AnySlimEntry, EntryType, Page } from '@/types';
+import {App} from 'antd';
+import {useMutation, useQueryClient} from '@tanstack/react-query';
+import {deleteFile, deleteLink, deleteNote, deleteSnippet} from '@/api/entries';
+import {QK} from '@/utils/queryKeys';
+import {getApiErrorMessage} from '@/utils/apiError';
+import type {AnySlimEntry, EntryType, Page} from '@/types';
 
 const deleteByType: Record<EntryType, (id: string) => Promise<void>> = {
   link: deleteLink,
@@ -27,7 +27,9 @@ export function useDeleteEntry() {
       // Remove detail cache
       queryClient.removeQueries({ queryKey: QK.entry(id) });
     },
-    onError: (err) => message.error(getApiErrorMessage(err, 'Failed to delete entry')),
+      onError: (err) => {
+          message.error(getApiErrorMessage(err, 'Failed to delete entry'));
+      },
   });
 
   return { deleteEntry, isDeleting };

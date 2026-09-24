@@ -1,10 +1,10 @@
-import { App } from 'antd';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getNotifications, markAllRead, markRead, markUnread } from '@/api/notifications';
-import { QK } from '@/utils/queryKeys';
-import { getApiErrorMessage } from '@/utils/apiError';
-import { NOTIFICATIONS_PAGE_SIZE } from '@/utils/constants';
-import type { Notification, Page } from '@/types';
+import {App} from 'antd';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
+import {getNotifications, markAllRead, markRead, markUnread} from '@/api/notifications';
+import {QK} from '@/utils/queryKeys';
+import {getApiErrorMessage} from '@/utils/apiError';
+import {NOTIFICATIONS_PAGE_SIZE} from '@/utils/constants';
+import type {Notification, Page} from '@/types';
 
 export function useNotifications(page: number) {
   const { message } = App.useApp();
@@ -25,13 +25,17 @@ export function useNotifications(page: number) {
       });
       queryClient.invalidateQueries({ queryKey: QK.unread() });
     },
-    onError: (err) => message.error(getApiErrorMessage(err, 'Failed to update notification')),
+      onError: (err) => {
+          message.error(getApiErrorMessage(err, 'Failed to update notification'));
+      },
   });
 
   const markAllReadMutation = useMutation({
     mutationFn: markAllRead,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: QK.notifications() }),
-    onError: (err) => message.error(getApiErrorMessage(err, 'Failed to mark all as read')),
+      onError: (err) => {
+          message.error(getApiErrorMessage(err, 'Failed to mark all as read'));
+      },
   });
 
   return {
@@ -41,7 +45,6 @@ export function useNotifications(page: number) {
     isError,
     markRead: markReadMutation.mutate,
     markAllRead: markAllReadMutation.mutate,
-    markAllReadAsync: markAllReadMutation.mutateAsync,
     isMarking: markReadMutation.isPending,
     isMarkingAll: markAllReadMutation.isPending,
   };

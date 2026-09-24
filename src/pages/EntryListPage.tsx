@@ -1,5 +1,5 @@
 import {useCallback, useEffect} from 'react';
-import {Button, Empty, Input, Pagination, Select, Spin} from 'antd';
+import {Button, Empty, Input, Pagination, Select, Space, Spin} from 'antd';
 import {GlobalOutlined, SortAscendingOutlined, SortDescendingOutlined, SwapOutlined} from '@ant-design/icons';
 import {useLocation, useNavigate, useParams, useSearchParams} from 'react-router-dom';
 import {buildFilterUrl, parseSearchParams} from '@/hooks/useUrlFilterSync';
@@ -79,7 +79,7 @@ export default function EntryListPage() {
           {isFetching && <Spin size="small" />}
         </div>
 
-        <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+          <div className="entry-list-toolbar">
           <Input
             key={source}
             prefix={<GlobalOutlined style={{ color: 'var(--text-muted)' }} />}
@@ -88,18 +88,18 @@ export default function EntryListPage() {
             onChange={(e) => { if (!e.target.value) commitSource(''); }}
             onPressEnter={(e) => commitSource((e.target as HTMLInputElement).value)}
             allowClear
-            style={{ width: 180 }}
+            className="entry-list-source"
             size="middle"
           />
           <Select
             value={sort}
             onChange={(val) => handleSort(val, direction)}
             options={sortOptions}
-            style={{ width: 140 }}
+            className="entry-list-sort"
             size="middle"
           />
           {sort !== 'mostRelevant' && (
-              <>
+              <Space.Compact>
                   <Button
                       size="middle"
                       type={direction === 'desc' ? 'primary' : 'default'}
@@ -121,7 +121,7 @@ export default function EntryListPage() {
                       onClick={() => handleSort(sort, 'rand')}
                       title="Random order"
                   />
-              </>
+              </Space.Compact>
           )}
         </div>
       </div>

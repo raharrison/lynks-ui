@@ -14,6 +14,42 @@
   background: var(--bg-surface);
 }
 
+.entry-list-toolbar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.entry-list-source {
+  width: 180px;
+}
+
+.entry-list-sort {
+  width: 140px;
+}
+
+@media (max-width: 768px) {
+  .entry-card {
+    padding: 14px;
+  }
+
+  .entry-list-toolbar {
+    width: 100%;
+    flex-wrap: nowrap;
+  }
+
+  .entry-list-source {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .entry-list-sort {
+    width: 116px;
+    flex-shrink: 0;
+  }
+}
+
 .entry-card:hover {
   transform: translateY(-2px);
   box-shadow: var(--card-hover-shadow) !important;
@@ -107,4 +143,9 @@
 .entry-card--read {
   opacity: var(--opacity-read);
   border-left: 3px solid var(--border-primary);
+}
+
+/* Matches the starred detail header. Qualified so it outranks the hover border. */
+.entry-card.entry-card--starred {
+  border-left: 3px solid var(--color-warning) !important;
 }

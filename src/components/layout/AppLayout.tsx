@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
-import { Layout, Modal, Typography } from 'antd';
-import { Outlet, useNavigate } from 'react-router-dom';
+import {useEffect, useState} from 'react';
+import {Layout, Modal, Typography} from 'antd';
+import {Outlet, useNavigate} from 'react-router-dom';
 import AppHeader from './AppHeader';
 import AppSidebar from './AppSidebar';
-import { entryCreatePath } from '@/utils/format';
+import {entryCreatePath} from '@/utils/format';
 
 const SHORTCUT_GROUPS = [
   {
@@ -145,8 +145,7 @@ export default function AppLayout() {
       <AppHeader />
       <Layout>
         <AppSidebar />
-        <Layout.Content style={{
-          padding: '28px 32px',
+        <Layout.Content className="app-content" style={{
           minHeight: 'calc(100vh - 60px)',
           overflow: 'auto',
         }}>

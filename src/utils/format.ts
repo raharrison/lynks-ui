@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import {ENTRY_TYPE_CHIP_MODIFIER, ENTRY_TYPE_LABELS} from '@/utils/constants';
+import {ENTRY_TYPE_CHIP_MODIFIER} from '@/utils/constants';
 
 dayjs.extend(relativeTime);
 
@@ -22,10 +22,6 @@ export function formatFileSize(bytes: number): string {
   const sizes = ['B', 'KB', 'MB', 'GB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(1))} ${sizes[i]}`;
-}
-
-export function entryTypeLabel(type: string): string {
-  return ENTRY_TYPE_LABELS[type as keyof typeof ENTRY_TYPE_LABELS] ?? (type.charAt(0).toUpperCase() + type.slice(1).toLowerCase());
 }
 
 export function entryTypeChipClass(type: string): string {

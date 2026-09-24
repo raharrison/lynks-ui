@@ -140,9 +140,8 @@ export default function EntryDetailPage() {
       ]} />
 
       {/* Header panel */}
-      <div style={{
+      <div className="entry-detail-header" style={{
         marginBottom: 24,
-        padding: '20px 24px',
         background: 'var(--bg-surface)',
         border: '1px solid var(--border-secondary)',
         borderLeft: entry.starred ? '4px solid var(--color-warning)' : '1px solid var(--border-secondary)',
@@ -150,7 +149,7 @@ export default function EntryDetailPage() {
       }}>
 
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap' }}>
-          <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{flex: '1 1 260px', minWidth: 0}}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
                 <Tag className={entryTypeChipClass(entry.type)} style={{fontSize: 'var(--font-size-xs)', padding: '2px 10px'}}>
                 {ENTRY_TYPE_ICONS[entry.type]} {ENTRY_TYPE_LABELS[entry.type]}

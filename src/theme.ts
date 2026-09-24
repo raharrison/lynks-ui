@@ -15,6 +15,10 @@ export const LIME_INK = '#1a2e05';
 export interface Palette {
     accent: string;
     accentHover: string;
+    /* Ant Design's ramp from lime-700 gives a grey-olive for selected fills, so the
+       tint is set outright. Mirrors --accent-light. */
+    accentBg: string;
+    accentBgHover: string;
     bgLayout: string;
     bgContainer: string;
     bgElevated: string;
@@ -31,6 +35,8 @@ export const PALETTE: Record<'light' | 'dark', Palette> = {
     light: {
         accent: '#4d7c0f',
         accentHover: '#3f6212',
+        accentBg: 'rgba(132, 204, 22, 0.12)',
+        accentBgHover: 'rgba(132, 204, 22, 0.2)',
         bgLayout: '#f4f4f5',
         bgContainer: '#ffffff',
         bgElevated: '#ffffff',
@@ -43,6 +49,8 @@ export const PALETTE: Record<'light' | 'dark', Palette> = {
     dark: {
         accent: LIME,
         accentHover: LIME_HOVER,
+        accentBg: 'rgba(190, 242, 100, 0.12)',
+        accentBgHover: 'rgba(190, 242, 100, 0.2)',
         bgLayout: '#0b0b0e',
         bgContainer: '#16161a',
         bgElevated: '#1e1e23',

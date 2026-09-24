@@ -156,10 +156,58 @@ body {
 }
 
 
+/* ─── Header ─── */
+/* Ant Design's Layout.Header sets its own padding, so this needs the extra specificity */
+.ant-layout-header.app-header {
+    padding: 0 20px;
+}
+
+.app-header-search {
+    flex: 1;
+    max-width: 560px;
+    min-width: 0;
+    margin: 0 16px;
+}
+
+/* ─── Main content ─── */
+.app-content {
+    padding: 28px 32px;
+}
+
+.entry-detail-header {
+    padding: 20px 24px;
+}
+
 /* ─── Responsive ─── */
 @media (max-width: 768px) {
     .desktop-only {
         display: none !important;
+    }
+
+    .ant-layout-header.app-header {
+        padding: 0 8px;
+    }
+
+    .app-header-search {
+        margin: 0 4px;
+    }
+
+    .app-content {
+        padding: 16px 12px;
+    }
+
+    .entry-detail-header {
+        padding: 16px;
+    }
+
+    :root .ant-card .ant-card-body {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .app-header-brand {
+        display: none;
     }
 }
 
@@ -531,6 +579,42 @@ body {
   outline: none;
     font-size: 15px;
     line-height: 1.75;
+}
+
+@media (max-width: 768px) {
+    .entry-editor-body {
+        padding: 16px;
+    }
+
+    .entry-editor-body:has(.entry-doc) {
+        padding: 16px 0 12px;
+    }
+
+    .entry-editor-body:has(.entry-doc) .entry-doc-meta,
+    .entry-editor-body:has(.entry-doc) .entry-form-actions {
+        margin-left: 16px;
+        margin-right: 16px;
+    }
+
+    /* The title is a single-line input, so at 30px a phone shows barely two words. */
+    .entry-doc-title .ant-input {
+        padding: 0 16px;
+        font-size: 22px;
+    }
+
+    .entry-doc-title .ant-form-item-explain {
+        padding-left: 16px;
+    }
+
+    /* The block handles appear on hover, which touch screens lack, so their
+       gutter is dropped and the slash menu is the way to add blocks. */
+    .rich-editor .milkdown .ProseMirror {
+        padding: 12px 16px 20px;
+    }
+
+    .rich-editor .milkdown .milkdown-block-handle {
+        display: none;
+    }
 }
 
 .rich-editor .milkdown .milkdown-block-handle .operation-item svg {

@@ -8,6 +8,7 @@ import {
   FolderOutlined,
   LinkOutlined,
   PlusOutlined,
+  ReadOutlined,
   ReloadOutlined,
   RightOutlined,
   TagsOutlined,
@@ -230,6 +231,7 @@ const mobileNavItems = [
   { key: '/notes', label: 'Notes', icon: <FileTextOutlined /> },
   { key: '/snippets', label: 'Snippets', icon: <CodeOutlined /> },
   { key: '/files', label: 'Files', icon: <FileOutlined /> },
+    {key: '/digest', label: 'Digest', icon: <ReadOutlined/>},
 ];
 
 export default function AppSidebar() {

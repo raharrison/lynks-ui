@@ -123,6 +123,8 @@ function ThemedApp() {
     algorithm: resolved === 'dark' ? antTheme.darkAlgorithm : antTheme.defaultAlgorithm,
     token: {
       colorPrimary: palette.accent,
+      colorPrimaryBg: palette.accentBg,
+      colorPrimaryBgHover: palette.accentBgHover,
       colorLink: palette.accent,
       colorLinkHover: palette.accentHover,
       borderRadius: 10,

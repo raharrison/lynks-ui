@@ -139,10 +139,9 @@ export default function AppHeader() {
   ], [displayName, themeMode, themeIcon, setThemeMode, handleLogout]);
 
   return (
-    <Layout.Header style={{
+      <Layout.Header className="app-header" style={{
       background: 'var(--bg-surface)',
       borderBottom: '1px solid var(--border-primary)',
-      padding: '0 20px',
       display: 'flex',
       alignItems: 'center',
       gap: 8,
@@ -179,7 +178,7 @@ export default function AppHeader() {
                 height={28}
                 style={{display: 'block', borderRadius: 7}}
             />
-          <span style={{
+          <span className="app-header-brand" style={{
             fontWeight: 800,
             fontSize: 20,
               color: 'var(--text-primary)',
@@ -197,12 +196,12 @@ export default function AppHeader() {
           onClick={({ key }) => navigate(key)}
           disabledOverflow
           items={navItems.map(n => ({ key: n.key, label: n.label, style: { padding: '0 12px' } }))}
-          style={{ background: 'transparent', borderBottom: 'none', minWidth: 0, flex: 'none' }}
+          style={{background: 'transparent', borderBottom: 'none', minWidth: 0, flex: 'none', lineHeight: '59px'}}
         />
       </div>
 
       {/* Center: search */}
-      <div style={{ flex: 1, maxWidth: 560, margin: '0 16px', minWidth: 160 }}>
+        <div className="app-header-search">
         <Input
           id="search-input"
           prefix={<SearchOutlined style={{ color: 'var(--accent)', fontSize: 'var(--font-size-md)' }} />}

@@ -37,7 +37,8 @@ function EntryCard({entry, onStar}: EntryCardProps) {
 
   return (
     <Link to={entryDetailPath(entry.type, entry.id)} className="entry-card-link">
-      <div className={`entry-card${isRead && entry.type === 'link' ? ' entry-card--read' : ''}`}>
+        <div
+            className={`entry-card${isRead && entry.type === 'link' ? ' entry-card--read' : ''}${entry.starred ? ' entry-card--starred' : ''}`}>
         <div className="entry-card-body">
           {thumbnailId && !thumbnailError && (
             <div className="entry-card-thumbnail">

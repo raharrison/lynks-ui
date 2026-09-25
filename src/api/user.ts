@@ -1,5 +1,5 @@
 import client from './client';
-import type {ActivityLogItem, AuthRequest, AuthResult, Page, PageRequest, User} from '@/types';
+import type {ActivityLogItem, AuthConfig, AuthRequest, AuthResult, Page, PageRequest, User, UserSession} from '@/types';
 
 export async function login(request: AuthRequest): Promise<{ result: AuthResult }> {
   // The server returns 401 for TOTP_REQUIRED and INVALID_CREDENTIALS
@@ -21,6 +21,30 @@ export async function login(request: AuthRequest): Promise<{ result: AuthResult 
 
 export async function logout(): Promise<void> {
   await client.post('/logout');
+}
+
+export async function getAuthConfig(): Promise<AuthConfig> {
+    const {data} = await client.get('/auth/config');
+    return data;
+}
+
+// A full page navigation rather than a request, since the server answers with a redirect to the provider
+export function ssoLoginUrl(returnTo?: string | null): string {
+    const base = '/api/auth/oidc/login';
+    return returnTo ? `${base}?returnTo=${encodeURIComponent(returnTo)}` : base;
+}
+
+export async function getSessions(): Promise<UserSession[]> {
+    const {data} = await client.get('/user/sessions');
+    return data;
+}
+
+export async function revokeSession(id: string): Promise<void> {
+    await client.delete(`/user/sessions/${encodeURIComponent(id)}`);
+}
+
+export async function revokeOtherSessions(): Promise<void> {
+    await client.delete('/user/sessions');
 }
 
 export async function getCurrentUser(): Promise<User> {

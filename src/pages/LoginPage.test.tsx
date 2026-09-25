@@ -1,10 +1,10 @@
-import {describe, expect, it} from 'vitest';
+import {beforeEach, describe, expect, it} from 'vitest';
 import {screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {http, HttpResponse} from 'msw';
 import {server} from '@/test/server';
 import {renderWithProviders} from '@/test/render';
-import {user} from '@/test/fixtures';
+import {authConfig, user} from '@/test/fixtures';
 import {QK} from '@/utils/queryKeys';
 import type {AuthRequest} from '@/types';
 import LoginPage from './LoginPage';
@@ -16,6 +16,10 @@ async function signIn(username = 'ryan', password = 'hunter2') {
 }
 
 describe('LoginPage', () => {
+    beforeEach(() => {
+        server.use(http.get('/api/auth/config', () => HttpResponse.json(authConfig())));
+    });
+
     it('requires both fields', async () => {
         renderWithProviders(<LoginPage/>);
 
@@ -104,6 +108,61 @@ describe('LoginPage', () => {
 
             expect(screen.getByPlaceholderText('Username')).toBeInTheDocument();
             expect(screen.queryByPlaceholderText('Authentication code')).not.toBeInTheDocument();
+        });
+    });
+
+    describe('single sign-on', () => {
+        it('offers no sign-on button when the server has none configured', async () => {
+            renderWithProviders(<LoginPage/>);
+
+            expect(await screen.findByRole('button', {name: 'Sign In'})).toBeInTheDocument();
+            expect(screen.queryByRole('link', {name: /Sign in with/})).not.toBeInTheDocument();
+        });
+
+        it('links to the server with the page to come back to', async () => {
+            server.use(http.get('/api/auth/config', () => HttpResponse.json(authConfig({sso: {label: 'Sign in with Authelia'}}))));
+            renderWithProviders(<LoginPage/>, {route: '/login?returnTo=%2Fnotes%2Fabc'});
+
+            const button = await screen.findByRole('link', {name: /Sign in with Authelia/});
+            expect(button).toHaveAttribute('href', '/api/auth/oidc/login?returnTo=%2Fnotes%2Fabc');
+            expect(screen.getByPlaceholderText('Username')).toBeInTheDocument();
+        });
+
+        it('never passes an unsafe return path on', async () => {
+            server.use(http.get('/api/auth/config', () => HttpResponse.json(authConfig({sso: {label: 'SSO'}}))));
+            renderWithProviders(<LoginPage/>, {route: '/login?returnTo=%2F%2Fevil.example'});
+
+            expect(await screen.findByRole('link', {name: /SSO/})).toHaveAttribute('href', '/api/auth/oidc/login');
+        });
+
+        it('hides the password form when password sign in is disabled', async () => {
+            server.use(http.get('/api/auth/config', () =>
+                HttpResponse.json(authConfig({passwordLogin: false, sso: {label: 'Sign in with Authelia'}}))));
+            renderWithProviders(<LoginPage/>);
+
+            expect(await screen.findByRole('link', {name: /Sign in with Authelia/})).toBeInTheDocument();
+            expect(screen.queryByPlaceholderText('Username')).not.toBeInTheDocument();
+            expect(screen.queryByText('or')).not.toBeInTheDocument();
+        });
+
+        it('keeps the password form when the config cannot be loaded', async () => {
+            server.use(http.get('/api/auth/config', () => new HttpResponse(null, {status: 500})));
+            renderWithProviders(<LoginPage/>);
+
+            await waitFor(() => expect(screen.getByPlaceholderText('Username')).toBeInTheDocument());
+        });
+
+        it.each([
+            ['unlinked', /No Lynks account matches that sign-on/],
+            ['denied', /refused for this account/],
+            ['expired', /expired or was started in another browser/],
+            ['unavailable', /cannot be reached right now/],
+            ['failed', /Single sign-on failed/],
+            ['something-new', /Single sign-on failed/],
+        ])('explains the %s result', async (code, text) => {
+            renderWithProviders(<LoginPage/>, {route: `/login?sso=${code}`});
+
+            expect(await screen.findByText(text)).toBeInTheDocument();
         });
     });
 });

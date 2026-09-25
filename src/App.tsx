@@ -9,6 +9,7 @@ import {useThemeStore} from '@/stores/themeStore';
 import {LIME, LIME_ACTIVE, LIME_HOVER, LIME_INK, PALETTE} from '@/theme';
 import {checkCurrentUser} from '@/api/user';
 import {QK} from '@/utils/queryKeys';
+import {loginPath, safeReturnTo} from '@/utils/returnTo';
 import AppLayout from '@/components/layout/AppLayout';
 import EntryListPage from '@/pages/EntryListPage';
 import EntryDetailPage from '@/pages/EntryDetailPage';
@@ -41,14 +42,18 @@ function AuthGate() {
     setUser(user ?? null);
   }, [user, setUser]);
 
+    const here = location.pathname + location.search;
+    const loginTarget = loginPath(here);
+    const returnTarget = safeReturnTo(new URLSearchParams(location.search).get('returnTo'));
+
   useEffect(() => {
     if (isPending) return;
     if (!user && location.pathname !== '/login') {
-      navigate('/login', { replace: true });
+        navigate(loginTarget, {replace: true});
     } else if (user && location.pathname === '/login') {
-      navigate('/', { replace: true });
+        navigate(returnTarget, {replace: true});
     }
-  }, [isPending, user, location.pathname, navigate]);
+  }, [isPending, user, location.pathname, loginTarget, returnTarget, navigate]);
 
   if (isPending) {
     return (
@@ -59,11 +64,11 @@ function AuthGate() {
   }
 
   if (!user && location.pathname !== '/login') {
-    return <Navigate to="/login" replace />;
+      return <Navigate to={loginTarget} replace/>;
   }
 
   if (user && location.pathname === '/login') {
-    return <Navigate to="/" replace />;
+      return <Navigate to={returnTarget} replace/>;
   }
 
   return <Outlet />;

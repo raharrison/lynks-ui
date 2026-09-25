@@ -1,10 +1,21 @@
 import {useEffect, useState} from 'react';
-import {App, Button, Card, Form, Input, Typography} from 'antd';
-import {LockOutlined, SafetyOutlined, UserOutlined} from '@ant-design/icons';
-import {useQueryClient} from '@tanstack/react-query';
+import {Alert, App, Button, Card, Divider, Form, Input, Typography} from 'antd';
+import {LockOutlined, LoginOutlined, SafetyOutlined, UserOutlined} from '@ant-design/icons';
+import {useQuery, useQueryClient} from '@tanstack/react-query';
+import {useSearchParams} from 'react-router-dom';
 import {useLogin} from '@/hooks/useAuth';
-import {checkCurrentUser} from '@/api/user';
+import {checkCurrentUser, getAuthConfig, ssoLoginUrl} from '@/api/user';
 import {QK} from '@/utils/queryKeys';
+import {safeReturnTo} from '@/utils/returnTo';
+
+// The codes the server's single sign-on callback redirects here with
+const SSO_MESSAGES: Record<string, string> = {
+    unlinked: 'No Lynks account matches that sign-on. Its username has to match a Lynks username exactly.',
+    denied: 'Single sign-on was refused for this account.',
+    expired: 'The sign-on attempt expired or was started in another browser. Try again.',
+    unavailable: 'The sign-on provider cannot be reached right now. Try again later.',
+    failed: 'Single sign-on failed. Try again.',
+};
 
 export default function LoginPage() {
   useEffect(() => {
@@ -15,6 +26,19 @@ export default function LoginPage() {
   const { message } = App.useApp();
   const { loginAsync, isPending } = useLogin();
   const queryClient = useQueryClient();
+    const [searchParams] = useSearchParams();
+    const ssoCode = searchParams.get('sso');
+    const ssoMessage = ssoCode ? SSO_MESSAGES[ssoCode] ?? SSO_MESSAGES.failed : null;
+    const returnTo = safeReturnTo(searchParams.get('returnTo'));
+
+    // Without the config the password form is still the way in, so a failure falls back to it
+    const {data: config} = useQuery({
+        queryKey: QK.authConfig(),
+        queryFn: getAuthConfig,
+        retry: false,
+    });
+    const passwordLogin = config?.passwordLogin ?? true;
+    const sso = config?.sso ?? null;
 
   const completeLogin = async () => {
     const user = await checkCurrentUser();
@@ -85,7 +109,27 @@ export default function LoginPage() {
           <Typography.Text type="secondary" style={{ fontSize: 14 }}>Sign in to your account</Typography.Text>
         </div>
 
-        {!needsTotp ? (
+          {ssoMessage && (
+              <Alert type="error" showIcon title={ssoMessage} style={{marginBottom: 24, borderRadius: 10}}/>
+          )}
+
+          {sso && !needsTotp && (
+              <>
+                  <Button
+                      type={passwordLogin ? 'default' : 'primary'}
+                      size="large"
+                      block
+                      icon={<LoginOutlined/>}
+                      href={ssoLoginUrl(returnTo === '/' ? null : returnTo)}
+                      style={{borderRadius: 10, height: 44}}
+                  >
+                      {sso.label}
+                  </Button>
+                  {passwordLogin && <Divider plain><Typography.Text type="secondary">or</Typography.Text></Divider>}
+              </>
+          )}
+
+          {passwordLogin && (!needsTotp ? (
           <Form onFinish={handleLogin} layout="vertical" size="large">
             <Form.Item name="username" rules={[{ required: true, message: 'Username required' }]}>
               <Input prefix={<UserOutlined />} placeholder="Username" autoFocus style={{ borderRadius: 10 }} />
@@ -116,7 +160,7 @@ export default function LoginPage() {
               </Button>
             </div>
           </Form>
-        )}
+          ))}
       </Card>
     </div>
   );

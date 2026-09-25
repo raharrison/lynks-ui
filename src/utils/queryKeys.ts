@@ -20,4 +20,6 @@ export const QK = {
   activity: (page: number) => ['activity', page] as const,
   twoFaStatus: () => ['2fa-status'] as const,
   twoFaSecret: () => ['2fa-secret'] as const,
+    authConfig: () => ['auth-config'] as const,
+    sessions: () => ['sessions'] as const,
 };

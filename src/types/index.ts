@@ -380,6 +380,23 @@ export interface User {
   dateUpdated: string;
 }
 
+export interface AuthConfig {
+    passwordLogin: boolean;
+    sso: { label: string } | null;
+}
+
+export type SessionMethod = 'password' | 'oidc';
+
+export interface UserSession {
+    id: string;
+    method: SessionMethod;
+    created: string;
+    lastSeen: string;
+    userAgent: string | null;
+    ip: string | null;
+    current: boolean;
+}
+
 export interface AuthRequest {
   username: string;
   password: string;

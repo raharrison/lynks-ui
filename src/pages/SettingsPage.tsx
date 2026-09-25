@@ -5,6 +5,7 @@ import ProfileSettings from './settings/ProfileSettings';
 import PasswordSettings from './settings/PasswordSettings';
 import JoltSettings from './settings/JoltSettings';
 import TwoFactorSettings from './settings/TwoFactorSettings';
+import SessionSettings from './settings/SessionSettings';
 import TagManagement from './settings/TagManagement';
 import CollectionManagement from './settings/CollectionManagement';
 import ActivityLog from './settings/ActivityLog';
@@ -54,6 +55,9 @@ export default function SettingsPage() {
                     </Card>
                     <Card title="Two-Factor Authentication" style={{borderRadius: 'var(--radius-lg)'}}>
                         <TwoFactorSettings/>
+                    </Card>
+                    <Card title="Active Sessions" style={{borderRadius: 'var(--radius-lg)'}}>
+                        <SessionSettings/>
                     </Card>
                 </Space>
             ),

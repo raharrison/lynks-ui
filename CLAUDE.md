@@ -33,7 +33,7 @@ src/
 │   └── settings/ # Settings sub-pages
 ├── stores/       # Zustand stores (authStore, sidebarStore, themeStore)
 ├── types/        # index.ts - all domain TypeScript interfaces
-└── utils/        # apiError, constants, format, groups, icons, queryKeys, schedule, youtube
+└── utils/        # apiError, constants, format, groups, icons, queryKeys, returnTo, schedule, userAgent, youtube
 ```
 
 ## Key Conventions
@@ -133,3 +133,15 @@ npm run coverage # Vitest with a v8 coverage report
 - Session-based (cookies), axios client has `withCredentials: true`
 - 401 responses auto-redirect to `/login` via response interceptor in `src/api/client.ts`
 - Auth state stored in `src/stores/authStore.ts`
+- Being sent to login carries `?returnTo=`, and signing in by password or SSO lands
+  back there. `utils/returnTo.ts` mirrors the server's `ReturnTo`, so only same-origin
+  app paths survive; widen neither alone
+- `GET /auth/config` says whether password login and single sign-on are offered. The
+  login page falls back to the password form if it cannot load, since that is the
+  way in when the provider is broken
+- The SSO button is a plain link to `/api/auth/oidc/login`, not an axios call: the
+  server answers with a redirect to the provider. Accounts link by username on the
+  first SSO sign in, so there is nothing to link from settings
+- The server's SSO callback reports failures as `?sso=<code>` on `/login`, which maps
+  each code to a message
+- Session `method` is `password` or `oidc`, lowercased like every enum

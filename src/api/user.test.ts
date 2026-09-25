@@ -3,7 +3,7 @@ import {http, HttpResponse} from 'msw';
 import {server} from '@/test/server';
 import {page, user} from '@/test/fixtures';
 import {useAuthStore} from '@/stores/authStore';
-import {checkCurrentUser, getActivityLog, login} from './user';
+import {checkCurrentUser, getActivityLog, login, revokeOtherSessions, revokeSession, ssoLoginUrl,} from './user';
 
 describe('login', () => {
     beforeEach(() => {
@@ -74,5 +74,33 @@ describe('getActivityLog', () => {
         await getActivityLog({page: 2, size: 10, tags: ['ignored']});
 
         expect(search).toBe('?page=2&size=10');
+    });
+});
+
+describe('single sign-on', () => {
+    it('builds the login url with an encoded return path', () => {
+        expect(ssoLoginUrl()).toBe('/api/auth/oidc/login');
+        expect(ssoLoginUrl('/notes/a?version=2')).toBe('/api/auth/oidc/login?returnTo=%2Fnotes%2Fa%3Fversion%3D2');
+    });
+});
+
+describe('sessions', () => {
+    it('revokes one session by id and the others in bulk', async () => {
+        const deleted: string[] = [];
+        server.use(
+            http.delete('/api/user/sessions/:id', ({params}) => {
+                deleted.push(params.id as string);
+                return new HttpResponse(null, {status: 200});
+            }),
+            http.delete('/api/user/sessions', () => {
+                deleted.push('others');
+                return new HttpResponse(null, {status: 200});
+            }),
+        );
+
+        await revokeSession('a/b');
+        await revokeOtherSessions();
+
+        expect(deleted).toEqual(['a/b', 'others']);
     });
 });

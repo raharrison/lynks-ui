@@ -1,5 +1,6 @@
 import type {
     ActivityLogItem,
+    AuthConfig,
     Collection,
     Comment,
     Digest,
@@ -17,6 +18,7 @@ import type {
     Snippet,
     Tag,
     User,
+    UserSession,
 } from '@/types';
 
 const NOW = '2026-01-15T12:00:00Z';
@@ -224,4 +226,21 @@ export function user(overrides: Partial<User> = {}): User {
         dateUpdated: NOW,
         ...overrides,
     };
+}
+
+export function userSession(overrides: Partial<UserSession> = {}): UserSession {
+    return {
+        id: 's1',
+        method: 'password',
+        created: NOW,
+        lastSeen: NOW,
+        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0 Safari/537.36',
+        ip: '203.0.113.4',
+        current: false,
+        ...overrides,
+    };
+}
+
+export function authConfig(overrides: Partial<AuthConfig> = {}): AuthConfig {
+    return {passwordLogin: true, sso: null, ...overrides};
 }

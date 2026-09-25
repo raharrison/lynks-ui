@@ -23,6 +23,7 @@ beforeEach(() => {
             signedIn = true;
             return HttpResponse.json({result: 'success'});
         }),
+        http.get('/api/auth/config', () => HttpResponse.json({passwordLogin: true, sso: null})),
         http.get('/api/notifications/unread', () => HttpResponse.json({unread: 0})),
         http.get('/api/tag', () => HttpResponse.json([])),
         http.get('/api/collection', () => HttpResponse.json([])),
@@ -38,6 +39,18 @@ describe('App', {timeout: 30_000}, () => {
 
         expect(await screen.findByRole('button', {name: 'Sign In'}, {timeout: 10_000})).toBeInTheDocument();
         expect(window.location.pathname).toBe('/login');
+        expect(window.location.search).toBe('?returnTo=%2Flinks');
+    });
+
+    it('returns to the requested page after signing in', async () => {
+        await renderAppAt('/links');
+
+        await userEvent.type(await screen.findByPlaceholderText('Username', {}, {timeout: 10_000}), 'ryan');
+        await userEvent.type(screen.getByPlaceholderText('Password'), 'pw');
+        await userEvent.click(screen.getByRole('button', {name: 'Sign In'}));
+
+        expect(await screen.findByText('No entries found', {}, {timeout: 10_000})).toBeInTheDocument();
+        expect(window.location.pathname).toBe('/links');
     });
 
     it('sends a signed in user away from the login page', async () => {

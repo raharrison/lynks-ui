@@ -32,7 +32,8 @@ the backend API.
   Reminders page
 - A warning when a link being saved already exists
 - **Weekly digest** page of unread links, regenerated on a schedule
-- Settings: profile, Jolt token, password, two-factor auth (TOTP), tag/collection management, activity log
+- Settings: profile, Jolt token, password, two-factor auth (TOTP), single sign-on linking, active sessions, tag/collection
+  management, activity log
 
 ### Dev Commands
 

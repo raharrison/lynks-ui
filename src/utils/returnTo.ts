@@ -2,8 +2,8 @@
 export function safeReturnTo(raw: string | null | undefined): string {
     if (!raw || raw.length > 2048 || !raw.startsWith('/')) return '/';
     if (raw.startsWith('//') || raw.startsWith('/\\')) return '/';
-    // eslint-disable-next-line no-control-regex
-    if (/[\u0000-\u001f\u007f\\]/.test(raw)) return '/';
+    // it ends up in a Location header, and router urls are always percent-encoded, so printable ascii only
+    if (/[^\x21-\x7e]|\\/.test(raw)) return '/';
     let path: string;
     try {
         path = decodeURIComponent(raw.split(/[?#]/)[0]);

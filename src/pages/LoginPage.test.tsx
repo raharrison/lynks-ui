@@ -159,6 +159,8 @@ describe('LoginPage', () => {
             ['unavailable', /cannot be reached right now/],
             ['failed', /Single sign-on failed/],
             ['something-new', /Single sign-on failed/],
+            ['__proto__', /Single sign-on failed/],
+            ['constructor', /Single sign-on failed/],
         ])('explains the %s result', async (code, text) => {
             renderWithProviders(<LoginPage/>, {route: `/login?sso=${code}`});
 

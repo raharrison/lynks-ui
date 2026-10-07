@@ -13,7 +13,7 @@ describe('safeReturnTo', () => {
             null, undefined, '', 'links', 'https://evil.example', '//evil.example', '/\\evil.example',
             '/links\\x', '/links\nx', '/api', '/api/user', '/api?x=1', '/login', '/login?returnTo=/links',
             '/' + 'a'.repeat(3000), '/./api/user', '/%2e/api/user', '/links/../api/user', '/%61pi/user', '/./login',
-            '/links/%zz',
+            '/links/%zz', '/tags/café', '/links?q=a b', '/links\u007f',
         ]) {
             expect(safeReturnTo(path), String(path)).toBe('/');
         }

@@ -28,7 +28,8 @@ export default function LoginPage() {
   const queryClient = useQueryClient();
     const [searchParams] = useSearchParams();
     const ssoCode = searchParams.get('sso');
-    const ssoMessage = ssoCode ? SSO_MESSAGES[ssoCode] ?? SSO_MESSAGES.failed : null;
+    // own keys only, so a code like "__proto__" can't pick up an inherited property
+    const ssoMessage = ssoCode ? (Object.hasOwn(SSO_MESSAGES, ssoCode) ? SSO_MESSAGES[ssoCode] : SSO_MESSAGES.failed) : null;
     const returnTo = safeReturnTo(searchParams.get('returnTo'));
 
     // Without the config the password form is still the way in, so a failure falls back to it

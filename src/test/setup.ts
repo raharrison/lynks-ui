@@ -52,4 +52,9 @@ afterEach(() => {
     window.history.replaceState(null, '', '/');
 });
 
-afterAll(() => server.close());
+afterAll(async () => {
+    server.close();
+    // Ant Design's form error list sets state on an uncleared timeout of up to 10ms, which
+    // throws "window is not defined" if it outlives the file's jsdom environment
+    await new Promise((resolve) => setTimeout(resolve, 50));
+});

@@ -40,6 +40,11 @@ beforeEach(() => {
 
 describe('LinkForm', () => {
     it('requires a valid url and a title', async () => {
+        let checked = false;
+        server.use(http.post('/api/link/checkExisting', () => {
+            checked = true;
+            return HttpResponse.json([]);
+        }));
         renderWithProviders(<LinkForm/>);
 
         await userEvent.type(screen.getByPlaceholderText('https://example.com'), 'not a url');
@@ -47,6 +52,8 @@ describe('LinkForm', () => {
 
         expect(await screen.findByText('Valid URL required')).toBeInTheDocument();
         expect(await screen.findByText("'title' is required")).toBeInTheDocument();
+        // the duplicate check is debounced, so let it land before teardown resets the handlers
+        await waitFor(() => expect(checked).toBe(true));
     });
 
     it('creates a link with processing on by default', async () => {

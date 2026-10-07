@@ -1,4 +1,4 @@
-import {describe, expect, it} from 'vitest';
+import {beforeEach, describe, expect, it} from 'vitest';
 import {screen, waitFor, within} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {http, HttpResponse} from 'msw';
@@ -6,6 +6,11 @@ import {server} from '@/test/server';
 import {renderWithProviders} from '@/test/render';
 import {collection} from '@/test/fixtures';
 import CollectionManagement from './CollectionManagement';
+
+// useGroups loads tags alongside collections
+beforeEach(() => {
+    server.use(http.get('/api/tag', () => HttpResponse.json([])));
+});
 
 describe('CollectionManagement', () => {
     it('edits a nested collection knowing its parent', async () => {

@@ -257,7 +257,7 @@ export default function AppSidebar() {
         placement="left"
         open={!collapsed}
         onClose={() => setCollapsed(true)}
-        width={280}
+        size={280}
         styles={{ body: { padding: 0 } }}
       >
         <Menu

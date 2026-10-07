@@ -67,7 +67,11 @@ describe('ResourceViewerPage', () => {
 
     it('reports a text file that fails to load', async () => {
         server.use(
-            http.get('/api/entry/l1/resource/r1/info', () => HttpResponse.json(resource({extension: 'txt', name: 'a.txt'}))),
+            http.get('/api/entry/l1/resource/r1/info', () => HttpResponse.json(resource({
+                id: 'r1',
+                extension: 'txt',
+                name: 'a.txt'
+            }))),
             http.get('/api/entry/l1/resource/r1', () => new HttpResponse(null, {status: 500})),
         );
         renderViewer();

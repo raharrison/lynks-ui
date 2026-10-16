@@ -28,7 +28,7 @@
     "antd": "^6.3.0",
     "axios": "^1.13.5",
     "dayjs": "^1.11.19",
-    "dompurify": "^3.3.2",
+    "dompurify": "^3.4.17",
     "highlight.js": "^11.11.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Self-hosted Lynks may live on a LAN behind no certificate. The setup screen says what
+     cleartext costs. -->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system"/>
+            <!-- An instance behind a private CA the user installed. -->
+            <certificates src="user"/>
+        </trust-anchors>
+    </base-config>
+</network-security-config>

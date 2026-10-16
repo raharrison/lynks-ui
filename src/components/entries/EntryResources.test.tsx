@@ -1,5 +1,5 @@
 import {describe, expect, it, vi} from 'vitest';
-import {screen} from '@testing-library/react';
+import {fireEvent, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {http, HttpResponse} from 'msw';
 import {server} from '@/test/server';
@@ -46,6 +46,23 @@ describe('EntryResources', () => {
 
         expect(await screen.findByText('Resource deleted')).toBeInTheDocument();
         expect(await screen.findByText('Resources (0)')).toBeInTheDocument();
+        expect(location().pathname).toBe('/');
+    });
+
+    it('downloads a resource without following the row link', async () => {
+        server.use(http.get('/api/entry/l1/resource', () => HttpResponse.json([resource({id: 'r1', name: 'a.png'})])));
+        const clicked: HTMLAnchorElement[] = [];
+        vi.spyOn(HTMLAnchorElement.prototype, 'click').mockImplementation(function (this: HTMLAnchorElement) {
+            clicked.push(this);
+        });
+        const {location} = renderWithProviders(<EntryResources entryId="l1" entryType="link"/>);
+
+        const notCancelled = fireEvent.click(await screen.findByRole('button', {name: 'Download a.png'}));
+
+        expect(notCancelled).toBe(false);
+        expect(clicked).toHaveLength(1);
+        expect(clicked[0].getAttribute('href')).toBe('/api/entry/l1/resource/r1');
+        expect(clicked[0].download).toBe('a.png');
         expect(location().pathname).toBe('/');
     });
 

@@ -1,4 +1,6 @@
 const BROWSERS: [RegExp, string][] = [
+    // the Android WebView, which is only ever the Lynks app
+    [/; wv\)/, 'Lynks app'],
     [/Edg\//, 'Edge'],
     [/OPR\//, 'Opera'],
     [/Firefox\//, 'Firefox'],

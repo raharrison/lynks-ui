@@ -9,6 +9,8 @@ import SessionSettings from './settings/SessionSettings';
 import TagManagement from './settings/TagManagement';
 import CollectionManagement from './settings/CollectionManagement';
 import ActivityLog from './settings/ActivityLog';
+import ServerSettings from './settings/ServerSettings';
+import {isNative} from '@/lib/server';
 
 const TAB_LABELS: Record<string, string> = {
     profile: 'Profile', security: 'Security',
@@ -50,6 +52,11 @@ export default function SettingsPage() {
             label: 'Security',
             children: (
                 <Space orientation="vertical" size="large" style={{width: '100%'}}>
+                    {isNative && (
+                        <Card title="Server" style={{borderRadius: 'var(--radius-lg)'}}>
+                            <ServerSettings/>
+                        </Card>
+                    )}
                     <Card title="Change Password" style={{borderRadius: 'var(--radius-lg)'}}>
                         <PasswordSettings/>
                     </Card>

@@ -4,6 +4,7 @@ import {createBrowserRouter, Navigate, Outlet, RouterProvider, useLocation, useN
 import {QueryClientProvider, useQuery} from '@tanstack/react-query';
 import {queryClient} from '@/lib/queryClient';
 import {App as AntApp, ConfigProvider, Spin, theme as antTheme} from 'antd';
+import {SystemBars, SystemBarsStyle} from '@capacitor/core';
 import {useAuthStore} from '@/stores/authStore';
 import {useThemeStore} from '@/stores/themeStore';
 import {LIME, LIME_ACTIVE, LIME_HOVER, LIME_INK, PALETTE} from '@/theme';
@@ -22,6 +23,8 @@ import ResourceViewerPage from '@/pages/ResourceViewerPage';
 import SettingsPage from '@/pages/SettingsPage';
 import LoginPage from '@/pages/LoginPage';
 import ErrorBoundary from '@/components/common/ErrorBoundary';
+import ServerGate from '@/components/ServerGate';
+import {isNative} from '@/lib/server';
 
 
 function AuthGate() {
@@ -120,6 +123,11 @@ function ThemedApp() {
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', resolved);
+      // Capacitor reads the bars from the system once at startup, and they sit outside the WebView
+      if (isNative) {
+          void SystemBars.setStyle({style: resolved === 'dark' ? SystemBarsStyle.Dark : SystemBarsStyle.Light})
+              .catch(() => undefined);
+      }
   }, [resolved]);
 
   const palette = PALETTE[resolved];
@@ -172,7 +180,9 @@ function ThemedApp() {
   return (
     <ConfigProvider theme={themeConfig}>
       <AntApp>
-        <RouterProvider router={router} />
+          <ServerGate>
+              <RouterProvider router={router}/>
+          </ServerGate>
       </AntApp>
     </ConfigProvider>
   );

@@ -1,11 +1,12 @@
 {
   "name": "lynks-ui",
   "private": true,
-  "version": "2.1.0",
+  "version": "2.2.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:android": "tsc -b && vite build && cap sync android",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -14,6 +15,10 @@
   },
   "dependencies": {
     "@ant-design/icons": "^6.1.0",
+    "@capacitor/app": "^8.1.2",
+    "@capacitor/browser": "^8.0.5",
+    "@capacitor/core": "^8.5.3",
+    "@capacitor/preferences": "^8.0.1",
     "@milkdown/crepe": "^7.22.1",
     "@milkdown/kit": "^7.22.1",
     "@milkdown/react": "^7.22.1",
@@ -35,6 +40,8 @@
     "zustand": "^5.0.10"
   },
   "devDependencies": {
+    "@capacitor/android": "^8.5.3",
+    "@capacitor/cli": "^8.5.3",
     "@eslint/js": "^10.0.1",
     "@testing-library/dom": "^10.4.2",
     "@testing-library/jest-dom": "^7.0.1",

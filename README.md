@@ -2,7 +2,8 @@
 
 **React 19 + TypeScript 6 + Vite 8**
 
-Frontend webapp for the Lynks project. Accompanied by [lynks-server](https://github.com/raharrison/lynks-server) which provides
+Frontend webapp for the Lynks project, in a browser and, through Capacitor, as an Android app. Accompanied
+by [lynks-server](https://github.com/raharrison/lynks-server) which provides
 the backend API.
 
 ### Tech Stack
@@ -15,6 +16,7 @@ the backend API.
 - [Zustand](https://zustand.docs.pmnd.rs/) - Client state (auth, sidebar, theme)
 - [Milkdown 7](https://milkdown.dev/) - Markdown-native rich text editing (Crepe)
 - [Axios](https://axios-http.com/) - HTTP client with session cookie auth
+- [Capacitor 8](https://capacitorjs.com/) - The Android shell in `android/`, wrapping the same bundle
 
 ### Features
 
@@ -38,11 +40,49 @@ the backend API.
 ### Dev Commands
 
 ```bash
-npm run dev      # Start dev server (http://localhost:3000)
-npm run build    # Type-check + production build
+npm run dev            # Start dev server (http://localhost:3000)
+npm run build          # Type-check + production build
+npm run build:android  # The above, then cap sync android
 npm run lint     # ESLint
 npm run preview  # Preview production build
 ```
+
+### Android
+
+```bash
+npm run build:android
+JAVA_HOME=<a JDK 17-21> ./android/gradlew -p android assembleDebug
+# or, with a device or emulator attached
+npx cap run android
+```
+
+Android Studio's bundled JDK will do; `lynks-server` needs 25, which Gradle 8.14 rejects
+here. `android/local.properties` needs `sdk.dir`; it is not committed.
+
+The app asks which server to use on first launch. From an emulator the host is
+`http://10.0.2.2:8080`. Signing in with a password or single sign-on gets the app a
+session token it sends as a bearer header, and the server lists it among the account's
+sessions as "Lynks app on Android".
+
+Single sign-on runs in a browser tab and returns on `net.ryanh.lynks://sso`. Testing it
+needs a server the phone can reach whose provider redirects to that server's own
+`redirectUri`, which `localhost` is not.
+
+#### Release builds
+
+```bash
+keytool -genkeypair -v -keystore android/lynks-release.jks         -keyalg RSA -keysize 4096 -validity 10000 -alias lynks
+```
+
+Then `android/keystore.properties` (gitignored) with `storeFile`, `storePassword`,
+`keyAlias`, `keyPassword`, and:
+
+```bash
+JAVA_HOME=<a JDK 17-21> ./android/gradlew -p android assembleRelease
+```
+
+Without that file the APK is unsigned and will not install. Keep the keystore: the
+signature identifies the app, and losing it breaks upgrades. CI does not build the app.
 
 ### Deployment
 

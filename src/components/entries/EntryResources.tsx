@@ -111,6 +111,8 @@ export default function EntryResources({ entryId, entryType }: { entryId: string
                       icon={<DownloadOutlined />}
                       aria-label={`Download ${resource.name}`}
                       onClick={(e) => {
+                        // the row is a Link, which only stops its own navigation when the click reaches it
+                        e.preventDefault();
                         e.stopPropagation();
                         const a = document.createElement('a');
                         a.href = url;

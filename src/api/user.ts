@@ -1,4 +1,5 @@
 import client from './client';
+import {apiBaseUrl, isNative, setSessionToken} from '@/lib/server';
 import type {ActivityLogItem, AuthConfig, AuthRequest, AuthResult, Page, PageRequest, User, UserSession} from '@/types';
 
 export async function login(request: AuthRequest): Promise<{ result: AuthResult }> {
@@ -6,8 +7,14 @@ export async function login(request: AuthRequest): Promise<{ result: AuthResult 
   // but the response body still has the result. suppressRedirect prevents
   // the interceptor from redirecting so we can handle the body here.
   try {
-    const { data } = await client.post('/login', request, { suppressRedirect: true });
-    return data;
+    if (!isNative) {
+      const {data} = await client.post('/login', request, {suppressRedirect: true});
+      return data;
+    }
+    const {data} = await client.post<{ result: AuthResult; token?: string | null }>(
+        '/auth/app/login', request, {suppressRedirect: true});
+    if (data.token) await setSessionToken(data.token);
+    return {result: data.result};
   } catch (error: unknown) {
     if (error && typeof error === 'object' && 'response' in error) {
       const axiosError = error as { response?: { status: number; data?: { result: AuthResult } } };
@@ -20,7 +27,11 @@ export async function login(request: AuthRequest): Promise<{ result: AuthResult 
 }
 
 export async function logout(): Promise<void> {
-  await client.post('/logout');
+  try {
+    await client.post('/logout');
+  } finally {
+    await setSessionToken(null);
+  }
 }
 
 export async function getAuthConfig(): Promise<AuthConfig> {
@@ -32,6 +43,16 @@ export async function getAuthConfig(): Promise<AuthConfig> {
 export function ssoLoginUrl(returnTo?: string | null): string {
     const base = '/api/auth/oidc/login';
     return returnTo ? `${base}?returnTo=${encodeURIComponent(returnTo)}` : base;
+}
+
+// The app's sign in, through a browser tab that hands a one-time code back to it (native/sso.ts)
+export function appSsoLoginUrl(challenge: string): string {
+  return `${apiBaseUrl()}/auth/oidc/login?challenge=${encodeURIComponent(challenge)}`;
+}
+
+export async function exchangeSsoCode(code: string, verifier: string): Promise<void> {
+  const {data} = await client.post<{ token: string }>('/auth/oidc/exchange', {code, verifier}, {suppressRedirect: true});
+  await setSessionToken(data.token);
 }
 
 export async function getSessions(): Promise<UserSession[]> {

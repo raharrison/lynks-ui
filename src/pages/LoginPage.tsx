@@ -1,12 +1,14 @@
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {Alert, App, Button, Card, Divider, Form, Input, Typography} from 'antd';
 import {LockOutlined, LoginOutlined, SafetyOutlined, UserOutlined} from '@ant-design/icons';
 import {useQuery, useQueryClient} from '@tanstack/react-query';
 import {useSearchParams} from 'react-router-dom';
 import {useLogin} from '@/hooks/useAuth';
-import {checkCurrentUser, getAuthConfig, ssoLoginUrl} from '@/api/user';
+import {appSsoLoginUrl, checkCurrentUser, exchangeSsoCode, getAuthConfig, ssoLoginUrl} from '@/api/user';
 import {QK} from '@/utils/queryKeys';
 import {safeReturnTo} from '@/utils/returnTo';
+import {isNative} from '@/lib/server';
+import type {SsoReturn} from '@/native/sso';
 
 // The codes the server's single sign-on callback redirects here with
 const SSO_MESSAGES: Record<string, string> = {
@@ -16,6 +18,11 @@ const SSO_MESSAGES: Record<string, string> = {
     unavailable: 'The sign-on provider cannot be reached right now. Try again later.',
     failed: 'Single sign-on failed. Try again.',
 };
+
+// own keys only, so a code like "__proto__" can't pick up an inherited property
+function ssoMessageFor(code: string): string {
+    return Object.hasOwn(SSO_MESSAGES, code) ? SSO_MESSAGES[code] : SSO_MESSAGES.failed;
+}
 
 export default function LoginPage() {
   useEffect(() => {
@@ -28,8 +35,9 @@ export default function LoginPage() {
   const queryClient = useQueryClient();
     const [searchParams] = useSearchParams();
     const ssoCode = searchParams.get('sso');
-    // own keys only, so a code like "__proto__" can't pick up an inherited property
-    const ssoMessage = ssoCode ? (Object.hasOwn(SSO_MESSAGES, ssoCode) ? SSO_MESSAGES[ssoCode] : SSO_MESSAGES.failed) : null;
+    // the app hears back from the browser tab directly, not through the url
+    const [appSsoError, setAppSsoError] = useState<string | null>(null);
+    const ssoMessage = appSsoError ?? (ssoCode ? ssoMessageFor(ssoCode) : null);
     const returnTo = safeReturnTo(searchParams.get('returnTo'));
 
     // Without the config the password form is still the way in, so a failure falls back to it
@@ -41,11 +49,51 @@ export default function LoginPage() {
     const passwordLogin = config?.passwordLogin ?? true;
     const sso = config?.sso ?? null;
 
-  const completeLogin = async () => {
+    const completeLogin = useCallback(async () => {
     const user = await checkCurrentUser();
     // Updating the cache triggers AuthGate's query subscription, which navigates away
     queryClient.setQueryData(QK.user(), user);
-  };
+    }, [queryClient]);
+
+    useEffect(() => {
+        if (!isNative) return;
+        let detach: (() => void) | null = null;
+        let cancelled = false;
+
+        async function finish(result: SsoReturn) {
+            if ('error' in result) {
+                setAppSsoError(ssoMessageFor(result.error));
+                return;
+            }
+            setAppSsoError(null);
+            try {
+                await exchangeSsoCode(result.code, result.verifier);
+                await completeLogin();
+            } catch {
+                setAppSsoError(SSO_MESSAGES.failed);
+            }
+        }
+
+        void import('@/native/sso').then(async ({listenForSsoReturn}) => {
+            const stop = await listenForSsoReturn((result) => void finish(result));
+            if (cancelled) stop();
+            else detach = stop;
+        });
+        return () => {
+            cancelled = true;
+            detach?.();
+        };
+    }, [completeLogin]);
+
+    const startAppSso = async () => {
+        setAppSsoError(null);
+        try {
+            const {startSso} = await import('@/native/sso');
+            await startSso(appSsoLoginUrl);
+        } catch {
+            setAppSsoError('Could not open the sign-in page. Try again.');
+        }
+    };
 
   const handleLogin = async (values: { username: string; password: string; totp?: string }) => {
     try {
@@ -121,7 +169,8 @@ export default function LoginPage() {
                       size="large"
                       block
                       icon={<LoginOutlined/>}
-                      href={ssoLoginUrl(returnTo === '/' ? null : returnTo)}
+                      href={isNative ? undefined : ssoLoginUrl(returnTo === '/' ? null : returnTo)}
+                      onClick={isNative ? () => void startAppSso() : undefined}
                       style={{borderRadius: 10, height: 44}}
                   >
                       {sso.label}

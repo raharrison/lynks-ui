@@ -4,6 +4,7 @@ import {Outlet, useNavigate} from 'react-router-dom';
 import AppHeader from './AppHeader';
 import AppSidebar from './AppSidebar';
 import {entryCreatePath} from '@/utils/format';
+import {useAndroidBack} from '@/hooks/useAndroidBack';
 
 const SHORTCUT_GROUPS = [
   {
@@ -139,6 +140,7 @@ function useKeyboardShortcuts(onShowHelp: () => void) {
 export default function AppLayout() {
   const [shortcutsOpen, setShortcutsOpen] = useState(false);
   useKeyboardShortcuts(() => setShortcutsOpen(true));
+    useAndroidBack();
 
   return (
     <Layout style={{ minHeight: '100vh' }}>

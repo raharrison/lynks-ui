@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The bgLayout in theme.ts, so the splash and the first frame match. -->
+    <color name="splash_background">#FF0B0B0E</color>
+</resources>

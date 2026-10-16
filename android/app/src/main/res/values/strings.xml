@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Lynks</string>
+    <string name="title_activity_main">Lynks</string>
+    <string name="package_name">net.ryanh.lynks</string>
+    <string name="custom_url_scheme">net.ryanh.lynks</string>
+    <string name="downloading">Downloading %1$s</string>
+</resources>

@@ -1,7 +1,7 @@
 # lynks-ui
 
-React SPA for Lynks. This file is how to change it; `README.md` is how to run and
-deploy it.
+React SPA for Lynks, plus the Capacitor Android shell in `android/`. This file is how
+to change it; `README.md` is how to run and deploy it.
 
 ## Tech Stack
 
@@ -12,7 +12,8 @@ deploy it.
 - **TanStack React Query** - server state, caching, mutations
 - **React Router 7** - client-side routing
 - **Milkdown 7 (Crepe)** - markdown-native rich text editing
-- **Axios** - HTTP client with session cookie auth
+- **Axios** - HTTP client with session cookie auth, or a bearer token in the app
+- **Capacitor 8** - Android shell; `src/native/` holds the code that only runs there
 
 ## Directory Structure
 
@@ -28,7 +29,8 @@ src/
 │   ├── notifications/
 │   └── reminders/  # ReminderList, ReminderFormModal, ScheduleBuilder
 ├── hooks/        # Custom React Query hooks (queries + mutations)
-├── lib/          # queryClient
+├── lib/          # queryClient, server (the app's server and token)
+├── native/       # Capacitor-only code, dynamically imported
 ├── pages/        # Route-level page components
 │   └── settings/ # Settings sub-pages
 ├── stores/       # Zustand stores (authStore, sidebarStore, themeStore)
@@ -99,6 +101,7 @@ src/
 ```bash
 npm run dev      # Start dev server (http://localhost:3000)
 npm run build    # Type-check + production build
+npm run build:android  # The above, then cap sync android
 npm run lint     # ESLint
 npm run preview  # Preview production build
 npm test         # Vitest, once
@@ -145,3 +148,36 @@ npm run coverage # Vitest with a v8 coverage report
 - The server's SSO callback reports failures as `?sso=<code>` on `/login`, which maps
   each code to a message
 - Session `method` is `password` or `oidc`, lowercased like every enum
+
+## Android
+
+When anything under `android/` or `src/native/` changed, also run
+`npm run build:android` and `JAVA_HOME=<a JDK 17-21> ./android/gradlew -p android assembleDebug`.
+Gradle 8.14 rejects the Java 25 that `lynks-server` needs; Android Studio's JDK works.
+
+- The app picks its server at runtime, so nothing hardcodes the API's origin.
+  `lib/server.ts` resolves it; `ServerGate` shows `ServerSetupPage` until there is one
+- The app signs in through `POST /auth/app/login` and `/auth/oidc/exchange`, which
+  answer with a token rather than a cookie. `lib/server.ts` keeps it in Preferences
+  and the axios client sends it as a bearer header. `withCredentials` is off there,
+  because the API allows no credentials cross-origin
+- **Relative `/api/...` urls keep working in the app** - thumbnails, resources, pasted
+  images in rendered markdown, video. `ApiProxy.java` forwards the WebView's own GETs
+  under `/api/` to the server with the token, reading both from the same Preferences
+  keys as `lib/server.ts`, so the keys change together. Downloads go through Android's
+  `DownloadManager` the same way, named from the server's `Content-Disposition`. Anything
+  that is not a GET has to use the axios client
+- The WebView has no PDF viewer and hands any frame it cannot show to the download
+  listener, so `ResourceViewerPage` offers PDFs as a download in the app rather than an
+  iframe that would download on every visit
+- Single sign-on in the app opens the provider in a browser tab with a PKCE challenge (`native/sso.ts`). The server hands a
+  one-time code back on `net.ryanh.lynks://sso`,
+  which only redeems with the verifier the app kept
+- `src/native/` is dynamically imported, since Capacitor plugins reject in a browser
+- `android:allowBackup` is off because Preferences hold the session token, which a
+  backup would carry to another device still signed in
+- Android's back button is `useAndroidBack`, mounted once in `AppLayout`: it closes an
+  open modal or drawer through Ant Design's window Escape listener, then goes back, then
+  minimises. A second `backButton` listener would fire alongside it, not instead of it
+- `android/app/src/main/res` holds the launcher icon and splash as vector drawables
+  drawn from `public/favicon.svg`, so they change with it by hand too

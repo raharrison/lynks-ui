@@ -20,6 +20,7 @@ import {QK} from '@/utils/queryKeys';
 import {getApiErrorMessage} from '@/utils/apiError';
 import type {Resource} from '@/types';
 import client from '@/api/client';
+import {isNative} from '@/lib/server';
 
 const imageExts = new Set(['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'bmp', 'ico']);
 const videoExts = new Set(['mp4', 'webm', 'ogg', 'mov']);
@@ -168,7 +169,9 @@ function ResourceContent({ entryId, resource }: { entryId: string; resource: Res
     );
   }
 
-  const viewType = getViewType(resource.extension);
+    // Android's WebView has no PDF viewer and hands a frame it cannot show to the download listener,
+    // so in the app every visit would download the file
+    const viewType = isNative && getViewType(resource.extension) === 'pdf' ? 'unsupported' : getViewType(resource.extension);
 
   switch (viewType) {
     case 'image':
@@ -315,7 +318,8 @@ export default function ResourceViewerPage() {
         </Button>
 
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' }}>
-          <div style={{ flex: 1, minWidth: 0 }}>
+            {/* a basis rather than shrinking to fit, so on a phone the actions wrap below instead of breaking the name mid-word */}
+            <div style={{flex: '1 1 260px', minWidth: 0}}>
             {editing ? (
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
                 <Input
@@ -339,7 +343,7 @@ export default function ResourceViewerPage() {
                 <Button icon={<CloseOutlined />} size="middle" onClick={() => setEditing(false)} />
               </div>
             ) : (
-              <Typography.Title level={2} style={{ margin: '0 0 8px 0' }}>
+                <Typography.Title level={2} style={{margin: '0 0 8px 0', overflowWrap: 'anywhere'}}>
                 {resource.name}
               </Typography.Title>
             )}

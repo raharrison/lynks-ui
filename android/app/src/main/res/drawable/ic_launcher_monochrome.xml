@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Material You tints this to one colour, so the glyph alone at full opacity. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="108dp"
+        android:height="108dp"
+        android:viewportWidth="108"
+        android:viewportHeight="108">
+
+    <group
+            android:translateX="18"
+            android:translateY="18"
+            android:scaleX="2.25"
+            android:scaleY="2.25">
+
+        <path
+                android:pathData="M10.2,7.4V21.6H19.6"
+                android:strokeColor="#FFFFFFFF"
+                android:strokeWidth="3.2"
+                android:strokeLineCap="round"
+                android:strokeLineJoin="round"/>
+        <path
+                android:pathData="M18,21.6a3.2,3.2 0 1,0 6.4,0a3.2,3.2 0 1,0 -6.4,0z"
+                android:fillColor="#FFFFFFFF"/>
+        <path
+                android:pathData="M15.6,10.2H24.6"
+                android:strokeColor="#FFFFFFFF"
+                android:strokeWidth="2.5"
+                android:strokeLineCap="round"/>
+        <path
+                android:pathData="M19,14.4H24.6"
+                android:strokeColor="#FFFFFFFF"
+                android:strokeWidth="2.5"
+                android:strokeLineCap="round"/>
+    </group>
+</vector>

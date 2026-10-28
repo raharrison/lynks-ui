@@ -1,5 +1,5 @@
-import {beforeEach, describe, expect, it} from 'vitest';
-import {screen, waitFor} from '@testing-library/react';
+import {afterEach, beforeEach, describe, expect, it} from 'vitest';
+import {screen, waitFor, within} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {http, HttpResponse, type JsonBodyType} from 'msw';
 import {server} from '@/test/server';
@@ -159,5 +159,41 @@ describe('EntryListPage', () => {
 
         await waitFor(() => expect(starred).toBe(true));
         expect(await screen.findByRole('button', {name: 'Unstar entry'})).toBeInTheDocument();
+    });
+});
+
+describe('EntryListPage on a phone', () => {
+    beforeEach(() => {
+        window.innerWidth = 390;
+    });
+
+    afterEach(() => {
+        window.innerWidth = 1024;
+    });
+
+    it('switches type from the chips, keeping the filters', async () => {
+        serve('/api/entry', page([slimLink()]));
+        serve('/api/note', page([slimNote()]));
+        const {location} = renderAt('/?tags=t1&page=3');
+        const chips = screen.getByRole('tablist', {name: 'Entry type'});
+
+        expect(within(chips).getByRole('tab', {name: /All/})).toHaveAttribute('aria-selected', 'true');
+        await userEvent.click(within(chips).getByRole('tab', {name: /Notes/}));
+
+        expect(location().pathname).toBe('/notes');
+        expect(params(location())).toEqual({tags: 't1'});
+    });
+
+    it('sorts from a sheet', async () => {
+        serve('/api/entry', page([slimLink()]));
+        const {location} = renderAt('/');
+
+        await userEvent.click(screen.getByRole('button', {name: 'Sort: Updated'}));
+        await userEvent.click(await screen.findByRole('button', {name: 'Title'}));
+        expect(params(location())).toEqual({sort: 'title'});
+
+        await userEvent.click(screen.getByRole('button', {name: 'Sort: Title'}));
+        await userEvent.click(await screen.findByText('Ascending'));
+        expect(params(location())).toEqual({sort: 'title', dir: 'asc'});
     });
 });

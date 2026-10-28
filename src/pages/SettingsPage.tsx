@@ -1,5 +1,6 @@
 import {useEffect} from 'react';
 import {Card, Divider, Space, Tabs, Typography} from 'antd';
+import PageHeader from '@/components/common/PageHeader';
 import {useNavigate, useSearchParams} from 'react-router-dom';
 import ProfileSettings from './settings/ProfileSettings';
 import PasswordSettings from './settings/PasswordSettings';
@@ -28,7 +29,7 @@ export default function SettingsPage() {
 
   return (
     <div>
-      <Typography.Title level={3} style={{ marginBottom: 24 }}>Settings</Typography.Title>
+      <PageHeader title="Settings" />
 
       <Tabs
         activeKey={activeTab}

@@ -47,6 +47,7 @@ export default function ServerSetupPage() {
         }}>
             <Card style={{
                 width: 420,
+        maxWidth: '100%',
                 boxShadow: 'var(--shadow-lg)',
                 borderRadius: 16,
                 border: '1px solid var(--border-secondary)',

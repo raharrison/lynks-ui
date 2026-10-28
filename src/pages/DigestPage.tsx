@@ -1,12 +1,12 @@
 import {useEffect} from 'react';
 import {Button, Empty, Result, Tag} from 'antd';
-import {ReadOutlined} from '@ant-design/icons';
 import {Link} from 'react-router-dom';
 import {useDigest} from '@/hooks/useDigest';
 import {useStarEntry} from '@/hooks/useStarEntry';
 import EntryCard from '@/components/entries/EntryCard';
 import EntryListSkeleton from '@/components/entries/EntryListSkeleton';
 import {formatRelative} from '@/utils/format';
+import PageHeader from '@/components/common/PageHeader';
 
 export default function DigestPage() {
     useEffect(() => {
@@ -41,28 +41,21 @@ export default function DigestPage() {
 
     return (
         <div>
-            <div style={{
-                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                marginBottom: 16, flexWrap: 'wrap', gap: 12,
-            }}>
-                <div style={{display: 'flex', alignItems: 'center', gap: 10}}>
-          <span style={{fontSize: 20, fontWeight: 600}}>
-            <ReadOutlined style={{marginRight: 8, color: 'var(--accent)'}}/>Weekly Digest
-          </span>
-                    {links.length > 0 && (
-                        <span style={{fontWeight: 400, fontSize: 'var(--font-size-md)', color: 'var(--text-muted)'}}>
-              ({links.length})
-            </span>
-                    )}
-                    {unreadCount > 0 && (
-                        <Tag className="lynks-chip lynks-chip-accent" style={{margin: 0}}>{unreadCount} unread</Tag>
-                    )}
+            <PageHeader
+                title="Weekly Digest"
+                meta={
+                    <>
+                        {links.length > 0 && `(${links.length})`}
+                        {unreadCount > 0 && (
+                            <Tag className="lynks-chip lynks-chip-accent" style={{margin: 0}}>{unreadCount} unread</Tag>
+                        )}
+                    </>
+                }
+            >
+                <div style={{fontSize: 'var(--font-size-sm)', color: 'var(--text-muted)', marginTop: 4}}>
+                    Generated {formatRelative(digest.dateCreated)} from your unread links
                 </div>
-
-                <span style={{fontSize: 'var(--font-size-sm)', color: 'var(--text-muted)'}}>
-          generated {formatRelative(digest.dateCreated)}
-        </span>
-            </div>
+            </PageHeader>
 
             {links.length === 0 ? (
                 <Empty

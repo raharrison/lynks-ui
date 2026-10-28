@@ -1,8 +1,9 @@
 import {useEffect, useState} from 'react';
 import {Layout, Modal, Typography} from 'antd';
-import {Outlet, useNavigate} from 'react-router-dom';
+import {Outlet, ScrollRestoration, useLocation, useNavigate} from 'react-router-dom';
 import AppHeader from './AppHeader';
 import AppSidebar from './AppSidebar';
+import MobileTabBar from './MobileTabBar';
 import {entryCreatePath} from '@/utils/format';
 import {useAndroidBack} from '@/hooks/useAndroidBack';
 
@@ -137,26 +138,30 @@ function useKeyboardShortcuts(onShowHelp: () => void) {
   }, [navigate, onShowHelp]);
 }
 
+/* Editors keep their own sticky save bar where the tab bar would sit, as native apps do. */
+const FOCUSED_PAGE = /\/(create|edit)$|\/resource\//;
+
 export default function AppLayout() {
   const [shortcutsOpen, setShortcutsOpen] = useState(false);
+  const { pathname } = useLocation();
   useKeyboardShortcuts(() => setShortcutsOpen(true));
     useAndroidBack();
+  const showTabBar = !FOCUSED_PAGE.test(pathname);
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout className={showTabBar ? 'app-shell app-shell--tabbed' : 'app-shell'} style={{ minHeight: '100vh' }}>
       <AppHeader />
       <Layout>
         <AppSidebar />
-        <Layout.Content className="app-content" style={{
-          minHeight: 'calc(100vh - 60px)',
-          overflow: 'auto',
-        }}>
+        <Layout.Content className="app-content">
           <div style={{ maxWidth: 1200, margin: '0 auto' }}>
             <Outlet />
           </div>
         </Layout.Content>
       </Layout>
+      {showTabBar && <MobileTabBar />}
       <ShortcutsModal open={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
+      <ScrollRestoration />
     </Layout>
   );
 }

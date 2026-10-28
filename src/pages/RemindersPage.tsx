@@ -1,9 +1,9 @@
 import {useEffect, useState} from 'react';
-import {Empty, Pagination, Result, Spin, Typography} from 'antd';
-import {ClockCircleOutlined} from '@ant-design/icons';
+import {Empty, Pagination, Result, Spin} from 'antd';
 import {useAllReminders} from '@/hooks/useReminders';
 import {REMINDERS_PAGE_SIZE} from '@/utils/constants';
 import ReminderList from '@/components/reminders/ReminderList';
+import PageHeader from '@/components/common/PageHeader';
 
 export default function RemindersPage() {
     useEffect(() => {
@@ -14,10 +14,7 @@ export default function RemindersPage() {
 
     return (
         <div>
-            <Typography.Title level={3} style={{margin: '0 0 24px'}}>
-                <ClockCircleOutlined style={{marginRight: 10}}/>
-                Reminders
-            </Typography.Title>
+            <PageHeader title="Reminders" meta={total > 0 ? `(${total})` : null}/>
 
             {isLoading ? (
                 <div style={{textAlign: 'center', padding: 48}}><Spin size="large"/></div>

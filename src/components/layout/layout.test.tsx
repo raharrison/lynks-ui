@@ -11,6 +11,7 @@ import {useThemeStore} from '@/stores/themeStore';
 import AppHeader from './AppHeader';
 import AppLayout from './AppLayout';
 import AppSidebar from './AppSidebar';
+import MobileTabBar from './MobileTabBar';
 
 beforeEach(() => {
     useAuthStore.setState({user: user({username: 'ryan', displayName: null})});
@@ -66,7 +67,7 @@ describe('AppHeader', () => {
         server.use(http.get('/api/notifications/unread', () => HttpResponse.json({unread: 7})));
         renderWithProviders(<AppHeader/>);
         expect(await screen.findByText('7')).toBeInTheDocument();
-        expect(screen.getByRole('link', {name: /bell/})).toHaveAttribute('href', '/notifications');
+        expect(screen.getByRole('link', {name: 'Notifications'})).toHaveAttribute('href', '/notifications');
     });
 
     it('creates any entry type from the menu', async () => {
@@ -259,5 +260,49 @@ describe('AppSidebar', () => {
 
         expect(location().pathname).toBe('/snippets');
         expect(useSidebarStore.getState().collapsed).toBe(true);
+    });
+});
+
+describe('MobileTabBar', () => {
+    it('creates any entry type from its sheet', async () => {
+        const {location} = renderWithProviders(<MobileTabBar/>);
+
+        await userEvent.click(screen.getByRole('button', {name: 'Create'}));
+        await userEvent.click(await screen.findByText('New Note'));
+
+        expect(location().pathname).toBe('/notes/create');
+    });
+
+    it('opens the sidebar to browse', async () => {
+        useSidebarStore.setState({collapsed: true});
+        renderWithProviders(<MobileTabBar/>);
+
+        await userEvent.click(screen.getByRole('button', {name: 'Browse'}));
+
+        expect(useSidebarStore.getState().collapsed).toBe(false);
+        expect(screen.getByRole('button', {name: 'Browse'})).toHaveAttribute('aria-current', 'page');
+    });
+
+    it('marks the current section and shows the unread count', async () => {
+        server.use(http.get('/api/notifications/unread', () => HttpResponse.json({unread: 3})));
+        const {location} = renderWithProviders(<MobileTabBar/>, {route: '/settings'});
+
+        expect(screen.getByRole('button', {name: 'Me'})).toHaveAttribute('aria-current', 'page');
+        expect(await screen.findByText('3')).toBeInTheDocument();
+
+        await userEvent.click(screen.getByRole('button', {name: 'Alerts'}));
+        expect(location().pathname).toBe('/notifications');
+    });
+
+    it('switches theme and logs out from the account sheet', async () => {
+        server.use(http.post('/api/logout', () => new HttpResponse(null, {status: 204})));
+        const {location} = renderWithProviders(<MobileTabBar/>);
+
+        await userEvent.click(screen.getByRole('button', {name: 'Me'}));
+        await userEvent.click(await screen.findByText('Dark'));
+        expect(useThemeStore.getState().mode).toBe('dark');
+
+        await userEvent.click(screen.getByText('Logout'));
+        await waitFor(() => expect(location().pathname).toBe('/login'));
     });
 });

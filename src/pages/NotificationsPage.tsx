@@ -1,19 +1,20 @@
 import {useEffect, useState} from 'react';
-import {App, Badge, Button, Empty, Pagination, Result, Spin, Tag, Typography} from 'antd';
+import {App, Badge, Button, Empty, Pagination, Result, Spin, Tag, Tooltip, Typography} from 'antd';
 import {
-    BellOutlined,
     CheckCircleOutlined,
     CheckOutlined,
     ClockCircleOutlined,
     ExportOutlined,
     MessageOutlined,
     ReadOutlined,
+    UndoOutlined,
     WarningOutlined,
 } from '@ant-design/icons';
 import {useNavigate} from 'react-router-dom';
 import {formatRelative} from '@/utils/format';
 import {useNotifications} from '@/hooks/useNotifications';
 import {NOTIFICATIONS_PAGE_SIZE} from '@/utils/constants';
+import PageHeader from '@/components/common/PageHeader';
 import type {Notification, NotificationType} from '@/types';
 
 /* The chip stays neutral; the icon colour is what distinguishes the kind. */
@@ -40,20 +41,20 @@ export default function NotificationsPage() {
 
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
-        <Typography.Title level={3} style={{ margin: 0 }}>
-          <BellOutlined style={{ marginRight: 10 }} />
-          Notifications
-        </Typography.Title>
-        <Button
-          icon={<CheckOutlined />}
-          onClick={handleMarkAllRead}
-          loading={isMarkingAll}
-          style={{ borderRadius: 'var(--radius-pill)' }}
-        >
-          Mark all read
-        </Button>
-      </div>
+      <PageHeader
+          title="Notifications"
+          meta={total > 0 ? `(${total})` : null}
+          actions={notifications.length > 0 && (
+              <Button
+                  icon={<CheckOutlined />}
+                  onClick={handleMarkAllRead}
+                  loading={isMarkingAll}
+                  style={{ borderRadius: 'var(--radius-pill)' }}
+              >
+                Mark all read
+              </Button>
+          )}
+      />
 
       {isLoading ? (
         <div style={{ textAlign: 'center', padding: 48 }}><Spin size="large" /></div>
@@ -84,34 +85,35 @@ export default function NotificationsPage() {
                       <span style={{fontSize: 20, color: config.iconColor}}>{config.icon}</span>
                   </Badge>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                      <Typography.Text strong={!notification.read} style={{ fontSize: 14 }}>
-                        {notification.message}
-                      </Typography.Text>
-                        <Tag className="lynks-chip"
-                             style={{fontSize: 'var(--font-size-xxs)', margin: 0}}>{notification.type}</Tag>
-                    </div>
-                    <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+                    <Typography.Paragraph strong={!notification.read}
+                                          style={{ fontSize: 14, margin: '0 0 4px', overflowWrap: 'anywhere' }}>
+                      {notification.message}
+                    </Typography.Paragraph>
+                    <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+                      <Tag className="lynks-chip"
+                           style={{fontSize: 'var(--font-size-xxs)', margin: 0}}>{notification.type}</Tag>
                       <Typography.Text type="secondary" style={{ fontSize: 'var(--font-size-xs)' }}>
                         {formatRelative(notification.dateCreated)}
                       </Typography.Text>
                       {notification.entryTitle && (
-                        <Typography.Text type="secondary" style={{ fontSize: 'var(--font-size-xs)' }}>
+                        <Typography.Text type="secondary" style={{ fontSize: 'var(--font-size-xs)', minWidth: 0 }} ellipsis>
                           <ExportOutlined /> {notification.entryTitle}
                         </Typography.Text>
                       )}
                     </div>
                   </div>
-                  <Button
-                    type="text"
-                    size="small"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      markRead({ id: notification.id, read: !notification.read });
-                    }}
-                  >
-                    {notification.read ? 'Mark unread' : 'Mark read'}
-                  </Button>
+                  <Tooltip title={notification.read ? 'Mark unread' : 'Mark read'}>
+                    <Button
+                      type="text"
+                      size="small"
+                      icon={notification.read ? <UndoOutlined /> : <CheckOutlined />}
+                      aria-label={notification.read ? 'Mark unread' : 'Mark read'}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        markRead({ id: notification.id, read: !notification.read });
+                      }}
+                    />
+                  </Tooltip>
                 </div>
               </div>
             );

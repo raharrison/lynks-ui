@@ -130,10 +130,12 @@ export default function LoginPage() {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
+      padding: 16,
       background: 'var(--bg-primary)',
     }}>
       <Card style={{
         width: 420,
+        maxWidth: '100%',
         boxShadow: 'var(--shadow-lg)',
         borderRadius: 16,
         border: '1px solid var(--border-secondary)',

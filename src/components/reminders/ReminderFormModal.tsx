@@ -6,6 +6,8 @@ import {QK} from '@/utils/queryKeys';
 import {NOTIFICATION_METHOD_OPTIONS} from '@/utils/constants';
 import {useReminderMutations} from '@/hooks/useReminders';
 import ScheduleBuilder from '@/components/reminders/ScheduleBuilder';
+import NativeDateTimeInput from '@/components/common/NativeDateTimeInput';
+import {useIsMobile} from '@/hooks/useIsMobile';
 import type {NotificationMethod, Reminder, ReminderType, Schedule} from '@/types';
 
 interface FormValues {
@@ -37,6 +39,7 @@ export default function ReminderFormModal({open, onClose, entryId, reminder}: {
     const {message} = App.useApp();
     const [form] = Form.useForm<FormValues>();
     const {saveReminder, isSaving} = useReminderMutations();
+    const isMobile = useIsMobile();
     const {data: user} = useQuery({queryKey: QK.user(), queryFn: getCurrentUser});
     const methodOptions = NOTIFICATION_METHOD_OPTIONS.map((option) =>
         option.value === 'jolt' ? {...option, disabled: !user?.joltConfigured} : option);
@@ -85,7 +88,9 @@ export default function ReminderFormModal({open, onClose, entryId, reminder}: {
                                 {required: true, message: 'Choose when to be reminded'},
                                 {validator: (_, v?: dayjs.Dayjs) => !v || v.isAfter(dayjs()) ? Promise.resolve() : Promise.reject(new Error('Choose a time in the future'))},
                             ]}>
-                                <DatePicker showTime disabledDate={(d) => d.isBefore(dayjs(), 'day')} style={{width: '100%'}}/>
+                                {isMobile
+                                    ? <NativeDateTimeInput min={dayjs()}/>
+                                    : <DatePicker showTime disabledDate={(d) => d.isBefore(dayjs(), 'day')} style={{width: '100%'}}/>}
                             </Form.Item>
                         ) : (
                             <Form.Item name="schedule" label="Repeats"

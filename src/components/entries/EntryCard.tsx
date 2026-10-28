@@ -77,11 +77,13 @@ function EntryCard({entry, onStar}: EntryCardProps) {
               </div>
 
               <Button
+                className="entry-card-star"
                 type="text"
                 size="small"
                 icon={entry.starred ? <StarFilled style={{color: 'var(--color-star)'}}/> : <StarOutlined/>}
                 onClick={(e) => {
                   e.preventDefault();
+                  e.stopPropagation();
                   onStar(entry.id, entry.starred);
                 }}
                 aria-label={entry.starred ? 'Unstar entry' : 'Star entry'}

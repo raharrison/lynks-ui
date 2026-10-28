@@ -1,6 +1,12 @@
-import {useCallback, useEffect} from 'react';
-import {Button, Empty, Input, Pagination, Select, Space, Spin} from 'antd';
-import {GlobalOutlined, SortAscendingOutlined, SortDescendingOutlined, SwapOutlined} from '@ant-design/icons';
+import {useCallback, useEffect, useState} from 'react';
+import {Button, Empty, Input, Pagination, Segmented, Select, Space, Spin} from 'antd';
+import {
+    CheckOutlined,
+    GlobalOutlined,
+    SortAscendingOutlined,
+    SortDescendingOutlined,
+    SwapOutlined,
+} from '@ant-design/icons';
 import {useLocation, useNavigate, useParams, useSearchParams} from 'react-router-dom';
 import {buildFilterUrl, parseSearchParams} from '@/hooks/useUrlFilterSync';
 import {useEntries} from '@/hooks/useEntries';
@@ -10,7 +16,60 @@ import {ENTRY_PATH_PREFIX} from '@/utils/format';
 import EntryCard from '@/components/entries/EntryCard';
 import EntryListSkeleton from '@/components/entries/EntryListSkeleton';
 import ActiveFilters from '@/components/entries/ActiveFilters';
+import PageHeader from '@/components/common/PageHeader';
+import BottomSheet from '@/components/common/BottomSheet';
+import {NAV_ITEMS} from '@/components/layout/navigation';
+import {useIsMobile} from '@/hooks/useIsMobile';
 import type {EntryType, SortDirection} from '@/types';
+
+const LIST_NAV = NAV_ITEMS.filter((n) => n.key !== '/digest');
+
+const DIRECTION_OPTIONS: { value: SortDirection; label: string; icon: React.ReactNode }[] = [
+    {value: 'desc', label: 'Descending', icon: <SortDescendingOutlined/>},
+    {value: 'asc', label: 'Ascending', icon: <SortAscendingOutlined/>},
+    {value: 'rand', label: 'Random', icon: <SwapOutlined/>},
+];
+
+function SortSheet({open, onClose, sort, direction, options, onChange}: {
+    open: boolean;
+    onClose: () => void;
+    sort: string;
+    direction: SortDirection;
+    options: { label: string; value: string }[];
+    onChange: (sort: string, direction: SortDirection) => void;
+}) {
+    return (
+        <BottomSheet open={open} onClose={onClose} title="Sort by">
+            <div className="sheet-list" style={{marginBottom: 16}}>
+                {options.map((o) => (
+                    <button key={o.value} type="button"
+                            className={`sheet-list-item${o.value === sort ? ' sheet-list-item--active' : ''}`}
+                            onClick={() => {
+                                onChange(o.value, direction);
+                                onClose();
+                            }}>
+                        <span className="sheet-list-label">{o.label}</span>
+                        {o.value === sort && <CheckOutlined/>}
+                    </button>
+                ))}
+            </div>
+            {sort !== 'mostRelevant' && (
+                <>
+                    <div className="sheet-section-label">Order</div>
+                    <Segmented
+                        block
+                        value={direction}
+                        onChange={(val) => {
+                            onChange(sort, val as SortDirection);
+                            onClose();
+                        }}
+                        options={DIRECTION_OPTIONS}
+                    />
+                </>
+            )}
+        </BottomSheet>
+    );
+}
 
 // Reverse of ENTRY_PATH_PREFIX: 'links' → 'link', etc.
 const prefixToType: Record<string, EntryType> = Object.fromEntries(
@@ -29,6 +88,8 @@ export default function EntryListPage() {
   );
 
   const {toggleStar} = useStarEntry();
+  const isMobile = useIsMobile();
+  const [sortOpen, setSortOpen] = useState(false);
 
   // Reset sort when search is cleared
   useEffect(() => {
@@ -64,67 +125,86 @@ export default function EntryListPage() {
     navigate(buildFilterUrl({ page: s !== size ? 1 : p, size: s }, location.pathname, location.search)),
   [navigate, location.pathname, location.search, size]);
 
+  const sourceFilter = (
+      <Input
+          key={source}
+          prefix={<GlobalOutlined style={{ color: 'var(--text-muted)' }} />}
+          placeholder="Filter by domain..."
+          defaultValue={source}
+          onChange={(e) => { if (!e.target.value) commitSource(''); }}
+          onPressEnter={(e) => commitSource((e.target as HTMLInputElement).value)}
+          enterKeyHint="search"
+          allowClear
+          className="entry-list-source"
+          size="middle"
+      />
+  );
+
+  const sortLabel = sortOptions.find((o) => o.value === sort)?.label ?? 'Sort';
+  const directionIcon = DIRECTION_OPTIONS.find((o) => o.value === direction)?.icon;
+
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16, flexWrap: 'wrap', gap: 12 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span style={{ fontSize: 20, fontWeight: 600 }}>
-            {searchQuery ? `Search: "${searchQuery}"` : pageTitle}
-          </span>
-          {!isLoading && total > 0 && (
-            <span style={{ fontWeight: 400, fontSize: 'var(--font-size-md)', color: 'var(--text-muted)' }}>
-              {searchQuery ? `${total} result${total === 1 ? '' : 's'}` : `(${total})`}
-            </span>
+      <PageHeader
+          title={searchQuery ? `Search: "${searchQuery}"` : pageTitle}
+          meta={(!isLoading && total > 0) || isFetching ? (
+              <>
+                {!isLoading && total > 0 && (searchQuery ? `${total} result${total === 1 ? '' : 's'}` : `(${total})`)}
+                {isFetching && <Spin size="small" />}
+              </>
+          ) : null}
+          actions={!isMobile && (
+              <div className="entry-list-toolbar">
+                {sourceFilter}
+                <Select
+                    value={sort}
+                    onChange={(val) => handleSort(val, direction)}
+                    options={sortOptions}
+                    className="entry-list-sort"
+                    size="middle"
+                />
+                {sort !== 'mostRelevant' && (
+                    <Space.Compact>
+                      {DIRECTION_OPTIONS.map((o) => (
+                          <Button
+                              key={o.value}
+                              size="middle"
+                              type={direction === o.value ? 'primary' : 'default'}
+                              icon={o.icon}
+                              onClick={() => handleSort(sort, o.value)}
+                              title={o.value === 'rand' ? 'Random order' : o.label}
+                          />
+                      ))}
+                    </Space.Compact>
+                )}
+              </div>
           )}
-          {isFetching && <Spin size="small" />}
-        </div>
+      />
 
-          <div className="entry-list-toolbar">
-          <Input
-            key={source}
-            prefix={<GlobalOutlined style={{ color: 'var(--text-muted)' }} />}
-            placeholder="Filter by domain..."
-            defaultValue={source}
-            onChange={(e) => { if (!e.target.value) commitSource(''); }}
-            onPressEnter={(e) => commitSource((e.target as HTMLInputElement).value)}
-            allowClear
-            className="entry-list-source"
-            size="middle"
-          />
-          <Select
-            value={sort}
-            onChange={(val) => handleSort(val, direction)}
-            options={sortOptions}
-            className="entry-list-sort"
-            size="middle"
-          />
-          {sort !== 'mostRelevant' && (
-              <Space.Compact>
-                  <Button
-                      size="middle"
-                      type={direction === 'desc' ? 'primary' : 'default'}
-                      icon={<SortDescendingOutlined/>}
-                      onClick={() => handleSort(sort, 'desc')}
-                      title="Descending"
-                  />
-                  <Button
-                      size="middle"
-                      type={direction === 'asc' ? 'primary' : 'default'}
-                      icon={<SortAscendingOutlined/>}
-                      onClick={() => handleSort(sort, 'asc')}
-                      title="Ascending"
-                  />
-                  <Button
-                      icon={<SwapOutlined/>}
-                      size="middle"
-                      type={direction === 'rand' ? 'primary' : 'default'}
-                      onClick={() => handleSort(sort, 'rand')}
-                      title="Random order"
-                  />
-              </Space.Compact>
-          )}
-        </div>
-      </div>
+      {isMobile && (
+          <>
+            <div className="type-chips" role="tablist" aria-label="Entry type">
+              {LIST_NAV.map((n) => {
+                const active = n.key === location.pathname;
+                return (
+                    <button key={n.key} type="button" role="tab" aria-selected={active}
+                            className={`type-chip${active ? ' type-chip--active' : ''}`}
+                            onClick={() => navigate(buildFilterUrl({}, n.key, location.search))}>
+                      {n.icon}{n.shortLabel}
+                    </button>
+                );
+              })}
+            </div>
+            <div className="entry-list-toolbar" style={{ marginBottom: 12 }}>
+              {sourceFilter}
+              <Button icon={directionIcon} onClick={() => setSortOpen(true)} aria-label={`Sort: ${sortLabel}`}>
+                {sortLabel}
+              </Button>
+            </div>
+            <SortSheet open={sortOpen} onClose={() => setSortOpen(false)} sort={sort} direction={direction}
+                       options={sortOptions} onChange={handleSort} />
+          </>
+      )}
 
       <ActiveFilters />
 
@@ -149,9 +229,10 @@ export default function EntryListPage() {
                 pageSize={size}
                 total={total}
                 onChange={handlePage}
-                showSizeChanger
-                showQuickJumper
-                showTotal={(t) => `${t} entries`}
+                simple={isMobile}
+                showSizeChanger={!isMobile}
+                showQuickJumper={!isMobile}
+                showTotal={isMobile ? undefined : (t) => `${t} entries`}
                 pageSizeOptions={[...PAGE_SIZE_OPTIONS]}
               />
             </div>

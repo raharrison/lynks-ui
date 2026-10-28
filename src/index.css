@@ -6,6 +6,10 @@
   --sidebar-width: 280px;
   --sidebar-collapsed-width: 0px;
   --header-height: 60px;
+  --tab-bar-height: 60px;
+  /* Capacitor injects the --safe-area-inset-* values on Android, where env() can read zero. */
+  --safe-top: var(--safe-area-inset-top, env(safe-area-inset-top, 0px));
+  --safe-bottom: var(--safe-area-inset-bottom, env(safe-area-inset-bottom, 0px));
 
   --radius-lg: 12px;
   --radius-md: 10px;
@@ -72,6 +76,8 @@
 }
 
 [data-theme="dark"] {
+    /* Native controls (date pickers, scrollbars) follow this rather than the page colours. */
+    color-scheme: dark;
     --color-warning: #fbbf24;
     --color-danger: #f87171;
 
@@ -157,9 +163,11 @@ body {
 
 
 /* ─── Header ─── */
-/* Ant Design's Layout.Header sets its own padding, so this needs the extra specificity */
+/* Ant Design's Layout.Header sets its own padding and height, so this needs the extra specificity */
 .ant-layout-header.app-header {
     padding: 0 20px;
+    height: var(--header-height);
+    line-height: var(--header-height);
 }
 
 .app-header-search {
@@ -169,45 +177,640 @@ body {
     margin: 0 16px;
 }
 
+.app-header-user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 6px;
+    border: none;
+    border-radius: var(--radius-pill);
+    background: none;
+    font: inherit;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.app-header-user:hover {
+    background: var(--bg-surface-hover);
+}
+
 /* ─── Main content ─── */
 .app-content {
     padding: 28px 32px;
+    min-height: calc(100vh - var(--header-height));
 }
 
 .entry-detail-header {
     padding: 20px 24px;
+    margin-bottom: 24px;
+}
+
+.entry-detail-actions {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.entry-back {
+    margin: -4px 0 8px -8px;
+    color: var(--text-secondary);
+}
+
+/* ─── Page header ─── */
+.page-header {
+    margin-bottom: 20px;
+}
+
+.page-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.page-header-title {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    min-width: 0;
+}
+
+.page-header-title h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    line-height: 1.25;
+    color: var(--text-primary);
+    overflow-wrap: anywhere;
+}
+
+.page-header-meta {
+    font-size: var(--font-size-md);
+    color: var(--text-muted);
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.page-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* ─── Mobile tab bar ─── */
+.tab-bar {
+    display: none;
+}
+
+/* ─── Bottom sheet ─── */
+.bottom-sheet .ant-drawer-content-wrapper {
+    max-height: 88vh;
+    transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.bottom-sheet .ant-drawer-section {
+    border-radius: 20px 20px 0 0;
+    background: var(--bg-elevated);
+}
+
+.bottom-sheet .ant-drawer-body {
+    padding: 0 16px calc(16px + var(--safe-bottom));
+}
+
+.bottom-sheet-grip {
+    padding: 10px 4px 12px;
+    touch-action: none;
+}
+
+.bottom-sheet-handle {
+    display: block;
+    width: 40px;
+    height: 5px;
+    margin: 0 auto;
+    border-radius: 3px;
+    background: var(--border-primary);
+}
+
+.bottom-sheet-title {
+    margin-top: 14px;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.sheet-section-label {
+    margin-bottom: 8px;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+}
+
+.sheet-list {
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--border-primary);
+}
+
+.sheet-list-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 52px;
+    padding: 0 16px;
+    border: none;
+    border-bottom: 1px solid var(--border-primary);
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    font: inherit;
+    font-size: 15px;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.sheet-list-item:last-child {
+    border-bottom: none;
+}
+
+.sheet-list-item:active,
+.sheet-list-item--active {
+    background: var(--bg-surface-hover);
+}
+
+.sheet-list-item--active {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.sheet-list-icon {
+    font-size: 18px;
+    color: var(--text-secondary);
+}
+
+.sheet-list-item--active .sheet-list-icon {
+    color: var(--accent);
+}
+
+.sheet-list-label {
+    flex: 1;
+}
+
+.sheet-list-chevron {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.sheet-list-item--danger,
+.sheet-list-item--danger .sheet-list-icon {
+    color: var(--color-danger);
+}
+
+.create-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.create-tile {
+    --chip: var(--text-secondary);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    padding: 16px;
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-lg);
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: transform 0.12s ease, background 0.12s ease;
+}
+
+.create-tile:active {
+    transform: scale(0.97);
+    background: var(--bg-surface-hover);
+}
+
+.create-tile--link { --chip: var(--chip-link); }
+.create-tile--note { --chip: var(--chip-note); }
+.create-tile--snippet { --chip: var(--chip-snippet); }
+.create-tile--file { --chip: var(--chip-file); }
+
+.create-tile-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    font-size: 20px;
+    color: var(--chip);
+    background: color-mix(in srgb, var(--chip) 14%, transparent);
+}
+
+.create-tile-label {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.create-tile-description {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
+
+/* ─── Sidebar drawer ─── */
+.sidebar-drawer-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: calc(12px + var(--safe-top)) 12px 12px 20px;
+    border-bottom: 1px solid var(--border-primary);
+}
+
+.sidebar-drawer-brand {
+    flex: 1;
+    font-size: 19px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text-primary);
+}
+
+/* ─── Type filter chips (mobile) ─── */
+.type-chips {
+    display: flex;
+    gap: 8px;
+    margin: 0 -12px 12px;
+    padding: 2px 12px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+.type-chips::-webkit-scrollbar {
+    display: none;
+}
+
+.type-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    height: 34px;
+    padding: 0 14px;
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius-pill);
+    background: var(--bg-surface);
+    color: var(--text-secondary);
+    font: inherit;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.12s ease;
+}
+
+.type-chip:active {
+    transform: scale(0.95);
+}
+
+.type-chip--active {
+    background: var(--accent-solid);
+    border-color: var(--accent-solid);
+    color: var(--accent-ink);
+    font-weight: 600;
 }
 
 /* ─── Responsive ─── */
+.mobile-only {
+    display: none !important;
+}
+
 @media (max-width: 768px) {
+    :root {
+        --header-height: 56px;
+    }
+
     .desktop-only {
         display: none !important;
     }
 
+    .mobile-only {
+        display: revert !important;
+    }
+
     .ant-layout-header.app-header {
-        padding: 0 8px;
+        height: calc(var(--header-height) + var(--safe-top));
+        padding: var(--safe-top) 12px 0;
+        gap: 10px !important;
     }
 
     .app-header-search {
-        margin: 0 4px;
+        margin: 0;
+        max-width: none;
     }
 
     .app-content {
-        padding: 16px 12px;
+        padding: 16px 12px 24px;
+    }
+
+    .app-shell--tabbed .app-content {
+        padding-bottom: calc(var(--tab-bar-height) + var(--safe-bottom) + 24px);
     }
 
     .entry-detail-header {
         padding: 16px;
+        margin-bottom: 16px;
+    }
+
+    .entry-detail-actions {
+        margin-left: auto;
+    }
+
+    :root .entry-detail-header h2.ant-typography {
+        font-size: 24px;
+        line-height: 1.3;
     }
 
     :root .ant-card .ant-card-body {
         padding: 16px;
+    }
+
+    :root .ant-card .ant-card-head {
+        padding: 0 16px;
+    }
+
+    .page-header {
+        margin-bottom: 14px;
+    }
+
+    .page-header-title h1 {
+        font-size: 22px;
+    }
+
+    .tab-bar {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 200;
+        display: flex;
+        align-items: center;
+        height: calc(var(--tab-bar-height) + var(--safe-bottom));
+        padding: 0 4px var(--safe-bottom);
+        border-top: 1px solid var(--border-primary);
+        background: color-mix(in srgb, var(--bg-surface) 92%, transparent);
+        backdrop-filter: saturate(1.6) blur(16px);
+        -webkit-backdrop-filter: saturate(1.6) blur(16px);
+    }
+
+    .tab-bar-item {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        height: 100%;
+        border: none;
+        background: none;
+        color: var(--text-muted);
+        font: inherit;
+        cursor: pointer;
+        transition: color 0.15s ease;
+    }
+
+    .tab-bar-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 28px;
+        min-width: 52px;
+        border-radius: 14px;
+        font-size: 20px;
+        transition: background 0.15s ease, transform 0.12s ease;
+    }
+
+    .tab-bar-icon .ant-badge {
+        color: inherit;
+        font-size: inherit;
+    }
+
+    .tab-bar-label {
+        font-size: 11px;
+        font-weight: 500;
+        line-height: 1;
+    }
+
+    .tab-bar-item--active {
+        color: var(--text-primary);
+    }
+
+    .tab-bar-item--active .tab-bar-icon {
+        background: var(--accent-light);
+        color: var(--accent);
+    }
+
+    .tab-bar-item--active .tab-bar-label {
+        font-weight: 700;
+    }
+
+    .tab-bar-item:active .tab-bar-icon {
+        transform: scale(0.88);
+    }
+
+    :root .tab-bar-avatar {
+        background: var(--accent-solid);
+        color: var(--accent-ink);
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .tab-bar-create {
+        flex: 0 0 auto;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 52px;
+        height: 44px;
+        margin: 0 6px;
+        border: none;
+        border-radius: 16px;
+        background: var(--accent-solid);
+        color: var(--accent-ink);
+        font-size: 22px;
+        box-shadow: 0 4px 14px color-mix(in srgb, var(--accent-solid) 35%, transparent);
+        cursor: pointer;
+        transition: transform 0.12s ease;
+    }
+
+    .tab-bar-create:active {
+        transform: scale(0.92);
+    }
+
+    /* Modals sit near the top so the on-screen keyboard does not cover their fields. */
+    :root .ant-modal {
+        top: calc(16px + var(--safe-top));
+        max-width: calc(100vw - 24px);
+        margin: 0 auto;
+        padding-bottom: 16px;
+    }
+
+    :root .ant-modal .ant-modal-container {
+        padding: 18px 16px;
+    }
+
+    :root .ant-modal-footer {
+        display: flex;
+        gap: 8px;
+    }
+
+    :root .ant-modal-footer > .ant-btn {
+        flex: 1;
+        margin: 0 !important;
+        height: 40px;
+    }
+
+    /* Tab bars scroll by swipe on touch, so the overflow menu only duplicates them. */
+    :root .ant-tabs-nav-operations {
+        display: none !important;
+    }
+
+    :root .ant-tabs-large > .ant-tabs-nav .ant-tabs-tab {
+        padding: 12px 0;
+        font-size: 15px;
+    }
+
+    :root .ant-tabs > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab {
+        margin-left: 22px;
+    }
+}
+
+/* ─── Touch ─── */
+html {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+}
+
+a, button, [role="button"], .ant-btn, .ant-tag, .ant-tree-node-content-wrapper, .ant-menu-item {
+    touch-action: manipulation;
+}
+
+/* Lifting on hover reads as broken on touch, where hover sticks after a tap. */
+@media (hover: hover) {
+    .entry-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--card-hover-shadow) !important;
+        border-color: var(--accent) !important;
+    }
+
+    .ref-card:hover {
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-sm);
+    }
+}
+
+:root .ant-btn {
+    transition-property: color, background, border-color, box-shadow, transform;
+}
+
+:root .ant-btn:not(:disabled):active {
+    transform: scale(0.96);
+}
+
+@media (pointer: coarse) {
+    /* iOS zooms the page to any focused field under 16px and does not zoom back. */
+    :root .ant-input,
+    :root .ant-input-affix-wrapper,
+    :root .ant-input-number-input,
+    :root .ant-select,
+    :root .ant-select input,
+    :root .ant-picker input,
+    :root textarea {
+        font-size: 16px;
+    }
+
+    :root .ant-btn-sm.ant-btn-icon-only,
+    :root .ant-btn-icon-only.ant-btn-text {
+        min-width: 36px;
+        height: 36px;
+    }
+
+    :root .ant-dropdown-menu .ant-dropdown-menu-item {
+        padding: 10px 14px;
+        font-size: 15px;
+    }
+
+    :root .ant-select-item {
+        min-height: 42px;
+        padding: 10px 12px;
+        font-size: 15px;
+        align-items: center;
+    }
+
+    :root .ant-popconfirm .ant-popconfirm-buttons .ant-btn {
+        height: 34px;
+        padding: 0 14px;
+    }
+
+    :root .sidebar-tree .ant-tree-node-content-wrapper {
+        min-height: 38px;
+        display: flex;
+        align-items: center;
+    }
+
+    :root .sidebar-tree .ant-tree-switcher {
+        align-self: center;
+    }
+
+    .sidebar-tree .ant-tree-title {
+        font-size: 15px;
+    }
+
+    .rich-editor .milkdown {
+        --crepe-base-font-size: 16px;
+    }
+
+    .rich-editor .milkdown .ProseMirror {
+        font-size: 16px;
+    }
+}
+
+/* Between phone and desktop the nav and the search compete for the header, so the labels give way. */
+@media (min-width: 769px) and (max-width: 1100px) {
+    .app-header-brand,
+    .app-header-user .ant-typography,
+    .app-header-create-label {
+        display: none;
+    }
+
+    .app-header .ant-menu-horizontal > .ant-menu-item {
+        padding: 0 8px !important;
+    }
+
+    .app-header-search {
+        margin: 0 8px;
     }
 }
 
 @media (max-width: 480px) {
     .app-header-brand {
         display: none;
+    }
+
+    /* Five labels share a phone's width, so the segment padding gives way rather than the text. */
+    :root .schedule-mode .ant-segmented-item-label {
+        padding: 0 4px;
     }
 }
 
@@ -236,6 +839,17 @@ body {
 /* ─── Sidebar ─── */
 .sidebar-tree .ant-tree-title {
     font-size: 13px;
+}
+
+/* The tree paints its own container colour, which differs from the drawer's elevated one. */
+:root .sidebar-tree {
+    background: transparent;
+}
+
+/* Ant Design focuses the drawer root on open, and its ring then frames the whole viewport. */
+:root .ant-drawer:focus,
+:root .ant-drawer-section:focus {
+    outline: none;
 }
 
 
@@ -615,6 +1229,51 @@ body {
     .rich-editor .milkdown .milkdown-block-handle {
         display: none;
     }
+
+    /* A phone has no room below a long note, so the editor's own height floor is capped. */
+    .rich-editor .milkdown .ProseMirror {
+        min-height: min(var(--editor-min-height, 200px), 40vh);
+    }
+
+    .entry-editor {
+        padding-bottom: calc(68px + var(--safe-bottom));
+    }
+
+    .entry-editor-title {
+        font-size: 22px;
+    }
+
+    .entry-editor-head {
+        margin-bottom: 14px;
+    }
+
+    /* Pinned to the screen edge, where the tab bar sits elsewhere, and above the keyboard while typing. */
+    .entry-form-actions {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 150;
+        width: auto;
+        margin: 0 !important;
+        padding: 10px 12px calc(10px + var(--safe-bottom));
+        border-width: 1px 0 0;
+        border-radius: 0;
+        box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    .entry-form-actions .ant-btn {
+        height: 44px;
+        padding: 0 20px;
+    }
+
+    .entry-form-actions .ant-btn-primary {
+        flex: 1;
+    }
+
+    .entry-editor-body .ant-form-item:has(.entry-form-actions) {
+        margin: 0 !important;
+    }
 }
 
 .rich-editor .milkdown .milkdown-block-handle .operation-item svg {
@@ -623,6 +1282,10 @@ body {
 
 .rich-editor .milkdown .ProseMirror p {
     margin: 0 0 10px;
+}
+
+.rich-editor .milkdown .ProseMirror :is(h1, h2, h3) {
+    font-weight: 700;
 }
 
 .rich-editor .milkdown .ProseMirror h1 {
@@ -855,8 +1518,10 @@ body {
 .ref-card:hover {
     border-color: var(--accent);
     background: var(--accent-light);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-sm);
+}
+
+.ref-card:active {
+    background: var(--accent-light);
 }
 
 .notification-item {
@@ -870,6 +1535,11 @@ body {
 
 .notification-item:hover {
     border-color: var(--border-primary);
+    background: var(--bg-surface-hover);
+}
+
+.notification-item:active,
+.resource-item:active {
     background: var(--bg-surface-hover);
 }
 

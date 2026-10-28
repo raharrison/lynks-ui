@@ -89,6 +89,13 @@ src/
   awaits it, so the mutation stays pending (and buttons loading) for about 3 seconds
 - Stored resources are untrusted third-party content on the app's origin. The
   SingleFile iframe is `sandbox=""` and the server adds a CSP sandbox; keep both
+- At 768px and below the app is a phone shell: `MobileTabBar` replaces the header's
+  actions and `BottomSheet` replaces popover menus. `useIsMobile` matches the CSS breakpoint;
+  prefer the `desktop-only` / `mobile-only` classes when markup is the same and only
+  visibility changes. Editors and the resource viewer hide the tab bar for their own
+  fixed save bar. Hover lifts sit under `@media (hover: hover)` and touch sizing under
+  `(pointer: coarse)`, where fields are 16px so iOS does not zoom on focus
+- Page titles go through `PageHeader`, so every page shares one title size and action row
 - Old versions open at `?version=N` on the detail page, whose banner offers restore.
   Restoring posts to `/{type}/{id}/revert/{version}` and lands back on the new latest
 - `public/favicon.svg` is the source the other icons were derived from. Its

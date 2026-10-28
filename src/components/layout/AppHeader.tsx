@@ -1,14 +1,10 @@
-import {useCallback, useMemo, useState} from 'react';
-import {App, Avatar, Badge, Button, Dropdown, Input, Layout, Menu, Segmented, Typography} from 'antd';
+import {useMemo, useState} from 'react';
+import {Avatar, Badge, Button, Dropdown, Input, Layout, Menu, Segmented, Typography} from 'antd';
 import {
   BellOutlined,
   ClockCircleOutlined,
-  CodeOutlined,
   DesktopOutlined,
-  FileOutlined,
-  FileTextOutlined,
   HistoryOutlined,
-  LinkOutlined,
   LoadingOutlined,
   LogoutOutlined,
   MenuFoldOutlined,
@@ -27,17 +23,8 @@ import {useAuthStore} from '@/stores/authStore';
 import type {ThemeMode} from '@/stores/themeStore';
 import {useThemeStore} from '@/stores/themeStore';
 import {useUnreadCount} from '@/hooks/useUnreadCount';
-import {useLogout} from '@/hooks/useAuth';
 import {entryCreatePath} from '@/utils/format';
-
-const navItems = [
-  { key: '/', label: 'Entries' },
-  { key: '/links', label: 'Links' },
-  { key: '/notes', label: 'Notes' },
-  { key: '/snippets', label: 'Snippets' },
-  { key: '/files', label: 'Files' },
-    {key: '/digest', label: 'Digest'},
-];
+import {CREATE_ITEMS, NAV_ITEMS, selectedNavKey, useSignOut} from './navigation';
 
 const themeOptions: { value: ThemeMode; icon: React.ReactNode; label: string }[] = [
   { value: 'light', icon: <SunOutlined />, label: 'Light' },
@@ -50,12 +37,11 @@ export default function AppHeader() {
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const { collapsed, toggle } = useSidebarStore();
-  const { message } = App.useApp();
   const searchQuery = searchParams.get('q') || '';
   const { user } = useAuthStore();
   const { mode: themeMode, setMode: setThemeMode } = useThemeStore();
   const { unread } = useUnreadCount();
-  const { logout } = useLogout();
+  const handleLogout = useSignOut();
   const isFetchingEntries = useIsFetching({ queryKey: ['entries'] }) > 0;
   const [localSearch, setLocalSearch] = useState(searchQuery);
     const [lastSearchQuery, setLastSearchQuery] = useState(searchQuery);
@@ -71,32 +57,17 @@ export default function AppHeader() {
     navigate(buildFilterUrl({ searchQuery: value }, basePath, location.search));
   };
 
-  const handleLogout = useCallback(() => {
-    logout(undefined, {
-      onSuccess: () => navigate('/login', { replace: true }),
-      onError: () => {
-          message.error('Logout failed - you may still be signed in on the server');
-        navigate('/login', { replace: true });
-      },
-    });
-  }, [logout, navigate, message]);
-
   const displayName = user?.displayName || user?.username || 'User';
   const initials = displayName.charAt(0).toUpperCase();
 
-  const createMenuItems = useMemo(() => [
-    { key: 'link', icon: <LinkOutlined />, label: 'New Link', onClick: () => navigate(entryCreatePath('link')) },
-    { key: 'note', icon: <FileTextOutlined />, label: 'New Note', onClick: () => navigate(entryCreatePath('note')) },
-    { key: 'snippet', icon: <CodeOutlined />, label: 'New Snippet', onClick: () => navigate(entryCreatePath('snippet')) },
-    { key: 'file', icon: <FileOutlined />, label: 'New File', onClick: () => navigate(entryCreatePath('file')) },
-  ], [navigate]);
+  const createMenuItems = useMemo(() => CREATE_ITEMS.map((item) => ({
+    key: item.type, icon: item.icon, label: `New ${item.label}`, onClick: () => navigate(entryCreatePath(item.type)),
+  })), [navigate]);
 
-    // Pages outside the nav (settings, notifications) match nothing and select nothing
-    const selectedNavKeys = useMemo(() => {
-        if (location.pathname === '/') return ['/'];
-        const match = navItems.find((n) => n.key !== '/' && location.pathname.startsWith(n.key));
-        return match ? [match.key] : [];
-    }, [location.pathname]);
+  const selectedNavKeys = useMemo(() => {
+    const key = selectedNavKey(location.pathname);
+    return key ? [key] : [];
+  }, [location.pathname]);
 
   const themeIcon = useMemo(
     () => themeMode === 'dark' ? <MoonOutlined /> : themeMode === 'light' ? <SunOutlined /> : <DesktopOutlined />,
@@ -148,12 +119,12 @@ export default function AppHeader() {
       position: 'sticky',
       top: 0,
       zIndex: 100,
-      height: 60,
       boxShadow: 'var(--shadow-sm)',
     }}>
       {/* Left: toggle + brand + nav */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0, overflow: 'hidden' }}>
         <Button
+          className="desktop-only"
           type="text"
           icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
           onClick={toggle}
@@ -178,7 +149,7 @@ export default function AppHeader() {
                 height={28}
                 style={{display: 'block', borderRadius: 7}}
             />
-          <span className="app-header-brand" style={{
+          <span className="app-header-brand desktop-only" style={{
             fontWeight: 800,
             fontSize: 20,
               color: 'var(--text-primary)',
@@ -195,7 +166,7 @@ export default function AppHeader() {
           selectedKeys={selectedNavKeys}
           onClick={({ key }) => navigate(key)}
           disabledOverflow
-          items={navItems.map(n => ({ key: n.key, label: n.label, style: { padding: '0 12px' } }))}
+          items={NAV_ITEMS.map(n => ({ key: n.key, label: n.label, style: { padding: '0 12px' } }))}
           style={{background: 'transparent', borderBottom: 'none', minWidth: 0, flex: 'none', lineHeight: '59px'}}
         />
       </div>
@@ -209,7 +180,14 @@ export default function AppHeader() {
           placeholder="Search entries..."
           value={localSearch}
           onChange={(e) => setLocalSearch(e.target.value)}
-          onPressEnter={(e) => handleSearch((e.target as HTMLInputElement).value)}
+          onPressEnter={(e) => {
+            const input = e.target as HTMLInputElement;
+            handleSearch(input.value);
+            // dismisses the on-screen keyboard so the results are visible
+            if (window.matchMedia('(pointer: coarse)').matches) input.blur();
+          }}
+          enterKeyHint="search"
+          inputMode="search"
           allowClear
           onClear={() => handleSearch('')}
           size="large"
@@ -222,15 +200,16 @@ export default function AppHeader() {
         />
       </div>
 
-      {/* Right: actions */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginLeft: 'auto', flexShrink: 0 }}>
+      {/* Right: actions. On a phone these live in the tab bar instead. */}
+      <div className="desktop-only" style={{ display: 'flex', alignItems: 'center', gap: 6, marginLeft: 'auto', flexShrink: 0 }}>
         <Dropdown menu={{ items: createMenuItems }} trigger={['click']}>
-          <Button type="primary" icon={<PlusOutlined />} size="middle" style={{ borderRadius: 'var(--radius-pill)' }}>
-            <span className="desktop-only">Create</span>
+          <Button type="primary" icon={<PlusOutlined />} size="middle" style={{ borderRadius: 'var(--radius-pill)' }}
+                  aria-label="Create">
+            <span className="app-header-create-label">Create</span>
           </Button>
         </Dropdown>
 
-        <Link to="/notifications" style={{ display: 'inline-flex' }}>
+        <Link to="/notifications" style={{ display: 'inline-flex' }} aria-label="Notifications">
           <Badge count={unread} size="small" offset={[-4, 4]}>
             <Button
               type="text"
@@ -241,15 +220,15 @@ export default function AppHeader() {
         </Link>
 
         <Dropdown menu={{ items: userMenuItems }} trigger={['click']} placement="bottomRight">
-          <div style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8, padding: '0 6px' }}>
+          <button type="button" className="app-header-user">
               <Avatar size={32}
                       style={{background: 'var(--accent-solid)', color: 'var(--accent-ink)', fontSize: 14, fontWeight: 700}}>
               {initials}
             </Avatar>
-            <Typography.Text className="desktop-only" style={{ fontSize: 'var(--font-size-sm)', maxWidth: 100 }} ellipsis>
+            <Typography.Text style={{ fontSize: 'var(--font-size-sm)', maxWidth: 100 }} ellipsis>
               {displayName}
             </Typography.Text>
-          </div>
+          </button>
         </Dropdown>
       </div>
     </Layout.Header>

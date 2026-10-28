@@ -1,5 +1,5 @@
-import {beforeEach, describe, expect, it, vi} from 'vitest';
-import {screen, waitFor} from '@testing-library/react';
+import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest';
+import {fireEvent, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {http, HttpResponse} from 'msw';
 import {server} from '@/test/server';
@@ -126,5 +126,25 @@ describe('ReminderFormModal', () => {
         await userEvent.click(screen.getByRole('button', {name: 'Save'}));
 
         expect(await screen.findByText('Choose a time in the future')).toBeInTheDocument();
+    });
+});
+
+describe('ReminderFormModal on a phone', () => {
+    beforeEach(() => {
+        window.innerWidth = 390;
+    });
+
+    afterEach(() => {
+        window.innerWidth = 1024;
+    });
+
+    it('takes the time from the native picker', async () => {
+        renderWithProviders(<ReminderFormModal open onClose={vi.fn()} entryId="l1"/>);
+
+        fireEvent.change(screen.getByLabelText('Date & Time'), {target: {value: '2099-03-04T05:06'}});
+        await userEvent.click(screen.getByRole('button', {name: 'Create'}));
+
+        await waitFor(() => expect(saved).toHaveLength(1));
+        expect(saved[0].body.fireAt).toBe(new Date(2099, 2, 4, 5, 6).getTime());
     });
 });

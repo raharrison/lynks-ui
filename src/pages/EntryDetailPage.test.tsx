@@ -1,4 +1,4 @@
-import {beforeEach, describe, expect, it, vi} from 'vitest';
+import {afterEach, beforeEach, describe, expect, it, vi} from 'vitest';
 import {screen, waitFor, within} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {http, HttpResponse} from 'msw';
@@ -194,5 +194,27 @@ describe('EntryDetailPage', () => {
             renderAt('/links/l2?tab=tasks');
             expect(await screen.findByText('Refetch')).toBeInTheDocument();
         });
+    });
+});
+
+describe('EntryDetailPage on a phone', () => {
+    beforeEach(() => {
+        window.innerWidth = 390;
+    });
+
+    afterEach(() => {
+        window.innerWidth = 1024;
+    });
+
+    it('goes back to its list when opened directly', async () => {
+        server.use(http.get('/api/link/l1/discussions', () => HttpResponse.json([])));
+        serveEntry(link({id: 'l1', title: 'Rust async'}));
+        const {location} = renderAt('/links/l1');
+
+        await screen.findByRole('heading', {name: 'Rust async'});
+        expect(screen.getByRole('button', {name: 'Edit'})).toBeInTheDocument();
+
+        await userEvent.click(screen.getByRole('button', {name: /Links/}));
+        expect(location().pathname).toBe('/links');
     });
 });

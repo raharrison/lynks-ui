@@ -191,6 +191,7 @@ export default function ScheduleBuilder({value, onChange}: { value?: Schedule; o
         <div style={{display: 'flex', flexDirection: 'column', gap: 12}}>
             <Segmented
                 block
+                className="schedule-mode"
                 options={MODE_OPTIONS}
                 value={draft.mode}
                 onChange={(mode) => {

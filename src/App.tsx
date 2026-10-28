@@ -3,7 +3,7 @@ import './App.css';
 import {createBrowserRouter, Navigate, Outlet, RouterProvider, useLocation, useNavigate} from 'react-router-dom';
 import {QueryClientProvider, useQuery} from '@tanstack/react-query';
 import {queryClient} from '@/lib/queryClient';
-import {App as AntApp, ConfigProvider, Spin, theme as antTheme} from 'antd';
+import {App as AntApp, ConfigProvider, Empty, Spin, theme as antTheme} from 'antd';
 import {SystemBars, SystemBarsStyle} from '@capacitor/core';
 import {useAuthStore} from '@/stores/authStore';
 import {useThemeStore} from '@/stores/themeStore';
@@ -178,7 +178,8 @@ function ThemedApp() {
   };
 
   return (
-    <ConfigProvider theme={themeConfig}>
+    // The default illustration dwarfs the sections it sits in, especially on a phone
+    <ConfigProvider theme={themeConfig} empty={{image: Empty.PRESENTED_IMAGE_SIMPLE}}>
       <AntApp>
           <ServerGate>
               <RouterProvider router={router}/>

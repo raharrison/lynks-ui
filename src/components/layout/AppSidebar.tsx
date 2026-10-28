@@ -1,18 +1,13 @@
 import {useEffect, useMemo, useState} from 'react';
 import {Button, ConfigProvider, Drawer, Layout, Menu, Spin, Tooltip, Tree, Typography} from 'antd';
 import {
-  CodeOutlined,
+  CloseOutlined,
   DownOutlined,
-  FileOutlined,
-  FileTextOutlined,
   FolderOutlined,
-  LinkOutlined,
   PlusOutlined,
-  ReadOutlined,
   ReloadOutlined,
   RightOutlined,
   TagsOutlined,
-  UnorderedListOutlined,
 } from '@ant-design/icons';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {Link, useLocation, useNavigate} from 'react-router-dom';
@@ -21,11 +16,12 @@ import {useSidebarStore} from '@/stores/sidebarStore';
 import {useGroupFilters} from '@/hooks/useGroupFilter';
 import {useGroups} from '@/hooks/useGroups';
 import {QK} from '@/utils/queryKeys';
-import {MOBILE_BREAKPOINT} from '@/utils/constants';
+import {useIsMobile} from '@/hooks/useIsMobile';
 import {mapTree} from '@/utils/groups';
 import type {Collection, Tag} from '@/types';
 import type {DataNode} from 'antd/es/tree';
 import GroupModal from '@/components/groups/GroupModal';
+import {NAV_ITEMS, selectedNavKey} from './navigation';
 
 const { Text } = Typography;
 
@@ -38,7 +34,7 @@ const tagsToTreeData = (tags: Tag[]): DataNode[] =>
 const collectionsToTreeData = (collections: Collection[]): DataNode[] =>
   mapTree(collections, (c, children) => ({ key: c.id, title: c.name, icon: <FolderOutlined />, children }));
 
-function SidebarContent() {
+function SidebarContent({onFilter}: { onFilter?: () => void }) {
   const queryClient = useQueryClient();
   const { tags, collections, isLoading } = useGroups();
   const { selectedTags, selectedCollections, toggleTag, toggleCollection } = useGroupFilters();
@@ -61,10 +57,12 @@ function SidebarContent() {
 
   const handleTagSelect = (_: React.Key[], info: { node: { key: React.Key } }) => {
     toggleTag(info.node.key.toString());
+    onFilter?.();
   };
 
   const handleCollectionSelect = (_: React.Key[], info: { node: { key: React.Key } }) => {
     toggleCollection(info.node.key.toString());
+    onFilter?.();
   };
 
   return (
@@ -225,49 +223,42 @@ function SidebarContent() {
   );
 }
 
-const mobileNavItems = [
-  { key: '/', label: 'Entries', icon: <UnorderedListOutlined /> },
-  { key: '/links', label: 'Links', icon: <LinkOutlined /> },
-  { key: '/notes', label: 'Notes', icon: <FileTextOutlined /> },
-  { key: '/snippets', label: 'Snippets', icon: <CodeOutlined /> },
-  { key: '/files', label: 'Files', icon: <FileOutlined /> },
-    {key: '/digest', label: 'Digest', icon: <ReadOutlined/>},
-];
-
 export default function AppSidebar() {
   const { collapsed, setCollapsed } = useSidebarStore();
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= MOBILE_BREAKPOINT);
+  const isMobile = useIsMobile();
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const handleResize = () => {
-      const mobile = window.innerWidth <= MOBILE_BREAKPOINT;
-      setIsMobile(mobile);
-      if (mobile) setCollapsed(true);
-    };
-    window.addEventListener('resize', handleResize);
-    handleResize();
-    return () => window.removeEventListener('resize', handleResize);
-  }, [setCollapsed]);
+    if (isMobile) setCollapsed(true);
+  }, [isMobile, setCollapsed]);
 
   if (isMobile) {
+    const close = () => setCollapsed(true);
+    const selected = selectedNavKey(location.pathname);
     return (
       <Drawer
         placement="left"
         open={!collapsed}
-        onClose={() => setCollapsed(true)}
-        size={280}
+        onClose={close}
+        size={300}
+        closable={false}
+        rootClassName="sidebar-drawer"
         styles={{ body: { padding: 0 } }}
       >
+        <div className="sidebar-drawer-head">
+          <img src="/favicon.svg" alt="" width={28} height={28} style={{ borderRadius: 7 }} />
+          <span className="sidebar-drawer-brand">Lynks</span>
+          <Button type="text" icon={<CloseOutlined />} onClick={close} aria-label="Close menu" />
+        </div>
         <Menu
           mode="inline"
-          selectedKeys={[location.pathname === '/' ? '/' : mobileNavItems.find(n => n.key !== '/' && location.pathname.startsWith(n.key))?.key ?? '/']}
-          items={mobileNavItems}
-          onClick={({ key }) => { navigate(key); setCollapsed(true); }}
+          selectedKeys={selected ? [selected] : []}
+          items={NAV_ITEMS.map(({ key, label, icon }) => ({ key, label, icon }))}
+          onClick={({ key }) => { navigate(key); close(); }}
           style={{ borderRight: 'none', borderBottom: '1px solid var(--border-primary)' }}
         />
-        <SidebarContent />
+        <SidebarContent onFilter={close} />
       </Drawer>
     );
   }
@@ -277,6 +268,7 @@ export default function AppSidebar() {
   return (
     <Layout.Sider
       width={280}
+      className="app-sider"
       style={{
         background: 'var(--bg-surface)',
         borderRight: '1px solid var(--border-primary)',

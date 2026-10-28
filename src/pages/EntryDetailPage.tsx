@@ -2,7 +2,14 @@ import {useEffect, useRef} from 'react';
 import {useLocation, useNavigate, useParams, useSearchParams} from 'react-router-dom';
 import {Alert, App, Breadcrumb, Button, Popconfirm, Result, Tabs, Tag, Tooltip, Typography} from 'antd';
 import PageSkeleton from '@/components/common/PageSkeleton';
-import {DeleteOutlined, EditOutlined, RollbackOutlined, StarFilled, StarOutlined,} from '@ant-design/icons';
+import {
+    ArrowLeftOutlined,
+    DeleteOutlined,
+    EditOutlined,
+    RollbackOutlined,
+    StarFilled,
+    StarOutlined,
+} from '@ant-design/icons';
 import {ENTRY_TYPE_LABELS} from '@/utils/constants';
 import {ENTRY_TYPE_ICONS} from '@/utils/icons';
 import {
@@ -29,13 +36,15 @@ import EntryHistory from '@/components/entries/EntryHistory';
 import EntryDiscussions from '@/components/entries/EntryDiscussions';
 import ReminderSection from '@/components/reminders/ReminderSection';
 import CommentSection from '@/components/comments/CommentSection';
+import {useIsMobile} from '@/hooks/useIsMobile';
 
 
 export default function EntryDetailPage() {
   const { id } = useParams<{ id: string }>();
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { state: locationState } = useLocation();
+  const { state: locationState, key: locationKey } = useLocation();
+  const isMobile = useIsMobile();
   const titleRef = useRef<HTMLElement>(null);
   const { message } = App.useApp();
 
@@ -84,8 +93,33 @@ export default function EntryDetailPage() {
     setSearchParams((prev) => {
       prev.set('tab', key);
       return prev;
-    }, { replace: true });
+    }, { replace: true, preventScrollReset: true });
   };
+
+  const listPath = `/${ENTRY_PATH_PREFIX[entry.type]}`;
+  // the first page of a visit has nowhere to go back to, so fall back to the list
+  const goBack = () => (locationKey === 'default' ? navigate(listPath) : navigate(-1));
+
+  const actions = (
+      <div className="entry-detail-actions">
+        <Tooltip title={entry.starred ? 'Unstar' : 'Star'}>
+          <Button icon={entry.starred ? <StarFilled style={{color: 'var(--color-star)'}}/> : <StarOutlined/>}
+                  onClick={() => toggleStar(entry.id, entry.starred)}
+                  aria-label={entry.starred ? 'Unstar entry' : 'Star entry'}/>
+        </Tooltip>
+        <Button icon={<EditOutlined />} onClick={() => navigate(entryEditPath(entry.type, entry.id))}
+                aria-label="Edit">
+          {!isMobile && 'Edit'}
+        </Button>
+        <Popconfirm title="Delete this entry?" description="This action cannot be undone."
+                    onConfirm={handleDelete} okText="Delete" okButtonProps={{ danger: true }}
+                    placement="bottomRight">
+          <Tooltip title="Delete">
+            <Button danger icon={<DeleteOutlined />} aria-label="Delete entry" />
+          </Tooltip>
+        </Popconfirm>
+      </div>
+  );
 
   const discussions: Discussion[] = entry.type === 'link'
     ? (entry.props.attributes.discussions ?? [])
@@ -131,15 +165,19 @@ export default function EntryDetailPage() {
         />
       )}
 
-      {/* Breadcrumb */}
-      <Breadcrumb style={{ marginBottom: 12 }} items={[
-        { title: <a onClick={() => navigate(`/${ENTRY_PATH_PREFIX[entry.type]}`)} style={{ cursor: 'pointer' }}>{ENTRY_TYPE_LABELS[entry.type]}s</a> },
-          {title: title ?? ENTRY_TYPE_LABELS[entry.type]},
-      ]} />
+      {isMobile ? (
+          <Button type="text" icon={<ArrowLeftOutlined />} onClick={goBack} className="entry-back">
+            {ENTRY_TYPE_LABELS[entry.type]}s
+          </Button>
+      ) : (
+          <Breadcrumb style={{ marginBottom: 12 }} items={[
+            { title: <a onClick={() => navigate(listPath)} style={{ cursor: 'pointer' }}>{ENTRY_TYPE_LABELS[entry.type]}s</a> },
+              {title: title ?? ENTRY_TYPE_LABELS[entry.type]},
+          ]} />
+      )}
 
       {/* Header panel */}
       <div className="entry-detail-header" style={{
-        marginBottom: 24,
         background: 'var(--bg-surface)',
         border: '1px solid var(--border-secondary)',
         borderLeft: entry.starred ? '4px solid var(--color-warning)' : '1px solid var(--border-secondary)',
@@ -149,10 +187,11 @@ export default function EntryDetailPage() {
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 20, flexWrap: 'wrap' }}>
           <div style={{flex: '1 1 260px', minWidth: 0}}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-                <Tag className={entryTypeChipClass(entry.type)} style={{fontSize: 'var(--font-size-xs)', padding: '2px 10px'}}>
+                <Tag className={entryTypeChipClass(entry.type)} style={{fontSize: 'var(--font-size-xs)', padding: '2px 10px', margin: 0}}>
                 {ENTRY_TYPE_ICONS[entry.type]} {ENTRY_TYPE_LABELS[entry.type]}
               </Tag>
               <span className={`version-badge ${requestedVersion ? 'inactive' : 'active'}`}>v{entry.version}</span>
+              {isMobile && actions}
             </div>
               {title && <Typography.Title ref={titleRef} level={2} tabIndex={-1}
                                           style={{margin: '0 0 8px 0', outline: 'none'}}>{title}</Typography.Title>}
@@ -167,24 +206,9 @@ export default function EntryDetailPage() {
             )}
           </div>
 
-          <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
-            <Tooltip title={entry.starred ? 'Unstar' : 'Star'}>
-                <Button size="middle" icon={entry.starred ? <StarFilled style={{color: 'var(--color-star)'}}/> : <StarOutlined/>}
-                      onClick={() => toggleStar(entry.id, entry.starred)}
-                      aria-label={entry.starred ? 'Unstar entry' : 'Star entry'}/>
-            </Tooltip>
-            <Button size="middle" icon={<EditOutlined />} onClick={() => navigate(entryEditPath(entry.type, entry.id))}>Edit</Button>
-            <Popconfirm title="Delete this entry?" description="This action cannot be undone."
-                        onConfirm={handleDelete} okText="Delete" okButtonProps={{ danger: true }}>
-              <Tooltip title="Delete">
-                <Button size="middle" danger icon={<DeleteOutlined />} />
-              </Tooltip>
-            </Popconfirm>
-          </div>
+          {!isMobile && actions}
         </div>
       </div>
-
-      <div style={{ marginBottom: 24 }} />
 
       {/* Type-specific content */}
       {entry.type === 'link' && <LinkDetail entry={entry} />}
@@ -194,7 +218,7 @@ export default function EntryDetailPage() {
       {/* Tabs */}
       <Tabs
         style={{ marginTop: 8 }}
-        size="large"
+        size={isMobile ? 'middle' : 'large'}
         activeKey={activeTab}
         onChange={handleTabChange}
         items={tabItems}
@@ -202,8 +226,6 @@ export default function EntryDetailPage() {
 
         {/* Comments - below tabs */}
       <div style={{ marginTop: 32 }}>
-        <div style={{ height: 1, background: 'var(--border-secondary)', marginBottom: 24 }} />
-        <Typography.Title level={5} style={{ marginBottom: 16 }}>Comments</Typography.Title>
         <CommentSection entryId={entry.id} />
       </div>
     </div>

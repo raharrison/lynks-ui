@@ -6,6 +6,7 @@ import AppSidebar from './AppSidebar';
 import MobileTabBar from './MobileTabBar';
 import {entryCreatePath} from '@/utils/format';
 import {useAndroidBack} from '@/hooks/useAndroidBack';
+import {useKeyboardOpen} from '@/hooks/useKeyboardOpen';
 
 const SHORTCUT_GROUPS = [
   {
@@ -140,16 +141,20 @@ function useKeyboardShortcuts(onShowHelp: () => void) {
 
 /* Editors keep their own sticky save bar where the tab bar would sit, as native apps do. */
 const FOCUSED_PAGE = /\/(create|edit)$|\/resource\//;
+const EDITOR_PAGE = /\/(create|edit)$/;
 
 export default function AppLayout() {
   const [shortcutsOpen, setShortcutsOpen] = useState(false);
   const { pathname } = useLocation();
   useKeyboardShortcuts(() => setShortcutsOpen(true));
     useAndroidBack();
+    useKeyboardOpen();
   const showTabBar = !FOCUSED_PAGE.test(pathname);
+  const shellClass = showTabBar ? 'app-shell app-shell--tabbed'
+      : EDITOR_PAGE.test(pathname) ? 'app-shell app-shell--editor' : 'app-shell';
 
   return (
-    <Layout className={showTabBar ? 'app-shell app-shell--tabbed' : 'app-shell'} style={{ minHeight: '100vh' }}>
+    <Layout className={shellClass} style={{ minHeight: '100vh' }}>
       <AppHeader />
       <Layout>
         <AppSidebar />

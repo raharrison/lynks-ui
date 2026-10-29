@@ -92,9 +92,12 @@ src/
 - At 768px and below the app is a phone shell: `MobileTabBar` replaces the header's
   actions and `BottomSheet` replaces popover menus. `useIsMobile` matches the CSS breakpoint;
   prefer the `desktop-only` / `mobile-only` classes when markup is the same and only
-  visibility changes. Editors and the resource viewer hide the tab bar for their own
-  fixed save bar. Hover lifts sit under `@media (hover: hover)` and touch sizing under
-  `(pointer: coarse)`, where fields are 16px so iOS does not zoom on focus
+  visibility changes. Editors and the resource viewer hide the tab bar. Editors also drop
+  the header for their own top bar, holding Back and the form's primary button, so the
+  keyboard never lifts a save bar over the text. The tab bar hides while the keyboard is
+  up (`useKeyboardOpen` sets `data-keyboard` on `<html>`) for the same reason.
+  Hover lifts sit under `@media (hover: hover)` and touch sizing under `(pointer: coarse)`,
+  where fields are 16px so iOS does not zoom on focus
 - Page titles go through `PageHeader`, so every page shares one title size and action row
 - Old versions open at `?version=N` on the detail page, whose banner offers restore.
   Restoring posts to `/{type}/{id}/revert/{version}` and lands back on the new latest

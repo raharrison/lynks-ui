@@ -41,9 +41,11 @@ export default function EntryEditorShell({
 
     return (
         <div className="entry-editor">
-            <Button type="text" size="small" icon={<ArrowLeftOutlined/>} onClick={onBack} className="entry-editor-back">
-                Back
-            </Button>
+            <div className="entry-editor-bar">
+                <Button type="text" size="small" icon={<ArrowLeftOutlined/>} onClick={onBack} className="entry-editor-back">
+                    Back
+                </Button>
+            </div>
 
             <div className="entry-editor-head">
                 <div className="entry-editor-title-row">

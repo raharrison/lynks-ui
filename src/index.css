@@ -649,7 +649,6 @@ body {
         background: var(--accent-solid);
         color: var(--accent-ink);
         font-size: 22px;
-        box-shadow: 0 4px 14px color-mix(in srgb, var(--accent-solid) 35%, transparent);
         cursor: pointer;
         transition: transform 0.12s ease;
     }
@@ -1235,8 +1234,40 @@ a, button, [role="button"], .ant-btn, .ant-tag, .ant-tree-node-content-wrapper, 
         min-height: min(var(--editor-min-height, 200px), 40vh);
     }
 
+    /* Editors trade the search header for their own bar, with the save action at the
+       top, where the keyboard cannot push it over the text being written. */
+    /* !important beats the header's inline display. */
+    .app-shell--editor .ant-layout-header.app-header {
+        display: none !important;
+    }
+
+    html:has(.entry-editor-bar) {
+        scroll-padding-top: calc(var(--editor-bar-height) + var(--safe-top) + 8px);
+    }
+
     .entry-editor {
-        padding-bottom: calc(68px + var(--safe-bottom));
+        --editor-bar-height: 52px;
+        padding-top: calc(var(--editor-bar-height) + var(--safe-top));
+    }
+
+    .entry-editor-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 150;
+        display: flex;
+        align-items: center;
+        height: calc(var(--editor-bar-height) + var(--safe-top));
+        padding: var(--safe-top) 8px 0;
+        border-bottom: 1px solid var(--border-primary);
+        background: var(--bg-surface);
+    }
+
+    .entry-editor-bar .entry-editor-back {
+        margin: 0;
+        height: 36px;
+        font-size: 15px;
     }
 
     .entry-editor-title {
@@ -1247,32 +1278,44 @@ a, button, [role="button"], .ant-btn, .ant-tag, .ant-tree-node-content-wrapper, 
         margin-bottom: 14px;
     }
 
-    /* Pinned to the screen edge, where the tab bar sits elsewhere, and above the keyboard while typing. */
     .entry-form-actions {
         position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 150;
-        width: auto;
+        top: var(--safe-top);
+        right: 8px;
+        bottom: auto;
+        z-index: 151;
+        align-items: center;
+        height: var(--editor-bar-height);
         margin: 0 !important;
-        padding: 10px 12px calc(10px + var(--safe-bottom));
-        border-width: 1px 0 0;
+        padding: 0;
+        border: none;
         border-radius: 0;
-        box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+        background: none;
+        backdrop-filter: none;
+        box-shadow: none;
     }
 
     .entry-form-actions .ant-btn {
-        height: 44px;
-        padding: 0 20px;
+        height: 36px;
+        padding: 0 16px;
     }
 
-    .entry-form-actions .ant-btn-primary {
-        flex: 1;
+    /* Back already leaves the editor the same way. */
+    .entry-form-actions .ant-btn:not(.ant-btn-primary) {
+        display: none;
     }
 
     .entry-editor-body .ant-form-item:has(.entry-form-actions) {
         margin: 0 !important;
+    }
+
+    /* The keyboard resizes the viewport, which would lift the tab bar over the list being searched. */
+    [data-keyboard="open"] .tab-bar {
+        display: none;
+    }
+
+    [data-keyboard="open"] .app-shell--tabbed .app-content {
+        padding-bottom: 24px;
     }
 }
 

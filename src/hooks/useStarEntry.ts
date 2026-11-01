@@ -3,6 +3,7 @@ import {App} from 'antd';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {starEntry, unstarEntry} from '@/api/entries';
 import {QK} from '@/utils/queryKeys';
+import {haptic} from '@/lib/haptics';
 import {getApiErrorMessage} from '@/utils/apiError';
 import type {AnyEntry, AnySlimEntry, Digest, Page} from '@/types';
 
@@ -53,6 +54,9 @@ export function useStarEntry(): { toggleStar: (id: string, starred: boolean) => 
     },
   });
 
-  const toggleStar = useCallback((id: string, starred: boolean) => mutate({id, starred}), [mutate]);
+  const toggleStar = useCallback((id: string, starred: boolean) => {
+    haptic(starred ? 'toggleOff' : 'toggleOn');
+    mutate({id, starred});
+  }, [mutate]);
   return { toggleStar, isStarring };
 }

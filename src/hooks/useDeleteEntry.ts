@@ -2,6 +2,7 @@ import {App} from 'antd';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
 import {deleteFile, deleteLink, deleteNote, deleteSnippet} from '@/api/entries';
 import {QK} from '@/utils/queryKeys';
+import {haptic} from '@/lib/haptics';
 import {getApiErrorMessage} from '@/utils/apiError';
 import type {AnySlimEntry, EntryType, Page} from '@/types';
 
@@ -19,6 +20,7 @@ export function useDeleteEntry() {
   const { mutate: deleteEntry, isPending: isDeleting } = useMutation({
     mutationFn: ({ id, type }: { id: string; type: EntryType }) => deleteByType[type](id),
     onSuccess: (_, { id }) => {
+      haptic('confirm');
       // Remove from all list caches
       queryClient.setQueriesData<Page<AnySlimEntry>>({ queryKey: QK.entries() }, (old) => {
         if (!old) return old;
@@ -28,6 +30,7 @@ export function useDeleteEntry() {
       queryClient.removeQueries({ queryKey: QK.entry(id) });
     },
       onError: (err) => {
+          haptic('reject');
           message.error(getApiErrorMessage(err, 'Failed to delete entry'));
       },
   });

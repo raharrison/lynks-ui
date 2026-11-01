@@ -157,7 +157,7 @@ export default function AppLayout() {
     <Layout className={shellClass} style={{ minHeight: '100vh' }}>
       <AppHeader />
       <Layout>
-        <AppSidebar />
+        <AppSidebar edgeSwipe={showTabBar} />
         <Layout.Content className="app-content">
           <div style={{ maxWidth: 1200, margin: '0 auto' }}>
             <Outlet />

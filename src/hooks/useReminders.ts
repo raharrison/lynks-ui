@@ -2,6 +2,7 @@ import {App} from 'antd';
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import {createReminder, deleteReminder, getReminders, getRemindersForEntry, updateReminder} from '@/api/reminders';
 import {QK} from '@/utils/queryKeys';
+import {haptic} from '@/lib/haptics';
 import {getApiErrorMessage} from '@/utils/apiError';
 import {REMINDERS_PAGE_SIZE} from '@/utils/constants';
 import type {NewReminder, Reminder} from '@/types';
@@ -39,12 +40,16 @@ export function useReminderMutations() {
   const {message} = App.useApp();
   const queryClient = useQueryClient();
   // one entry's list and the all-reminders pages share the prefix
-  const invalidate = () => queryClient.invalidateQueries({queryKey: QK.allReminders()});
+  const invalidate = () => {
+    haptic('confirm');
+    return queryClient.invalidateQueries({queryKey: QK.allReminders()});
+  };
 
   const save = useMutation({
     mutationFn: (reminder: NewReminder) => reminder.reminderId ? updateReminder(reminder) : createReminder(reminder),
     onSuccess: invalidate,
       onError: (err) => {
+          haptic('reject');
           message.error(getApiErrorMessage(err, 'Failed to save reminder'));
       },
   });
@@ -53,6 +58,7 @@ export function useReminderMutations() {
     mutationFn: deleteReminder,
     onSuccess: invalidate,
       onError: (err) => {
+          haptic('reject');
           message.error(getApiErrorMessage(err, 'Failed to delete reminder'));
       },
   });

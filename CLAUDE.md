@@ -189,5 +189,14 @@ Gradle 8.14 rejects the Java 25 that `lynks-server` needs; Android Studio's JDK 
 - Android's back button is `useAndroidBack`, mounted once in `AppLayout`: it closes an
   open modal or drawer through Ant Design's window Escape listener, then goes back, then
   minimises. A second `backButton` listener would fire alongside it, not instead of it
+- A swipe from the left edge drags the sidebar out on pages with the tab bar
+  (`useEdgeSwipeSidebar`). Gesture navigation turns edge swipes into Back before the
+  WebView sees them, so `EdgeSwipePlugin.java` claims a strip back with
+  `setSystemGestureExclusionRects`, capped by Android at 200dp. The hook owns the strip's
+  geometry and releases it on every other page, since the claim survives a reload
+- Haptics go through `haptic()` in `lib/haptics.ts`, a no-op in a browser. `HapticsPlugin.java`
+  drives the vibrator rather than `performHapticFeedback`, which is silent unless the system's
+  touch feedback is on, and that setting buzzes every tap on the phone. Feedback fires on
+  mutation hooks (confirm / reject), the star toggle, the tab bar and the sidebar drag
 - `android/app/src/main/res` holds the launcher icon and splash as vector drawables
   drawn from `public/favicon.svg`, so they change with it by hand too

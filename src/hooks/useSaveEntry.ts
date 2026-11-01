@@ -10,6 +10,7 @@ import {
   updateSnippet,
 } from '@/api/entries';
 import {QK} from '@/utils/queryKeys';
+import {haptic} from '@/lib/haptics';
 import type {AnyEntry, EntryType, NewAnyEntry, NewFile, NewLink, NewNote, NewSnippet} from '@/types';
 
 const createFns: Record<EntryType, (p: NewAnyEntry) => Promise<AnyEntry>> = {
@@ -39,9 +40,11 @@ export function useSaveEntry(type: EntryType, entryId?: string) {
     mutationFn: (payload: NewAnyEntry) =>
       isEdit ? updateFns[type](payload) : createFns[type](payload),
     onSuccess: (saved) => {
+      haptic('confirm');
       queryClient.invalidateQueries({ queryKey: QK.entries() });
       // For updates, populate the detail cache directly from the response - no extra fetch needed
       if (entryId) queryClient.setQueryData(QK.entry(entryId), saved);
     },
+    onError: () => haptic('reject'),
   });
 }

@@ -13,6 +13,8 @@ public class MainActivity extends BridgeActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        registerPlugin(EdgeSwipePlugin.class);
+        registerPlugin(HapticsPlugin.class);
         super.onCreate(savedInstanceState);
 
         ApiProxy proxy = new ApiProxy(this, Uri.parse(bridge.getLocalUrl()));

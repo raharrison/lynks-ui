@@ -22,6 +22,7 @@ import type {ThemeMode} from '@/stores/themeStore';
 import {useThemeStore} from '@/stores/themeStore';
 import {useUnreadCount} from '@/hooks/useUnreadCount';
 import {entryCreatePath} from '@/utils/format';
+import {haptic} from '@/lib/haptics';
 import {CREATE_ITEMS, useSignOut} from './navigation';
 
 const ACCOUNT_PATHS = ['/settings', '/reminders'];
@@ -33,7 +34,11 @@ function TabButton({label, active, onClick, children}: {
     children: React.ReactNode;
 }) {
     return (
-        <button type="button" className={`tab-bar-item${active ? ' tab-bar-item--active' : ''}`} onClick={onClick}
+        <button type="button" className={`tab-bar-item${active ? ' tab-bar-item--active' : ''}`}
+                onClick={() => {
+                    haptic('tick');
+                    onClick();
+                }}
                 aria-label={label} aria-current={active ? 'page' : undefined}>
             <span className="tab-bar-icon">{children}</span>
             <span className="tab-bar-label">{label}</span>
@@ -130,7 +135,10 @@ export default function MobileTabBar() {
                 <TabButton label="Browse" active={!collapsed} onClick={() => setCollapsed(!collapsed)}>
                     <AppstoreOutlined/>
                 </TabButton>
-                <button type="button" className="tab-bar-create" aria-label="Create" onClick={() => setSheet('create')}>
+                <button type="button" className="tab-bar-create" aria-label="Create" onClick={() => {
+                    haptic('tick');
+                    setSheet('create');
+                }}>
                     <PlusOutlined/>
                 </button>
                 <TabButton label="Alerts" active={onNotifications} onClick={() => navigate('/notifications')}>

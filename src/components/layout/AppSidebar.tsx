@@ -17,6 +17,7 @@ import {useGroupFilters} from '@/hooks/useGroupFilter';
 import {useGroups} from '@/hooks/useGroups';
 import {QK} from '@/utils/queryKeys';
 import {useIsMobile} from '@/hooks/useIsMobile';
+import {useEdgeSwipeSidebar} from '@/hooks/useEdgeSwipeSidebar';
 import {mapTree} from '@/utils/groups';
 import type {Collection, Tag} from '@/types';
 import type {DataNode} from 'antd/es/tree';
@@ -223,11 +224,13 @@ function SidebarContent({onFilter}: { onFilter?: () => void }) {
   );
 }
 
-export default function AppSidebar() {
+/** `edgeSwipe` lets a swipe from the left edge open the phone drawer in the app. */
+export default function AppSidebar({ edgeSwipe = false }: { edgeSwipe?: boolean }) {
   const { collapsed, setCollapsed } = useSidebarStore();
   const isMobile = useIsMobile();
   const location = useLocation();
   const navigate = useNavigate();
+  useEdgeSwipeSidebar(isMobile && edgeSwipe);
 
   useEffect(() => {
     if (isMobile) setCollapsed(true);

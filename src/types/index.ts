@@ -421,3 +421,9 @@ export interface GroupIdSet {
   tags: string[];
   collections: string[];
 }
+
+export interface Health {
+    status: string;
+    application: string;
+    version: string;
+}

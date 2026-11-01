@@ -22,4 +22,5 @@ export const QK = {
   twoFaSecret: () => ['2fa-secret'] as const,
     authConfig: () => ['auth-config'] as const,
     sessions: () => ['sessions'] as const,
+    health: () => ['health'] as const,
 };

@@ -369,6 +369,18 @@ body {
     color: var(--text-muted);
 }
 
+:root .app-version {
+    display: block;
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+    color: var(--text-muted);
+}
+
+.bottom-sheet-body .app-version {
+    margin-top: 12px;
+    text-align: center;
+}
+
 .sheet-list-item--danger,
 .sheet-list-item--danger .sheet-list-icon {
     color: var(--color-danger);

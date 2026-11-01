@@ -11,11 +11,12 @@ import TagManagement from './settings/TagManagement';
 import CollectionManagement from './settings/CollectionManagement';
 import ActivityLog from './settings/ActivityLog';
 import ServerSettings from './settings/ServerSettings';
+import AboutSettings from './settings/AboutSettings';
 import {isNative} from '@/lib/server';
 
 const TAB_LABELS: Record<string, string> = {
     profile: 'Profile', security: 'Security',
-    tags: 'Tags', collections: 'Collections', activity: 'Activity',
+    tags: 'Tags', collections: 'Collections', activity: 'Activity', about: 'About',
 };
 
 export default function SettingsPage() {
@@ -94,6 +95,15 @@ export default function SettingsPage() {
             children: (
               <Card title="Recent Activity" style={{ borderRadius: 'var(--radius-lg)' }}>
                 <ActivityLog />
+              </Card>
+            ),
+          },
+          {
+            key: 'about',
+            label: 'About',
+            children: (
+              <Card title="About" style={{ borderRadius: 'var(--radius-lg)' }}>
+                <AboutSettings />
               </Card>
             ),
           },

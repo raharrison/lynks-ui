@@ -23,6 +23,7 @@ import {useThemeStore} from '@/stores/themeStore';
 import {useUnreadCount} from '@/hooks/useUnreadCount';
 import {entryCreatePath} from '@/utils/format';
 import {haptic} from '@/lib/haptics';
+import {APP_VERSION} from '@/lib/version';
 import {CREATE_ITEMS, useSignOut} from './navigation';
 
 const ACCOUNT_PATHS = ['/settings', '/reminders'];
@@ -108,6 +109,7 @@ function AccountSheet({open, onClose, displayName}: { open: boolean; onClose: ()
                     <span className="sheet-list-label">Logout</span>
                 </button>
             </div>
+            <Link to="/settings?tab=about" className="app-version" onClick={onClose}>Lynks v{APP_VERSION}</Link>
         </BottomSheet>
     );
 }

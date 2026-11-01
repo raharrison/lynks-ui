@@ -24,6 +24,7 @@ import type {ThemeMode} from '@/stores/themeStore';
 import {useThemeStore} from '@/stores/themeStore';
 import {useUnreadCount} from '@/hooks/useUnreadCount';
 import {entryCreatePath} from '@/utils/format';
+import {APP_VERSION} from '@/lib/version';
 import {CREATE_ITEMS, NAV_ITEMS, selectedNavKey, useSignOut} from './navigation';
 
 const themeOptions: { value: ThemeMode; icon: React.ReactNode; label: string }[] = [
@@ -107,6 +108,10 @@ export default function AppHeader() {
     { key: 'activity', icon: <HistoryOutlined />, label: <Link to="/settings?tab=activity" style={{ color: 'inherit' }}>Activity</Link> },
     { type: 'divider' as const },
     { key: 'logout', icon: <LogoutOutlined />, label: 'Logout', onClick: handleLogout, danger: true },
+    {
+      key: 'version',
+      label: <Link to="/settings?tab=about" className="app-version">Lynks v{APP_VERSION}</Link>,
+    },
   ], [displayName, themeMode, themeIcon, setThemeMode, handleLogout]);
 
   return (

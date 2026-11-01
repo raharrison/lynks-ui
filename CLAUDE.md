@@ -96,6 +96,7 @@ src/
   the header for their own top bar, holding Back and the form's primary button, so the
   keyboard never lifts a save bar over the text. The tab bar hides while the keyboard is
   up (`useKeyboardOpen` sets `data-keyboard` on `<html>`) for the same reason.
+  Tooltips are hidden under `(hover: none)`, since a touch opens them and they linger.
   Hover lifts sit under `@media (hover: hover)` and touch sizing under `(pointer: coarse)`,
   where fields are 16px so iOS does not zoom on focus
 - Page titles go through `PageHeader`, so every page shares one title size and action row

@@ -739,6 +739,13 @@ a, button, [role="button"], .ant-btn, .ant-tag, .ant-tree-node-content-wrapper, 
     transform: scale(0.96);
 }
 
+/* A touch fires the pointerenter that opens a tooltip, which then outlives the tap or swipe. */
+@media (hover: none) {
+    :root .ant-tooltip {
+        display: none !important;
+    }
+}
+
 @media (pointer: coarse) {
     /* iOS zooms the page to any focused field under 16px and does not zoom back. */
     :root .ant-input,
